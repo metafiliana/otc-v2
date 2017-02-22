@@ -1,0 +1,143 @@
+/********** Font & BG ************/
+.grey_color{
+	color:#EAEAEA;
+}
+.black_color{
+	color:#424242;
+}
+.old_grey_color{
+	color:#BCBCBC;
+}
+.blue_color{
+	color: #A8D8F0;
+}
+.red_color{
+	color: #E73F3F;
+}
+.yellow_color{
+	color: #EBF34C;
+}
+.green_color{
+	color: #70E851;
+}
+
+.sidebar_nav_left{
+	padding:20px 5px 0 5px;
+	position:fixed;
+	z-index:100;
+	width:180px;
+	bottom:0px;
+	top:0px;
+	background-color: #f8f8f8;
+	border-right:1px solid #ddd;
+}
+
+.sidebar_nav_left .nav-second-level li a {
+    padding-left: 37px;
+}
+
+.content{
+	background: #fff;
+	margin-left:180px;
+	padding-left:20px;
+}
+.content_no_sb{
+	background: #fff;
+	padding-left:20px;
+}
+.header{
+	margin-left:0px;
+	padding-left:180px;
+}
+
+.header_top{
+	height:38px;
+	padding:5px;
+	padding-top:8px;
+}
+.header_top a{
+	color:white;
+}
+.header_top a:hover{
+	color:white;
+}
+.aprv-alert{
+	background-color:#f2dede;
+	padding:5px
+}
+.aprv-alert span{
+	color:#a94442
+}
+.lala{
+	font-size:11px
+}
+.header_active{
+	background-color:white;
+	height:38px;
+	padding:5px;
+	padding-top:8px;
+}
+.header_active a{
+	color:black;
+}
+
+#footer {
+  height: 25px;
+  background-color: #000;
+  border-top: 1px solid black;
+  color: #999;
+  padding: 5px;
+  z-index: 1030;
+  position: absolute;
+  width: 100%;
+  font-size:12px;
+  margin-top:10px;
+}
+#footer a{
+	color: #999;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#footer > .container {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
+}
+
+/*Status CSS*/
+
+.circle.text-left{margin-left:0;}
+.circle{
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 500px;
+	margin: 0 .5em;
+	background-color: #ddd;
+	vertical-align: baseline;
+	border: 2px solid transparent;
+}
+.circle-lg{
+	width: 14px;
+	height: 14px;
+}
+.circle-notyet{background-color:#bbb;}
+.circle-inprog{background-color:#27c24c;}
+.circle-delay{background-color:#FF0000;}
+.circle-atrisk{background-color:#F6C600;}
+.circle-completed{background-color:#337ab7;}
+
+.text-left{text-align:left;}
+
+.error{
+	color:#FF0000;
+	font-size:12px;
+}
+
+.progress-bar-black {
+	background-color: #aaa;
+}
+.btn-inverse {
+	background-color: #ccc;
+}

@@ -1,0 +1,35 @@
+/* Style fot Halaman Singin
+-------------------------------------------------- */
+.form-signin{
+	padding: 15px;
+	margin: 0 auto;
+}
+.form-signin .form-signin-heading{
+	margin-bottom: 10px;
+}
+.form-signin .form-control {
+  	position: relative;
+  	font-size: 16px;
+  	-webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+  	z-index: 2;
+}
+.login-form input[type="text"] {
+  	margin-bottom: -1px;
+  	border-bottom-left-radius: 0;
+  	border-bottom-right-radius: 0;
+}
+.login-form input[type="password"] {
+  	margin-bottom: 10px;
+  	border-top-left-radius: 0;
+  	border-top-right-radius: 0;
+}
+.left_col{
+	border-right: 1px solid #999;
+}
+.desc_login_form{
+	color:#666
+}

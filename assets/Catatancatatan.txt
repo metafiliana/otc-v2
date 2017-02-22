@@ -1,0 +1,46 @@
+Corplan : 
+	USER:
+	1. Tambah komen pada milestone, 30 terakhir, yang bisa cuma yang terkait
+	2. Approval :
+		a. Ada display siapa (nama) yang sudah dan belum untuk apporove, dan tanggal approve dan catatan follow up.
+		b. Kalo salah satu menolak data bisa diedit.
+		c. Kalo sudah submit, tomblo revise ganti jadi tombol . . . 
+	//3. Glossary icon status di initiative
+	4. Bar tanggal awal, akhir dan posisi saat ini di heading workblock dan initiative dan program
+	5. Percent done untuk program summary, initiative summary dan workblock summary
+	
+	//6. Judul font jangan terlalu besar, harus konsisten
+	
+	//7. Logo dan copyright di tiap halaman
+	//8. Bar Tanggal awal dan akhir di workblock summary, di bawah judul initiative
+	9. Dependency Initiative dan statusnya
+	//10. Status workblock dan milestone
+	//11. Layout milestone samakan dengan workblock summary
+	12. Deskripsi dan button untuk initiatives dan program
+	13. Kapling Tanggal dari Initiative sampe Milestone
+	14. Show and hide milestone di Workblock summary
+	15. Dependency di list initiative
+	
+	-----------------------------------------------------------------------------	
+	PMO:
+	1. Warning jika ada request untuk approve dan isinya
+	2. Notifikasi hanya menuliskan nama initiative, ada tombol detail untuk masuk ke milestone yang di workblock dimaksud
+	
+	-----------------------------------------------------------------------------
+	GH terkait:
+	1. Warning jika ada request untuk approve dan isinya
+	2. Notifikasi hanya menuliskan nama initiative, ada tombol detail untuk masuk ke milestone yang di workblock dimaksud
+	
+	-----------------------------------------------------------------------------
+	Admin:
+	1. Upload file MoM
+	2. Cluster berdasarkan Group Corplan
+	3. PIC, ada data nama, email, no. telp, unit kerja, jabatan dan 
+	4. Status Program 
+	
+	
+	AKSES BOD
+	
+	Nyoman Bagus Yoga
+	
+	Tanggal pake 0 di depan terus center

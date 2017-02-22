@@ -1,0 +1,28 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+
+class Home extends CI_Controller {
+    
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('mmilestone');
+        
+    }
+    /**
+     * Method for page (public)
+     */
+    public function index()
+    {
+
+		$data['title'] = "Home";
+		$user = $this->session->userdata('user');
+        $data['user']=$user;
+        $data['sidebar'] = $this->load->view('shared/sidebar_2',$data,TRUE);
+		//$data['header'] = $this->load->view('shared/header','',TRUE);	
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('home/home',$data,TRUE);
+
+		$this->load->view('front',$data);
+        
+    }
+}
