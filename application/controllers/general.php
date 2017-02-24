@@ -23,7 +23,7 @@ class General extends CI_Controller {
     }
     
     public function overview(){
-    	$data['title'] = 'Overview Corplan';
+    	$data['title'] = 'Overview Tower Center';
     	
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
@@ -37,14 +37,14 @@ class General extends CI_Controller {
     }
     
     public function mom(){
-    	$data['title'] = 'MoM Corplan';
+    	$data['title'] = 'MoM Tower Center';
     	
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 		
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
 		$data['content'] = $this->load->view('general/mom',array(),TRUE);
 
 		$this->load->view('front',$data);

@@ -19,8 +19,16 @@ class Muser extends CI_Model {
     
     //INSERT or CREATE FUNCTION
     
-    
-    
+    function verify_username($username){
+        $this->db->where('username',$username);
+        $result = $this->db->get('user');
+        if($result->num_rows==1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function verify($username, $password){
         $this->db->where('username',$username);
         $this->db->where('password',$password);

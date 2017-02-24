@@ -2,7 +2,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/sample77.jpeg" alt="profile-sample2"/>
       <figcaption>
-        <h5>All Inisiatif</h5>
+        <h3>All Inisiatif</h3>
         <blockquote>
           <p>'Which is worse, that everyone has his price, or that the price is always so low.'</p>
         </blockquote>
@@ -12,7 +12,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/sample77.jpeg" alt="profile-sample7"/>
       <figcaption>
-        <h5>My Inisiatif</h5>
+        <h3>My Inisiatif</h3>
         <blockquote>
           <p>'I'm killing time while I wait for life to shower me with meaning and happiness.'</p>
         </blockquote>
@@ -22,7 +22,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/sample77.jpeg" alt="profile-sample6"/>
       <figcaption>
-        <h5>Noting</h5>
+        <h3>Noting</h3>
         <blockquote>
           <p>'The only skills I have the patience to learn are those that have no real application in life.'</p>
         </blockquote>
@@ -34,7 +34,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/sample77.jpeg" alt="profile-sample2"/>
       <figcaption>
-        <h5>MOM</h5>
+        <h3>MOM</h3>
         <blockquote>
           <p>'Which is worse, that everyone has his price, or that the price is always so low.'</p>
         </blockquote>
@@ -44,7 +44,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/sample77.jpeg" alt="profile-sample7"/>
       <figcaption>
-        <h5>Log</h5>
+        <h3>Log</h3>
         <blockquote>
           <p>'I'm killing time while I wait for life to shower me with meaning and happiness.'</p>
         </blockquote>
@@ -54,7 +54,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/sample77.jpeg" alt="profile-sample6"/>
       <figcaption>
-        <h5>Agenda</h5>
+        <h3>Agenda</h3>
         <blockquote>
           <p>'The only skills I have the patience to learn are those that have no real application in life.'</p>
         </blockquote>

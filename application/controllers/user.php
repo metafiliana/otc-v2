@@ -91,7 +91,7 @@ class User extends CI_Controller {
 	
 				$this->load->view('front',$data);
             }else{
-				redirect('program/list_programs');
+				redirect('home');
             }
         }else{
             $params['type_login']="failed";

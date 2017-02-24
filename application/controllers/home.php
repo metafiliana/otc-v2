@@ -6,7 +6,10 @@ class Home extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('mmilestone');
-        
+        $session = $this->session->userdata('user');
+        if(!$session){
+            redirect('user/login');
+        }
     }
     /**
      * Method for page (public)

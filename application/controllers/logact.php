@@ -29,7 +29,7 @@ class Logact extends CI_Controller {
 		$listlog = $this->load->view('logact/_list_logact',array('logs' => $logs),TRUE);
 		
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
-		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('logact/index',array('listlog' => $listlog),TRUE);
 		$this->load->view('front',$data);	

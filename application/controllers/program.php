@@ -101,7 +101,7 @@ class Program extends CI_Controller {
 	public function input_data_segment(){
 		//$segment = $this->uri->segment(3);
     	//$exel = $this->read_excel("Data Segment ".$segment.".xlsx",1);
-    	$exel = $this->read_excel("Program.xlsx");
+    	$exel = $this->read_excel("workblok.xlsx");
     	$arrres = array(); $s=0;
     	//if($this->mnasabah->empty_table('nasabah')){
 		for ($row = 2; $row <= $exel['row']; ++$row) {
@@ -110,12 +110,27 @@ class Program extends CI_Controller {
 				$arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
 			}
 			
+			/* Program
+
 			$data['category'] = $arrres[$row][0];
 			$data['segment'] = $arrres[$row][1];
 			$data['title'] = $arrres[$row][2];
 			$data['code'] = $arrres[$row][3];
-			$data['init_code'] = $arrres[$row][4];
-			$this->mprogram->insert_program($data);
+			$data['init_code'] = $arrres[$row][4];*/
+			
+			//$this->mprogram->insert_program($data); end Program
+			
+			/* Initiative
+			$data['title'] = $arrres[$row][0];
+			$data['program_id'] = $arrres[$row][1];
+			$this->minitiative->insert_initiative($data);
+			*/
+			
+			$data['title'] = $arrres[$row][0];
+			$data['initiative_id'] = $arrres[$row][3];
+			$data['start'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][1]));
+			$data['end'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][2]));
+			$this->mworkblock->insert_workblock($data);
 
 			/*if($arrres[$row][2]=="P"){
 				$prog_id_yes = $data['code'];

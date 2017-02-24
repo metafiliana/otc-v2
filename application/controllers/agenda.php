@@ -33,7 +33,7 @@ class Agenda extends CI_Controller {
 		
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
 		$data['content'] = $this->load->view('agenda/index_agenda',array('agendas' => $agendas,'datereq'=>$datereq),TRUE);
 
 		$this->load->view('front',$data);
@@ -66,17 +66,26 @@ class Agenda extends CI_Controller {
 		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 		
 		$choose_date = "";
+		$month=$this->input->get('month');
+        $day=$this->input->get('day');
+        $year=$this->input->get('year');
 		
-		if($this->uri->segment(3)&&$this->uri->segment(4)&&$this->uri->segment(5)){
+        if($month)$choose_date=$month."/".$day."/".$year;
+        /*if($this->uri->segment(3)&&$this->uri->segment(4)&&$this->uri->segment(5)){
 			$choose_date = $this->uri->segment(3)."/".$this->uri->segment(4)."/".$this->uri->segment(5);
-		}
+		}*/
 		
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('agenda/input_agenda',array('agenda' => '','choose_date'=>$choose_date),TRUE);
+		/*$data['content'] = $this->load->view('agenda/input_agenda',array('agenda' => '','choose_date'=>$choose_date),TRUE);
 
-		$this->load->view('front',$data);
+		$this->load->view('front',$data);*/
+
+        $json['html'] = $this->load->view('agenda/input_agenda',array('agenda' => '','choose_date'=>$choose_date),TRUE);
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
     }
     
     public function submit_agenda(){

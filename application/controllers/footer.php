@@ -14,6 +14,10 @@ class Footer extends CI_Controller {
         if(!$bahasa){
             redirect('welcome');
         }
+
+        if(!$session){
+            redirect('user/login');
+        }
     }
     /**
      * Method for page (public)

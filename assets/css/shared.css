@@ -141,3 +141,20 @@
 .btn-inverse {
 	background-color: #ccc;
 }
+
+.btn-info-new{color:white;
+	background-color:#424242;
+	border-radius: 10px;}
+
+.center_text{
+	text-align:center;
+}
+
+.component_part{
+	background-color: #EAEAEA;
+	border-radius: 10px;
+	border: 1px solid #424242;
+	padding: 10px 10px 10px 10px;
+	margin-bottom: 10px;
+	/*overflow: auto;*/
+}

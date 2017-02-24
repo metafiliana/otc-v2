@@ -29,7 +29,7 @@
 }
 .snip1579 figcaption {
   position: absolute;
-  height: 75px;
+  height: 55px;
   left: 15px;
   right: 15px;
   bottom: 15px;
@@ -40,7 +40,7 @@
 .snip1579 h3 {
   font-family: 'Oswald';
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 24px;
   margin: 3px 0;
@@ -68,71 +68,4 @@
 .snip1579:hover figcaption,
 .snip1579.hover figcaption {
   height: calc(85%);
-}
-
-/* sniplet 1534 */
-
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-@import url(https://fonts.googleapis.com/css?family=Muli);
-.snip1534 {
-  font-family: 'Muli', sans-serif;
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  margin: 10px 5px;
-  min-width: 230px;
-  max-width: 315px;
-  width: 100%;
-  color: #ffffff;
-  text-align: left;
-  font-size: 16px;
-  background-color: #000000;
-}
-
-.snip1534 * {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transition: all 0.45s ease;
-  transition: all 0.45s ease;
-}
-
-.snip1534 img {
-  vertical-align: top;
-  max-width: 100%;
-  backface-visibility: hidden;
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
-  opacity: 0.75;
-}
-
-.snip1534 h3,
-.snip1534 h5 {
-  margin: 0;
-  letter-spacing: 1px;
-}
-
-.snip1534 h3 {
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
-  font-weight: 400;
-}
-
-.snip1534 h5 {
-  font-weight: normal;
-}
-
-.snip1534 a {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-
-.snip1534:hover > img,
-.snip1534.hover > img {
-  opacity: 1;
-  -webkit-filter: grayscale(0%);
-  filter: grayscale(0%);
 }
