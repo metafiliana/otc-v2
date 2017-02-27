@@ -16,7 +16,7 @@
         <blockquote>
           <p>'I'm killing time while I wait for life to shower me with meaning and happiness.'</p>
         </blockquote>
-      </figcaption><a href="#"></a>
+      </figcaption><a href="<?php echo base_url()?>program/my_inisiatif"></a>
     </figure>
     </div>
     <div class="col-md-4">

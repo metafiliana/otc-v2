@@ -87,6 +87,16 @@ class Muser extends CI_Model {
             return false;
         }
     }
+
+    function get_user_by_init_code($id){
+        $this->db->where('initiative',$id);
+        $result = $this->db->get('user');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
+    }
     
     function get_all_customer_order($atr, $how){
     	$this->db->where('role',3);

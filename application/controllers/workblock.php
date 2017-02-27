@@ -91,7 +91,13 @@ class Workblock extends CI_Controller {
         $int = $this->minitiative->get_initiative_by_id($program['initiative_id']);
         
         if($id){
-        	if($this->mworkblock->update_workblock($program,$id)){$json['status'] = 1;}
+        	if($this->mworkblock->update_workblock($program,$id)){
+                $content = "<p> ".$user['name']." memperbarui Workblock : <br><br><b> ".$program['title']."</b><br><br>Pada Initiative : ".$int->code." ".$int->title ."</p>";
+                insert_logact($this,$int->segment,$content);
+                $lu['last_update']=date('Y-m-d H:i:s');
+                $this->minitiative->update_initiative($lu,$program['initiative_id']);
+                $json['status'] = 1;
+            }
         	else{$json['status'] = 0;}
         }
         else{

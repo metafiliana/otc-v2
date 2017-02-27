@@ -22,7 +22,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="">Segment</label>
+							<label class="col-sm-3 control-label" for="">Initiative Name</label>
 							<div class="col-sm-9">
 								<select class="form-control" name="segment">
 									<?php foreach($arr_segment as $prog){?>
@@ -37,8 +37,19 @@
 								<input type="text" class="form-control" id="title" name="title" placeholder="Program">
 							</div>
 						</div>
-						 <div class="form-group">
-							<label class="col-sm-3 control-label">Id</label>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Initiative Number</label>
+							<div class="col-sm-9">
+								<select class="form-control" name="init_code" id="init_code">
+									<?php foreach($init_code as $proga){?>
+									<option value="<?php echo $proga->val?>"><?php echo $proga->val?></option>
+									<?php }?>
+								</select>
+								<!-- <input type="text" class="form-control" name="code" id="code" placeholder="Id"> -->
+							</div>
+						</div>
+					 	<div class="form-group">
+							<label class="col-sm-3 control-label">Sub Initiative Number</label>
 							<div class="col-sm-9">
 								<select class="form-control" name="code" id="code">
 									<?php foreach($code as $progs){?>
@@ -49,14 +60,23 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">Inisatif ID</label>
+							<label class="col-sm-3 control-label">Direktur Sponsor</label>
 							<div class="col-sm-9">
-								<select class="form-control" name="init_code" id="init_code">
-									<?php foreach($init_code as $proga){?>
-									<option value="<?php echo $proga->val?>"><?php echo $proga->val?></option>
+								<select class="form-control" name="code" id="code">
+									<?php foreach($dir as $dirs){?>
+									<option value="<?php echo $dirs->val?>"><?php echo $dirs->val?></option>
 									<?php }?>
 								</select>
-								<!-- <input type="text" class="form-control" name="code" id="code" placeholder="Id"> -->
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">PMO Head</label>
+							<div class="col-sm-9">
+								<select class="form-control" name="code" id="code">
+									<?php foreach($pmo as $pmos){?>
+									<option value="<?php echo $pmos->val?>"><?php echo $pmos->val?></option>
+									<?php }?>
+								</select>
 							</div>
 						</div>
 						<hr>

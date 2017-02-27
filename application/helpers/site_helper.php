@@ -28,11 +28,11 @@
     }
     
     function color_status($status){
-    	if($status == "Not Started Yet"){return "#bbb";}
-    	elseif($status == "In Progress"){return "#27c24c";}
-    	elseif($status == "Completed"){return "#337ab7";}
-    	elseif($status == "At Risk"){return "#F6C600";}
-    	elseif($status == "Delay"){return "#FF0000";}
+    	if($status == "Not Started Yet"){return "#EAEAEA";}
+    	elseif($status == "In Progress"){return "#70E851";}
+    	elseif($status == "Completed"){return "#A8D8F0";}
+    	elseif($status == "At Risk"){return "#E73F3F";}
+    	elseif($status == "Delay"){return "#EBF34C";}
     }
     
     function return_arr_status(){

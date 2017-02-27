@@ -8,6 +8,7 @@ class User extends CI_Controller {
         $this->load->model('muser');
         $this->load->model('mmilestone');
         $this->load->model('minitiative');
+        $this->load->library('excel');
     }
     
     public function index()
@@ -204,4 +205,52 @@ class User extends CI_Controller {
     	$params['type_login']="not_login";
         $this->login($params);
     }
+
+    public function input_data_user(){
+        $exel = $this->read_excel("userpmo.xlsx");
+        $arrres = array(); $s=0;
+        for ($row = 2; $row <= $exel['row']; ++$row) {
+            $data = "";
+            for ($col = 0; $col < $exel['col']; ++$col) {
+                $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+            }
+            
+            $data['username'] = $arrres[$row][0];
+            $data['password'] = md5($arrres[$row][1]);
+            $data['name'] = $arrres[$row][2];
+            $data['role'] = $arrres[$row][3];
+            $data['private_email']= $arrres[$row][4];
+            $data['initiative']= $arrres[$row][5];
+            $this->muser->insert_user($data);
+
+        }
+    }
+
+    /*Function PHP EXCEL for parsing*/ 
+    function read_excel($file){
+        $arrres = array();
+        $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+        $objReader->setReadDataOnly(TRUE);
+        $objPHPExcel = $objReader->load("assets/upload/".$file);
+        
+        $arrres['wrksheet'] = $objPHPExcel->getActiveSheet();
+        // Get the highest row and column numbers referenced in the worksheet
+        $arrres['row'] = $arrres['wrksheet']->getHighestRow(); // e.g. 10
+        $highestColumn = $arrres['wrksheet']->getHighestColumn(); // e.g 'F'
+        $arrres['col'] = PHPExcel_Cell::columnIndexFromString($highestColumn);
+        
+        return $arrres;
+    }
+    
+    function SaveViaTempFile($objWriter){
+        $filePath = '/tmp/' . rand(0, getrandmax()) . rand(0, getrandmax()) . ".tmp";
+        $objWriter->save($filePath);
+        readfile($filePath);
+        unlink($filePath);
+    }
+     function excelDateToDate($readDate){
+        $phpexcepDate = $readDate-25569; //to offset to Unix epoch
+        return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
+    }
+
 }

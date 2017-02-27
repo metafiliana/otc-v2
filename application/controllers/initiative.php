@@ -218,12 +218,13 @@ class Initiative extends CI_Controller {
 			$user_initiative = explode(';',$user_info->initiative);	
 		}
 		
+		$user_init = $this->muser->get_user_by_init_code($program->init_code);
 		$initiatives = $this->minitiative->get_program_initiatives($user_initiative, $program_id);
 		
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
-		$data['content'] = $this->load->view('initiative/list_initiative',array('ints' => $initiatives,'program' => $program),TRUE);
+		$data['content'] = $this->load->view('initiative/list_initiative',array('ints' => $initiatives,'program' => $program, 'user_init' => $user_init),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -246,15 +247,15 @@ class Initiative extends CI_Controller {
 	public function submit_initiative(){
       	$id = $this->input->post('id');
       	$program['title'] = $this->input->post('title');
-        $program['code'] = $this->input->post('code');
-        $program['parent_code'] = $this->input->post('parent');
+        //$program['code'] = $this->input->post('code');
+        //$program['parent_code'] = $this->input->post('parent');
         $program['program_id'] = $this->input->post('program_id');
-        $program['kickoff'] = $this->input->post('kickoff');
-        $program['completion'] = $this->input->post('completion');
+        //$program['kickoff'] = $this->input->post('kickoff');
+        //$program['completion'] = $this->input->post('completion');
         $program['description'] = $this->input->post('description');
         $program['status'] = $this->input->post('status');
-        $program['GH_PIC'] = $this->input->post('GH_PIC');
-        $program['pic'] = $this->input->post('pic');
+        //$program['GH_PIC'] = $this->input->post('GH_PIC');
+        //$program['pic'] = $this->input->post('pic');
         
         if($this->input->post('start')){$start = DateTime::createFromFormat('m/d/Y', $this->input->post('start'));
     		$program['start'] = $start->format('Y-m-d');

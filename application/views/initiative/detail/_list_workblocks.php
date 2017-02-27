@@ -9,13 +9,16 @@
 						if($pcttgl<0){$pcttgl = 0;}
 						if($pcttgl>100){$pcttgl = 100;}
 						if($pcttgl==0){$pcttgl = 0;}
+						if($start==$end){$pcttgl = 1;}
 					?> 
 					<?php echo date("j M y",$start)." - ".date("j M y",$end)?>
 				</div>
 				<?php if($pcttgl == 100){?>
 					<div class="red_color" style="text-align: center; padding-top: 10px; font-size: 12px;">Times Over</div>
-				<?php }if($pcttgl == 0){?>
+				<?php }if($pcttgl == 1){?>
 					<div class="yellow_color" style="text-align: center; padding-top: 10px; font-size: 12px;">Start And End Is Same</div>
+				<?php }if($pcttgl == 0){?>
+					<div class="blue_color" style="text-align: center; padding-top: 10px; font-size: 12px;">Not Started Yet</div>
 				<?php }else{?>
 					<div id="chart<?php echo $wb['wb']->id?>"></div>
 				<?php }?>

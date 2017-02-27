@@ -35,15 +35,39 @@ class Program extends CI_Controller {
     	$data['title'] = "List ".$segment." Program";
     	$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
 		
+    	$prog['page']="all";
+
 		$user = $this->session->userdata('user');
 		$prog['user'] = $user;
 		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
 		$segment = str_replace("%20"," ",$segment); 
 		
-		$prog['programs'] = $this->mprogram->get_segment_programs($segment);
+		$prog['programs'] = $this->mprogram->get_segment_programs($segment,'');
 		$prog['segment'] = $segment;
+		
 		//$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+		
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
+
+		$this->load->view('front',$data);
+    }
+
+    public function my_inisiatif(){
+    	$data['title'] = "My List Program";
+    	$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
+		
+		$prog['page']="my";
+		
+		$user = $this->session->userdata('user');
+		$prog['user'] = $user;
+		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+		$init_id= explode(";",$this->muser->get_user_by_id($user['id'])->initiative);
+		
+		$prog['programs'] = $this->mprogram->get_segment_programs('',$init_id);
+
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
 		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
@@ -54,6 +78,8 @@ class Program extends CI_Controller {
     public function input_program(){
     	$data['title'] = "Input Program";
 		
+    	$id = $this->input->get('id');
+
 		$user = $this->session->userdata('user');
 		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
@@ -61,6 +87,8 @@ class Program extends CI_Controller {
 		$data['code'] = $this->mfiles_upload->get_distinct_col("code","asc","program");
 		$data['init_code'] = $this->mfiles_upload->get_distinct_col("init_code","asc","program");
 		$data['category'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
+		$data['dir'] = $this->mfiles_upload->get_distinct_col("dir_spon","asc","program");
+		$data['pmo'] = $this->mfiles_upload->get_distinct_col("pmo_head","asc","program");
 
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -74,6 +102,28 @@ class Program extends CI_Controller {
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
     }
+
+    public function filter_data(){
+		$user = $this->session->userdata('user');
+		$code = $this->input->get('code_filter');
+
+		if($code=="category"){
+			$data['arr'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
+		}
+
+		if($code=="dir_spon"){
+			$data['arr'] = $this->mfiles_upload->get_distinct_col("dir_spon","asc","program");
+		}
+
+		if($code=="pmo_head"){
+			$data['arr'] = $this->mfiles_upload->get_distinct_col("pmo_head","asc","program");
+		}
+
+		$json['html'] = $this->load->view('program/component/_list_of_filter',$data,TRUE);
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+    }
     
     public function submit_program(){
       	$program['title'] = $this->input->post('title');
@@ -83,12 +133,13 @@ class Program extends CI_Controller {
         $program['category'] = $this->input->post('category');
         
         if($this->minitiative->insert_program($program)){
-        	redirect('program/list_program');
-        }else{redirect('program/input_program');}
+        	redirect('program/list_programs');
+        }else{redirect('program/input_programs');}
     }
     
     public function delete_program(){
-        if($this->minitiative->delete_program()){
+    	$id = $this->input->post('id');
+        if($this->minitiative->delete_program($id)){
     		$json['status'] = 1;
     	}
     	else{
@@ -110,22 +161,26 @@ class Program extends CI_Controller {
 				$arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
 			}
 			
-			/* Program
-
+			//Program
+			/*
 			$data['category'] = $arrres[$row][0];
 			$data['segment'] = $arrres[$row][1];
 			$data['title'] = $arrres[$row][2];
 			$data['code'] = $arrres[$row][3];
-			$data['init_code'] = $arrres[$row][4];*/
+			$data['init_code'] = $arrres[$row][4];
+			$data['dir_spon'] = $arrres[$row][5];
+			$data['pmo_head'] = $arrres[$row][6];
 			
-			//$this->mprogram->insert_program($data); end Program
-			
+			$this->mprogram->insert_program($data); 
+			*/
+
 			/* Initiative
 			$data['title'] = $arrres[$row][0];
 			$data['program_id'] = $arrres[$row][1];
 			$this->minitiative->insert_initiative($data);
 			*/
 			
+			//Workblock
 			$data['title'] = $arrres[$row][0];
 			$data['initiative_id'] = $arrres[$row][3];
 			$data['start'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][1]));

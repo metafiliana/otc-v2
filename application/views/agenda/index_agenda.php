@@ -97,7 +97,7 @@
             }else{}
         }
     });
-}
+	}
 
     function edit_wb(id){
     	toggle_visibility('edit_wb_'+id);

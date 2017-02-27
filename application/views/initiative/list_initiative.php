@@ -1,9 +1,10 @@
 <div style="padding:5px 10px 5px 0">
 	<span style="font-size:13px"><a style="" href="<?php echo base_url();?>program/list_programs/<?php echo $program->category?>"><?php echo $program->category?></a></span>
 	<h4 style="margin:5px 0 10px 0"><span style="margin-right:15px"><?php echo $program->code?></span><?php echo $program->title?></h4><br>
+	<h4 style="margin:5px 0 10px 0"><span style="margin-right:15px"><?php echo $program->dir_spon?></span><?php echo $program->pmo_head?> <?php echo $user_init->name?></h4><br>
 	<div>
-		<?php $roles = explode(',',$user['role']); if(in_array("PMO",$roles) || in_array("admin",$roles)){?><div style="margin-bottom:10px; float:right;">
-		<button onclick="input_initiative('',<?php echo $program->id?>);" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> Initiative</button>
+		<?php $roles = explode(',',$user['role']); if(in_array("Co-PMO",$roles) || in_array("admin",$roles)){?><div style="margin-bottom:10px; float:right;">
+		<button onclick="input_initiative('',<?php echo $program->id?>);" class="btn btn-info-new btn-sm"><span class="glyphicon glyphicon-plus"></span> Initiative</button>
 		</div><?php }?>
 		
 		<div style="margin-bottom:10px; float:left">
@@ -31,7 +32,7 @@
 		<div id="initiative_content">
 			<table class="table table-bordered">
 				<thead>
-				<tr class="headertab"><!--<th style="width:60px"></th>--><th colspan=4>Deliverable</th><th>WB</th><th>PIC</th><th style="width:20%">Date</th></tr>
+				<tr class="headertab"><!--<th style="width:60px"></th>--><th colspan=3>Deliverable</th><th>WB</th><th style="width:20%">Date</th><th>Last Update</th><th></th></tr>
 			</thead>
 				<tbody>
 					<?php
@@ -78,21 +79,7 @@
 							<div style="float:left; max-width:88%"><a href="<?php echo base_url()?>initiative/detail/<?php echo $int['int']->id?>"><?php echo $int['int']->title?></a></div>
 							<div style="clear:both"></div>
 						</td>
-						<td style="width:40px"><button class="btn btn-default btn-xs" onclick=""><span class="glyphicon glyphicon-list"></span></button></td>
 						<td style="text-align:right; width:20px"><?php echo $int['wb']?></td>
-						<td>
-						<!--<?php $sumpic = count($int['pic']); $i=1;
-							if($int['pic'] && !$int['child']){
-								foreach($int['pic'] as $pic){
-									$namaar = explode(' ',$pic->name);
-									echo $namaar[0];
-									if($i<$sumpic){
-										echo ", ";
-									} $i++;
-								}
-							}?>-->
-							<?php echo $int['int']->pic?>
-						</td>
 						<td>
 							<?php if($int['int']->start && $int['int']->end){?>
 							<?php
@@ -121,7 +108,8 @@
 							</div>
 							<?php }?>
 						</td>
-						<?php if($user['role']=='admin' || $user['role']=='PMO'){?><td style="width:80px">
+						<td><?php echo $int['int']->last_update?></td>
+						<?php if($user['role']=='admin' || $user['role']=='Co-PMO'){?><td style="width:80px">
 							<button class="btn btn-warning  btn-xs" onclick="input_initiative(<?php echo $int['int']->id?>,<?php echo $program->id?>);"><span class="glyphicon glyphicon-pencil"></span></button>
 							<button class="btn btn-danger btn-xs" onclick="delete_initiative(<?php echo $int['int']->id?>)"><span class="glyphicon glyphicon-trash"></span></button>
 						</td><?php }?>
@@ -197,7 +185,8 @@
 			cache: false,
 			success: function(resp){
 				if(resp.status==1){
-					$("#new_initiative").html(resp.html);
+					show_popup_modal(resp.html);
+					//$("#new_initiative").html(resp.html);
 				}else{}
 			}
 		});
