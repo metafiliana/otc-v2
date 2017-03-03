@@ -31,8 +31,8 @@
     	if($status == "Not Started Yet"){return "#EAEAEA";}
     	elseif($status == "In Progress"){return "#70E851";}
     	elseif($status == "Completed"){return "#A8D8F0";}
-    	elseif($status == "At Risk"){return "#E73F3F";}
-    	elseif($status == "Delay"){return "#EBF34C";}
+    	elseif($status == "At Risk"){return "#EBF34C";}
+    	elseif($status == "Delay"){return "#E73F3F";}
     }
     
     function return_arr_status(){
@@ -61,5 +61,10 @@
 		$phpexcepDate = $readDate-25569; //to offset to Unix epoch
 		return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
 	}
+
+    function long_text_real($string,$char){
+    echo substr($string,0,$char); 
+    if((strlen($string))>$char){echo " . . .";}
+    }
     
     

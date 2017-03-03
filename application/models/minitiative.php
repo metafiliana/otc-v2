@@ -151,11 +151,39 @@ class Minitiative extends CI_Model {
     	
     	return $arr;
     }
-    
+
     function get_wb_status_sum($status, $init){
-    	$this->db->where('status', $status);
-    	$this->db->where('initiative_id', $init);
-    	$query = $this->db->get('workblock');
+        $this->db->where('status', $status);
+        $this->db->where('initiative_id', $init);
+        $query = $this->db->get('workblock');
+        $res = $query->result();
+        return $res;
+    }
+
+    function get_init_workblocks_status_new($init_id){
+        $arr = array();
+        
+        $arr['inprog'] = count($this->get_wb_status_sum_new('In Progress', $init_id));
+        $arr['notyet'] = count($this->get_wb_status_sum_new('Not Started Yet', $init_id));
+        $arr['complete'] = count($this->get_wb_status_sum_new('Completed', $init_id));
+        $arr['delay'] = count($this->get_wb_status_sum_new('Delay', $init_id));
+        
+        return $arr;
+    }
+    
+    function get_wb_status_sum_new($status, $program_id){
+    	$this->db->select('workblock.status as wbstat');
+        $this->db->where('workblock.status', $status);
+    	$this->db->where('program_id', $program_id);
+        $this->db->join('workblock', 'workblock.initiative_id = initiative.id');
+    	$query = $this->db->get('initiative');
+        $res = $query->result();
+        return $res;
+    }
+
+    function get_wb_total($init){
+        $this->db->where('initiative_id', $init);
+        $query = $this->db->get('workblock');
         $res = $query->result();
         return $res;
     }
@@ -186,7 +214,7 @@ class Minitiative extends CI_Model {
     }
     
     function get_initiative_by_id($id){
-    	$this->db->select('initiative.*, program.title as program, program.code as program_code, program.segment as segment');
+    	$this->db->select('initiative.*, program.title as program, program.code as program_code, program.segment as segment, program.*');
         $this->db->join('program', 'program.id = initiative.program_id');
         $this->db->where('initiative.id',$id);
         $result = $this->db->get('initiative');
@@ -270,6 +298,47 @@ class Minitiative extends CI_Model {
         if(!$status){$status = $init->status;}
         return $status;
     }
+
+    function get_initiative_status_by_prog_id($id,$end){
+        $this->db->select('workblock.*');
+        $this->db->where('program_id', $id);
+        $this->db->join('workblock', 'workblock.initiative_id = initiative.id');
+        $this->db->order_by('workblock.status', 'asc');
+        $query = $this->db->get('initiative');
+        $result = $query->result();
+        $status = ""; $arr = array();
+        if($result){
+            foreach($result as $res){
+                if($status){
+                    if($res->status == "Delay"){$status = "Delay";}
+                    else{
+                        if($status != "Delay"){
+                            if($res->status == "In Progress"){$status = "In Progress";}
+                            elseif($status=="Completed" && $res->status == "Not Started Yet"){$status = "In Progress";}
+                        }
+                    }
+                }
+                else{$status = $res->status;}
+            }
+            if($status == "Delay"){if($end>date("Y-m-d")){$status="At Risk";}}
+        }
+        $arr['status']=$status;
+        $arr['sumwb']=count($result);
+        $arr['wb']=$result;
+        return $arr;
+        
+    }
+    
+    function get_status_only_by_prog_id($init,$id){
+        $status =  $this->get_initiative_status_by_prog_id($id,$init->end)['status'];
+        if(!$status){$status = $init->status;}
+        return $status;
+    }
+
+    function get_total_wb_by_init($init){
+        $sumwb =  $this->get_initiative_status($init->id,$init->end)['sumwb'];
+        return $sumwb;
+    }
     
     function get_info_initiative_by_id($id){
     	$arr = array();
@@ -326,6 +395,13 @@ class Minitiative extends CI_Model {
     	$this->db->select('MAX(end) max_end, MIN(start) min_start');
     	$this->db->where('program_id', $id);
     	$query = $this->db->get('initiative');
+        return $query->row(0);
+    }
+
+    function get_initiative_last_update($id){
+        $this->db->select('*');
+        $this->db->where('program_id', $id);
+        $query = $this->db->get('initiative');
         return $query->row(0);
     }
     

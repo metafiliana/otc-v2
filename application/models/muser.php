@@ -89,7 +89,10 @@ class Muser extends CI_Model {
     }
 
     function get_user_by_init_code($id){
-        $this->db->where('initiative',$id);
+        $like = "initiative LIKE '$id' OR initiative LIKE '$id%' OR initiative LIKE '%$id'";
+        $this->db->where("($like)");
+        //$this->db->where('initiative',$id);
+        //$this->db->where("(initiative = ".$id." OR (initiative LIKE '%$id%')");
         $result = $this->db->get('user');
         if($result->num_rows==1){
             return $result->row(0);

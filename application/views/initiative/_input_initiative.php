@@ -5,14 +5,14 @@
 			<div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>				
-				<h3 class="form-signin-heading center_text" style="margin-bottom:20px;">Input Initiative</h3>
+				<h3 class="form-signin-heading center_text" style="margin-bottom:20px;">Input Deliverable</h3>
 				<form class="form-horizontal" action="<?php echo base_url();?>initiative/submit_initiative" method ="post" id="formsignup" role="form">
 					<input type="hidden" value="<?php echo $program->id?>" name="program_id">
 					<input type="hidden" value="<?php if($int){echo $int->id;}?>" name="id">
 					<div>
 						<div class="col-sm-6">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">Initiative</label>
+							<label class="col-sm-2 control-label">Deliverable</label>
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="title" name="title" placeholder="Initiative" value="<?php if($int){echo $int->title;}?>">
 							</div>

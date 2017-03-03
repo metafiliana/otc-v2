@@ -33,6 +33,15 @@ class Mremark extends CI_Model {
     	$query = $this->db->get('remark');
     	return $query->result();
     }
+
+    function get_remarks_by_wb_id($id){
+        $this->db->select('remark.*, user.name as user_name');
+        $this->db->join('user','remark.user_id = user.id');
+        $this->db->where('workblock_id', $id);
+        $this->db->order_by('created', 'desc');
+        $query = $this->db->get('remark');
+        return $query->result();
+    }
     
     function get_remark_by_id($id){
     	$this->db->select('remark.*,initiative.code as code, initiative.title as initiative, program.title as program, program.code as program_code, program.segment as segment');

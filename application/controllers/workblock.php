@@ -9,6 +9,7 @@ class Workblock extends CI_Controller {
         $this->load->model('mmilestone');
         $this->load->model('minitiative');
         $this->load->model('mlogact');
+        $this->load->model('muser');
         
         $session = $this->session->userdata('user');
         
@@ -75,7 +76,9 @@ class Workblock extends CI_Controller {
     
     public function submit_workblock(){
       	$id = $this->input->post('id');
-      	$program['title'] = $this->input->post('title');
+        if($this->input->post('title')){
+            $program['title'] = $this->input->post('title');
+        }
         $program['initiative_id'] = $this->input->post('init_id');
         $program['status'] = $this->input->post('status');
         $user = $this->session->userdata('user');
@@ -92,7 +95,7 @@ class Workblock extends CI_Controller {
         
         if($id){
         	if($this->mworkblock->update_workblock($program,$id)){
-                $content = "<p> ".$user['name']." memperbarui Workblock : <br><br><b> ".$program['title']."</b><br><br>Pada Initiative : ".$int->code." ".$int->title ."</p>";
+                $content = "<p> ".$user['name']." memperbarui Action : <br><br><b> ".$program['title']."</b><br><br>Pada Initiative : ".$int->code." ".$int->title ."</p>";
                 insert_logact($this,$int->segment,$content);
                 $lu['last_update']=date('Y-m-d H:i:s');
                 $this->minitiative->update_initiative($lu,$program['initiative_id']);
@@ -102,18 +105,27 @@ class Workblock extends CI_Controller {
         }
         else{
         	if($this->mworkblock->insert_workblock($program)){
-        		$content = "<p> ".$user['name']." membuat Workblock baru : <br><br><b> ".$program['title']."</b><br><br>Pada Initiative : ".$int->code." ".$int->title ."</p>";
+        		$content = "<p> ".$user['name']." membuat Action baru : <br><br><b> ".$program['title']."</b><br><br>Pada Initiative : ".$int->code." ".$int->title ."</p>";
         		$json['status'] = insert_logact($this,$int->segment,$content);
         	}
         	else{$json['status'] = 0;}
 		}
-		$views['wb_status'] = $this->minitiative->get_init_workblocks_status($program['initiative_id']);
+		$user_init = $this->muser->get_user_by_init_code($int->init_code);
+        $views['wb_status'] = $this->minitiative->get_init_workblocks_status($program['initiative_id']);
 		$workblocks = $this->mworkblock->get_all_initiative_workblock($program['initiative_id']);
-		$json['html'] = $this->load->view('initiative/detail/_list_workblocks',array('workblocks'=>$workblocks,'init_id'=>$program['initiative_id']),TRUE);
-		
+		$json['html'] = $this->load->view('initiative/detail/_list_workblocks',array('workblocks'=>$workblocks,'init_id'=>$program['initiative_id'],'user_init'=>$user_init),TRUE);
+		$json['html_id']=$program['initiative_id'];
+
 		$views['init'] = $this->minitiative->get_initiative_by_id($program['initiative_id']);
+        $views['init_status'] = $this->minitiative->get_initiative_status_only($views['init']);
+        $views['wb_status'] = $this->minitiative->get_init_workblocks_status($program['initiative_id']);
+        $views['wb_total'] = count($this->minitiative->get_wb_total($program['initiative_id']));
+        $json['info'] = $this->load->view('initiative/detail/_general_info',array(
+        'initiative'=>$views['init'],'stat'=>$views['init_status'],'wb' => $views['wb_status'], 'wb_total' => $views['wb_total'], 'user_init'=>$user_init),TRUE);
+
+        /*$views['init'] = $this->minitiative->get_initiative_by_id($program['initiative_id']);
 		$views['init_status'] = $this->minitiative->get_initiative_status_only($views['init']);
-		$json['info'] = $this->load->view('initiative/detail/_general_info',array('initiative'=>$views['init'],'stat'=>$views['init_status'],'wb' => $views['wb_status']),TRUE);
+		$json['info'] = $this->load->view('initiative/detail/_general_info',array('initiative'=>$views['init'],'stat'=>$views['init_status'],'wb' => $views['wb_status']),TRUE);*/
 		
 		$this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));

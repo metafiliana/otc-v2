@@ -10,7 +10,7 @@
  *
  * @author Maulnick
  */
-class Mprogram extends CI_Model {
+class Mkuantitatif extends CI_Model {
     //put your code here
     function __construct() {
         parent::__construct();
@@ -21,8 +21,12 @@ class Mprogram extends CI_Model {
     //INSERT or CREATE FUNCTION
     
     
-    function insert_program($program){
-        return $this->db->insert('program', $program);
+    function insert_kuantitatif($program){
+        if($this->db->insert('kuantitatif', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
     }
     
     //GET FUNCTION

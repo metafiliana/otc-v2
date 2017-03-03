@@ -1,3 +1,4 @@
+<?php $user = $this->session->userdata('user'); ?>
 <?php foreach($workblocks as $wb){ $crcl = sign_status($wb['wb']->status); ?>
 	<div style="border-bottom:1px solid #eee; padding:5px 0 5px 5px;" id="workblock_<?php echo $wb['wb']->id ?>">
 		<div style="padding-right: 10px; padding-left:5px;">
@@ -32,12 +33,16 @@
 						<!--<button onclick="add_remark();" class="btn btn-default  btn-xs" style="height:20px;">
 							<span style="font-size:10px">Progres</span>
 						</button>-->
+						<?php if($user['role']=='admin' || $user['name']==$user_init->name){?>
 						<button onclick="edit_workblock(<?php echo $wb['wb']->id?>,<?php echo $init_id?>);" class="btn btn-warning  btn-xs" style="height:20px;">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</button>
+						<?php }?>
+						<?php if($user['role']=='admin'){?>
 						<button onclick="delete_workblock(<?php echo $wb['wb']->id?>);" class="btn btn-danger  btn-xs" style="height:20px;">
 							<span class="glyphicon glyphicon-trash"></span>
 						</button>
+						<?php }?>
 					</div>
 				</div>
 				<div style="clear:both"></div>

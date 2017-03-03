@@ -22,7 +22,7 @@ $(document).ready(function(){
 <div style="height:100%;">
 	<div class="col-md-12 login-form" style="margin 0 auto;  position: relative; top: 30%;">
 		<form class="form-signin" action="<?php echo base_url();?>user/userEnter" method="post" role="form" style="width:100%; margin-top:150px;">
-			<h3 class="center_text">Control Tower</h3>
+			<h3 class="center_text">Restart Corplan</h3>
 			<p class="desc_login_form">Username:</p>
 			<input type="text" class="form-control" placeholder="" name="username" id="username" required autofocus>
 			<p style="margin-top:5px;" class="desc_login_form">Password:</p>

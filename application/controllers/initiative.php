@@ -220,7 +220,7 @@ class Initiative extends CI_Controller {
 		
 		$user_init = $this->muser->get_user_by_init_code($program->init_code);
 		$initiatives = $this->minitiative->get_program_initiatives($user_initiative, $program_id);
-		
+
 		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
@@ -239,6 +239,20 @@ class Initiative extends CI_Controller {
 		$program = $this->mprogram->get_program_by_id($program_id);
     	$json['status'] = 1;
 		$json['html'] = $this->load->view('initiative/_input_initiative',array('program' => $program, 'int' => $initiative),TRUE);
+		
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+
+	public function input_comment(){
+		$init_id = $this->input->get('id');
+		//$program_id = $this->input->get('program');
+		$initiative = "";
+		if($id){
+			$remarks = $this->mremark->get_remarks_by_init_id($init_id);
+		}
+    	$json['status'] = 1;
+		$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>'','init_id'=>$init_id),TRUE);
 		
 		$this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));
@@ -328,6 +342,7 @@ class Initiative extends CI_Controller {
 		$remarks = $this->mremark->get_remarks_by_init_id($init_id);
 		$content = $this->load->view('initiative/detail/_list_remarks',array('remarks'=>$remarks),TRUE);
 		$json['html'] = $content;
+		$json['id'] = $init_id;
 		
 		$this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));
@@ -362,6 +377,33 @@ class Initiative extends CI_Controller {
     		$json['status'] = 0;
     	}
     	$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+
+	public function detail_wb(){
+		$init_id = $this->input->get('id');
+		$init_code = $this->input->get('init_code');
+		
+		$user_init = $this->muser->get_user_by_init_code($init_code);
+		$views['init'] = $this->minitiative->get_initiative_by_id($init_id);
+		$views['init_status'] = $this->minitiative->get_initiative_status_only($views['init']);
+		$views['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
+		$views['wb_total'] = count($this->minitiative->get_wb_total($init_id));
+		$json['info'] = $this->load->view('initiative/detail/_general_info',array(
+		'initiative'=>$views['init'],'stat'=>$views['init_status'],'wb' => $views['wb_status'], 'wb_total' => $views['wb_total']),TRUE);
+		
+		$remarks = $this->mremark->get_remarks_by_init_id($init_id);
+		$json['remarks'] = $this->load->view('initiative/detail/_list_remarks',array('remarks'=>$remarks,'user_init'=>$user_init),TRUE);
+		//$views['form_rmrk'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>'','init_id'=>$init_id),TRUE);
+		
+		
+		$workblocks = $this->mworkblock->get_all_initiative_workblock($init_id);
+		$json['html'] = $this->load->view('initiative/detail/_list_workblocks',array('workblocks'=>$workblocks,'init_id'=>$init_id,'user_init'=>$user_init),TRUE);
+		$json['status'] = 1;
+		/*$views['form_wb'] = $this->load->view('initiative/detail/_form_workblocks',array('wb'=>'','init_id'=>$init_id),TRUE);
+		$form_prog = $this->load->view('initiative/detail/_form_progress',array(),TRUE);*/
+	
+		$this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));
 	}
     
