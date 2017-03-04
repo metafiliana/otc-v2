@@ -151,6 +151,9 @@
 						</td>
 						<td>
 							<button onclick="edit_remark('',<?php echo $int['int']->id?>);" class="btn btn-info-new btn-sm"><span class="glyphicon glyphicon-plus"></span> Comment</button>
+							<?php if($user['role']=='admin'){?>
+							<button onclick="edit_workblock('',<?php echo $int['int']->id?>);" class="btn btn-info-new btn-sm" style="margin-top:10px;"><span class="glyphicon glyphicon-plus"></span> Action</button>
+							<?php }?>
 						</td>
 						<td id="info_<?php echo $int['int']->id?>">
 						</td>

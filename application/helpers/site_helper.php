@@ -44,6 +44,11 @@
     	$arr = array("Wholesale","SME","Mikro","Individuals","IT","HC","Risk","Organization","Distribution","Performance Management","Marketing");
     	return $arr;
     }
+
+    function return_all_category(){
+    $arr = array("Accelerate the growth segment","Deepen client relationship","Integrate the group","Enablers","Stakeholder");
+        return $arr;
+    }
     
     function insert_logact($contr,$segment,$content){
     	$user = $contr->session->userdata('user');

@@ -46,9 +46,16 @@ class Mprogram extends CI_Model {
             return false;
         }
     }
+
+    function get_program_by_init_code($code){
+        $this->db->distinct();
+        $this->db->select('segment, category, dir_spon, pmo_head');
+        $this->db->where('init_code',$code);
+        $query = $this->db->get('program');
+        return $query->result();
+    }
     
     function get_segment_programs($segment,$init_id,$dir_spon,$pmo_head){
-    	//$this->db->where('role', 3);
     	if($segment){
         $this->db->where('category', $segment);
         }
@@ -63,10 +70,11 @@ class Mprogram extends CI_Model {
                 $this->db->or_where('init_code', $row);
             }
         }
-    	$this->db->order_by('id', 'asc');
+        $this->db->where_in('category',return_all_category());
+        //$this->db->order_by('init_code', 'asc');
+        //$this->db->order_by('code', 'asc');
         $this->db->select('program.*, initiative.id as init_id');
         $this->db->join('initiative','initiative.id = program.id');
-        //$this->db->order_by('code', 'asc');
     	$query = $this->db->get('program');
     	$arr = array(); $i=0;
         $progs = $query->result();
@@ -86,6 +94,7 @@ class Mprogram extends CI_Model {
         	$arr[$i]['status'] = $this->get_program_status($prog->id);
             $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
             $arr[$i]['sub_init_total'] = count($this->minitiative->get_all_program_initiatives($prog->id));
+            //$arr[$i]['kuantitatif']=$this->get_kuantitatif_by_init_code($prog->init_code);
         	$i++;
         }
         return $arr;
@@ -134,6 +143,40 @@ class Mprogram extends CI_Model {
         return $total;
     }
 
+    function get_kuantitatif_by_init_code($init_code){
+        $this->db->distinct();
+        $this->db->where('kuantitatif.init_code', $init_code);
+        $this->db->select('kuantitatif.*');
+        $this->db->join('program','kuantitatif.init_code = program.init_code');
+        $query = $this->db->get('kuantitatif');
+        $inits = $query->result();
+        $total=""; $temp=""; $i=0;
+        foreach($inits as $init){
+            $total['kuan']=$init;
+            if($init->realisasi==0 || $init->target==0)
+            {
+                $temp=0;
+            }
+            else{
+                $temp = (($init->realisasi/$init->target)*100);
+            }
+            $total['total'] += $temp;
+            $i++;
+        }
+        if($i!=0){
+            $total['total'] = $total['total']/$i;
+        }
+        return $total;
+    }
+
+    function get_init_code(){
+        $this->db->distinct();
+        //$this->db->where('kuantitatif.init_code', $init_code);
+        $this->db->select('kuantitatif.init_code');
+        $this->db->join('program','kuantitatif.init_code = program.init_code');
+        $query = $this->db->get('kuantitatif');
+        return $query;
+    }
     //UPDATE FUNCTION
     
     function update_program($program,$id){

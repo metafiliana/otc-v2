@@ -27,7 +27,7 @@
 			<!--<td style="width:40px"><?php echo $prog['status']['Not Started Yet']?></td>-->
 			<td style="width:400px">
 				<?php if($pv_init != $prog['prog']->segment){?>
-					<div style="float:left; width:50px; margin-right:5px;"><?php echo $prog['prog']->init_code?></div> 
+					<div style="float:left; width:50px; margin-right:5px;"><?php echo $prog['prog']->init_code?><?php if($kuantitatif['total']!=0 && $prog['prog']->init_code==$kuantitatif['total']->init_code) {echo ($kuantitatif['total']);}else{}?></div> 
 					<b><div style="float:left; max-width:300px"><?php echo $prog['prog']->segment?></div></b>
 					<div style="clear:both"></div>
 					<b><div style="float:left; max-width:300px; margin-top:10px">Direktur Sponsor: <?php echo $prog['prog']->dir_spon?></div></b>
@@ -43,6 +43,8 @@
 			</td>
 			<td>
 				<div style="float:left; width:50px; margin-right:15px;"><?php if(isset($prog['lu']->last_update)) echo $prog['lu']->last_update?></div> 
+				<div style="float:left; width:50px; margin-right:15px;">
+				</div>
 			</td>
 			<td>
 			<?php if($prog['wb_total']==0){ ?>
