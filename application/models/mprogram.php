@@ -87,6 +87,7 @@ class Mprogram extends CI_Model {
         	$arr[$i]['lu'] = $this->minitiative->get_initiative_last_update($prog->id);
             $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
             $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
+            $arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code);
             //$arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
             $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
             //$arr[$i]['wb_total'] = count($this->minitiative->get_wb_total($init_id));
@@ -150,9 +151,9 @@ class Mprogram extends CI_Model {
         $this->db->join('program','kuantitatif.init_code = program.init_code');
         $query = $this->db->get('kuantitatif');
         $inits = $query->result();
-        $total=""; $temp=""; $i=0;
+        $total=0; $temp=0; $i=0; $hasil=0;
         foreach($inits as $init){
-            $total['kuan']=$init;
+
             if($init->realisasi==0 || $init->target==0)
             {
                 $temp=0;
@@ -160,13 +161,13 @@ class Mprogram extends CI_Model {
             else{
                 $temp = (($init->realisasi/$init->target)*100);
             }
-            $total['total'] += $temp;
+            $hasil += $temp;
             $i++;
         }
         if($i!=0){
-            $total['total'] = $total['total']/$i;
+            $hasil = $hasil/$i;
         }
-        return $total;
+        return $hasil;
     }
 
     function get_init_code(){

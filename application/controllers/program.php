@@ -45,8 +45,8 @@ class Program extends CI_Controller {
 
 		$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
 		$init = $this->mprogram->get_init_code();
-		$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
-		
+		//$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
+//        $init_code
 		//$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
