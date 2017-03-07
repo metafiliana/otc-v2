@@ -84,7 +84,7 @@
 ?>
 <div class="navbar-top">
 	<div class="row" style="width:100%; margin:0 auto; padding:0px 5px 0px 5px;background-color: #fff; 
-	border-bottom:3px solid #fcd116;">
+	border-bottom:3px solid rgba(252, 209, 22, .8);">
 		<div class="col-md-2">
 			<span style="margin-right:5px;margin-left: 40px;" class="btn btn-lg glyphicon glyphicon-home" aria-hidden="true"></span>
 		  	<span style="margin-right:5px;" class="btn btn-lg glyphicon glyphicon-home dropdown-toggle" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>

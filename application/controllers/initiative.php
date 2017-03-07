@@ -221,9 +221,10 @@ class Initiative extends CI_Controller {
 		$user_init = $this->muser->get_user_by_init_code($program->init_code);
 		$initiatives = $this->minitiative->get_program_initiatives($user_initiative, $program_id);
 
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+		$data['header'] = $this->load->view('shared/header-new','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
+		// $data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
 		$data['content'] = $this->load->view('initiative/list_initiative',array('ints' => $initiatives,'program' => $program, 'user_init' => $user_init),TRUE);
 
 		$this->load->view('front',$data);
