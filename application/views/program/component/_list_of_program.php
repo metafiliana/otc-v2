@@ -2,6 +2,7 @@
 	<thead class="black_color old_grey_color_bg">
 		<tr>
 			<th style="vertical-align:middle" rowspan=2>Initiative</th>
+			<th style="vertical-align:middle" rowspan=1>Metric</th>
 			<th style="vertical-align:middle" rowspan=2>Sub Initiative</th>
 			<th style="vertical-align:middle" rowspan=2>Last Update</th>
 			<th style="vertical-align:middle">Status</th>
@@ -33,7 +34,14 @@
 					<div style="clear:both"></div>
 					<b><div style="float:left; max-width:300px; margin-top:10px">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
 					<div style="clear:both"></div>
-				<?php $pv_init = $prog['prog']->segment;}?>
+				<?php }?>
+			</td>
+			<td>
+				<?php if($pv_init != $prog['prog']->segment){?>
+				<?php foreach($prog['metric'] as $metric){?>
+				<?php echo $metric->metric?></br>
+				<?php }?>
+					<?php $pv_init = $prog['prog']->segment;}?>
 			</td>
 			<td style="width:400px">
 				<div style="float:left; width:50px; margin-right:5px;"><?php echo substr($prog['prog']->code, -1)?></div> 
