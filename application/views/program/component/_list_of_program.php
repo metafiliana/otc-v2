@@ -17,7 +17,7 @@
 	<tbody>
 		<?php 
 		$segment=""; $i=1; $segnum=1;
-		$pv_init = ""; $total_percent="";
+		$pv_init = ""; $total_percent="";$index=0;
 		foreach($programs as $prog){?>
 		<tr id="prog_<?php echo $prog['prog']->id?>">
 			<!--<td style="width:40px"><?php echo $prog['status']['Not Started Yet']?></td>-->
@@ -34,14 +34,14 @@
 					<div style="clear:both"></div>
 					<b><div style="float:left; max-width:300px; margin-top:10px">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
 					<div style="clear:both"></div>
-				<?php }?>
+				<?php $pv_init = $prog['prog']->segment;}?>
 			</td>
-			<td>asdasd
+			<td>
 				<?php if($pv_init != $prog['prog']->segment){?>
 				<?php foreach($prog['metric'] as $metric){?>
 				<?php echo $metric->metric?></br>
 				<?php }?>
-					<?php $pv_init = $prog['prog']->segment;}?>
+					<?php }?>
 			</td>
 			<td style="width:400px">
 				<div style="float:left; width:50px; margin-right:5px;"><?php echo substr($prog['prog']->code, -1)?></div> 
