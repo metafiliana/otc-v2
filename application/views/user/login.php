@@ -5,7 +5,11 @@
 		background-size:cover;
 		background-image:url('<?php echo base_url()?>assets/img/tower.jpg');
 		opacity: 0.9;
-		
+	}
+	.container{
+		background-color: white;
+		border-radius: 5px;
+		padding-bottom: 20px;
 	}
 </style>
 <script>
@@ -20,14 +24,16 @@ $(document).ready(function(){
 </script>
 
 <div style="height:100%;">
-	<div class="col-md-12 login-form" style="margin 0 auto;  position: relative; top: 30%;">
-		<form class="form-signin" action="<?php echo base_url();?>user/userEnter" method="post" role="form" style="width:100%; margin-top:150px;">
-			<h3 class="center_text">Restart Corplan</h3>
-			<p class="desc_login_form">Username:</p>
-			<input type="text" class="form-control" placeholder="" name="username" id="username" required autofocus>
-			<p style="margin-top:5px;" class="desc_login_form">Password:</p>
-			<input type="password" class="form-control" placeholder="" name="password" required>
-			<button style="margin-top:10px;" class="btn btn-lg btn-info btn-block" type="submit">Log In</button>
+	<div class="col-md-10 login-form container" style="position: relative; margin-top: 10%;">
+		<form class="form-signin" style="width: 400px;" action="<?php echo base_url();?>user/userEnter" method="post" role="form">
+			<div class="center_text">
+				<img style="height:80px; margin-left:0px; padding-top: 5px; text-align: center;" src="<?php echo base_url()?>assets/img/general/tower.png">
+			<h3 class="center_text">Restart Corplan</h3></div>
+			<p class="desc_login_form" style="padding-top: 10px;">Username</p>
+			<input type="text" class="form-control" placeholder="" name="username" id="username" required autofocus style="border-radius: 7px;">
+			<p style="margin-top:5px;" class="desc_login_form">Password</p>
+			<input style="border-radius: 7px;" type="password" class="form-control" placeholder="" name="password" required style="margin-bottom: 15px;">
+			<button style="margin-top:15px; width: 150px; float: right;" class="btn btn-lg btn-info btn-block center_text" type="submit" style="border-radius: 7px;">Log In</button>
 		</form>
 		<?php if($params){?>
 		<div class="login_alert" style="margin-top:20px;">

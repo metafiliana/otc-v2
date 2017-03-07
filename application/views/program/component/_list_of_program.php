@@ -28,31 +28,33 @@
 					<div>
 					<?php if($prog['total']!=null && $prog['tot_kual']!=null && isset($prog['tot_kual'])){echo 'Total Kuantitatif & Kualitatif: '.(number_format((($prog['total']+$prog['tot_kual'])/2), 2, ',', ' ')).'%';}else{}?>
 					</div>
-					<b><div style="float:left; max-width:300px;"><?php echo $prog['prog']->segment?></div></b>
+					<b><div style="float:left; max-width:350px;"><?php echo $prog['prog']->segment?></div></b>
 					<div style="clear:both"></div>
-					<b><div style="float:left; max-width:300px; margin-top:10px; padding-left: 40px;">Direktur Sponsor: <?php echo $prog['prog']->dir_spon?></div></b>
+					<b><div style="float:left; max-width:350px; margin-top:10px; padding-left: 40px;">Direktur Sponsor: <?php echo $prog['prog']->dir_spon?></div></b>
 					<div style="clear:both"></div>
-					<b><div style="float:left; max-width:300px; margin-top:10px; padding-left: 40px;">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
+					<b><div style="float:left; max-width:350px; margin-top:10px; padding-left: 40px;">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
 					<div style="clear:both"></div>
 				<?php }?>
 			</td>
 			<td>
+			<div>
 				<?php if($pv_init != $prog['prog']->segment){?>
 				<?php foreach($prog['metric'] as $metric){?>
 				<?php echo $metric->metric?></br>
 				<?php }?>
 					<?php $pv_init = $prog['prog']->segment;}?>
 			</td>
-			<td style="width:400px">
-				<div style="float:left; width:50px; margin-right:5px;"><?php echo substr($prog['prog']->code, -1)?></div> 
-				<div style="float:left; max-width:300px"><a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $prog['prog']->id ?>"><?php echo $prog['prog']->title?></a></div>
+			</div>
+			<td style="width:300px">
+				<div style="float:left; width:30px;margin-left: 5px;"><?php echo substr($prog['prog']->code, -1)?></div> 
+				<div style="float:left; max-width:200px"><a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $prog['prog']->id ?>"><?php echo $prog['prog']->title?></a></div>
 				<div style="clear:both"></div>
 			</td>
-			<td class="center_text" style="width:130px;">
+			<td class="center_text" style="width:100px;">
 				<div><?php if(isset($prog['lu']->last_update)) echo date("j F Y G:i:s",strtotime($prog['lu']->last_update));?></div> 
 			
 			</td>
-			<td class="center_text">
+			<td class="center_text" style="width: 130px;">
 			<?php if($prog['wb_total']==0){ ?>
 				<span style="font-size:14px; color:<?php echo color_status('Not Started Yet')?>; font-weight:bold">No Action</span>
 			<?php } else{ ?>

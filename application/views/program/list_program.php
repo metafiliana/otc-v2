@@ -83,6 +83,7 @@
 	</div><div style="clear:both"></div><br>
 </div>
 <script>
+
 $(document).ready(function(){
     $('.dropdown-toggle').dropdown()
 });
