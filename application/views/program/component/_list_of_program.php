@@ -36,7 +36,7 @@
 					<div style="clear:both"></div>
 				<?php }?>
 			</td>
-			<td>
+			<td>asdasd
 				<?php if($pv_init != $prog['prog']->segment){?>
 				<?php foreach($prog['metric'] as $metric){?>
 				<?php echo $metric->metric?></br>
