@@ -88,6 +88,7 @@ class Mprogram extends CI_Model {
             $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
             $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
             $arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code);
+            $arr[$i]['metric'] = $this->mprogram->get_metric_by_init_code($prog->init_code);
             $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
 
         	$arr[$i]['status'] = $this->get_program_status($prog->id);
@@ -179,6 +180,23 @@ class Mprogram extends CI_Model {
             $hasil = $hasil/$i;
         }
         return $hasil;
+    }
+
+    function get_metric_by_init_code($init_code){
+        $this->db->distinct();
+        $this->db->where('kuantitatif.init_code', $init_code);
+        $this->db->select('kuantitatif.*');
+        $this->db->join('program','kuantitatif.init_code = program.init_code');
+        $query = $this->db->get('kuantitatif');
+        $inits = $query->result();
+        $hasil="";
+        foreach($inits as $init){
+
+
+            $hasil = $init->metric;
+        }
+
+        return $inits;
     }
 
     function get_init_code(){
