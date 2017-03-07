@@ -51,7 +51,8 @@ class Program extends CI_Controller {
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+		$data['header'] = $this->load->view('shared/header-new','',TRUE);
+		//$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
 		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
 
 		$this->load->view('front',$data);
@@ -99,8 +100,9 @@ class Program extends CI_Controller {
 		$prog['programs'] = $this->mprogram->get_segment_programs('',$init_id,'','');
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
+		$data['header'] = $this->load->view('shared/header-new','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+		// $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
 		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
 
 		$this->load->view('front',$data);

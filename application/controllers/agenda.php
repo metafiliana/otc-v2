@@ -31,9 +31,10 @@ class Agenda extends CI_Controller {
 		
 		$datereq['month'] = $month; $datereq['year']=$year;
 		
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new','',TRUE);
+		// $data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
 		$data['content'] = $this->load->view('agenda/index_agenda',array('agendas' => $agendas,'datereq'=>$datereq),TRUE);
 
 		$this->load->view('front',$data);

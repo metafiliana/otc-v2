@@ -28,8 +28,9 @@ class General extends CI_Controller {
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 		
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
-		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+		// $data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('general/overview',array(),TRUE);
 

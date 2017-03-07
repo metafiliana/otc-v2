@@ -12,7 +12,7 @@
         <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" />
+        <!-- <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
         <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
 
 

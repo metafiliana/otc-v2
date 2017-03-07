@@ -1,45 +1,71 @@
-<div style="padding:5px 10px 5px 0">
+<?php
+$user = $this->session->userdata('user');
+?>
+<div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
 	<div class="row">
-		<div class="col-md-5">
-			<div class="component_part">
+		<div class="col-md-3">
+			<div class="component_part" style="min-height: 90px;">
 				<div>
 					<a class="btn btn-info-new btn-sm" href="<?php echo base_url();?>program/list_programs/">Back</a>
-					<h4 style="margin:5px 0 0 0"><span style="margin-right:15px"><?php echo $program->code?></span><?php echo $program->title?></h4>
+					<h5 style="margin:5px 0 0 0;"><span style="margin-right:15px"><?php echo $program->code?></span><?php echo $program->title?></h5>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-4">
-			<div class="component_part">
-			<h4 style="margin:5px 0 10px 0">Direktur Sponsor: <span style="margin-right:15px"><?php echo $program->dir_spon?></span></h4>
-			<h4 style="margin:5px 0 10px 0">PMO Head: <span style="margin-right:15px"><?php echo $program->pmo_head?></span></h4>
+				<div class="component_part" style="min-height: 90px;">
+					<table class="table" style="margin-bottom:0">
+						<thead>
+							<tr class="black_color">
+								<th class="grey_color_bg" style="vertical-align:middle;">Not Started Yet</th>
+								<th class="green_color_bg" style="vertical-align:middle;">In Progress</th>
+								<th class="red_color_bg" style="vertical-align:middle;">At Risk</th>
+								<th class="yellow_color_bg" style="vertical-align:middle;">Delay</th>
+								<th class="blue_color_bg" style="vertical-align:middle;">Completed</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th class="center_text"><span>0%</span></th>
+								<th class="center_text"><span>0%</span></th>
+								<th class="center_text"><span>0%</span></th>
+								<th class="center_text"><span>0%</span></th>
+								<th class="center_text"><span>0%</span></th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		<div class="col-md-3">
+			<div class="component_part" style="min-height: 90px;">
+			<h5 style="margin:3px 0 5px 0">Direktur Sponsor : <span style="margin-right:15px"><?php echo $program->dir_spon?></span></h5>
+			<h5 style="margin:3px 0 5px 0">PMO Head : <span style="margin-right:15px"><?php echo $program->pmo_head?></span></h5>
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="component_part">
+			<div class="col-md-2">
+			<div class="component_part" style="min-height: 90px;" >
 				<div class="row">
 					<div class="col-md-3">
-						<img src="<?php echo base_url();?>assets/img/general/no-profile-img.gif" alt="..." class="img-circle" style="height:60px;">
+						<img src="<?php echo base_url();?>assets/img/general/no-profile-img.gif" alt="..." class="img-circle" style="height:66px;padding-left: 5px;">
 					</div>
 					<div class="col-md-9">
 						<div>
-							<h4 style="margin:5px 0 10px 0"><span style="margin-right:15px"><?php echo $user_init->name?></span></h4>
+							<h5 style="margin:3px 0 5px 0; padding-left: 15px;"><span style="margin-right:15px;"><?php echo $user_init->name?></span></h5>
 						</div>
 						<div>
-							<h4>Co-Pmo</h4>
+							<h5 style="padding-left: 15px;">Co-Pmo<h5>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="component_part">	
-		<div style="margin-bottom:10px; float:left">
+		</div>	
+			</div>
+		<!-- <div style="margin-bottom:10px; float:left">
 			<span class="circle circle-notyet circle-lg text-left"></span>Not Started Yet
 			<span class="circle circle-inprog circle-lg text-left" style="margin-left:10px"></span>In Progress
 			<span class="circle circle-atrisk circle-lg text-left" style="margin-left:10px"></span>At Risk
 			<span class="circle circle-delay circle-lg text-left" style="margin-left:10px"></span>Delay
 			<span class="circle circle-completed circle-lg text-left" style="margin-left:10px"></span>Completed
-		</div>
+		</div> -->
 		
 		<!--<div style="margin-bottom:10px; float:left">
 			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>" style="color:black">Status:</a>
@@ -55,10 +81,10 @@
 			
 		</div>
 		
-		<div id="initiative_content">
+		<div class="component_part" id="initiative_content">
 			<table class="table table-stripped">
-				<thead>
-				<tr class="headertab"><th colspan=3>Deliverable</th><th>Actions</th><th style="width:20%">Date</th><th>Last Update</th>
+				<thead class="black_color old_grey_color_bg">
+				<tr><th colspan=3>Deliverable</th><th>Actions</th><th style="width:20%">Date</th><th>Last Update</th>
 				<th>
 					<?php $roles = explode(',',$user['role']); if(in_array("admin",$roles)){?><div style="float:left;">
 						<button onclick="input_initiative('',<?php echo $program->id?>);" class="btn btn-info-new btn-sm"><span class="glyphicon glyphicon-plus"></span> Deliverable</button>

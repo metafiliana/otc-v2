@@ -7,7 +7,7 @@
 		color: black;
 	}
 </style>
-<div style="padding:5px 10px 5px 0">
+<div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
 	<!-- <div>
 		<div style="font-size:16px">
 			<span style="color:grey; font-size:11px">Category</span>
@@ -29,7 +29,25 @@
 	<h2><?php echo $segment?></h2> -->
 	<div style="">
 		<div class="row">
-			<div class="col-md-5">
+		<div class="col-md-4">
+            </div>
+		<?php if($page=="all"){?>
+			<div class="col-md-3">
+				<div class="component_part" style="height: 80px;">
+					<div class="dropdown">
+					<span class="center_text" style="font-size:14px; margin-right:10px; margin-bottom: 0px;">Filter </span>
+	                <select onchange="filter_data();" id="code_filter" name="code_filter" class="dropdown-toggle" data-width="100%" aria-haspopup="true" aria-expanded="true">
+	                    <option value="category">Category</option>
+	                    <option value="dir_spon">Direktur Sponsor</option>
+	                    <option value="pmo_head">PMO Head</option>
+	                </select>
+	                </div>
+	                <div id="list_of_filter" class="dropdown">
+	                </div>
+                </div>
+            </div>
+            <?php }?>
+            <div class="col-md-5">
 				<div class="component_part">
 					<table class="table" style="margin-bottom:0">
 						<thead>
@@ -53,22 +71,7 @@
 					</table>
 				</div>
 			</div>
-			<?php if($page=="all"){?>
-			<div class="col-md-3">
-				<div class="component_part" style="padding:10px 5px 5px 5px">
-					<div>
-					<span class="center_text" style="font-size:14px; margin-right:10px;">Filter </span>
-	                <select onchange="filter_data();" id="code_filter" name="code_filter"  class="selectpicker show-tick" data-width="100%">
-	                    <option value="category">Category</option>
-	                    <option value="dir_spon">Direktur Sponsor</option>
-	                    <option value="pmo_head">PMO Head</option>
-	                </select>
-	                </div>
-	                <div id="list_of_filter">
-	                </div>
-                </div>
-            </div>
-            <?php }?>
+			
 		</div>
 		<div style="clear:both"></div>
 		<div style="clear:both">
@@ -80,6 +83,9 @@
 	</div><div style="clear:both"></div><br>
 </div>
 <script>
+$(document).ready(function(){
+    $('.dropdown-toggle').dropdown()
+});
 	function delete_program(id, event){
 		bootbox.confirm("Apa anda yakin?", function(confirmed) {
 			if(confirmed===true){
