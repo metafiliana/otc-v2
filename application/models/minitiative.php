@@ -181,6 +181,27 @@ class Minitiative extends CI_Model {
         return $res;
     }
 
+    function get_init_workblocks_status_init_code($init_id){
+        $arr = array();
+        
+        $arr['inprog'] = count($this->get_wb_status_sum_init_code('In Progress', $init_id));
+        $arr['notyet'] = count($this->get_wb_status_sum_init_code('Not Started Yet', $init_id));
+        $arr['complete'] = count($this->get_wb_status_sum_init_code('Completed', $init_id));
+        $arr['delay'] = count($this->get_wb_status_sum_init_code('Delay', $init_id));
+        
+        return $arr;
+    }
+    
+    function get_wb_status_sum_init_code($status, $program_id){
+        $this->db->select('workblock.status as wbstat');
+        $this->db->where('workblock.status', $status);
+        $this->db->where('code', $program_id);
+        //$this->db->join('workblock', 'workblock.initiative_id = initiative.id');
+        $query = $this->db->get('workblock');
+        $res = $query->result();
+        return $res;
+    }
+
     function get_wb_total($init){
         $this->db->where('initiative_id', $init);
         $query = $this->db->get('workblock');
@@ -292,6 +313,34 @@ class Minitiative extends CI_Model {
         return $arr;
         
     }
+
+    function get_initiative_status_by_init_code($id,$end){
+        $this->db->where('code', $id);
+        $this->db->order_by('status', 'asc');
+        $query = $this->db->get('workblock');
+        $result = $query->result();
+        $status = ""; $arr = array();
+        if($result){
+            foreach($result as $res){
+                if($status){
+                    if($res->status == "Delay"){$status = "Delay";}
+                    else{
+                        if($status != "Delay"){
+                            if($res->status == "In Progress"){$status = "In Progress";}
+                            elseif($status=="Completed" && $res->status == "Not Started Yet"){$status = "In Progress";}
+                        }
+                    }
+                }
+                else{$status = $res->status;}
+            }
+            if($status == "Delay"){if($end>date("Y-m-d")){$status="At Risk";}}
+        }
+        $arr['status']=$status;
+        $arr['sumwb']=count($result);
+        $arr['wb']=$result;
+        return $arr;
+        
+    }
     
     function get_initiative_status_only($init){
         $status =  $this->get_initiative_status($init->id,$init->end)['status'];
@@ -337,6 +386,11 @@ class Minitiative extends CI_Model {
 
     function get_total_wb_by_init($init){
         $sumwb =  $this->get_initiative_status($init->id,$init->end)['sumwb'];
+        return $sumwb;
+    }
+
+    function get_total_wb_by_init_code($init){
+        $sumwb =  $this->get_initiative_status_by_init_code($init->code,'')['sumwb'];
         return $sumwb;
     }
     
