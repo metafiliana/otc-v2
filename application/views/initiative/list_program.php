@@ -7,7 +7,7 @@
 		
 		<div style="margin-bottom:10px; float:left">
 			<a href="<?php echo base_url()?>initiative/list_programs" style="color:black">Status:</a>
-			<a href="<?php echo base_url()?>initiative/list_programs/nsy" style="color:black"><button class="btn btn-inverse btn-xs"><span style="color:grey" class="glyphicon glyphicon-off"></span></button><span style="margin-right:10px"> Not Started Yet</span></a>
+			<a href="<?php echo base_url()?>initiative/list_programs/nsy" style="color:black"><button class="btn btn-inverse btn-xs"><span style="color:grey" class="glyphicon glyphicon-off"></span></button><span style="margin-right:10px"> Not Started Ye</span></a>
 			<a href="<?php echo base_url()?>initiative/list_programs/progress" style="color:black"><button class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-refresh"></span></button><span style="margin-right:10px"> On Progress</span></a>
 			<a href="<?php echo base_url()?>initiative/list_programs/completed" style="color:black"><button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span></button><span style="margin-right:10px"> Completed</span></a>
 			<a href="<?php echo base_url()?>initiative/list_programs/delay" style="color:black"><button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button><span> Delay</span></a>

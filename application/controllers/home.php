@@ -20,8 +20,9 @@ class Home extends CI_Controller {
 		$data['title'] = "Home";
 		$user = $this->session->userdata('user');
         $data['user']=$user;
-        $data['sidebar'] = $this->load->view('shared/sidebar_2',$data,TRUE);
-		//$data['header'] = $this->load->view('shared/header','',TRUE);	
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$data,TRUE);
+
+		$data['header'] = $this->load->view('shared/header-new','',TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('home/home',$data,TRUE);
 

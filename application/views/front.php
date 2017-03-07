@@ -14,6 +14,11 @@
         <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
+
+
+        <link href="<?php echo base_url();?>assets/css/ajax-bootstrap-select.min.css" rel="stylesheet" />
+        <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
+        <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
         <script>
 			var config = {
 				 base: "<?php echo base_url(); ?>"
@@ -47,15 +52,19 @@
         
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/grafik.js"></script>
         
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/ajax-bootstrap-select.min.js"></script>
+
     </head>
     
     <body>
+    <div class="header"><?php echo $header; ?></div>
         <div id="modal_finder">
+        <nav class="navbar navbar-default" style="border:0px; margin-bottom:0px;">
+            <?php echo $header; ?>
+        </nav>
         </div>
-        <?php if($sidebar){ $cont = "content";?><div class="sidebar_nav_left"><?php echo $sidebar; ?></div><?php }
-        	else{ $cont = "content_no_sb";}
-        ?>
-        <div class="<?php echo $cont?>">
+        <div>
         	<?php echo $content; ?>
         	<?php echo $footer; ?>
     	</div>
