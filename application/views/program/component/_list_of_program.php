@@ -37,11 +37,11 @@
 				<?php $pv_init = $prog['prog']->segment;}?>
 			</td>
 			<td>
-				<?php if($pv_init != $prog['prog']->segment){?>
-				<?php foreach($prog['metric'] as $metric){?>
-				<?php echo $metric->metric?></br>
-				<?php }?>
-					<?php }?>
+				<?php if($prog['metric']!=null & $index<count($prog['metric'])){?>
+
+				<?php echo $prog['metric'][$index]->metric;?></br>
+
+					<?php $index++;}else{$index=0;}?>
 			</td>
 			<td style="width:400px">
 				<div style="float:left; width:50px; margin-right:5px;"><?php echo substr($prog['prog']->code, -1)?></div> 
