@@ -72,17 +72,14 @@
     </head>
     
     <body>
-    <div class="header"><?php echo $header; ?></div>
-        <div id="modal_finder">
+        <div id="modal_finder"></div>
         <nav class="navbar navbar-default" style="border:0px; margin-bottom:0px;">
             <?php echo $header; ?>
         </nav>
-        </div>
         <div>
         	<?php echo $content; ?>
         	<?php echo $footer; ?>
     	</div>
-        
         <div style="clear:both"></div>
         
     </body>
