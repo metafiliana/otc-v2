@@ -293,6 +293,9 @@ hr{
 .btn-info-new{color:white;
 	background-color:#424242;
 	border-radius: 256px;}
+.btn-info-new:hover{
+	color:white !important;
+}
 
 
 /********** Button Section ************/
@@ -1023,6 +1026,10 @@ input.valid{
 
 .modal_detail > .modal-dialog {
 	width:60% !important;
+}
+
+.modal-backdrop{
+	z-index: 0 !important;
 }
 
 .progress { position:relative; width:100%; border-radius: 3px; margin-top: 3px; }

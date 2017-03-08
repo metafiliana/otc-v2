@@ -65,8 +65,8 @@
 			</td>
 			<td><?php if($prog['wb_total']==0){"0";}else{ echo(($prog['wb_status']['complete']/$prog['wb_total'])*100);}?>%</td>
 			<?php if($user['role']=='admin'){?><td style="width:50px">
-				<button class="btn btn-warning  btn-xs" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></button>
-				<button class="btn btn-danger btn-xs" onclick="delete_program(<?php echo $prog['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></button>
+				<a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a class="btn btn-link btn-link-delete" onclick="delete_program(<?php echo $prog['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
 			</td><?php }?>
 		</tr>
 		<?php $i++;}?>
