@@ -10,6 +10,8 @@
 		background-color: white;
 		border-radius: 5px;
 		padding-bottom: 20px;
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 </style>
 <script>
@@ -24,8 +26,10 @@ $(document).ready(function(){
 </script>
 
 <div style="height:100%;">
-	<div class="col-md-10 login-form container" style="position: relative; margin-top: 10%;">
-		<form class="form-signin" style="width: 400px;" action="<?php echo base_url();?>user/userEnter" method="post" role="form">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-8 login-form container" style="position: relative; margin-top: 5%;">
+		<form class="form-signin" action="<?php echo base_url();?>user/userEnter" method="post" role="form">
 			<div class="center_text">
 				<img style="height:80px; margin-left:0px; padding-top: 5px; text-align: center;" src="<?php echo base_url()?>assets/img/general/tower.png">
 			<h3 class="center_text">Restart Corplan</h3></div>
@@ -36,12 +40,15 @@ $(document).ready(function(){
 			<button style="margin-top:15px; width: 150px; float: right;" class="btn btn-lg btn-info btn-block center_text" type="submit" style="border-radius: 7px;">Log In</button>
 		</form>
 		<?php if($params){?>
-		<div class="login_alert" style="margin-top:20px;">
-			<div id="login_failed" class="alert alert-danger fade in">  
+		<div class="login_alert" style="margin-top:70px;">
+			<div id="login_failed" class="alert alert-danger fade in center_text" style="margin-right: 15px; margin-left: 15px;">  
 				<a class="close" data-dismiss="alert">×</a>  
-				<strong>Login Failed ! </strong> Username and Password do not match.
+				<strong style="text-align: center;">Login Failed ! Username and Password do not match.</strong>
 			</div>
 		</div>
 		<?php }?>
 	</div>
+	<div class="col-md-2">
+			
+		</div>
 </div>
