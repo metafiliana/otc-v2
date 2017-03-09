@@ -25,6 +25,14 @@ class Mworkblock extends CI_Model {
     
     //GET FUNCTION
     
+    function get_count_workblock(){
+    $this->db->select('*');
+    $this->db->from('workblock');
+    $query = $this->db->get();
+    $res = count($query->result());
+    return $res;
+    }
+
     function get_all_initiative_workblock($initiative_id){
     	$this->db->where('initiative_id', $initiative_id);
     	$this->db->order_by('id', 'asc');

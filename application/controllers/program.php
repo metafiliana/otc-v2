@@ -44,37 +44,11 @@ class Program extends CI_Controller {
 		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
 		$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
+		$prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
 		$init = $this->mprogram->get_init_code();
 		//$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
 		//$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
-
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['header'] = $this->load->view('shared/header-new','',TRUE);
-		//$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
-		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
-
-		$this->load->view('front',$data);
-    }
-
-    public function new_program(){
-    	//$segment = $this->uri->segment(3);
-    	//if(!$segment){$segment = "Accelerate the growth segment";}
-    	
-    	$data['title'] = "List All Program";
-    	//$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
-		
-    	$prog['page']="all";
-
-		$user = $this->session->userdata('user');
-		$prog['user'] = $user;
-		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-
-		$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
-		$init = $this->mprogram->get_init_code();
-		//$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
-		//$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
-		$prog['list_program'] = $this->load->view('program/component/_list_of_program_new',$prog,TRUE);
 
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['header'] = $this->load->view('shared/header-new','',TRUE);

@@ -2,7 +2,6 @@
 	<thead class="black_color old_grey_color_bg">
 		<tr>
 			<th style="vertical-align:middle" rowspan=2>Initiative</th>
-			<th style="vertical-align:middle" rowspan=1>Metric</th>
 			<th style="vertical-align:middle" rowspan=2>Sub Initiative</th>
 			<th style="vertical-align:middle" rowspan=2>Last Update</th>
 			<th style="vertical-align:middle">Status</th>
@@ -17,16 +16,13 @@
 	<tbody>
 		<?php 
 		$segment=""; $i=1; $segnum=1;
-		$pv_init = ""; $total_percent="";$index=0;
+		$pv_init = ""; $total_percent="";
 		foreach($programs as $prog){?>
 		<tr id="prog_<?php echo $prog['prog']->id?>">
 			<!--<td style="width:40px"><?php echo $prog['status']['Not Started Yet']?></td>-->
 			<td style="width:400px">
 				<?php if($pv_init != $prog['prog']->segment){?>
 					<div style="float:left; width:50px; margin-right:5px;"><?php echo $prog['prog']->init_code?>
-					</div>
-					<div>
-					<?php if($prog['total']!=null && $prog['tot_kual']!=null && isset($prog['tot_kual'])){echo 'Total Kuantitatif & Kualitatif: '.(number_format((($prog['total']+$prog['tot_kual'])/2), 2, ',', ' ')).'%';}else{}?>
 					</div>
 					<b><div style="float:left; max-width:300px"><?php echo $prog['prog']->segment?></div></b>
 					<div style="clear:both"></div>
@@ -35,13 +31,6 @@
 					<b><div style="float:left; max-width:300px; margin-top:10px">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
 					<div style="clear:both"></div>
 				<?php $pv_init = $prog['prog']->segment;}?>
-			</td>
-			<td>
-				<?php if($prog['metric']!=null & $index<count($prog['metric'])){?>
-
-				<?php echo $prog['metric'][$index]->metric;?></br>
-
-					<?php $index++;}else{$index=0;}?>
 			</td>
 			<td style="width:400px">
 				<div style="float:left; width:50px; margin-right:5px;"><?php echo substr($prog['prog']->code, -1)?></div> 
@@ -58,9 +47,9 @@
 				<span style="font-size:14px; color:<?php echo color_status('Not Started Yet')?>; font-weight:bold">No Action</span>
 			<?php } else{ ?>
 			<?php if(($prog['wb_status']['complete']/$prog['wb_total'])*100==0){ ?>
-			<span style="font-size:14px; color:<?php echo color_status('Delay')?>; font-weight:bold">Delay</span>
+				<span style="font-size:14px; color:<?php echo color_status('Delay')?>; font-weight:bold">Delay</span>
 			<?php } else{ ?>
-			<span style="font-size:14px; color:<?php echo color_status($prog['init_status'])?>; font-weight:bold"><?php echo $prog['init_status']?></span>
+				<span style="font-size:14px; color:<?php echo color_status($prog['init_status'])?>; font-weight:bold"><?php echo $prog['init_status']?></span>
 			<?php } }?> 
 			</td>
 			<td><?php if($prog['wb_total']==0){"0";}else{ echo(($prog['wb_status']['complete']/$prog['wb_total'])*100);}?>%</td>
