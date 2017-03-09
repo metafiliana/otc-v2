@@ -59,22 +59,7 @@ $user = $this->session->userdata('user');
 			</div>
 		</div>	
 			</div>
-		<!-- <div style="margin-bottom:10px; float:left">
-			<span class="circle circle-notyet circle-lg text-left"></span>Not Started Yet
-			<span class="circle circle-inprog circle-lg text-left" style="margin-left:10px"></span>In Progress
-			<span class="circle circle-atrisk circle-lg text-left" style="margin-left:10px"></span>At Risk
-			<span class="circle circle-delay circle-lg text-left" style="margin-left:10px"></span>Delay
-			<span class="circle circle-completed circle-lg text-left" style="margin-left:10px"></span>Completed
-		</div> -->
 		
-		<!--<div style="margin-bottom:10px; float:left">
-			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>" style="color:black">Status:</a>
-			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>/nsy" style="color:black"><button class="btn btn-inverse btn-xs"><span style="color:grey" class="glyphicon glyphicon-off"></span></button><span style="margin-right:10px"> Not Started Yet</span></a>
-			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>/progress" style="color:black"><button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-refresh"></span></button><span style="margin-right:10px"> On Progress</span></a>
-			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>/completed" style="color:black"><button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span></button><span style="margin-right:10px"> Completed</span></a>
-			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>/risk" style="color:black"><button class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-exclamation-sign"></span></button><span style="margin-right:10px"> At Risk</span></a>
-			<a href="<?php echo base_url()?>initiative/list_initiative/<?php echo $this->uri->segment(3)?>/delay" style="color:black"><button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></button><span> Delay</span></a>
-		</div>-->
 		<div style="clear:both"></div>
 		
 		<div id="new_initiative">

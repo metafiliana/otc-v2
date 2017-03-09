@@ -2,7 +2,7 @@
 	span.glyphicon-home:hover  {
  	 color: #154391 !important;
 	}
-	.glyphicon{
+	.home_glyph{
 		color: #afaaa3;
 	}
 
@@ -68,26 +68,16 @@
 <?php 
 	$contr = $this->uri->segment(1);
 	$func = $this->uri->segment(2);
-	$user = $this->session->userdata('userdb'); $user_disp="";
+	$user = $this->session->userdata('user'); $user_disp="";
 	$arr_role = explode(";",$user['role']);
-	if($user){
-		$user_name_words = explode(" ",$user['full_name']);
-		$user_disp = $user_name_words[0];
-		if(strlen($user_disp) < 3){
-			$user_disp = $user_name_words[0]." ".$user_name_words[1];
-		}
-		if(isset($user['panggilan'])&& $user['panggilan']){
-			$user_disp = $user['panggilan'];
-		}
-	}
 	$page_tit=""; if(isset($page_name)){$page_tit = $page_name;}
 ?>
 <div class="navbar-top">
 	<div class="row" style="width:100%; margin:0 auto; padding:0px 5px 0px 5px;background-color: #fff; 
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
-		<div class="col-md-2">
-			<span style="margin-right:5px;margin-left: 40px;" class="btn btn-lg glyphicon glyphicon-home" aria-hidden="true"></span>
-		  	<span style="margin-right:5px;" class="btn btn-lg glyphicon glyphicon-home dropdown-toggle" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+		<div class="col-md-4">
+			<span style="margin-right:5px;margin-left: 40px;" class="btn btn-lg glyphicon glyphicon-home home_glyph" aria-hidden="true"></span>
+		  	<span style="margin-right:5px;" class="btn btn-lg glyphicon glyphicon-home dropdown-toggle home_glyph" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
 			  <ul class="dropdown-menu">
 			    <li><a href="#">Action</a></li>
 			    <li><a href="#">Another action</a></li>
@@ -96,24 +86,22 @@
 			    <li><a href="#">Separated link</a></li>
 			  </ul>
 		</div>
-		<div class="col-md-8 center_text">
+		<div class="col-md-4 center_text">
 			<img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/general/tower.png">
 		</div>
-		<div class="col-md-2 dropdown pull-right" style="height:45px; padding:10px 10px 0px 10px;">
-			<div style="float:right">
-				<button style="margin-top:-5px; margin-right: 40px; padding-top:0px;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					<div style="height:35px; width:35px; border-radius:30px; overflow:hidden; float:left; border:1px solid #e3e3e3">
-						<?php if(!$user['profile_picture']){if(file_exists("assets/img/user photo/".$user['nik'].".jpg")){?>
-							<img style="width:100%" src="<?php echo base_url()?>assets/img/user photo/<?php echo $user['nik']?>.jpg">
-						<?php }else{?>
-							<img style="height:50px; margin-left:0px;" src="<?php echo base_url()?>assets/img/general/profile.gif">
-						<?php }}else{?>
-							<img style="width:100%" src="<?php echo base_url().$user['profile_picture']?>">
-						<?php }?>
-					</div>
-					<div style="clear:both"></div>
-				</button>
-				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
+		<div class="col-md-4" style="height:45px; padding:10px 0px 0px 0px;">
+			<div class="row">
+				<div class="col-md-4 pull-right">
+				<div class="black_color" style="font-size:12px;"><?php long_text_all($user['name'],15);?></div>
+				<div class="black_color" style="font-size:10px;"><?php echo $user['role']?></div>
+				</div><div style="clear:both"></div>
+				<div class="col-md-4 dropdown pull-right">
+					<button style="margin:-40px 30px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<div style="height:35px; width:35px; border-radius:30px; overflow:hidden; border:1px solid #e3e3e3">
+							<img style="height:50px; margin-left:0px;" width="100%" src="<?php echo base_url()?>assets/img/general/no-profile-img.gif">
+						</div>
+					</button>
+					<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
 					<li role="presentation" style="padding:5px 0 5px;">
 						<a role="menuitem" tabindex="-1" href="<?php echo base_url()?>updates" style="color:#189cb8;">
 							<img style="height:18px; margin-right:10px;" src=""> Home
@@ -129,8 +117,13 @@
 							<img style="height:18px; margin-right:10px;" src=""> External Link
 						</a>
 					</li>
+					<li role="presentation" style="padding:5px 0 5px;">
+						<a class="black_color" href="<?php echo base_url()?>user/logout"><span class="btn-lg glyphicon glyphicon-off" style="height: 10px;"></span> Log Out</a>
+					</li>
 					<li class="divider"></li>
-				</ul>
+					</ul>
+				</div><div style="clear:both"></div>
+			</div>
 			</div>
 		</div>
 	</div>	

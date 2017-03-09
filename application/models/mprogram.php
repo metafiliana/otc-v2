@@ -49,8 +49,8 @@ class Mprogram extends CI_Model {
 
     function get_program_by_init_code($code){
         $this->db->distinct();
-        $this->db->select('segment, category, dir_spon, pmo_head');
-        $this->db->where('init_code',$code);
+        $this->db->select('segment, category, dir_spon, pmo_head,init_code');
+        if($code)$this->db->where('init_code',$code);
         $query = $this->db->get('program');
         return $query->result();
     }
@@ -82,21 +82,20 @@ class Mprogram extends CI_Model {
         	$arr[$i]['prog'] = $prog;
         	$code = explode('.',$prog->code);
             $init_id=$prog->init_id;
-        	$arr[$i]['code'] = ($code[0]*100)+$code[1];
-        	$arr[$i]['date'] = $this->minitiative->get_initiative_minmax_date($prog->id);
+        	//$arr[$i]['code'] = ($code[0]*100)+$code[1];
+        	//$arr[$i]['date'] = $this->minitiative->get_initiative_minmax_date($prog->id);
         	$arr[$i]['lu'] = $this->minitiative->get_initiative_last_update($prog->id);
             $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
             $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
             $arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code);
-            $arr[$i]['metric'] = $this->mprogram->get_metric_by_init_code($prog->init_code);
+            //$arr[$i]['metric'] = $this->mprogram->get_metric_by_init_code($prog->init_code);
             $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
 
         	$arr[$i]['status'] = $this->get_program_status($prog->id);
             $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
             $arr[$i]['sub_init_total'] = count($this->minitiative->get_all_program_initiatives($prog->id));
-            $wb_total= count($this->get_total_wb_by_init_code($prog->init_code));
-            $wb_complete = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code)['complete'];
-            if($wb_complete!=0){$arr[$i]['tot_kual']= $wb_complete/$wb_total;}else{$arr[$i]['tot_kual']=null;}
+            //count($this->get_total_wb_by_init_code($prog->init_code));
+            //$arr[$i]['wb_all_status'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code);
             
             //$arr[$i]['kuantitatif']=$this->get_kuantitatif_by_init_code($prog->init_code);
         	$i++;

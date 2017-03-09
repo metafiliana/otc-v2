@@ -71,5 +71,10 @@
     echo substr($string,0,$char); 
     if((strlen($string))>$char){echo " . . .";}
     }
+
+    function long_text_all($string,$char){
+    echo substr($string,0,$char); 
+    if((strlen($string))>$char){echo "";}
+    }
     
     

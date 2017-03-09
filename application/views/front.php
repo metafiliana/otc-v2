@@ -9,9 +9,9 @@
         <link href="<?php echo base_url();?>assets/css/token-input.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sb-admin-2.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/cthree/c3.min.css" rel="stylesheet" />
-        <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+        <!-- <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet"> -->
         <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
         <!-- <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
         <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
 
@@ -19,6 +19,11 @@
         <link href="<?php echo base_url();?>assets/css/ajax-bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
+
+        <!--DATA TABLES-->
+        <link href="<?php echo base_url();?>assets/js/DataTables-1.10.9/css/jquery.dataTables.css" rel="stylesheet"/>
+        <link href="<?php echo base_url();?>assets/js/DataTables-1.10.9/css/buttons.dataTables.min.css" rel="stylesheet"/>
+
         <script>
 			var config = {
 				 base: "<?php echo base_url(); ?>"
@@ -42,8 +47,17 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/script.js"></script>
         
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tokeninput.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+        <!--<script type="text/javascript" src="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>-->
         
+        <!--DATA TABLES-->
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/dataTables.buttons.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/jszip.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/buttons.print.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/pdfmake.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/vfs_fonts.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/buttons.html5.js"></script>
+
         <!-- Highchart -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/highcharts.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/modules/exporting.js"></script>
@@ -58,17 +72,14 @@
     </head>
     
     <body>
-    <div class="header"><?php echo $header; ?></div>
-        <div id="modal_finder">
+        <div id="modal_finder"></div>
         <nav class="navbar navbar-default" style="border:0px; margin-bottom:0px;">
             <?php echo $header; ?>
         </nav>
-        </div>
         <div>
         	<?php echo $content; ?>
         	<?php echo $footer; ?>
     	</div>
-        
         <div style="clear:both"></div>
         
     </body>

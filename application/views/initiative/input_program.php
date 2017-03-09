@@ -1,4 +1,3 @@
-<link href="<?php echo base_url();?>assets/css/user.css" rel="stylesheet"/>
 <div class="modal fade" id="popup_Modal" tabindex="-13" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="width:50%;">
     <div class="modal-content">
@@ -6,9 +5,8 @@
 			<div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
-			<div id="" class="container no_pad">
-				<div class="col-md-12">
-					<div class="form-signin">
+			<div>
+				<div class="form-signin">
 					<h3 class="form-signin-heading">Input Sub-Initiative</h3>
 					<form class="form-horizontal" 
 					action="<?php if(isset($all)){
@@ -30,14 +28,13 @@
 						<?php if(isset($all)){?>
 							<?php echo $all_list?>
 						<?php } else{?>
-						<div id="all_list">
-						</div>
+							<div id="all_list">
+							</div>
 						<?php }?>
 						<hr>
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
 					</form>
 				</div>
-			</div>
 			</div>
 		</div>
 		</div>
