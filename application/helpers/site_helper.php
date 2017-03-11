@@ -61,6 +61,20 @@
 			return 1;}
     	
     }
+
+    function insert_notification($ctrl,$content,$id_to,$id_from,$init_id){
+        $notif['date_time'] = date('Y-m-d h:i:s');
+        $notif['notification'] = $content;
+        $notif['status'] = 'unread';
+        $notif['user_id_to'] = $id_to;
+        $notif['user_id_from'] = $id_from;
+        $notif['init_id'] = $$init_id;
+
+        
+        if($ctrl->mremark->insert_notification($notif)){
+            return 1;}
+        
+    }
     
     function excelDateToDate($readDate){
 		$phpexcepDate = $readDate-25569; //to offset to Unix epoch

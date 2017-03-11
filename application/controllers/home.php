@@ -6,6 +6,7 @@ class Home extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('mmilestone');
+        $this->load->model('mremark');
         $session = $this->session->userdata('user');
         if(!$session){
             redirect('user/login');
@@ -21,8 +22,8 @@ class Home extends CI_Controller {
 		$user = $this->session->userdata('user');
         $data['user']=$user;
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$data,TRUE);
-
-		$data['header'] = $this->load->view('shared/header-new','',TRUE);	
+        $data['notif_count']=count($this->mremark->get_notification_by_user_id($user['id']));
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('home/home',$data,TRUE);
 

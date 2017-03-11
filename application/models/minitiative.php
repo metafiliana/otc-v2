@@ -235,7 +235,7 @@ class Minitiative extends CI_Model {
     }
     
     function get_initiative_by_id($id){
-    	$this->db->select('initiative.*, program.title as program, program.code as program_code, program.segment as segment, program.*');
+    	$this->db->select('initiative.*, program.title as program, program.code as program_code, program.segment as segment, program.*, initiative.title as init_title');
         $this->db->join('program', 'program.id = initiative.program_id');
         $this->db->where('initiative.id',$id);
         $result = $this->db->get('initiative');
@@ -286,6 +286,12 @@ class Minitiative extends CI_Model {
         return $arr;
     }*/
     
+    function get_initiative_status_only($init){
+        $status =  $this->get_initiative_status($init->id,$init->end)['status'];
+        if(!$status){$status = $init->status;}
+        return $status;
+    }
+
     function get_initiative_status($id,$end){
     	$this->db->where('initiative_id', $id);
     	$this->db->order_by('status', 'asc');
@@ -341,9 +347,9 @@ class Minitiative extends CI_Model {
         return $arr;
         
     }
-    
-    function get_initiative_status_only($init){
-        $status =  $this->get_initiative_status($init->id,$init->end)['status'];
+
+    function get_status_only_by_prog_id($init,$id){
+        $status =  $this->get_initiative_status_by_prog_id($id,$init->end)['status'];
         if(!$status){$status = $init->status;}
         return $status;
     }
@@ -376,12 +382,6 @@ class Minitiative extends CI_Model {
         $arr['wb']=$result;
         return $arr;
         
-    }
-    
-    function get_status_only_by_prog_id($init,$id){
-        $status =  $this->get_initiative_status_by_prog_id($id,$init->end)['status'];
-        if(!$status){$status = $init->status;}
-        return $status;
     }
 
     function get_total_wb_by_init($init){

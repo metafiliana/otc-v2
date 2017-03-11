@@ -20,7 +20,19 @@ class Mremark extends CI_Model {
     //INSERT or CREATE FUNCTION
     
     function insert_remark($program){
-    	return $this->db->insert('remark', $program);
+    	if($this->db->insert('remark', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
+    function insert_notification($program){
+        if($this->db->insert('notification', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
     }
     
     //GET FUNCTION
@@ -54,6 +66,16 @@ class Mremark extends CI_Model {
         }else{
             return false;
         }
+    }
+
+    function get_notification_by_user_id($id){
+        $this->db->select('notification.*, user.name as user_name');
+        $this->db->join('user','notification.user_id_from = user.id');
+        $this->db->where('status', 'unread');
+        $this->db->where('user_id_to', $id);
+        $this->db->order_by('date_time', 'desc');
+        $query = $this->db->get('notification');
+        return $query->result();
     }
     
     //UPDATE FUNCTION

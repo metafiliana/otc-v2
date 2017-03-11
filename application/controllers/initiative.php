@@ -217,7 +217,6 @@ class Initiative extends CI_Controller {
 		if((in_array('PIC',$roles))&&!(in_array('PMO',$roles))){
 			$user_initiative = explode(';',$user_info->initiative);	
 		}
-		
 		$user_init = $this->muser->get_user_by_init_code($program->init_code);
 		$initiatives = $this->minitiative->get_program_initiatives($user_initiative, $program_id);
 
@@ -330,13 +329,21 @@ class Initiative extends CI_Controller {
     	$program['created'] = date('Y-m-d h:i:s');
         
         $id = $this->input->post('id');
-        
+        $user_id_to = $this->input->post('user_id');
+
         if($id){
-        	if($this->mremark->update_remark($program,$id)){$json['status'] = 1;}
+        	if($this->mremark->update_remark($program,$id)){
+        		$json['status'] = 1;
+        	}
         	else{$json['status'] = 0;}
         }
         else{
-        	if($this->mremark->insert_remark($program)){$json['status'] = 1;}
+        	if($this->mremark->insert_remark($program)){
+        		$initiative=$this->minitiative->get_initiative_by_id($init_id);
+        		$content = "<p> ".$user['name']." Memberi Komentar pada inisiatif <b> ".$initiative->title." </b> pada Deliverable <b>".$initiative->init_title." </b><br><br>yaitu : ".$program['content']."</p>";
+        		insert_notification($this,$content,$user_id_to,$program['user_id'],$init_id);
+        		$json['status'] = 1;
+        	}
         	else{$json['status'] = 0;}
 		}
                 
@@ -352,19 +359,20 @@ class Initiative extends CI_Controller {
     public function edit_remark(){
 		$id = $this->input->get('id');
 		$init = $this->input->get('init');
+		$user_id = $this->input->get('user_id');
 
     	if($id){
 			$remark = $this->mremark->get_remark_by_id($id); 
 			if($remark){
 				$json['status'] = 1;
-				$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>$remark,'init_id'=>$init),TRUE);
+				$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>$remark,'init_id'=>$init,'user_id'=>$user_id),TRUE);
 			}else{
 				$json['status'] = 0;
 			}
 		}
 		else{
 			$json['status'] = 1;
-			$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>'','init_id'=>$init),TRUE);
+			$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>'','init_id'=>$init,'user_id'=>$user_id),TRUE);
 		}
 		$this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));

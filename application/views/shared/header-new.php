@@ -6,6 +6,13 @@
 		color: #afaaa3;
 	}
 
+	body a.notif{
+		color: #afaaa3;
+	}
+	body a.notif:hover{
+		color: #154391 !important;
+	}
+
 	.logo_company a:hover{
 		text-decoration: none;
 	}
@@ -64,6 +71,21 @@
 	    display:none;
 	  }
 	}
+
+	#notification_count
+	{
+	padding: 0px 3px 2px 3px;
+	background: #cc0000;
+	color: #ffffff;
+	font-weight: bold;
+	margin-left: 2px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	position: absolute;
+	margin-top: 13px;
+	font-size: 13px;
+	}
 </style>
 <?php 
 	$contr = $this->uri->segment(1);
@@ -77,14 +99,9 @@
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
 		<div class="col-md-4">
 			<span style="margin-right:5px;margin-left: 40px;" class="btn btn-lg glyphicon glyphicon-home home_glyph" aria-hidden="true"></span>
-		  	<span style="margin-right:5px;" class="btn btn-lg glyphicon glyphicon-home dropdown-toggle home_glyph" aria-hidden="true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
-			  <ul class="dropdown-menu">
-			    <li><a href="#">Action</a></li>
-			    <li><a href="#">Another action</a></li>
-			    <li><a href="#">Something else here</a></li>
-			    <li role="separator" class="divider"></li>
-			    <li><a href="#">Separated link</a></li>
-			  </ul>
+				<a href="#" class="btn notif glyphicon glyphicon-envelope btn-lg" style="padding-top:-10px;">
+					<?php if($notif_count){?><span id="notification_count"><?php if($notif_count){echo $notif_count;} ?></span><?php } ?>
+				</a>
 		</div>
 		<div class="col-md-4 center_text">
 			<img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/general/tower.png">
@@ -130,7 +147,5 @@
 </div>
 
 <script>
-$(document).ready(function(){
-    $('.dropdown-toggle').dropdown()
-});
+$('.dropdown-toggle').dropdown()
 </script>

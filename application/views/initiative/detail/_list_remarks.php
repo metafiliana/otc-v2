@@ -9,7 +9,7 @@
 			</div>
 			<div style="float:right">
 				<?php if($user['role']=='admin' || $remark->user_name==$user['name']){?>
-				<button onclick="edit_remark(<?php echo $remark->id?>,<?php echo $remark->initiative_id?>);" class="btn btn-warning  btn-xs" style="width:20px; padding:0; margin-left:5px"><i style="font-size:14px" class="fa fa-pencil fa-fw"></i></button>
+				<button onclick="edit_remark(<?php echo $remark->id?>,<?php echo $remark->initiative_id?>,'');" class="btn btn-warning  btn-xs" style="width:20px; padding:0; margin-left:5px"><i style="font-size:14px" class="fa fa-pencil fa-fw"></i></button>
 				<button onclick="delete_remark(<?php echo $remark->id?>);"class="btn btn-danger  btn-xs" style="width:20px; padding:0; margin-left:0px"><i style="font-size:14px" class="fa fa-trash-o fa-fw"></i></button>
 				<?php } ?>
 			</div>
