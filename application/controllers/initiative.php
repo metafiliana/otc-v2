@@ -12,7 +12,8 @@ class Initiative extends CI_Controller {
         $this->load->model('mprogram');
         $this->load->model('mfiles_upload');
         $this->load->model('muser');
-        
+        $this->load->helper('url');
+
         $session = $this->session->userdata('user');
         
         if(!$session){
@@ -203,6 +204,7 @@ class Initiative extends CI_Controller {
 	
 	public function list_program_initiative(){
     	$data['title'] = "List All Initiatives";
+		
 		$program_id = $this->uri->segment(3);
 		
 		//Header
@@ -229,6 +231,29 @@ class Initiative extends CI_Controller {
 		$this->load->view('front',$data);
     }
     
+    public function update_notification(){
+		$id = $this->input->get('id');
+		if($id){
+			$prog['status']='read';
+			$this->mremark->update_notification($prog,$id);
+		}
+    	$json['status'] = 1;
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+
+	public function mark_as_read(){
+		$user_id = $this->input->get('user_id');
+		if($user_id){
+			$prog['status']='read';
+			$this->mremark->update_notification_by_user_id($prog,$user_id);
+		}
+    	$json['status'] = 1;
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+
+
     public function input_initiative(){
 		$id = $this->input->get('id');
 		$program_id = $this->input->get('program');
@@ -340,8 +365,8 @@ class Initiative extends CI_Controller {
         else{
         	if($this->mremark->insert_remark($program)){
         		$initiative=$this->minitiative->get_initiative_by_id($init_id);
-        		$content = "<p> ".$user['name']." Memberi Komentar pada inisiatif <b> ".$initiative->title." </b> pada Deliverable <b>".$initiative->init_title." </b><br><br>yaitu : ".$program['content']."</p>";
-        		insert_notification($this,$content,$user_id_to,$program['user_id'],$init_id);
+        		$content = "".$user['name']." </b> Komentar pada Deliverable <b>".$initiative->init_title."</b> <br>Yaitu:".$program['content']."";
+        		insert_notification($this,$content,$user_id_to,$init_id);
         		$json['status'] = 1;
         	}
         	else{$json['status'] = 0;}

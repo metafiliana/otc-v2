@@ -62,13 +62,12 @@
     	
     }
 
-    function insert_notification($ctrl,$content,$id_to,$id_from,$init_id){
+    function insert_notification($ctrl,$content,$id_to,$init_id){
         $notif['date_time'] = date('Y-m-d h:i:s');
         $notif['notification'] = $content;
         $notif['status'] = 'unread';
         $notif['user_id_to'] = $id_to;
-        $notif['user_id_from'] = $id_from;
-        $notif['init_id'] = $$init_id;
+        $notif['init_id'] = $init_id;
 
         
         if($ctrl->mremark->insert_notification($notif)){

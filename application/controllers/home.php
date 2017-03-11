@@ -20,10 +20,14 @@ class Home extends CI_Controller {
 
 		$data['title'] = "Home";
 		$user = $this->session->userdata('user');
+        
         $data['user']=$user;
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$data,TRUE);
-        $data['notif_count']=count($this->mremark->get_notification_by_user_id($user['id']));
-		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
+
+        $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
+		
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('home/home',$data,TRUE);
 

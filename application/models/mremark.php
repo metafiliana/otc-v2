@@ -68,9 +68,9 @@ class Mremark extends CI_Model {
         }
     }
 
-    function get_notification_by_user_id($id){
-        $this->db->select('notification.*, user.name as user_name');
-        $this->db->join('user','notification.user_id_from = user.id');
+    function get_notification_by_user_id($id,$limit){
+        $this->db->select('*');
+        if($limit) $this->db->limit($limit, 0); 
         $this->db->where('status', 'unread');
         $this->db->where('user_id_to', $id);
         $this->db->order_by('date_time', 'desc');
@@ -83,6 +83,16 @@ class Mremark extends CI_Model {
     function update_remark($program,$id){
         $this->db->where('id',$id);
         return $this->db->update('remark', $program);
+    }
+
+    function update_notification($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('notification', $program);
+    }
+
+    function update_notification_by_user_id($program,$id){
+        $this->db->where('user_id_to',$id);
+        return $this->db->update('notification', $program);
     }
     
     //DELETE FUNCTION

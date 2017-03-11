@@ -98,10 +98,31 @@
 	<div class="row" style="width:100%; margin:0 auto; padding:0px 5px 0px 5px;background-color: #fff; 
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
 		<div class="col-md-4">
-			<span style="margin-right:5px;margin-left: 40px;" class="btn btn-lg glyphicon glyphicon-home home_glyph" aria-hidden="true"></span>
-				<a href="#" class="btn notif glyphicon glyphicon-envelope btn-lg" style="padding-top:-10px;">
-					<?php if($notif_count){?><span id="notification_count"><?php if($notif_count){echo $notif_count;} ?></span><?php } ?>
-				</a>
+			<div class="btn-group dropdown dropdown-notifications sw-open">
+			  <button class="btn btn-default dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown">
+			    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
+			    <span class="caret"></span>
+			  </button>
+			  <div class="dropdown-container">
+			   <div class="dropdown-toolbar">
+			      <div class="dropdown-toolbar-actions">
+			        <a onclick="mark_as_read(<?php echo $user['id']?>);"><i></i> Mark all as read</a>
+			      </div>
+			      <h3 class="dropdown-toolbar-title">Notifications (<?php if($notif_count){echo $notif_count;}?>)</h3>
+			    </div>
+			    <?php if($notif){ foreach ($notif as $notifs ) { ?>
+			    <ul class="dropdown-menu notifications">
+			      <a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $notifs->init_id;?>" onclick="update_notif(<?php echo $notifs->id;?>)">
+			      <?php echo $notifs->notification; ?>
+			      </a>
+			    </ul>
+			    <hr>
+		     	<?php } } ?>
+			    <!-- <div class="dropdown-footer text-center">
+                	<a>View All</a>
+              	</div> -->
+			  </div>
+			</div>
 		</div>
 		<div class="col-md-4 center_text">
 			<img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/general/tower.png">
@@ -147,5 +168,34 @@
 </div>
 
 <script>
-$('.dropdown-toggle').dropdown()
+$('.dropdown-toggle').dropdown();
+
+function update_notif(id,init_id){
+		$.ajax({
+			type: "GET",
+			url: config.base+"initiative/update_notification",
+			data: {id: id},
+			dataType: 'json',
+			cache: false,
+			success: function(resp){
+				if(resp.status==1){
+				}else{}
+			}
+		});
+}
+
+function mark_as_read(user_id){
+		$.ajax({
+			type: "GET",
+			url: config.base+"initiative/mark_as_read",
+			data: {user_id: user_id},
+			dataType: 'json',
+			cache: false,
+			success: function(resp){
+				if(resp.status==1){
+					window.location.reload();
+				}else{}
+			}
+		});
+}
 </script>
