@@ -99,6 +99,7 @@ class Program extends CI_Controller {
 		$init_id= explode(";",$this->muser->get_user_by_id($user['id'])->initiative);
 		
 		$prog['programs'] = $this->mprogram->get_segment_programs('',$init_id,'','');
+		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
 		$data['header'] = $this->load->view('shared/header-new','',TRUE);
