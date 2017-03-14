@@ -19,10 +19,7 @@ class mkuantitatif_update extends CI_Model {
     }
 
 
-    function get_kuantitatif(){
-        $query = $this->db->get('kuantitatif_update');
-        return $query;
-    }
+
 
     //INSERT or CREATE FUNCTION
 

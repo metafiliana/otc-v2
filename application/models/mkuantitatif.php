@@ -19,8 +19,12 @@ class Mkuantitatif extends CI_Model {
     }
     
     //INSERT or CREATE FUNCTION
-    
-    
+
+    function get_kuantitatif(){
+        $query = $this->db->get('kuantitatif');
+        return $query;
+    }
+
     function insert_kuantitatif($program){
         if($this->db->insert('kuantitatif', $program)){
             return $this->db->insert_id();

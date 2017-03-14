@@ -42,7 +42,7 @@ class Kuantitatif extends CI_Controller {
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $prog['programs'] = $this->mkuantitatif_update->get_kuantitatif()->result_array();
+        $prog['programs'] = $this->mkuantitatif->get_kuantitatif()->result_array();
 //        $kuantitatif = $this->mkuantitatif_update->get_kuantitatif()->result();
 //        print_r($kuantitatif);
 //        die;
