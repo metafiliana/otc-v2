@@ -61,6 +61,50 @@ class Kuantitatif extends CI_Controller {
         $this->load->view('front',$data);
     }
 
+
+    public function my_kuantitatif()
+    {
+        //redirect('kuantiatif/list_programs');
+        //$segment = $this->uri->segment(3);
+        //if(!$segment){$segment = "Accelerate the growth segment";}
+
+        $data['title'] = "List All Program";
+
+
+        //$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
+
+        $prog['page']="all";
+
+        $user = $this->session->userdata('user');
+
+//        $username = $user['username'];
+//        print_r($username);
+//        die;
+        $prog['user'] = $user;
+        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+
+        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_by_user($user['username'])->result_array();
+//        $kuantitatif = $this->mkuantitatif_update->get_kuantitatif()->result();
+//        print_r($kuantitatif);
+//        die;
+        $prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
+        $init = $this->mprogram->get_init_code();
+        //$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
+        //$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
+        $prog['indicator'] = $this->load->view('kuantitatif/component/_indicator',$prog,TRUE);
+        $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif',$prog,TRUE);
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new','',TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        $data['content'] = $this->load->view('kuantitatif/list_kuantitatif',$prog,TRUE);
+
+        $this->load->view('front',$data);
+
+
+
+    }
+
     /*Program*/
     public function list_programs(){
         //$segment = $this->uri->segment(3);
