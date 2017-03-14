@@ -51,8 +51,11 @@ class Program extends CI_Controller {
 		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
+		$data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
+
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['header'] = $this->load->view('shared/header-new','',TRUE);
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		//$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
 		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
 
@@ -79,9 +82,11 @@ class Program extends CI_Controller {
 		//$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
 
 		//$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
+		$data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
 
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
 		$data['content'] = $this->load->view('program/summary',$views,TRUE);
 
 		$this->load->view('front',$data);
@@ -102,9 +107,11 @@ class Program extends CI_Controller {
 		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
-		$data['header'] = $this->load->view('shared/header-new','',TRUE);
+		$data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
+
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		// $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
 		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
 
 		$this->load->view('front',$data);

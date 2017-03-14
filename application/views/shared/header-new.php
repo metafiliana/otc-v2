@@ -1,9 +1,10 @@
 <style>
-	span.glyphicon-home:hover  {
- 	 color: #154391 !important;
+	.glyphicon-home:hover  {
+ 	 border-bottom: 5px solid #A8D8F0;
 	}
-	.home_glyph{
-		color: #afaaa3;
+
+	.sw-open:hover  {
+ 	 border-bottom: 5px solid #A8D8F0;
 	}
 
 	body a.notif{
@@ -65,6 +66,10 @@
 	    display:none;
 	  }
 	}
+
+	.btn{
+		border:0px solid transparent; /* this was 1px earlier */
+ 	}
 </style>
 <?php 
 	$contr = $this->uri->segment(1);
@@ -76,11 +81,11 @@
 <div class="navbar-top">
 	<div class="row" style="width:100%; margin:0 auto; padding:0px 5px 0px 5px;background-color: #fff; 
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
-		<div class="col-md-4" style="padding:5px 0px 0px 0px;">
+		<div class="col-md-4">
 			<div class="btn-group">
-				<a href="<?php echo base_url()?>" class="btn btn-default glyphicon glyphicon-home"></a>
-				<div class="dropdown dropdown-notifications sw-open btn btn-default" style="margin-top:1px;">
-				  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown">
+				<a href="<?php echo base_url()?>" class="btn btn-default glyphicon glyphicon-home" style="font-size:18px;"></a>
+				<div class="dropdown dropdown-notifications sw-open btn btn-default">
+				  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown" style="font-size:18px; padding-top:5px;">
 				    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
 				    <span class="caret"></span>
 				  </span>

@@ -9,7 +9,7 @@
         <link href="<?php echo base_url();?>assets/css/token-input.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sb-admin-2.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/cthree/c3.min.css" rel="stylesheet" />
-        <!-- <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet"> -->
+        <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap-notifications.min.css" rel="stylesheet">
         <!-- <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -46,9 +46,13 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/cthree/d3.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/script.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/ajax-bootstrap-select.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/grafik.js"></script>
         
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tokeninput.js"></script>
-        <!--<script type="text/javascript" src="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>-->
+        <script type="text/javascript" src="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
         
         <!--DATA TABLES-->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/jquery.dataTables.js"></script>
@@ -63,12 +67,12 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/highcharts.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/modules/exporting.js"></script>
         
-        <script type="text/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
-        
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/grafik.js"></script>
-        
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/ajax-bootstrap-select.min.js"></script>
+        <!-- AmCharts -->
+        <script src="<?php echo base_url();?>assets/js/amcharts/amcharts.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/js/amcharts/pie.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/js/amcharts/serial.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>assets/export-amchart/export.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/amcharts/gauge.js"></script>
 
     </head>
     
