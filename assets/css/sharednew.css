@@ -19,7 +19,7 @@
 	color: #EBF34C;
 }
 .green_color{
-	color: #59A80F;
+	color: #2BD621;
 }
 
 .grey_color_bg{
@@ -41,8 +41,30 @@
 	background-color: #E73F3F;
 }
 .green_color_bg{
-	background-color: #59A80F;
+	background-color: #2BD621;
 }
+
+.circle.text-left{margin-left:0;}
+.circle{
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	border-radius: 500px;
+	margin: 0 .5em;
+	background-color: #ddd;
+	vertical-align: baseline;
+	border: 2px solid transparent;
+}
+.circle-lg{
+	width: 14px;
+	height: 14px;
+}
+.circle-notyet{background-color:#EAEAEA;}
+.circle-inprog{background-color:#2BD621;}
+.circle-delay{background-color:#E73F3F;}
+.circle-atrisk{background-color:#EBF34C;}
+.circle-completed{background-color:#A8D8F0;}
+
 
 @font-face {
 font-family: 'Myriad Pro Light';
@@ -969,27 +991,6 @@ input.valid{
 	display:block;
 	font-weight:bold;
 }
-
-.circle.text-left{margin-left:0;}
-.circle{
-	display: inline-block;
-	width: 7px;
-	height: 7px;
-	border-radius: 500px;
-	margin: 0 .5em;
-	background-color: #ddd;
-	vertical-align: baseline;
-	border: 2px solid transparent;
-}
-.circle-lg{
-	width: 14px;
-	height: 14px;
-}
-.circle-notyet{background-color:#EAEAEA;}
-.circle-inprog{background-color:#59A80F;}
-.circle-delay{background-color:#E73F3F;}
-.circle-atrisk{background-color:#EBF34C;}
-.circle-completed{background-color:#A8D8F0;}
 
 .text-left{text-align:left;}
 

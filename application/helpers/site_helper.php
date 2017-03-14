@@ -29,7 +29,7 @@
     
     function color_status($status){
     	if($status == "Not Started Yet"){return "#EAEAEA";}
-    	elseif($status == "In Progress"){return "#59A80F";}
+    	elseif($status == "In Progress"){return "#2BD621";}
     	elseif($status == "Completed"){return "#A8D8F0";}
     	elseif($status == "At Risk"){return "#EBF34C";}
     	elseif($status == "Delay"){return "#E73F3F";}
