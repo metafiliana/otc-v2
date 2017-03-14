@@ -18,6 +18,12 @@ class mkuantitatif_update extends CI_Model {
         $this->load->model('minitiative');
     }
 
+
+    function get_kuantitatif(){
+        $query = $this->db->get('kuantitatif_update');
+        return $query;
+    }
+
     //INSERT or CREATE FUNCTION
 
 
