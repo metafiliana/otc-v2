@@ -151,10 +151,6 @@ hr{
 .page_nav{text-align: right; margin-top: -25px; margin-bottom: 25px; font-size: 16px; padding-right: 5px;}
 .page_nav span{font-size: 14px;}
 
-
-
-
-
 /********** Font & BG ************/
 .first_font{
 	color:#ff9900;
@@ -177,11 +173,6 @@ hr{
 	background-color: #137c93;
 	color:white;
 }
-/********** End Font ************/
-
-
-
-
 
 /********** Div Custom Section ************/
 .shadow_box{
@@ -278,10 +269,6 @@ hr{
 }
 
 .legend_box{width: 12px; height: 12px; border-radius: 2px;}
-/********** End Div Custom Section ************/
-
-
-
 
 /********** Form Section ************/
 .form-group{
@@ -289,14 +276,12 @@ hr{
 }
 /********** End Form Section ************/
 
-
 .btn-info-new{color:white;
 	background-color:#424242;
 	border-radius: 256px;}
 .btn-info-new:hover{
 	color:white !important;
 }
-
 
 /********** Button Section ************/
 .btn-brobot{
@@ -363,8 +348,6 @@ hr{
 	border-color:#929292;
 }
 /********** End of Button Section ************/
-
-
 
 
 /*CBIC NEW CSS*/

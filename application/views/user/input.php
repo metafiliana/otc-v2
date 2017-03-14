@@ -78,9 +78,7 @@ $(document).ready(function(){
 				<label class="col-sm-3 control-label">Role</label>
 				<div class="col-sm-9">
 					<select id="" class="form-control" name="role">
-						<option value='PIC' <?php if($info){if($info->role=="PIC"){echo "selected";}}?>>PIC</option>
-						<option value='PMO' <?php if($info){if($info->role=="PMO"){echo "selected";}}?>>PMO</option>
-						<option value='PIC,PMO' <?php if($info){if($info->role=="PIC,PMO"){echo "selected";}}?>>PIC,PMO</option>
+						<option value='Co-PMO' <?php if($info){if($info->role=="Co-PMO"){echo "selected";}}?>>Co-PMO</option>
 						<option value='admin' <?php if($info){if($info->role=="admin"){echo "selected";}}?>>Admin</option>
 					</select>
 				</div>
@@ -95,12 +93,6 @@ $(document).ready(function(){
 				<label class="col-sm-3 control-label">Unit Kerja</label>
 				<div class="col-sm-9">
 					<input type="text" class="form-control" id="unitkerja" name="unitkerja" placeholder="Unit Kerja" value="<?php if($info){echo $info->unitkerja;}?>">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Segment</label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" id="segment" name="segment" placeholder="Segment" value="<?php if($info){echo $info->segment;}?>">
 				</div>
 			</div>
 			<div class="form-group">
