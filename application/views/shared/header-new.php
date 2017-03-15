@@ -92,13 +92,13 @@
 				  <div class="dropdown-container">
 				   <div class="dropdown-toolbar">
 				      <div class="dropdown-toolbar-actions">
-				        <a onclick="mark_as_read(<?php echo $user['id']?>);"><i></i> Mark all as read</a>
+				        <a onclick="mark_as_read(<?php echo $user['id']?>,'<?php echo $user['role']?>');"><i></i> Mark all as read</a>
 				      </div>
 				      <h3 class="dropdown-toolbar-title">Notifications (<?php if($notif_count){echo $notif_count;}?>)</h3>
 				    </div>
 				    <?php if($notif){ foreach ($notif as $notifs ) { ?>
 				    <ul class="dropdown-menu notifications">
-				      <a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $notifs->init_id;?>" onclick="update_notif(<?php echo $notifs->id;?>)">
+				      <a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $notifs->init_id;?>" onclick="update_notif(<?php echo $notifs->id;?>,'<?php echo $user['role']?>')">
 				      <?php echo $notifs->notification; ?>
 				      </a>
 				    </ul>
@@ -148,11 +148,11 @@
 <script>
 $('.dropdown-toggle').dropdown();
 
-function update_notif(id,init_id){
+function update_notif(id,role){
 		$.ajax({
 			type: "GET",
 			url: config.base+"initiative/update_notification",
-			data: {id: id},
+			data: {id: id, role:role},
 			dataType: 'json',
 			cache: false,
 			success: function(resp){
@@ -162,11 +162,11 @@ function update_notif(id,init_id){
 		});
 }
 
-function mark_as_read(user_id){
+function mark_as_read(user_id,role){
 		$.ajax({
 			type: "GET",
 			url: config.base+"initiative/mark_as_read",
-			data: {user_id: user_id},
+			data: {user_id: user_id, role:role},
 			dataType: 'json',
 			cache: false,
 			success: function(resp){

@@ -77,6 +77,15 @@ class Mremark extends CI_Model {
         $query = $this->db->get('notification');
         return $query->result();
     }
+
+    function get_notification_by_admin($limit){
+        $this->db->select('*');
+        if($limit) $this->db->limit($limit, 0); 
+        $this->db->where('admin_stat', 'unread');
+        $this->db->order_by('date_time', 'desc');
+        $query = $this->db->get('notification');
+        return $query->result();
+    }
     
     //UPDATE FUNCTION
     
@@ -92,6 +101,11 @@ class Mremark extends CI_Model {
 
     function update_notification_by_user_id($program,$id){
         $this->db->where('user_id_to',$id);
+        return $this->db->update('notification', $program);
+    }
+
+    function update_notification_by_admin_stat($program){
+        $this->db->where('admin_stat','unread');
         return $this->db->update('notification', $program);
     }
     

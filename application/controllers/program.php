@@ -34,7 +34,7 @@ class Program extends CI_Controller {
     	//$segment = $this->uri->segment(3);
     	//if(!$segment){$segment = "Accelerate the growth segment";}
     	
-    	$data['title'] = "List All Program";
+    	$data['title'] = "List All Initiative";
     	//$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
 		
     	$prog['page']="all";
@@ -51,8 +51,15 @@ class Program extends CI_Controller {
 		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
-		$data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
+	 	$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
 
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
@@ -82,8 +89,15 @@ class Program extends CI_Controller {
 		//$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
 
 		//$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
-		$data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
+	 	$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
 
 		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -93,7 +107,7 @@ class Program extends CI_Controller {
     }
 
     public function my_inisiatif(){
-    	$data['title'] = "My List Program";
+    	$data['title'] = "My List Initiative";
     	$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
 		
 		$prog['page']="my";
@@ -107,8 +121,15 @@ class Program extends CI_Controller {
 		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
 		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
-		$data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],4);
+	 	$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
 
 		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);

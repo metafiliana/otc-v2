@@ -68,6 +68,7 @@
         $notif['status'] = 'unread';
         $notif['user_id_to'] = $id_to;
         $notif['init_id'] = $init_id;
+        $notif['admin_stat'] = 'unread';
 
         
         if($ctrl->mremark->insert_notification($notif)){
