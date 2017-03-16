@@ -12,7 +12,8 @@ class Initiative extends CI_Controller {
         $this->load->model('mprogram');
         $this->load->model('mfiles_upload');
         $this->load->model('muser');
-        
+        $this->load->helper('url');
+
         $session = $this->session->userdata('user');
         
         if(!$session){
@@ -203,6 +204,7 @@ class Initiative extends CI_Controller {
 	
 	public function list_program_initiative(){
     	$data['title'] = "List All Initiatives";
+		
 		$program_id = $this->uri->segment(3);
 		
 		//Header
@@ -217,19 +219,62 @@ class Initiative extends CI_Controller {
 		if((in_array('PIC',$roles))&&!(in_array('PMO',$roles))){
 			$user_initiative = explode(';',$user_info->initiative);	
 		}
-		
 		$user_init = $this->muser->get_user_by_init_code($program->init_code);
 		$initiatives = $this->minitiative->get_program_initiatives($user_initiative, $program_id);
 
-		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
-		$data['header'] = $this->load->view('shared/header-new','',TRUE);	
+	 	$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		// $data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
 		$data['content'] = $this->load->view('initiative/list_initiative',array('ints' => $initiatives,'program' => $program, 'user_init' => $user_init),TRUE);
 
 		$this->load->view('front',$data);
     }
     
+    public function update_notification(){
+		$id = $this->input->get('id');
+		$role = $this->input->get('role');
+		if($id){
+			if($role=='admin'){
+				$prog['admin_stat']='read';
+				$this->mremark->update_notification($prog,$id);
+			}
+			else{
+				$prog['status']='read';
+				$this->mremark->update_notification($prog,$id);
+			}
+			
+		}
+    	$json['status'] = 1;
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+
+	public function mark_as_read(){
+		$user_id = $this->input->get('user_id');
+		$role = $this->input->get('role');
+		if($user_id){
+			$prog['status']='read';
+			$this->mremark->update_notification_by_user_id($prog,$user_id);
+		}
+		if($role=='admin')
+		{
+			$prog['admin_stat']='read';
+			$this->mremark->update_notification_by_admin_stat($prog);
+		}
+    	$json['status'] = 1;
+		$this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+	}
+
+
     public function input_initiative(){
 		$id = $this->input->get('id');
 		$program_id = $this->input->get('program');
@@ -330,13 +375,21 @@ class Initiative extends CI_Controller {
     	$program['created'] = date('Y-m-d h:i:s');
         
         $id = $this->input->post('id');
-        
+        $user_id_to = $this->input->post('user_id');
+
         if($id){
-        	if($this->mremark->update_remark($program,$id)){$json['status'] = 1;}
+        	if($this->mremark->update_remark($program,$id)){
+        		$json['status'] = 1;
+        	}
         	else{$json['status'] = 0;}
         }
         else{
-        	if($this->mremark->insert_remark($program)){$json['status'] = 1;}
+        	if($this->mremark->insert_remark($program)){
+        		$initiative=$this->minitiative->get_initiative_by_id($init_id);
+        		$content = "".$user['name']." </b> Komentar pada Deliverable <b><br>".$initiative->init_title."</b> <br>Yaitu:".$program['content']."";
+        		insert_notification($this,$content,$user_id_to,$init_id);
+        		$json['status'] = 1;
+        	}
         	else{$json['status'] = 0;}
 		}
                 
@@ -352,19 +405,20 @@ class Initiative extends CI_Controller {
     public function edit_remark(){
 		$id = $this->input->get('id');
 		$init = $this->input->get('init');
+		$user_id = $this->input->get('user_id');
 
     	if($id){
 			$remark = $this->mremark->get_remark_by_id($id); 
 			if($remark){
 				$json['status'] = 1;
-				$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>$remark,'init_id'=>$init),TRUE);
+				$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>$remark,'init_id'=>$init,'user_id'=>$user_id),TRUE);
 			}else{
 				$json['status'] = 0;
 			}
 		}
 		else{
 			$json['status'] = 1;
-			$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>'','init_id'=>$init),TRUE);
+			$json['html'] = $this->load->view('initiative/detail/_form_remarks',array('remark'=>'','init_id'=>$init,'user_id'=>$user_id),TRUE);
 		}
 		$this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));

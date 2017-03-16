@@ -7,6 +7,7 @@ class General extends CI_Controller {
         parent::__construct();
         $this->load->model('mworkblock');
         $this->load->model('mmilestone');
+        $this->load->model('mremark');
         
         $session = $this->session->userdata('user');
         
@@ -41,11 +42,21 @@ class General extends CI_Controller {
     	$data['title'] = 'MoM Tower Center';
     	
     	$user = $this->session->userdata('user');
-    	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-		
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
+    	
+        // $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
+        
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('general/mom',array(),TRUE);
 
 		$this->load->view('front',$data);

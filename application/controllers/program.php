@@ -31,31 +31,42 @@ class Program extends CI_Controller {
     
     /*Program*/
     public function list_programs(){
-        //$segment = $this->uri->segment(3);
-        //if(!$segment){$segment = "Accelerate the growth segment";}
-        
-        $data['title'] = "List All Program";
-        //$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
-        
-        $prog['page']="all";
+    	//$segment = $this->uri->segment(3);
+    	//if(!$segment){$segment = "Accelerate the growth segment";}
+    	
+    	$data['title'] = "List All Initiative";
+    	//$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
+		
+    	$prog['page']="all";
 
-        $user = $this->session->userdata('user');
-        $prog['user'] = $user;
-        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+		$user = $this->session->userdata('user');
+		$prog['user'] = $user;
+		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $prog['programs'] = $this->mprogram->get_segment_programs('','','','');
-        $prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
-        $init = $this->mprogram->get_init_code();
-        //$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
-        //$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);    
-        $prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
+		$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
+		$prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
+		$init = $this->mprogram->get_init_code();
+		//$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
+		//$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
+		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
+		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
-        $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
-        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
-        $data['content'] = $this->load->view('program/list_program',$prog,TRUE);
+	 	$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
 
-        $this->load->view('front',$data);
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+		//$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
+
+		$this->load->view('front',$data);
     }
 
     public function summary(){
@@ -91,25 +102,35 @@ class Program extends CI_Controller {
     }
 
     public function my_inisiatif(){
-        $data['title'] = "My List Program";
-        $prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
-        
-        $prog['page']="my";
-        
-        $user = $this->session->userdata('user');
-        $prog['user'] = $user;
-        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-        $init_id= explode(";",$this->muser->get_user_by_id($user['id'])->initiative);
-        
-        $prog['programs'] = $this->mprogram->get_segment_programs('',$init_id,'','');
-        $prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
+    	$data['title'] = "My List Initiative";
+    	$prog['arr_categ'] = $this->mfiles_upload->get_distinct_col("category","asc","program");
+		
+		$prog['page']="my";
+		
+		$user = $this->session->userdata('user');
+		$prog['user'] = $user;
+		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+		$init_id= explode(";",$this->muser->get_user_by_id($user['id'])->initiative);
+		
+		$prog['programs'] = $this->mprogram->get_segment_programs('',$init_id,'','');
+		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
+		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
-        $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        // $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
-        $data['content'] = $this->load->view('program/list_program',$prog,TRUE);
+	 	$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
 
-        $this->load->view('front',$data);
+		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
+
+		$this->load->view('front',$data);
     }
 
     public function input_program(){
@@ -169,7 +190,15 @@ class Program extends CI_Controller {
             $data['arr'] = $this->mfiles_upload->get_distinct_col("pmo_head","asc","program");
         }
 
-        $json['html'] = $this->load->view('program/component/_list_of_filter',$data,TRUE);
+		if($code=="co_pmo"){
+			$data['arr'] = $this->muser->get_user_co_pmo();
+			$json['html'] = $this->load->view('program/component/_list_of_co_pmo',$data,TRUE);
+
+		}
+		
+		if($code!="co_pmo"){
+			$json['html'] = $this->load->view('program/component/_list_of_filter',$data,TRUE);
+		}		
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
@@ -185,9 +214,8 @@ class Program extends CI_Controller {
     }
 
     public function change_data(){
-        $user = $this->session->userdata('user');
-        $code = $this->input->get('code_filter');
-        $filter = $this->input->get('filter');
+		$code = $this->input->get('code_filter');
+		$filter = $this->input->get('filter');
 
         if($code=="category"){
             $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
@@ -197,13 +225,19 @@ class Program extends CI_Controller {
             $data['programs'] = $this->mprogram->get_segment_programs('','',$filter,'');
         }
 
-        if($code=="pmo_head"){
-            $data['programs'] = $this->mprogram->get_segment_programs('','','',$filter);
-        }
-        
-        $data['user'] = $this->session->userdata('user');
+		if($code=="pmo_head"){
+			$data['programs'] = $this->mprogram->get_segment_programs('','','',$filter);
+		}
 
-        $json['html'] = $this->load->view('program/component/_list_of_program',$data,TRUE);
+		if($code=="co_pmo"){
+			$data['programs'] = $this->mprogram->get_segment_programs('',$filter,'','');
+		}
+		
+		$data['user'] = $this->session->userdata('user');
+
+		$json['html'] = $this->load->view('program/component/_list_of_program',$data,TRUE);
+		$json['wb'] = $this->load->view('program/component/_indicator',$data,TRUE);	
+		$json['completed'] = $this->load->view('program/component/_completed',$data,TRUE);	
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
@@ -331,8 +365,4 @@ class Program extends CI_Controller {
         $phpexcepDate = $readDate-25569; //to offset to Unix epoch
         return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
     }
-
-    //afil
-
-    
 }

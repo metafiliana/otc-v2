@@ -29,7 +29,7 @@
     
     function color_status($status){
     	if($status == "Not Started Yet"){return "#EAEAEA";}
-    	elseif($status == "In Progress"){return "#70E851";}
+    	elseif($status == "In Progress"){return "#2BD621";}
     	elseif($status == "Completed"){return "#A8D8F0";}
     	elseif($status == "At Risk"){return "#EBF34C";}
     	elseif($status == "Delay"){return "#E73F3F";}
@@ -60,6 +60,20 @@
 		if($contr->mlogact->insert_logact($log)){
 			return 1;}
     	
+    }
+
+    function insert_notification($ctrl,$content,$id_to,$init_id){
+        $notif['date_time'] = date('Y-m-d h:i:s');
+        $notif['notification'] = $content;
+        $notif['status'] = 'unread';
+        $notif['user_id_to'] = $id_to;
+        $notif['init_id'] = $init_id;
+        $notif['admin_stat'] = 'unread';
+
+        
+        if($ctrl->mremark->insert_notification($notif)){
+            return 1;}
+        
     }
     
     function excelDateToDate($readDate){

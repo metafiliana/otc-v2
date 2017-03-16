@@ -20,7 +20,19 @@ class Mremark extends CI_Model {
     //INSERT or CREATE FUNCTION
     
     function insert_remark($program){
-    	return $this->db->insert('remark', $program);
+    	if($this->db->insert('remark', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
+    function insert_notification($program){
+        if($this->db->insert('notification', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
     }
     
     //GET FUNCTION
@@ -55,12 +67,46 @@ class Mremark extends CI_Model {
             return false;
         }
     }
+
+    function get_notification_by_user_id($id,$limit){
+        $this->db->select('*');
+        if($limit) $this->db->limit($limit, 0); 
+        $this->db->where('status', 'unread');
+        $this->db->where('user_id_to', $id);
+        $this->db->order_by('date_time', 'desc');
+        $query = $this->db->get('notification');
+        return $query->result();
+    }
+
+    function get_notification_by_admin($limit){
+        $this->db->select('*');
+        if($limit) $this->db->limit($limit, 0); 
+        $this->db->where('admin_stat', 'unread');
+        $this->db->order_by('date_time', 'desc');
+        $query = $this->db->get('notification');
+        return $query->result();
+    }
     
     //UPDATE FUNCTION
     
     function update_remark($program,$id){
         $this->db->where('id',$id);
         return $this->db->update('remark', $program);
+    }
+
+    function update_notification($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('notification', $program);
+    }
+
+    function update_notification_by_user_id($program,$id){
+        $this->db->where('user_id_to',$id);
+        return $this->db->update('notification', $program);
+    }
+
+    function update_notification_by_admin_stat($program){
+        $this->db->where('admin_stat','unread');
+        return $this->db->update('notification', $program);
     }
     
     //DELETE FUNCTION

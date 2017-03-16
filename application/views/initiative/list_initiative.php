@@ -18,14 +18,12 @@ $user = $this->session->userdata('user');
 							<tr class="black_color">
 								<th class="grey_color_bg" style="vertical-align:middle;">Not Started Yet</th>
 								<th class="green_color_bg" style="vertical-align:middle;">In Progress</th>
-								<th class="red_color_bg" style="vertical-align:middle;">At Risk</th>
 								<th class="yellow_color_bg" style="vertical-align:middle;">Delay</th>
 								<th class="blue_color_bg" style="vertical-align:middle;">Completed</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<th class="center_text"><span>0%</span></th>
 								<th class="center_text"><span>0%</span></th>
 								<th class="center_text"><span>0%</span></th>
 								<th class="center_text"><span>0%</span></th>
@@ -161,7 +159,7 @@ $user = $this->session->userdata('user');
 						<td colspan="2" id="list_remarks_<?php echo $int['int']->id?>">
 						</td>
 						<td>
-							<button onclick="edit_remark('',<?php echo $int['int']->id?>);" class="btn btn-info-new btn-sm"><span class="glyphicon glyphicon-plus"></span> Comment</button>
+							<button onclick="edit_remark('',<?php echo $int['int']->id?>,<?php echo $user_init->id?>);" class="btn btn-info-new btn-sm"><span class="glyphicon glyphicon-plus"></span> Comment</button>
 							<?php if($user['role']=='admin'){?>
 							<button onclick="edit_workblock('',<?php echo $int['int']->id?>);" class="btn btn-info-new btn-sm" style="margin-top:10px;"><span class="glyphicon glyphicon-plus"></span> Action</button>
 							<?php }?>
@@ -262,11 +260,11 @@ $user = $this->session->userdata('user');
 		});
 	}
 
-	function edit_remark(id,init){
+	function edit_remark(id,init,user_id){
 		$.ajax({
 			type: "GET",
 			url: config.base+"initiative/edit_remark",
-			data: {id: id, init: init},
+			data: {id: id, init: init, user_id:user_id},
 			dataType: 'json',
 			cache: false,
 			success: function(resp){

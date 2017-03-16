@@ -8,6 +8,7 @@
 			<h5>Comment</h5>
 			<form method ="post" action="<?php echo base_url()?>initiative/submit_remark/<?php echo $init_id?>" method ="post" id="form_remark" role="form">
 				<input type="hidden" value="<?php if($remark){echo $remark->id;}?>" name="id">
+				<input type="hidden" value="<?php if($user_id){echo $user_id;}?>" name="user_id">
 				<div class="form-group">
 					<textarea type="text" class="form-control" name="remark"><?php if($remark){echo $remark->content;}?></textarea>
 				</div>

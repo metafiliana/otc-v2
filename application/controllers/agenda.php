@@ -30,11 +30,19 @@ class Agenda extends CI_Controller {
 		$agendas = $this->magenda->get_all_agenda_month($month, $year);
 		
 		$datereq['month'] = $month; $datereq['year']=$year;
-		
-		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
+			
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
-		// $data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		$data['content'] = $this->load->view('agenda/index_agenda',array('agendas' => $agendas,'datereq'=>$datereq),TRUE);
 
 		$this->load->view('front',$data);

@@ -29,56 +29,6 @@
 </div>
 <script>
 	$(document).ready(function(){
-		/*$("#formpsswd")[0].reset();
-		var response;
-        $.validator.addMethod("notexistemailedit", function(value, element) {
-      		var old_email = '<?php echo $user->username?>';
-      		$.ajax({
-            	type: "POST",
-            	url: "../user/check_existing_email_edit",
-            	data: {email: value, old_email: old_email},
-            	dataType:"json",
-            	async: false,
-            	success: function(result)
-            	{
-                	if(result.value===true){response = true;}else if(result.value===false){response=false;}
-            	}
-            })
-      		return response;
-      	}, "This email address already in used");
-		$("#forminfo").validate({
-			rules: {
-				email: {
-					required: true,
-					email: true,
-					notexistemailedit :true
-				},
-				name: {required: true},
-				telp: {
-					//required: true,
-					number: true
-				}
-			},
-			messages: {
-				email: {
-					required: "Please enter an email",
-					email:"Please enter a valid email address",
-				}
-			}
-		});
-		$("#forminfo").ajaxForm({	
-			beforeSubmit: function() 
-    		{
-    			please_wait_msg("acc_pw");
-    		},
-			success: function(resp) 
-			{
-				if(resp.status==1){
-					$("#acc_pw").html('');
-					succeedMessage('Your account was successfully updated');
-				}
-			},
-		});*/
 		var response2;
 		$("#formpsswd").validate({
 			rules: {
@@ -106,19 +56,20 @@
 			}
 		
 		});
-		$("#formpsswd").ajaxForm({	
-			beforeSubmit: function() 
-    		{
-    			please_wait_msg("pass_pw");
-    		},
-			success: function(resp) 
-			{
-				if(resp.status==1){
-					$("#pass_pw").html('');
-					succeedMessage('Password was successfully updated');
-					$("#formpsswd")[0].reset();
-				}
-			},
-		});
-	});
+	// 	$("#formpsswd").ajaxForm({	
+	// 		beforeSubmit: function() 
+ //    		{
+ //    			please_wait_msg("pass_pw");
+ //    		},
+	// 		success: function(res) 
+	// 		{
+	// 			if(resp.status==1){
+	// 				$("#pass_pw").html('');
+	// 				succeedMessage('Password was successfully updated');
+	// 				$("#formpsswd")[0].reset();
+	// 				location.reload(config.base);
+	// 			}
+	// 		},
+	// 	});
+	// });
 </script>

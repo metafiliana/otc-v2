@@ -78,6 +78,13 @@ class Muser extends CI_Model {
         return $query->result();
     }
     
+    function get_user_co_pmo(){
+        $this->db->select('name,initiative');
+        $this->db->where('role','Co-PMO');
+        $result = $this->db->get('user');
+        return $result->result();
+    }
+
     function get_user_by_id($id){
         $this->db->where('id',$id);
         $result = $this->db->get('user');
@@ -89,10 +96,41 @@ class Muser extends CI_Model {
     }
 
     function get_user_by_init_code($id){
-        $like = "initiative LIKE '$id' OR initiative LIKE '$id%' OR initiative LIKE '%$id'";
+        if($this->get_user_like_1($id)!=false){
+            return $this->get_user_like_1($id);   
+        }
+        if($this->get_user_like_2($id)!=false){
+            return $this->get_user_like_2($id);   
+        }
+        else{
+            return $this->get_user_like_3($id);   
+        }
+    }
+
+    function get_user_like_1($id){
+        $like = "initiative LIKE '$id'";
         $this->db->where("($like)");
-        //$this->db->where('initiative',$id);
-        //$this->db->where("(initiative = ".$id." OR (initiative LIKE '%$id%')");
+        $result = $this->db->get('user');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
+    }
+
+    function get_user_like_2($id){
+        $like = "initiative LIKE '$id%'";
+        $this->db->where("($like)");
+        $result = $this->db->get('user');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
+    }
+    function get_user_like_3($id){
+        $like = "initiative LIKE '%$id'";
+        $this->db->where("($like)");
         $result = $this->db->get('user');
         if($result->num_rows==1){
             return $result->row(0);

@@ -8,6 +8,7 @@ class User extends CI_Controller {
         $this->load->model('muser');
         $this->load->model('mmilestone');
         $this->load->model('minitiative');
+        $this->load->model('mremark');
         $this->load->library('excel');
     }
     
@@ -19,10 +20,18 @@ class User extends CI_Controller {
 			$users = $this->muser->get_all_user();
 			$data['title'] = "User List";
 			$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-		
-			// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
-			// $data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
-			$data['header'] = $this->load->view('shared/header-new','',TRUE);
+		  
+		    $data['user']=$user;
+            if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            }
+            else{
+                $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+                $data['notif']= $this->mremark->get_notification_by_admin(5);
+            }
+			
+            $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
             $data['footer'] = $this->load->view('shared/footer','',TRUE);
 			$data['content'] = $this->load->view('user/list_user',array('user'=>$users),TRUE);
 	
@@ -51,18 +60,29 @@ class User extends CI_Controller {
     
     public function input_user()
     {
-    	$user_id = $this->uri->segment(3); $data_user="";
+    	$user_id = $this->uri->segment(3); 
+        $data_user="";
     	
     	if($user_id){$data_user = $this->muser->get_user_by_id($user_id);}
     	
     	$user = $this->session->userdata('user');
     	$data['title'] = "Input User";
-    	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-		
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv, 'info' => $data_user),TRUE);
-		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+        // $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+        // $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
+		$data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
+        
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        $data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['content'] = $this->load->view('user/input',array(),TRUE);
+        $data['content'] = $this->load->view('user/input',array('info' => $data_user),TRUE);
     
         $this->load->view('front',$data);
     }
@@ -131,7 +151,6 @@ class User extends CI_Controller {
         $user['jabatan'] = $this->input->post('jabatan');
         $user['unitkerja'] = $this->input->post('unitkerja');
         $user['initiative'] = $this->input->post('initiative');
-        $user['segment'] = $this->input->post('segment');
         
         if($id){
 			if($this->muser->update_user($user,$id)){
@@ -161,15 +180,23 @@ class User extends CI_Controller {
 	}
 	
 	public function form_password(){
-    	$data['title'] = 'Recapt Segment';
+    	$data['title'] = 'Change Password';
     	
     	$user = $this->session->userdata('user');
-    	
-		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 		
 		$data_content['segment_status'] = $this->minitiative->get_all_segments_status();
 		
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin(5);
+        }
+        
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);    
 		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('user/form_password',$data_content,TRUE);
@@ -196,10 +223,10 @@ class User extends CI_Controller {
     	$user['password'] = md5($this->input->post('password_new'));
         $user_ses = $this->session->userdata('user');
         if($this->muser->update_user($user,$user_ses['id'])){
-        	$json['status']=1;
+        	// $json['status']=1;
+            // $json['success']=TRUE;
+            redirect('home');
         }
-        $this->output->set_content_type('application/json')
-                     ->set_output(json_encode($json));
     }
     
     public function not_login_yet(){
