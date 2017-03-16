@@ -93,4 +93,35 @@ class Kuantitatif extends CI_Controller {
         $this->load->view('front',$data);
     }
 
+    public function input_kuantitatif(){
+        $data['title'] = "Update Kuantitatif";
+        
+        $id = $this->input->get('id');        
+        
+        if($id){
+            $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
+        }
+
+        $json['html'] = $this->load->view('kuantitatif/input_kuantitatif',$data,TRUE);
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+    }
+
+    public function submit_kuantitatif_update(){
+        $id = $this->uri->segment(3);
+
+        $program['id_kuan'] = $this->input->post('id');
+        $program['year'] = $this->input->post('year');
+        $program['month'] = $this->input->post('month');
+        $program['amount'] = $this->input->post('amount');
+        
+        if($id){
+            $this->mkuantitatif->update_program($program,$id);
+        }
+        else{$this->mkuantitatif->insert_kuantitatif_update($program);}
+        
+        redirect('kuantitatif');
+    }
+
 }

@@ -40,12 +40,22 @@ class Mkuantitatif extends CI_Model {
             return false;
         }
     }
+
+    function insert_kuantitatif_update($program){
+        if($this->db->insert('kuantitatif_update', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
+    
     
     //GET FUNCTION
     
-    function get_program_by_id($id){
+    function get_kuantitatif_by_id($id){
         $this->db->where('id',$id);
-        $result = $this->db->get('program');
+        $result = $this->db->get('kuantitatif');
         if($result->num_rows==1){
             return $result->row(0);
         }else{
