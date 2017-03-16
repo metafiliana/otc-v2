@@ -1,0 +1,9 @@
+index.php
+.htaccess
+/application/config/*
+/application/cache/*
+/application/core/*
+/application/errors/*
+/system/*
+/assets/*
+.DS_Store

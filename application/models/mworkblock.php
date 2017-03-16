@@ -137,6 +137,22 @@ class Mworkblock extends CI_Model {
     		return true;
     	}
     }
+
+    function get_summary_all($status){
+        if (empty($status)){
+            $status = 'Not Started Yet';
+        }
+
+        $sql = 'SELECT b.title AS b_title, a.title AS w_title, a.status, a.`start`, a.`end` FROM workblock AS a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` WHERE a.`status` = "'.$status.'"';
+
+        $result = $this->db->query($sql);
+
+        if($result->num_rows>0){
+            return $result->result_array();
+        }else{
+            return false;
+        }
+    }
     
     // OTHER FUNCTION
 }
