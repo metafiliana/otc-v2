@@ -141,7 +141,7 @@ class Minitiative extends CI_Model {
         return $arr;
     }
     
-    function get_init_workblocks_status($init_id){
+    function get_init_workblocks_status($init_id = null){
     	$arr = array();
     	
     	$arr['inprog'] = count($this->get_wb_status_sum('In Progress', $init_id));
@@ -154,7 +154,9 @@ class Minitiative extends CI_Model {
 
     function get_wb_status_sum($status, $init){
         $this->db->where('status', $status);
-        $this->db->where('initiative_id', $init);
+        if ($init != null){
+            $this->db->where('initiative_id', $init);
+        }
         $query = $this->db->get('workblock');
         $res = $query->result();
         return $res;
@@ -237,7 +239,7 @@ class Minitiative extends CI_Model {
     function get_initiative_by_id($id){
     	$this->db->select('initiative.*, program.title as program, program.code as program_code, program.segment as segment, program.*, initiative.title as init_title');
         $this->db->join('program', 'program.id = initiative.program_id');
-        $this->db->where('initiative.id',$id);
+        // $this->db->where('initiative.id',$id);
         $result = $this->db->get('initiative');
         if($result->num_rows==1){
             return $result->row(0);

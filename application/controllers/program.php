@@ -78,16 +78,17 @@ class Program extends CI_Controller {
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $init_id = 1;
+        $init_id = null; //init
         
         $views['init'] = $this->minitiative->get_initiative_by_id($init_id);
-        $views['init_status'] = $this->minitiative->get_initiative_status_only($views['init']);
+        // $views['init_status'] = $this->minitiative->get_initiative_status_only($views['init']);
         $views['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
         $views['summary_not_started'] = $this->mworkblock->get_summary_all('Not Started Yet');
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
         $views['summary_completed'] = $this->mworkblock->get_summary_all('Completed');
-        $views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'stat'=>$views['init_status'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
+        // $views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'stat'=>$views['init_status'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
+        $views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
         
         //$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
 
