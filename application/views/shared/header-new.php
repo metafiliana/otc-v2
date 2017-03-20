@@ -70,6 +70,11 @@
 	.btn{
 		border:0px solid transparent; /* this was 1px earlier */
  	}
+
+ 	.notifications-wrapper {
+    overflow:auto;
+    max-height: 500px;
+    }
 </style>
 <?php 
 	$contr = $this->uri->segment(1);
@@ -89,7 +94,7 @@
 				    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
 				    <span class="caret"></span>
 				  </span>
-				  <div class="dropdown-container">
+				  <div class="dropdown-container notifications-wrapper">
 				   <div class="dropdown-toolbar">
 				      <div class="dropdown-toolbar-actions">
 				        <a onclick="mark_as_read(<?php echo $user['id']?>,'<?php echo $user['role']?>');"><i></i> Mark all as read</a>
@@ -97,9 +102,9 @@
 				      <h3 class="dropdown-toolbar-title">Notifications (<?php if($notif_count){echo $notif_count;}?>)</h3>
 				    </div>
 				    <?php if($notif){ foreach ($notif as $notifs ) { ?>
-				    <ul class="dropdown-menu notifications">
+				    <ul class="dropdown-menu notifications" style="padding:0 10px 0 10px;">
 				      <a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $notifs->init_id;?>" onclick="update_notif(<?php echo $notifs->id;?>,'<?php echo $user['role']?>')">
-				      <?php echo $notifs->notification; ?>
+				      <?php echo long_text_real($notifs->notification,195); ?>
 				      </a>
 				    </ul>
 				    <hr>
@@ -121,7 +126,7 @@
 				<div class="black_color" style="font-size:10px;"><?php echo $user['role']?></div>
 				</div><div style="clear:both"></div>
 				<div class="col-md-4 dropdown pull-right">
-					<button style="margin:-40px 20px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<button style="margin:-40px 10px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<div style="height:35px; width:35px; border-radius:30px; overflow:hidden; border:1px solid #e3e3e3">
 							<img style="height:50px; margin-left:0px;" width="100%" src="<?php echo base_url()?>assets/img/general/no-profile-img.gif">
 						</div>

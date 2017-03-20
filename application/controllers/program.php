@@ -54,11 +54,11 @@ class Program extends CI_Controller {
 	 	$data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -120,11 +120,11 @@ class Program extends CI_Controller {
 	 	$data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
 		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);

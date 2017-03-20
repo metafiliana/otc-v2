@@ -225,11 +225,11 @@ class Initiative extends CI_Controller {
 	 	$data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -386,7 +386,7 @@ class Initiative extends CI_Controller {
         else{
         	if($this->mremark->insert_remark($program)){
         		$initiative=$this->minitiative->get_initiative_by_id($init_id);
-        		$content = "".$user['name']." </b> Komentar pada Deliverable <b><br>".$initiative->init_title."</b> <br>Yaitu:".$program['content']."";
+        		$content = "<p>".$user['name']." </b> Komentar: ".$program['content']."pada Deliverable <b><br>".$initiative->init_title."</b></p>";
         		insert_notification($this,$content,$user_id_to,$init_id);
         		$json['status'] = 1;
         	}

@@ -62,59 +62,68 @@ class Mkuantitatif extends CI_Model {
             return false;
         }
     }
-    
-    function get_program_by_code($code){
-        $this->db->where('code',$code);
-        $result = $this->db->get('program');
-        if($result->num_rows==1){
+
+    function get_kuantitatif_update($id){
+        $this->db->where('id_kuan',$id);
+        $this->db->order_by('id', 'desc');
+        $result = $this->db->get('kuantitatif_update');
+        if($result){
             return $result->row(0);
         }else{
             return false;
         }
     }
     
-    function get_segment_programs($segment,$init_id,$dir_spon,$pmo_head){
-    	//$this->db->where('role', 3);
-    	if($segment){
-        $this->db->where('category', $segment);
-        }
-        if($dir_spon){
-        $this->db->where('dir_spon', $dir_spon);
-        }
-        if($pmo_head){
-        $this->db->where('pmo_head', $pmo_head);
-        }
-        if($init_id){
-            foreach ($init_id as $row) {
-                $this->db->or_where('init_code', $row);
-            }
-        }
-    	$this->db->order_by('id', 'asc');
-        $this->db->select('program.*, initiative.id as init_id');
-        $this->db->join('initiative','initiative.id = program.id');
-        //$this->db->order_by('code', 'asc');
-    	$query = $this->db->get('program');
+    function get_kuantitatif_with_update(){
+        $this->db->select('*');
+    	$query = $this->db->get('kuantitatif');
     	$arr = array(); $i=0;
         $progs = $query->result();
         foreach($progs as $prog){
         	$arr[$i]['prog'] = $prog;
-        	$code = explode('.',$prog->code);
-            $init_id=$prog->init_id;
-        	$arr[$i]['code'] = ($code[0]*100)+$code[1];
-        	$arr[$i]['date'] = $this->minitiative->get_initiative_minmax_date($prog->id);
-        	$arr[$i]['lu'] = $this->minitiative->get_initiative_last_update($prog->id);
-            $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
-            $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
-            //$arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
-            $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
-            //$arr[$i]['wb_total'] = count($this->minitiative->get_wb_total($init_id));
-
-        	$arr[$i]['status'] = $this->get_program_status($prog->id);
-            $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
-            $arr[$i]['sub_init_total'] = count($this->minitiative->get_all_program_initiatives($prog->id));
+            $arr[$i]['update'] = $this->get_kuantitatif_update($prog->id);
         	$i++;
         }
         return $arr;
+    }
+
+    function get_total_kuantatif(){
+        $this->db->select('*');
+        $query = $this->db->get('kuantitatif');
+        $arr = array(); //$init=""; $total=0; $realisasi=0; $j=0; $total_all=0; $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+           $arr[$prog->init_code] += $this->get_total_kuantitatif_by_id($prog->id);
+        }
+        return $arr;
+    }
+
+    function get_total_kuantitatif_by_id($id){
+        $total=0;$realisasi=0;
+        $this->db->select('*');
+        $this->db->where('id',$id);
+        $query = $this->db->get('kuantitatif');
+        $res = $query->row();
+        if($this->get_kuantitatif_update($id))
+        {
+            $realisasi=$this->get_kuantitatif_update($id)->amount;
+        }
+        else{
+            $realisasi=$res->realisasi;
+        }
+        $total=(($realisasi/$res->target)*100);
+        return $total;
+    }
+
+    function get_last_data_kuantitatif(){
+        return $this->db->select('*')->order_by('id',"desc")->limit(1)->get('kuantitatif');
+    }
+
+    function get_init_code_kuantitatif(){
+        $this->db->distinct();
+        $this->db->select('init_code');
+        $query = $this->db->get('kuantitatif');
+        return $query->result();
     }
     
     function get_all_programs_with_segment($segment){

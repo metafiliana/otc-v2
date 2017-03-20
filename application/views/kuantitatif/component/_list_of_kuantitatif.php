@@ -14,27 +14,31 @@
     <?php foreach($programs as $prog){?>
         <tr >
             <td style="vertical-align:middle">
-                <?php echo $prog['id'];?>
+                <?php echo $prog['prog']->id;?>
             </td>
             <td style="vertical-align:middle">
-                <?php echo $prog['init_code'];?>
+                <?php echo $prog['prog']->init_code;?>
             </td>
             <td style="vertical-align:middle">
-                <?php echo $prog['title'];?>
+                <?php echo $prog['prog']->title;?>
             </td>
             <td style="vertical-align:middle">
-                <?php echo $prog['metric'];?>
+                <?php echo $prog['prog']->metric;?>
             </td>
             <td style="vertical-align:middle">
-                <?php echo $prog['realisasi'];?>
+                <?php if($prog['update']){ echo $prog['update']->amount; }else{ echo $prog['prog']->realisasi; }?>
             </td>
             <td style="vertical-align:middle">
-                <?php echo $prog['target'];?>
+                <?php echo $prog['prog']->target;?>
             </td>
             <td style="vertical-align:middle">
-                <a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['id']?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
             </td>
         </tr>
     <?php }?>
     </tbody>
 </table>
+<div>
+    <h5><?php echo $total['1b']/3 ?></h5>
+    <h5><?php echo $total['1d']/6 ?></h5>
+</div>

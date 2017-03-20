@@ -8,6 +8,7 @@ class Logact extends CI_Controller {
         $this->load->model('mworkblock');
         $this->load->model('mmilestone');
         $this->load->model('mlogact');
+        $this->load->model('mremark');
         
         $session = $this->session->userdata('user');
         
@@ -31,11 +32,11 @@ class Logact extends CI_Controller {
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 		// $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
 		// $data['sidebar'] = $this->load->view('shared/sidebar_2','',TRUE);

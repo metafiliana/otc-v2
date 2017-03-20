@@ -3,10 +3,11 @@ $user = $this->session->userdata('user');
 ?>
 <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="component_part" style="min-height: 90px;">
 				<div>
 					<a class="btn btn-info-new btn-sm" href="<?php echo base_url();?>program/list_programs/">Back</a>
+					<h5 style="margin:5px 0 0 0;"><span style="margin-right:15px"><?php echo $program->init_code?></span><?php echo $program->segment?></h5>
 					<h5 style="margin:5px 0 0 0;"><span style="margin-right:15px"><?php echo $program->code?></span><?php echo $program->title?></h5>
 				</div>
 			</div>
@@ -33,7 +34,7 @@ $user = $this->session->userdata('user');
 					</table>
 				</div>
 			</div>
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<div class="component_part" style="min-height: 90px;">
 			<h5 style="margin:3px 0 5px 0">Direktur Sponsor : <span style="margin-right:15px"><?php echo $program->dir_spon?></span></h5>
 			<h5 style="margin:3px 0 5px 0">PMO Head : <span style="margin-right:15px"><?php echo $program->pmo_head?></span></h5>

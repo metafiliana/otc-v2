@@ -8,6 +8,7 @@ class Agenda extends CI_Controller {
         $this->load->model('muser');
         $this->load->model('magenda');
         $this->load->model('mmilestone');
+        $this->load->model('mremark');
         
         $session = $this->session->userdata('user');
         
@@ -34,11 +35,11 @@ class Agenda extends CI_Controller {
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 			
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);

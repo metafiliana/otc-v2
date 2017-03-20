@@ -34,20 +34,19 @@ class Kuantitatif extends CI_Controller {
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $prog['programs'] = $this->mkuantitatif->get_kuantitatif()->result_array();
-        $prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
-        $init = $this->mprogram->get_init_code();
+        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update();
+        $prog['total'] = $this->mkuantitatif->get_total_kuantatif();
 
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif',$prog,TRUE);
 
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -79,11 +78,11 @@ class Kuantitatif extends CI_Controller {
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin(5);
+            $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);

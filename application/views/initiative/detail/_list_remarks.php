@@ -1,7 +1,7 @@
 <?php $user = $this->session->userdata('user'); ?>
 <?php foreach($remarks as $remark){?>
-	<span>Comment</span>
 	<div style="border-bottom:1px solid #eee; padding:5px 0 5px 5px;" id="remark_<?php echo $remark->id?>">
+	<span>Comment</span>
 		<div style="padding-right: 10px; padding-left:5px; font-size:11px; color:#bbb;">
 			<div style="float:left">
 				<div><b><?php echo date("d M y",strtotime($remark->created))?></b></div>
