@@ -276,4 +276,14 @@ class Muser extends CI_Model {
         
         return $config;
     }
+
+    //afil
+    function get_all_co_pmo(){
+        $this->db->distinct();
+        $this->db->where('role', 'Co-PMO');
+        $this->db->select('name as nama');
+        // $this->db->join('program','kuantitatif.init_code = program.init_code');
+        $query = $this->db->get('user');
+        return $query->result();
+    }
 }
