@@ -56,23 +56,25 @@ $(document).ready(function(){
 							 <div class="form-group">
 								<label class="col-sm-2 control-label">Title</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="title" name="title" placeholder="Title">
+									<input type="text" class="form-control" id="title" name="title" placeholder="Title"<?php if($agenda){echo "value='".$agenda->title."'";}?>>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Location</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="location" name="location" placeholder="Location">
+									<input type="text" class="form-control" id="location" name="location" placeholder="Location" <?php if($agenda){echo "value='".$agenda->location."'";}?>>
 								</div>
 							</div>
 							 <div class="form-group">
 								<label for="" class="col-sm-2 control-label">Date</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" id="start" name="start" placeholder="mm/dd/YYYY" <?php if($choose_date){echo 'value="'.$choose_date.'"';}?>>
+									<?php if($choose_date){echo $choose_date;} else{$choose_date = date("m/d/Y", strtotime($agenda->start));}?>
+									<input type="text" class="form-control" id="start" name="start" placeholder="mm/dd/YYYY" value="<?php echo $choose_date?>" >
 									<small style="color:grey">*format: mm/dd/YYYY</small>
 								</div>
 								<div class="col-sm-2">
-									<input type="text" class="form-control" id="start_time" name="start_time" placeholder="hh:mm" value="08:00">
+									<?php $start_time="08:00"; if($agenda){if($agenda->start){$start_time = date("h:i", strtotime($agenda->start));}}?>
+									<input type="text" class="form-control" id="start_time" name="start_time" placeholder="hh:mm" value="<?php echo $start_time?>">
 									<small style="color:grey">*format: hh:mm</small>
 								</div>
 								<!--
@@ -88,7 +90,10 @@ $(document).ready(function(){
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Description</label>
 								<div class="col-sm-10">
-									<textarea type="text" class="form-control" name="description"></textarea>
+									<textarea type="text" class="form-control" name="description">
+									<?php if($agenda){echo $agenda->description;}else{?>
+									<?php }?>
+									</textarea>
 								</div>
 							</div>	
 							<hr>

@@ -49,8 +49,6 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
-    
-    
     //GET FUNCTION
     
     function get_kuantitatif_by_id($id){
@@ -89,10 +87,14 @@ class Mkuantitatif extends CI_Model {
 
     function get_total_kuantatif(){
         $this->db->select('*');
+        //$this->db->where('init_code','1b');
         $query = $this->db->get('kuantitatif');
-        $arr = array(); //$init=""; $total=0; $realisasi=0; $j=0; $total_all=0; $i=0;
+        $arr = array(); $init="";
         $progs = $query->result();
         foreach($progs as $prog){
+           if(!isset($arr[$prog->init_code])){
+            $arr[$prog->init_code]=0;
+           }
            $arr[$prog->init_code] += $this->get_total_kuantitatif_by_id($prog->id);
         }
         return $arr;
@@ -115,15 +117,37 @@ class Mkuantitatif extends CI_Model {
         return $total;
     }
 
+    function get_init_code_on_kuantitatif(){
+        $this->db->distinct();
+        $this->db->select('init_code');
+        $query = $this->db->get('kuantitatif');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+            $arr[$i]['code'] = $prog;
+            $arr[$i]['count_code'] = $this->get_count_init_code($prog->init_code);
+            $i++;
+        }
+        return $arr;
+    }
+
+    function get_count_init_code($ic){
+        $this->db->select('init_code');
+        $this->db->where('init_code',$ic);
+        $query = $this->db->get('kuantitatif');
+        return count($query->result());
+    }
+
     function get_last_data_kuantitatif(){
         return $this->db->select('*')->order_by('id',"desc")->limit(1)->get('kuantitatif');
     }
 
-    function get_init_code_kuantitatif(){
+    function get_target_year_kuantitatif(){
         $this->db->distinct();
-        $this->db->select('init_code');
+        $this->db->select('target_year');
+        $this->db->order_by('target_year','desc');
         $query = $this->db->get('kuantitatif');
-        return $query->result();
+        return $query->result()[0];
     }
     
     function get_all_programs_with_segment($segment){
@@ -133,40 +157,6 @@ class Mkuantitatif extends CI_Model {
     	}
     	$query = $this->db->get('program');
     	return $query->result();
-    }
-    
-    function get_program_status($program_id){
-    	$allstat = return_arr_status();
-    	$arr_status = array();
-    	foreach($allstat as $each){$arr_status[$each]=0;}
-    	$this->db->where('program_id', $program_id);
-    	$this->db->select('initiative.*, program.segment');
-    	$this->db->join('program','initiative.program_id = program.id');
-    	$query = $this->db->get('initiative');
-    	$inits = $query->result();
-    	foreach($inits as $init){
-    		$status = $this->minitiative->get_initiative_status_only($init);
-    		if(!$status){
-    			if($init->status){$status=$init->status;}
-    			else{$status = "Not Started Yet";}
-    		}
-    		$arr_status[$status] = $arr_status[$status]+1;
-    	}
-    	return $arr_status;
-    }
-    
-    function get_total_wb_by_program($program_id){
-        $this->db->where('program_id', $program_id);
-        $this->db->select('initiative.*, program.segment');
-        $this->db->join('program','initiative.program_id = program.id');
-        $query = $this->db->get('initiative');
-        $inits = $query->result();
-        $status=""; $total="";
-        foreach($inits as $init){
-            $status = $this->minitiative->get_total_wb_by_init($init);
-            $total += $status;
-        }
-        return $total;
     }
 
     //UPDATE FUNCTION

@@ -1,20 +1,21 @@
-<table class="table table-hover table-striped">
+<table class="table table-hover">
     <thead class="black_color old_grey_color_bg">
     <tr>
-        <th style="vertical-align:middle" rowspan=1>Id</th>
-        <th style="vertical-align:middle" rowspan=1>Init Code</th>
-        <th style="vertical-align:middle" rowspan=1>Title</th>
+        <th style="vertical-align:middle">No</th>
+        <th style="vertical-align:middle">Init Code</th>
+        <th style="vertical-align:middle">Initiative Name</th>
         <th style="vertical-align:middle">Metric</th>
         <th style="vertical-align:middle">Realisasi</th>
-        <th style="vertical-align:middle">Target 2017</th>
-        <th>Button</th>
+        <th style="vertical-align:middle">Target <?php if(isset($target_year)) echo $target_year; ?></th>
+        <th style="vertical-align:middle">Percentage</th>
+        <th>Update</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach($programs as $prog){?>
-        <tr >
+    <?php $pv_init=""; $i=1; foreach($programs as $prog){?>
+        <tr>
             <td style="vertical-align:middle">
-                <?php echo $prog['prog']->id;?>
+                <?php echo $i;?>
             </td>
             <td style="vertical-align:middle">
                 <?php echo $prog['prog']->init_code;?>
@@ -31,14 +32,17 @@
             <td style="vertical-align:middle">
                 <?php echo $prog['prog']->target;?>
             </td>
+            <?php if($pv_init != $prog['prog']->init_code){?>
+                <?php foreach($init_code as $inits){ if($prog['prog']->init_code==$inits['code']->init_code){?>
+            <td style="vertical-align:middle" rowspan=<?php echo $inits['count_code'];?>>
+                <?php echo $total[$inits['code']->init_code]/($inits['count_code']) ; ?> %
+            </td>
+                <?php } }?>
+            <?php $pv_init = $prog['prog']->init_code; } ?>
             <td style="vertical-align:middle">
                 <a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
             </td>
         </tr>
-    <?php }?>
+    <?php $i++; }?>
     </tbody>
 </table>
-<div>
-    <h5><?php echo $total['1b']/3 ?></h5>
-    <h5><?php echo $total['1d']/6 ?></h5>
-</div>

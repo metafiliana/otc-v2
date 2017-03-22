@@ -36,6 +36,8 @@ class Kuantitatif extends CI_Controller {
 
         $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update();
         $prog['total'] = $this->mkuantitatif->get_total_kuantatif();
+        $prog['init_code']=$this->mkuantitatif->get_init_code_on_kuantitatif();
+        $prog['target_year']=$this->mkuantitatif->get_target_year_kuantitatif()->target_year;
 
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif',$prog,TRUE);
 
