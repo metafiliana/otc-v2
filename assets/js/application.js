@@ -141,6 +141,7 @@ function change_city(){
 }
 
 function show_popup_modal(resp){
+	bootbox.hideAll();
 	$('#popup_Modal').modal('hide');
 	setTimeout(function(){
   		$('#modal_finder').html(resp);

@@ -32,6 +32,8 @@ class Agenda extends CI_Controller {
 		
 		$datereq['month'] = $month; $datereq['year']=$year;
 
+        $last_agenda =$this->magenda->get_last_agenda(5);
+
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
@@ -44,7 +46,7 @@ class Agenda extends CI_Controller {
 			
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
-		$data['content'] = $this->load->view('agenda/index_agenda',array('agendas' => $agendas,'datereq'=>$datereq),TRUE);
+		$data['content'] = $this->load->view('agenda/index_agenda',array('agendas' => $agendas,'datereq'=>$datereq, 'last_agenda' => $last_agenda),TRUE);
 
 		$this->load->view('front',$data);
     }
@@ -79,6 +81,11 @@ class Agenda extends CI_Controller {
 		$month=$this->input->get('month');
         $day=$this->input->get('day');
         $year=$this->input->get('year');
+        if($this->input->get('id')){
+            $id = $this->input->get('id');
+            $agenda = $this->magenda->get_agenda_by_id($id);
+        }
+         
 		
         if($month)$choose_date=$month."/".$day."/".$year;
         /*if($this->uri->segment(3)&&$this->uri->segment(4)&&$this->uri->segment(5)){
@@ -92,7 +99,7 @@ class Agenda extends CI_Controller {
 
 		$this->load->view('front',$data);*/
 
-        $json['html'] = $this->load->view('agenda/input_agenda',array('agenda' => '','choose_date'=>$choose_date),TRUE);
+        $json['html'] = $this->load->view('agenda/input_agenda',array('agenda' => $agenda,'choose_date'=>$choose_date),TRUE);
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
@@ -116,12 +123,12 @@ class Agenda extends CI_Controller {
     	}
         
         if($id){
-        	if($this->minitiative->update_initiative($program,$id)){redirect('initiative/list_initiative/'.$segment);}
-        	else{redirect('initiative/input_initiative/'.$segment);}
+        	if($this->magenda->update_agenda($program,$id)){redirect('agenda');}
+        	else{redirect('agenda');}
         }
         else{
         	if($this->magenda->insert_agenda($program)){redirect('agenda');}
-        	else{redirect('agenda/input_agenda/');}
+        	else{redirect('agenda');}
         }
     }
     

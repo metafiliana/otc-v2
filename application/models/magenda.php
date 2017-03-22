@@ -23,6 +23,11 @@ class Magenda extends CI_Model {
     function insert_agenda($program){
         return $this->db->insert('agenda', $program);
     }
+
+    function update_agenda($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('agenda', $program);
+    }
     
     //GET FUNCTION
     
@@ -48,6 +53,16 @@ class Magenda extends CI_Model {
     	$this->db->where('id',$id);
     	$result = $this->db->get('agenda');
     	return $result->row(0);
+    }
+
+    function get_last_agenda($limit){
+        $this->db->select('*');
+        $this->db->order_by('id','desc');
+        if($limit){
+            $this->db->limit($limit);
+        }
+        $result = $this->db->get('agenda');
+        return $result->result();
     }
     
     function get_all_programs(){
