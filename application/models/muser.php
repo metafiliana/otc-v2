@@ -97,7 +97,7 @@ class Muser extends CI_Model {
 
     function insert_notification_by_date(){
         $this->db->select('initiative.end as date_time');
-        $this->db->select("CONCAT((user.name),('<p><br> tersisa 7 hari untuk initiative <br>'),(program.code),(' pada deliverable '),(initiative.title)) as notification");
+        $this->db->select("CONCAT((user.name),('<p><br> tersisa 7 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
         $this->db->select('user.id as user_id_to');
         $this->db->select('program.id as init_id');
         $this->db->select('initiative.id as initiativeid');
