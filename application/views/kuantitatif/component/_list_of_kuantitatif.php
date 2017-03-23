@@ -35,7 +35,7 @@
             <?php if($pv_init != $prog['prog']->init_code){?>
                 <?php foreach($init_code as $inits){ if($prog['prog']->init_code==$inits['code']->init_code){?>
             <td style="vertical-align:middle" rowspan=<?php echo $inits['count_code'];?>>
-                <?php echo $total[$inits['code']->init_code]/($inits['count_code']) ; ?> %
+                <?php echo number_format($total[$inits['code']->init_code]/($inits['count_code']),2) ; ?> %
             </td>
                 <?php } }?>
             <?php $pv_init = $prog['prog']->init_code; } ?>
