@@ -95,6 +95,22 @@ class Muser extends CI_Model {
         }
     }
 
+    function insert_notification_by_date(){
+        $this->db->select('initiative.end as date_time');
+        $this->db->select("CONCAT((user.name),('<p><br> tersisa 7 hari untuk initiative <br>'),(program.code),(' pada deliverable '),(initiative.title)) as notification");
+        $this->db->select('user.id as user_id_to');
+        $this->db->select('program.id as init_id');
+        $this->db->select('initiative.id as initiativeid');
+        $this->db->join('program','program.id = initiative.program_id');
+        $this->db->join('user','program.init_code = user.initiative');
+        $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -7 DAY)');
+        $sql = $this->db->get('initiative');
+        foreach($sql->result() as $row){
+            // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
+                $this->db->insert('notification',$row);
+        }
+    }
+
     function get_user_by_init_code($id){
         if($this->get_user_like_1($id)!=false){
             return $this->get_user_like_1($id);   
