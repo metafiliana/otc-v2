@@ -119,6 +119,7 @@ class User extends CI_Controller {
             $params['type_login']="failed";
             $this->login($params);
         }
+        $data['notif_hari'] = $this->muser->insert_notification_by_date();
 	}
 	
 	public function chooseRole()

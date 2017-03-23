@@ -227,4 +227,94 @@ class Mprogram extends CI_Model {
     }
     
     // OTHER FUNCTION
+
+    // afil
+    function get_all_pmo_head(){
+        $sql = 'SELECT pmo_head as nama, a.init_code, (((select count(b.id) from workblock b where b.status = "Completed" AND b.code = a.init_code)) / ((select count(c.id) from workblock c where c.code = a.init_code))) as persenan from program a group by a.init_code ORDER BY nama';
+
+        $result = $this->db->query($sql);
+
+        $item = $result->result_array();
+        $data = array();
+        $nama = '';
+        $completed = 0.0;
+        $total_completed = 0.0;
+        $length = count($result->result_array());
+
+        $j = 0; // counter array $data
+        $k = 0; // counter completed
+        for ($i=0; $i < $length; $i++) { 
+            if ($i == 0){
+                $nama = $item[$i]['nama'];
+            }else{
+                if ($item[$i]['nama'] != "$nama"){
+                    $data[$j]['nama'] = $nama;
+                    $k = ($k != 0) ? $k : 1;
+                    $total_completed = $completed / $k;
+                    $data[$j]['total_completed'] = round($total_completed, 2);
+                    $j++;
+                    $nama = $item[$i]['nama'];
+                }else{
+                    $completed = $completed + $item[$i]['persenan'];
+                    $k++;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    function get_all_dir_spon(){
+        $sql = 'SELECT dir_spon as nama, a.init_code, (((select count(b.id) from workblock b where b.status = "Completed" AND b.code = a.init_code)) / ((select count(c.id) from workblock c where c.code = a.init_code))) as persenan from program a group by a.init_code ORDER BY nama';
+
+        $result = $this->db->query($sql);
+
+        $item = $result->result_array();
+        $data = array();
+        $nama = '';
+        $completed = 0.0;
+        $total_completed = 0.0;
+        $length = count($result->result_array());
+
+        $j = 0; // counter array $data
+        $k = 0; // counter completed
+        for ($i=0; $i < $length-1; $i++) { 
+            if ($i == 0){
+                $nama = $item[$i]['nama'];
+            }else{
+                if ($item[$i]['nama'] !== $nama){
+                    $data[$j]['nama'] = $nama;
+                    $k = ($k != 0) ? $k : 1;
+                    $total_completed = $completed / $k;
+                    $data[$j]['total_completed'] = round($total_completed, 2);
+                    $j++;
+                    $nama = $item[$i]['nama'];
+                }else{
+                    $completed = $completed + $item[$i]['persenan'];
+                    $k++;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    //role = pmo_head
+    //role = dir_spon
+    //role = Co-PMO
+    function getProgramByRole($nama, $role)
+    {
+        // if ($role == 'pmo_head'){
+        //     $nama = $this->mprogram->get_all_pmo_head();
+        // }elseif($role == 'dir_spon'){
+        //     $nama = $this->mprogram->get_all_dir_spon();
+        // }elseif ($role == 'Co-PMO') {
+        //     # code...
+        // }
+
+        $sql = 'select id, '.$role.', title, code from program where '.$role.' = "'.$nama.'"';
+        $result = $this->db->query($sql);
+
+        return $result->result_array();
+    }
 }

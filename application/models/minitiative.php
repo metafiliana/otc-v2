@@ -613,4 +613,16 @@ class Minitiative extends CI_Model {
     }
     
     // OTHER FUNCTION
+
+    //afil
+    function getInitiativeByProgramId($id)
+    {
+        $this->db->select('*');
+        $this->db->where('program_id',$id);
+        $this->db->order_by('title', 'asc');
+        $query = $this->db->get('initiative');
+
+        $result = $query->result();
+        return $result;
+    }
 }

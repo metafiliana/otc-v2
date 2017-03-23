@@ -138,6 +138,8 @@ class Mworkblock extends CI_Model {
     	}
     }
 
+    
+    // afil
     function get_summary_all($status){
         if (empty($status)){
             $status = 'Not Started Yet';
@@ -153,6 +155,93 @@ class Mworkblock extends CI_Model {
             return false;
         }
     }
+
+    // function get_summary_pmo($status){
+    //     if (empty($status)){
+    //         $status = 'Not Started Yet';
+    //     }
+
+    //     $sql = 'SELECT b.title AS b_title, a.title AS w_title, a.status, a.`start`, a.`end` FROM workblock AS a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` WHERE a.`status` = "'.$status.'"';
+
+    //     $result = $this->db->query($sql);
+
+    //     if($result->num_rows>0){
+    //         return $result->result_array();
+    //     }else{
+    //         return false;
+    //     }
+    // }
+
+    function insertStatus() //untuk insert db workblock status
+    {
+        $sql = 'SELECT * from workblock where status = ""';
+
+        $result = $this->db->query($sql);
+        $data = $result->result_array();
+
+        foreach ($data as $key => $value) {
+            if ($value['end'] < date('Y-m-d')){
+                $this->db->update('workblock', array('status'=>'Delay'), array('id'=>$value['id']));
+            }else{
+                $this->db->update('workblock', array('status'=>'Not Started Yet'), array('id'=>$value['id']));
+            }
+        }
+        exit();
+    }
+
+    function getCompleteByCode($code)
+    {
+        $sql = 'SELECT id from workblock where status = "Completed" AND code = "'.$code.'"';
+
+        $result = $this->db->query($sql);
+        return count($result->result_array);
+    }
+
+    function getAllByCode($code)
+    {
+        $sql = 'SELECT * from workblock where code = "'.$code.'"';
+
+        $result = $this->db->query($sql);
+        return $result->result_array;
+    }
+
+    //role = pmo_head
+    //role = dir_spon
+    //role = Co-PMO
+    function presentaseByRole($nama, $role = null)
+    {
+        if ($role == 'pmo_head'){
+            $nama = $this->mprogram->get_all_pmo_head();
+        }elseif($role == 'dir_spon'){
+            $nama = $this->mprogram->get_all_dir_spon();
+        }elseif ($role == 'Co-PMO') {
+            # code...
+        }
+
+        if ($role != null){
+            
+            foreach ($nama as $key => $value) {
+                $completed = $this->getCompleteByCode($value['init_code']);
+                $jumlah_wb = count($this->getAllByCode($value['init_code']));
+            }
+
+
+            $hasil = ($completed / $jumlah_wb) * 100;
+            return $hasil;
+        }else{
+            return false;
+        }
+    }
+
+    function getWorkblocksByInitiativeId($id)
+    {
+        $this->db->select('*');
+        $this->db->where('initiative_id',$id);
+        $this->db->order_by('title', 'asc');
+        $query = $this->db->get('workblock');
+
+        $result = $query->result();
+        return $result;
+    }
     
-    // OTHER FUNCTION
 }
