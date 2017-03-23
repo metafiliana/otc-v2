@@ -85,6 +85,9 @@ class Agenda extends CI_Controller {
             $id = $this->input->get('id');
             $agenda = $this->magenda->get_agenda_by_id($id);
         }
+        else{
+            $agenda="";
+        }
          
 		
         if($month)$choose_date=$month."/".$day."/".$year;

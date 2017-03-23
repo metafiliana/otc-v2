@@ -3,7 +3,7 @@
 		<tr>
 			<th style="vertical-align:middle" rowspan=2>Initiative</th>
 			<th style="vertical-align:middle" rowspan=2>Sub Initiative</th>
-			<th style="vertical-align:middle" rowspan=2>Last Update</th>
+			<th style="vertical-align:middle">Last Update</th>
 			<th style="vertical-align:middle">Status</th>
 			<th style="vertical-align:middle"><center>Completed</center></th>
 			<th rowspan=2>
@@ -38,9 +38,7 @@
 				<div style="clear:both"></div>
 			</td>
 			<td>
-				<div style="float:left; width:50px; margin-right:15px;"><?php if(isset($prog['lu']->last_update)) echo date("j F Y G:i:s",strtotime($prog['lu']->last_update));?></div> 
-				<div style="float:left; width:50px; margin-right:15px;">
-				</div>
+				<div class="center_text" style="float:left; width:100px;"><?php if(isset($prog['lu']->last_update)) echo date("j F Y G:i:s",strtotime($prog['lu']->last_update));?></div> 
 			</td>
 			<td>
 			<?php if($prog['wb_total']==0){ ?>
@@ -52,7 +50,7 @@
 				<span style="font-size:14px; color:<?php echo color_status($prog['init_status'])?>; font-weight:bold"><?php echo $prog['init_status']?></span>
 			<?php } }?> 
 			</td>
-			<td><?php if($prog['wb_total']==0){"0";}else{ echo(($prog['wb_status']['complete']/$prog['wb_total'])*100);}?>%</td>
+			<td><?php if($prog['wb_total']==0){"0";}else{ echo number_format((($prog['wb_status']['complete']/$prog['wb_total'])*100),2);}?>%</td>
 			<?php if($user['role']=='admin'){?><td style="width:50px">
 				<a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a class="btn btn-link btn-link-delete" onclick="delete_program(<?php echo $prog['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>

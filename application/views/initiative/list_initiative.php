@@ -25,10 +25,10 @@ $user = $this->session->userdata('user');
 						</thead>
 						<tbody>
 							<tr>
-								<th class="center_text"><span><?php echo (($wb_all['notyet']/$wb_total_all)*100) ;?> %</span></th>
-								<th class="center_text"><span><?php echo (($wb_all['inprog']/$wb_total_all)*100) ;?> %</span></th>
-								<th class="center_text"><span><?php echo (($wb_all['delay']/$wb_total_all)*100) ;?> %</span></th>
-								<th class="center_text"><span><?php echo (($wb_all['complete']/$wb_total_all)*100) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['notyet']/$wb_total_all)*100),2) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['inprog']/$wb_total_all)*100),2) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['delay']/$wb_total_all)*100),2) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['complete']/$wb_total_all)*100),2) ;?> %</span></th>
 							</tr>
 						</tbody>
 					</table>
@@ -149,7 +149,7 @@ $user = $this->session->userdata('user');
 						<td><?php echo $int['int']->last_update?></td>
 						<td>
 							<h5 style="color:#337ab7">Completed</h5>
-							<h5><?php if($int['wb_total']==0){echo "No Action";} else{echo (($int['wb_status']['complete']/$int['wb_total'])*100)."%";}?></h5>
+							<h5><?php if($int['wb_total']==0){echo "No Action";} else{echo number_format((($int['wb_status']['complete']/$int['wb_total'])*100),2)."%";}?></h5>
 						</td>
 						<td>
 						<?php if($user['role']=='admin'){?>

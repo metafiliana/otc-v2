@@ -52,7 +52,7 @@ class Summary extends CI_Controller {
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
-        $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/all',$views,TRUE);
 
         $this->load->view('front',$data);
@@ -77,7 +77,7 @@ class Summary extends CI_Controller {
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
-        $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/list',$views,TRUE);
 
         $this->load->view('front',$data);
@@ -151,6 +151,11 @@ class Summary extends CI_Controller {
         $json['html'] = $this->load->view('summary/_workblocks',$data,TRUE);
         $json['status'] = 1;
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
+
+    public function isiworkblock()
+    {
+        $this->mworkblock->insertStatus();
     }
 
 }
