@@ -21,6 +21,12 @@
 				 			<label class="col-sm-3 control-label">Target <?php echo $kuantitatif->target_year?></label>
 				 			<label class="col-sm-9" style="padding-top:7px; margin-bottom:0px;"><?php echo $kuantitatif->target ?></label>
 				 		</div>
+				 		<?php if($update) {?>
+				 		<div class="form-group" style="margin-bottom:5px;">
+				 			<label class="col-sm-3 control-label">Last Realisasi (<?php echo date('F',mktime(0,0,0, $update->month,10));?>)</label>
+				 			<label class="col-sm-9" style="padding-top:7px; margin-bottom:0px;"><?php echo $update->amount ?></label>
+				 		</div>
+				 		<?php } ?>
 				 		<div class="form-group">
 							<label class="col-sm-3 control-label">Bulan</label>
 							<div class="col-sm-5">

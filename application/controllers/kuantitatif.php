@@ -34,8 +34,8 @@ class Kuantitatif extends CI_Controller {
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update();
-        $prog['total'] = $this->mkuantitatif->get_total_kuantatif();
+        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update('');
+        $prog['total'] = $this->mkuantitatif->get_total_kuantatif('');
         $prog['init_code']=$this->mkuantitatif->get_init_code_on_kuantitatif();
         $prog['target_year']=$this->mkuantitatif->get_target_year_kuantitatif()->target_year;
 
@@ -66,11 +66,14 @@ class Kuantitatif extends CI_Controller {
         $prog['page']="my";
 
         $user = $this->session->userdata('user');
-
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+        $init_id= explode(";",$this->muser->get_user_by_id($user['id'])->initiative);
 
-        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_by_user($user['username'])->result_array();
+        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update($init_id);
+        $prog['total'] = $this->mkuantitatif->get_total_kuantatif($init_id);
+        $prog['init_code']=$this->mkuantitatif->get_init_code_on_kuantitatif();
+        $prog['target_year']=$this->mkuantitatif->get_target_year_kuantitatif()->target_year;
 
         $prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
         $init = $this->mprogram->get_init_code();
@@ -101,6 +104,7 @@ class Kuantitatif extends CI_Controller {
         
         if($id){
             $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
+            $data['update']= $this->mkuantitatif->get_kuantitatif_update($id);
         }
 
         $json['html'] = $this->load->view('kuantitatif/input_kuantitatif',$data,TRUE);

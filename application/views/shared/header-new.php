@@ -133,7 +133,8 @@
 					</button>
 					<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
 					<?php if($user['role']=='admin'){?>
-						<li role="presentation"><a charset="black_color" href="<?php echo base_url()?>user/">User Management</a></li>
+						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>user/">User Management</a></li>
+						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>logact">Log Activity</a></li>
 						<li class="divider"></li>
 					<?php }?>
 					<li role="presentation" style="padding:5px 0 5px;">

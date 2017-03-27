@@ -49,7 +49,7 @@ class Program extends CI_Controller {
 		//$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);
 		//$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
 		$prog['indicator'] = $this->load->view('program/component/_indicator',$prog,TRUE);	
-		$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
+		$prog['list_program'] = $this->load->view('program/component/_list_of_program_new',$prog,TRUE);
 
 	 	$data['user']=$user;
         if($user['role']!='admin'){
@@ -271,6 +271,18 @@ class Program extends CI_Controller {
         else{
             $json['status'] = 0;
         }
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
+
+    public function detail_program(){
+        $init_code = $this->input->get('init_code');
+        
+        $data['programs'] = $this->mprogram->get_segment_programs_by_init_code($init_code);
+        
+        $json['html'] = $this->load->view('program/component/_table',$data,TRUE);
+        $json['status'] = 1;
+
         $this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));
     }
