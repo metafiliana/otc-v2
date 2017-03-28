@@ -102,6 +102,31 @@ class Mprogram extends CI_Model {
         }
         return $arr;
     }
+
+    function get_segment_programs_by_init_code($init_id){
+        $this->db->where('init_code', $init_id);
+        $this->db->select('program.*, initiative.id as init_id');
+        $this->db->join('initiative','initiative.id = program.id');
+        $query = $this->db->get('program');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+            $arr[$i]['prog'] = $prog;
+            $code = explode('.',$prog->code);
+            $init_id=$prog->init_id;
+            $arr[$i]['lu'] = $this->minitiative->get_initiative_last_update($prog->id);
+            $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
+            $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
+            $arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code);
+            $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
+
+            $arr[$i]['status'] = $this->get_program_status($prog->id);
+            $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
+            $arr[$i]['sub_init_total'] = count($this->minitiative->get_all_program_initiatives($prog->id));
+            $i++;
+        }
+        return $arr;
+    }
     
     function get_all_programs_with_segment($segment){
     	$this->db->order_by('code', 'asc');
@@ -250,10 +275,13 @@ class Mprogram extends CI_Model {
                 if ($item[$i]['nama'] != "$nama"){
                     $data[$j]['nama'] = $nama;
                     $k = ($k != 0) ? $k : 1;
+                    $data[$j]['total_initiative'] = $k;
                     $total_completed = $completed / $k;
                     $data[$j]['total_completed'] = round($total_completed, 2);
                     $j++;
                     $nama = $item[$i]['nama'];
+
+                    $k = 1;
                 }else{
                     $completed = $completed + $item[$i]['persenan'];
                     $k++;
@@ -285,10 +313,13 @@ class Mprogram extends CI_Model {
                 if ($item[$i]['nama'] !== $nama){
                     $data[$j]['nama'] = $nama;
                     $k = ($k != 0) ? $k : 1;
+                    $data[$j]['total_initiative'] = $k;
                     $total_completed = $completed / $k;
                     $data[$j]['total_completed'] = round($total_completed, 2);
                     $j++;
                     $nama = $item[$i]['nama'];
+
+                    $k = 1;
                 }else{
                     $completed = $completed + $item[$i]['persenan'];
                     $k++;
@@ -302,7 +333,7 @@ class Mprogram extends CI_Model {
     //role = pmo_head
     //role = dir_spon
     //role = Co-PMO
-    function getProgramByRole($nama, $role)
+    function getProgramByRole($init_code)
     {
         // if ($role == 'pmo_head'){
         //     $nama = $this->mprogram->get_all_pmo_head();
@@ -312,7 +343,23 @@ class Mprogram extends CI_Model {
         //     # code...
         // }
 
-        $sql = 'select id, '.$role.', title, code from program where '.$role.' = "'.$nama.'"';
+        $sql = 'select id, code, title, init_code from program where init_code = "'.$init_code.'"';
+        $result = $this->db->query($sql);
+
+        return $result->result_array();
+    }
+
+    function getInitCode($nama, $role)
+    {
+        // if ($role == 'pmo_head'){
+        //     $nama = $this->mprogram->get_all_pmo_head();
+        // }elseif($role == 'dir_spon'){
+        //     $nama = $this->mprogram->get_all_dir_spon();
+        // }elseif ($role == 'Co-PMO') {
+        //     # code...
+        // }
+
+        $sql = 'select id, '.$role.', title, code, init_code, segment from program where '.$role.' = "'.$nama.'" group by init_code';
         $result = $this->db->query($sql);
 
         return $result->result_array();

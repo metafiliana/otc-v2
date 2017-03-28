@@ -222,6 +222,9 @@ class Initiative extends CI_Controller {
 		$user_init = $this->muser->get_user_by_init_code($program->init_code);
 		$initiatives = $this->minitiative->get_program_initiatives($user_initiative, $program_id);
 
+		$views['wb_status_all'] = $this->minitiative->get_init_workblocks_status_new($program_id);
+		$views['wb_total_all']= $this->mprogram->get_total_wb_by_program($program_id);
+
 	 	$data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
@@ -233,7 +236,7 @@ class Initiative extends CI_Controller {
         }
 		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('initiative/list_initiative',array('ints' => $initiatives,'program' => $program, 'user_init' => $user_init),TRUE);
+		$data['content'] = $this->load->view('initiative/list_initiative',array('ints' => $initiatives,'program' => $program, 'user_init' => $user_init, 'wb_all' => $views['wb_status_all'], 'wb_total_all' => $views['wb_total_all']),TRUE);
 
 		$this->load->view('front',$data);
     }

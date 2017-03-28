@@ -52,7 +52,7 @@ class Summary extends CI_Controller {
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
-        $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/all',$views,TRUE);
 
         $this->load->view('front',$data);
@@ -77,7 +77,7 @@ class Summary extends CI_Controller {
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
-        $data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/list',$views,TRUE);
 
         $this->load->view('front',$data);
@@ -93,7 +93,7 @@ class Summary extends CI_Controller {
         // }
 
         if($role == "dir_spon" || $role == "pmo_head"){
-            $data['programs'] = $this->mprogram->getProgramByRole($nama, $role);
+            $data['programs'] = $this->mprogram->getInitCode($nama, $role);
         }
 
         // if($code=="co_pmo"){
@@ -110,6 +110,7 @@ class Summary extends CI_Controller {
     public function listDetailInitiative()
     {
         $id = $this->input->get('id');
+        $data['init_code'] = $this->input->get('initcode');
 
         // if($role == "category"){
         //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
@@ -139,7 +140,7 @@ class Summary extends CI_Controller {
         // }
 
         // if($role == "dir_spon" || $role == "pmo_head"){
-        $data['workblocks'] = $this->mworkblock->getWorkblocksByInitiativeId($id);
+        $data = $this->mworkblock->getWorkblocksByInitiativeId($id);
         // }
 
         // if($code=="co_pmo"){
@@ -148,7 +149,51 @@ class Summary extends CI_Controller {
         
         // $data['user'] = $this->session->userdata('user');
 
-        $json['html'] = $this->load->view('summary/_workblocks',$data,TRUE);
+        // $json['html'] = $this->load->view('summary/_workblocks',$data,TRUE);
+        // $json['status'] = 1;
+        // $this->output->set_content_type('application/json')->set_output(json_encode($json));
+
+        $string = "<ul class='list-group'>";
+        $color_style = 'active';
+        foreach ($data as $key => $value) {
+            if ($value->status == 'Delay'){
+                $color_style = 'danger';
+            }
+            if ($value->status == 'Completed'){
+                $color_style = 'success';
+            }
+            if ($value->status == 'Not Started Yet'){
+                $color_style = 'warning';
+            }
+            if ($value->status == 'In Progress'){
+                $color_style = 'info';
+            }
+            $string .= "<li id='row-".$value->id."' class='list-group-item list-group-item-".$color_style."'>".$value->title." ( ".$value->status." )</li>";
+        }
+        $string .= "</ul>";
+
+        $json['workblocks_list'] = $string;
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
+
+    public function isiworkblock()
+    {
+        $this->mworkblock->insertStatus();
+    }
+
+    public function getDetailProgram()
+    {
+        $init_code = $this->input->get('id');
+        $data = $this->mprogram->getProgramByRole($init_code);
+
+        $string = "<ul>";
+        foreach ($data as $key => $value) {
+            $string .= "<li><a class = 'filter-value-detail-initiative' data-id = '".$value['id']."' data-initcode = '".$value['init_code']."'>".$value['title']."</a></li>";
+        }
+        $string .= "</ul>";
+
+        $json['detail_programs'] = $string;
         $json['status'] = 1;
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }

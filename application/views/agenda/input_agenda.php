@@ -68,8 +68,8 @@ $(document).ready(function(){
 							 <div class="form-group">
 								<label for="" class="col-sm-2 control-label">Date</label>
 								<div class="col-sm-8">
-									<?php if($choose_date){echo $choose_date;} else{$choose_date = date("m/d/Y", strtotime($agenda->start));}?>
-									<input type="text" class="form-control" id="start" name="start" placeholder="mm/dd/YYYY" value="<?php echo $choose_date?>" >
+									<?php if(isset($choose_date)){$choose_date = $choose_date;} if(isset($agenda->start)){$choose_date = date("m/d/Y", strtotime($agenda->start));}?>
+									<input type="text" class="form-control" id="start" name="start" placeholder="mm/dd/YYYY" value="<?php if(isset($choose_date)) echo $choose_date?>" >
 									<small style="color:grey">*format: mm/dd/YYYY</small>
 								</div>
 								<div class="col-sm-2">

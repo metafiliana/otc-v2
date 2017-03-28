@@ -25,10 +25,10 @@ $user = $this->session->userdata('user');
 						</thead>
 						<tbody>
 							<tr>
-								<th class="center_text"><span>0%</span></th>
-								<th class="center_text"><span>0%</span></th>
-								<th class="center_text"><span>0%</span></th>
-								<th class="center_text"><span>0%</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['notyet']/$wb_total_all)*100),2) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['inprog']/$wb_total_all)*100),2) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['delay']/$wb_total_all)*100),2) ;?> %</span></th>
+								<th class="center_text"><span><?php echo number_format((($wb_all['complete']/$wb_total_all)*100),2) ;?> %</span></th>
 							</tr>
 						</tbody>
 					</table>
@@ -68,7 +68,7 @@ $user = $this->session->userdata('user');
 		<div class="component_part" id="initiative_content">
 			<table class="table table-stripped">
 				<thead class="black_color old_grey_color_bg">
-				<tr><th colspan=3>Deliverable</th><th>Actions</th><th style="width:20%">Date</th><th>Last Update</th>
+				<tr><th colspan=3>Deliverable</th><th>Actions</th><th style="width:20%">Date</th><th>Last Update</th><th>Completed</th>
 				<th>
 					<?php $roles = explode(',',$user['role']); if(in_array("admin",$roles)){?><div style="float:left;">
 						<button onclick="input_initiative('',<?php echo $program->id?>);" class="btn btn-info-new btn-sm"><span class="glyphicon glyphicon-plus"></span> Deliverable</button>
@@ -147,6 +147,10 @@ $user = $this->session->userdata('user');
 							<?php }?>
 						</td>
 						<td><?php echo $int['int']->last_update?></td>
+						<td>
+							<h5 style="color:#337ab7">Completed</h5>
+							<h5><?php if($int['wb_total']==0){echo "No Action";} else{echo number_format((($int['wb_status']['complete']/$int['wb_total'])*100),2)."%";}?></h5>
+						</td>
 						<td>
 						<?php if($user['role']=='admin'){?>
 							<button class="btn btn-warning  btn-xs" onclick="input_initiative(<?php echo $int['int']->id?>,<?php echo $program->id?>);"><span class="glyphicon glyphicon-pencil"></span></button>

@@ -244,7 +244,14 @@
 						"image_size_str"	=> $this->image_size_str
 					);
 				}
-				
+
+			/**
+			*	Reset Upload data
+			*
+			*/
+				public function reset_multi_upload_data(){
+					$this->_multi_upload_data = array();
+				}
 				
 			/**
 			 * Get Multiple Upload Data

@@ -1061,15 +1061,9 @@ class CI_Upload {
 		 *	- many system admins would disable the exec(), shell_exec(), popen() and similar functions
 		 *	  due to security concerns, hence the function_exists() checks
 		 */
-		function my_escapeshellarg($input)
-		{
-  			$input = str_replace('\'', '\\\'', $input);
-
-  			return '\''.$input.'\'';
-		}
 		if (DIRECTORY_SEPARATOR !== '\\')
 		{
-			$cmd = 'file --brief --mime ' . my_escapeshellarg($file['tmp_name']) . ' 2>&1';
+			$cmd = 'file --brief --mime ' . escapeshellarg($file['tmp_name']) . ' 2>&1';
 
 			if (function_exists('exec'))
 			{

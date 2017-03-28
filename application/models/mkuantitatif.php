@@ -25,10 +25,13 @@ class Mkuantitatif extends CI_Model {
         return $query;
     }
 
-    function get_kuantitatif_by_user($user){
+    function get_kuantitatif_by_user($init_id){
         $this->db->select('*');
-        $this->db->join('user','user.initiative = kuantitatif.init_code');
-        $this->db->where('user.username',$user);
+        if($init_id){
+            foreach ($init_id as $row) {
+                $this->db->or_where('init_code', $row);
+            }
+        }
         $query = $this->db->get('kuantitatif');
         return $query;
     }
@@ -72,21 +75,32 @@ class Mkuantitatif extends CI_Model {
         }
     }
     
-    function get_kuantitatif_with_update(){
+    function get_kuantitatif_with_update($init_id){
         $this->db->select('*');
+        if($init_id){
+            foreach ($init_id as $row) {
+                $this->db->or_where('init_code', $row);
+            }
+        }
     	$query = $this->db->get('kuantitatif');
     	$arr = array(); $i=0;
         $progs = $query->result();
         foreach($progs as $prog){
         	$arr[$i]['prog'] = $prog;
             $arr[$i]['update'] = $this->get_kuantitatif_update($prog->id);
+            $arr[$i]['percentage'] = $this->get_total_kuantitatif_by_id($prog->id);
         	$i++;
         }
         return $arr;
     }
 
-    function get_total_kuantatif(){
+    function get_total_kuantatif($init_id){
         $this->db->select('*');
+        if($init_id){
+            foreach ($init_id as $row) {
+                $this->db->or_where('init_code', $row);
+            }
+        }
         //$this->db->where('init_code','1b');
         $query = $this->db->get('kuantitatif');
         $arr = array(); $init="";

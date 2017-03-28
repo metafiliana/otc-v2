@@ -133,6 +133,8 @@ class Minitiative extends CI_Model {
         	if(!$arr[$i]['stat']){$arr[$i]['stat'] = $int->status;}
         	$arr[$i]['wb']=$status_initiative_all['sumwb'];
         	$arr[$i]['wbs']=$status_initiative_all['wb'];
+            $arr[$i]['wb_status'] = $this->get_init_workblocks_status($int->id);
+            $arr[$i]['wb_total'] = count($this->get_wb_total($int->id));
         	
         	$arr[$i]['pic']=$this->get_initiative_pic($int->code);
         	$arr[$i]['child']=$this->get_initiative_child($int->code);
