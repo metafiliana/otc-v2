@@ -79,16 +79,6 @@ src: url('/cbic/assets/fonts/MyriadPro-Light.woff') format('woff');
 }
 
 @font-face {
-  font-family: "Lato";
-  src: url('/otc/assets/fonts/Lato.ttf');
-}
-
-@font-face {
-  font-family: "Oswald";
-  src: url('/otc/assets/fonts/Oswald.ttf');
-}
-
-@font-face {
   font-family: "corbel";
   src: url('/otc/assets/fonts/corbel.ttf');
 }
@@ -103,7 +93,7 @@ body {
   height: 100%;
   background-color:white;/*#f0eff4;*/
   font-size:14px;
-  font-family: "Lato";
+  font-family: "titillium";
   /* The html and body elements cannot have any padding or margin. */
 }
 body a{
