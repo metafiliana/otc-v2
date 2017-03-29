@@ -16,7 +16,6 @@ class Mprogram extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->model('minitiative');
-        $this->load->model('mworkblock');
     }
     
     //INSERT or CREATE FUNCTION
@@ -95,8 +94,8 @@ class Mprogram extends CI_Model {
         	$arr[$i]['status'] = $this->get_program_status($prog->id);
             $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
             $arr[$i]['sub_init_total'] = count($this->minitiative->get_all_program_initiatives($prog->id));
-            $arr[$i]['tot_wb_init_code']= count($this->get_total_wb_by_init_code($prog->init_code));
-            $arr[$i]['wb_completed'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code)['complete'];
+            //count($this->get_total_wb_by_init_code($prog->init_code));
+            //$arr[$i]['wb_all_status'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code);
             
             //$arr[$i]['kuantitatif']=$this->get_kuantitatif_by_init_code($prog->init_code);
         	$i++;

@@ -42,7 +42,7 @@
                 <?php } }?>
             <?php $pv_init = $prog['prog']->init_code; } ?>
             <td style="vertical-align:middle">
-                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>);"><?php echo plus_icon()?> Update</a>
+                <a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
             </td>
         </tr>
     <?php $i++; }?>
