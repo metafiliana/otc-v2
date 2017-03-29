@@ -85,6 +85,7 @@
             $i = 0;
             if (this.value == '1') {
                 $('#filter-value-title').text('PMO Head');
+                $('#nama-detail').html('');
                 $("#filter-value-table-primary-body").empty();
 
                 $('#filter-value-table-program').empty();
@@ -118,6 +119,10 @@
             else if(this.value == '3'){
                 $('#filter-value-title').text('Direktur Sponsor');
                 $("#filter-value-table-primary-body").empty();
+                $('#filter-value-table-program').empty();
+                $('#filter-value-table-initiative').empty();
+                $('#filter-value-table-workblock').empty();
+                $('#nama-detail').text('');
                 $('#filter-value-table-primary').show();
 
                 <?php foreach ($dir_spon_list as $key => $value): ?>
