@@ -132,15 +132,18 @@ $(document).on('click', '#inProgressId', function () {
     <?php endforeach ?>
 });
 $(document).on('click', '#delayId', function () {
-    $("#initiative-table-body").empty();
+    // $("#initiative-table-body").empty();
+    $("#chart-detail-body").empty();
     // $("#status").text("Delay");
     <?php foreach ($summary_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_delay[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_delay[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_delay[$key]['end']) ?>;
         // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        $(newRowContent).appendTo($("#initiative-table-body"));
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body"));
     <?php endforeach ?>
 });
 $(document).on('click', '#completeId', function () {
