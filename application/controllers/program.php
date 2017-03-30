@@ -43,7 +43,7 @@ class Program extends CI_Controller {
 		$prog['user'] = $user;
 		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-		$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
+		$prog['programs'] = $this->mprogram->get_segment_program_new();
 		$prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
 		$init = $this->mprogram->get_init_code();
 		//$prog['kuantitatif'] = $this->mprogram->get_kuantitatif_by_init_code($init->init_code);

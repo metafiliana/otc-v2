@@ -104,6 +104,26 @@ class Mprogram extends CI_Model {
         return $arr;
     }
 
+    function get_segment_program_new(){
+        $this->db->where_in('category',return_all_category());
+        $this->db->select('program.*, initiative.id as init_id');
+        $this->db->join('initiative','initiative.id = program.id');
+        $query = $this->db->get('program');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+            $arr[$i]['prog'] = $prog;
+            $code = explode('.',$prog->code);
+            $init_id=$prog->init_id;
+            $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
+            $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
+            $arr[$i]['tot_wb_init_code']= count($this->get_total_wb_by_init_code($prog->init_code));
+            $arr[$i]['wb_completed'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code)['complete'];
+            $i++;
+        }
+        return $arr;
+    }
+
     function get_segment_programs_by_init_code($init_id){
         $this->db->where('init_code', $init_id);
         $this->db->select('program.*, initiative.id as init_id');

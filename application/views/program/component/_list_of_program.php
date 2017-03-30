@@ -2,7 +2,7 @@
 	<thead class="black_color old_grey_color_bg">
 		<tr>
 			<th style="vertical-align:middle" rowspan=2>Initiative</th>
-			<th style="vertical-align:middle" rowspan=2>Sub Initiative</th>
+			<th style="vertical-align:middle" rowspan=2>Workstream</th>
 			<th style="vertical-align:middle">Last Update</th>
 			<th style="vertical-align:middle">Status</th>
 			<th style="vertical-align:middle"><center>Completed</center></th>
@@ -29,6 +29,8 @@
 					<b><div style="float:left; max-width:300px; margin-top:10px">Direktur Sponsor: <?php echo $prog['prog']->dir_spon?></div></b>
 					<div style="clear:both"></div>
 					<b><div style="float:left; max-width:300px; margin-top:10px">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
+					<div style="clear:both"></div>
+					<b><div style="float:left; max-width:300px; margin-top:10px">Total Completed: <?php if($prog['wb_completed']!=0) {echo number_format((($prog['wb_completed']/$prog['tot_wb_init_code'])*100),2);} else{echo "0";}?> %</div></b>
 					<div style="clear:both"></div>
 				<?php $pv_init = $prog['prog']->segment;}?>
 			</td>

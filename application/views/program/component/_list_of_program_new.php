@@ -9,7 +9,7 @@
 		<div style="clear:both"></div>
 		<b><div style="float:left; max-width:300px; margin-top:10px">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>
 		<div style="clear:both"></div>
-		<b><div style="float:left; max-width:300px; margin-top:10px">Total Completed: <?php if($prog['wb_completed']!=0) echo number_format((($prog['wb_completed']/$prog['tot_wb_init_code'])*100),2)?> %</div></b>
+		<b><div style="float:left; max-width:300px; margin-top:10px">Total Completed: <?php if($prog['wb_completed']!=0) {echo number_format((($prog['wb_completed']/$prog['tot_wb_init_code'])*100),2);} else{echo "0";}?> %</div></b>
 		<div style="clear:both"></div>
 		<hr>
 		<?php $pv_init = $prog['prog']->segment;}?>
