@@ -6,7 +6,15 @@
         margin-right:40px;
         color: black;
     }
+    .wrapper {
+        margin: 15px 50px 5px 50px;
+    }
+    /*.konten {
+        margin :10px 20px 5px 20px;
+        padding: 10px auto;
+    }*/
 </style>
+<div class="wrapper">
 <div class="component_part">
     <div class="row">
         <div class="col-md-12">
@@ -27,7 +35,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 id="filter-value-title" class="panel-title">Filter</h4>
@@ -36,6 +44,7 @@
                     <table id="filter-value-table-primary" class="table text-center" style="display: none;">
                         <thead>
                             <th>Nama</th>
+                            <th>Jumlah</th>
                             <th>Presentase</th>
                         </thead>
                         <tbody id="filter-value-table-primary-body">
@@ -45,25 +54,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Detail</h4>
+                    <h4 class="panel-title">Detail : <span id="nama-detail"></span></h4>
                 </div>
                 <div class="panel-body">
-                    <div class="clearfix col-sm-4" id="filter-value-table-program" style="display: none;">
+                    <div class="clearfix col-sm-6" id="filter-value-table-program" style="display: none;">
                         <!-- isi disini -->
                     </div>
-                    <div class="clearfix col-sm-4" id="filter-value-table-initiative" style="display: none;">
-                        <!-- isi disini -->
-                    </div>
-                    <div class="clearfix col-sm-4" id="filter-value-table-workblock" style="display: none;">
+                    <div class="clearfix col-sm-6" id="filter-value-table-initiative" style="display: none;">
                         <!-- isi disini -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <script>
@@ -78,6 +85,7 @@
             $i = 0;
             if (this.value == '1') {
                 $('#filter-value-title').text('PMO Head');
+                $('#nama-detail').html('');
                 $("#filter-value-table-primary-body").empty();
 
                 $('#filter-value-table-program').empty();
@@ -89,8 +97,9 @@
                 <?php foreach ($pmo_head_list as $key => $value): ?>
                     $i++;
                     $text_nama = <?php echo json_encode($value['nama']); ?>;
+                    $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="pmo_head" >'+$text_nama+'</a></td><td>'+$text_presentase+' %</td></tr>';
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="pmo_head" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -110,13 +119,18 @@
             else if(this.value == '3'){
                 $('#filter-value-title').text('Direktur Sponsor');
                 $("#filter-value-table-primary-body").empty();
+                $('#filter-value-table-program').empty();
+                $('#filter-value-table-initiative').empty();
+                $('#filter-value-table-workblock').empty();
+                $('#nama-detail').text('');
                 $('#filter-value-table-primary').show();
 
                 <?php foreach ($dir_spon_list as $key => $value): ?>
                     $i++;
                     $text_nama = <?php echo json_encode($value['nama']); ?>;
+                    $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_nama+'</a></td><td>'+$text_presentase+' %</td></tr>';
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -140,7 +154,9 @@
                     $('#filter-value-table-program').empty();
                     $('#filter-value-table-initiative').empty();
                     $('#filter-value-table-workblock').empty();
+                    $('#nama-detail').text('');
 
+                    $('#nama-detail').text($nama);
                     $('#filter-value-table-program').show();
                     $('#filter-value-table-program').html(resp.html);
                    // $('#wb_count').html(resp.wb);
@@ -151,14 +167,35 @@
         });
     });
 
-    //untuk trigger detail co pmo
-    $(document).on("click",".filter-value-detail-initiative",function(event){
+    $(document).on("click",".filter-value-detail-program-list",function(event){
         $id = $(this).data('id');
 
         $.ajax({
             type: "GET",
-            url: config.base+"summary/listDetailInitiative",
+            url: config.base+"summary/getDetailProgram/",
             data: {id:$id},
+            dataType: 'json',
+            cache: false,
+            success: function(resp){
+                if(resp.status==1){
+                    $('#filter-value-table-initiative').empty();
+                    // $('#filter-value-table-workblock').show();
+                    $('#panel-program-'+$id).html(resp.detail_programs);
+
+                }else{}
+            }
+        });
+    });
+
+    //untuk trigger detail co pmo
+    $(document).on("click",".filter-value-detail-initiative",function(event){
+        $id = $(this).data('id');
+        $initcode = $(this).data('initcode');
+
+        $.ajax({
+            type: "GET",
+            url: config.base+"summary/listDetailInitiative",
+            data: {id:$id,initcode:$initcode},
             dataType: 'json',
             cache: false,
             success: function(resp){
@@ -182,18 +219,15 @@
 
         $.ajax({
             type: "GET",
-            url: config.base+"summary/listDetailWorkblock",
+            url: config.base+"summary/listDetailWorkblock/",
             data: {id:$id},
             dataType: 'json',
             cache: false,
             success: function(resp){
                 if(resp.status==1){
-                    $('#filter-value-table-workblock').empty();
-
-                    $('#filter-value-table-workblock').show();
-                    $('#filter-value-table-workblock').html(resp.html);
-                   // $('#wb_count').html(resp.wb);
-                   // $('#count_completed').html(resp.completed);
+                    // $('#filter-value-table-workblock').empty();
+                    // $('#filter-value-table-workblock').show();
+                    $('#panel-initiative-'+$id).html(resp.workblocks_list);
 
                 }else{}
             }

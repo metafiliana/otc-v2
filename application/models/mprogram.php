@@ -16,7 +16,6 @@ class Mprogram extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->model('minitiative');
-        $this->load->model('mworkblock');
     }
     
     //INSERT or CREATE FUNCTION
@@ -95,8 +94,8 @@ class Mprogram extends CI_Model {
         	$arr[$i]['status'] = $this->get_program_status($prog->id);
             $arr[$i]['wb_total']= $this->get_total_wb_by_program($prog->id);
             $arr[$i]['sub_init_total'] = count($this->minitiative->get_all_program_initiatives($prog->id));
-            $arr[$i]['tot_wb_init_code']= count($this->get_total_wb_by_init_code($prog->init_code));
-            $arr[$i]['wb_completed'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code)['complete'];
+            //count($this->get_total_wb_by_init_code($prog->init_code));
+            //$arr[$i]['wb_all_status'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code);
             
             //$arr[$i]['kuantitatif']=$this->get_kuantitatif_by_init_code($prog->init_code);
         	$i++;
@@ -296,10 +295,13 @@ class Mprogram extends CI_Model {
                 if ($item[$i]['nama'] != "$nama"){
                     $data[$j]['nama'] = $nama;
                     $k = ($k != 0) ? $k : 1;
+                    $data[$j]['total_initiative'] = $k;
                     $total_completed = $completed / $k;
                     $data[$j]['total_completed'] = round($total_completed, 2);
                     $j++;
                     $nama = $item[$i]['nama'];
+
+                    $k = 1;
                 }else{
                     $completed = $completed + $item[$i]['persenan'];
                     $k++;
@@ -331,10 +333,13 @@ class Mprogram extends CI_Model {
                 if ($item[$i]['nama'] !== $nama){
                     $data[$j]['nama'] = $nama;
                     $k = ($k != 0) ? $k : 1;
+                    $data[$j]['total_initiative'] = $k;
                     $total_completed = $completed / $k;
                     $data[$j]['total_completed'] = round($total_completed, 2);
                     $j++;
                     $nama = $item[$i]['nama'];
+
+                    $k = 1;
                 }else{
                     $completed = $completed + $item[$i]['persenan'];
                     $k++;
@@ -348,7 +353,7 @@ class Mprogram extends CI_Model {
     //role = pmo_head
     //role = dir_spon
     //role = Co-PMO
-    function getProgramByRole($nama, $role)
+    function getProgramByRole($init_code)
     {
         // if ($role == 'pmo_head'){
         //     $nama = $this->mprogram->get_all_pmo_head();
@@ -358,7 +363,23 @@ class Mprogram extends CI_Model {
         //     # code...
         // }
 
-        $sql = 'select id, '.$role.', title, code from program where '.$role.' = "'.$nama.'"';
+        $sql = 'select id, code, title, init_code from program where init_code = "'.$init_code.'"';
+        $result = $this->db->query($sql);
+
+        return $result->result_array();
+    }
+
+    function getInitCode($nama, $role)
+    {
+        // if ($role == 'pmo_head'){
+        //     $nama = $this->mprogram->get_all_pmo_head();
+        // }elseif($role == 'dir_spon'){
+        //     $nama = $this->mprogram->get_all_dir_spon();
+        // }elseif ($role == 'Co-PMO') {
+        //     # code...
+        // }
+
+        $sql = 'select id, '.$role.', title, code, init_code, segment from program where '.$role.' = "'.$nama.'" group by init_code';
         $result = $this->db->query($sql);
 
         return $result->result_array();
