@@ -9,6 +9,7 @@ class General extends CI_Controller {
         $this->load->model('mmilestone');
         $this->load->model('mremark');
         $this->load->model('mfiles_upload');
+        $this->load->model('mkuantitatif');
         
         $session = $this->session->userdata('user');
         

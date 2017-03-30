@@ -96,7 +96,7 @@ class Mfiles_upload extends CI_Model {
 		//$file_atch['created'] = $program['created'];
         $file_atch['created'] = date("Y-m-d H:i:s");
 		//$file_atch['ownership_id'] = $ownership_id;
-        if($program['user_allowed']){
+        /*if($program['user_allowed']){
              $file_atch['user_allowed'] = $program['user_allowed'];
         }
         //$file_atch['description'] = $program['description'];
@@ -104,7 +104,7 @@ class Mfiles_upload extends CI_Model {
         if($program['segment_allowed'])
         {
          $file_atch['segment_allowed'] = $program['segment_allowed'];   
-        }
+        }*/
 		return $this->insert_files_upload($file_atch);
 	}
 	

@@ -75,6 +75,21 @@
             return 1;}
         
     }
+
+
+    function plus_icon(){
+    $src = get_icon_url('plus.png');
+    echo "<img style=\"height:20px;\" src='".$src."'>";
+    }
+
+    function icon_url($img){
+    echo base_url()."assets/img/icon/".$img;
+    }
+    
+    function get_icon_url($img){
+        return base_url()."assets/img/icon/".$img;
+    }
+
     
     function excelDateToDate($readDate){
 		$phpexcepDate = $readDate-25569; //to offset to Unix epoch

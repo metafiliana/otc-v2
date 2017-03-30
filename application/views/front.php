@@ -14,10 +14,10 @@
         <link href="<?php echo base_url();?>assets/css/bootstrap-notifications.min.css" rel="stylesheet">
         <!-- <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
         <!-- <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
-        <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/ajax-bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
+        <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
 
         <!--DATA TABLES-->
         <link href="<?php echo base_url();?>assets/js/DataTables-1.10.9/css/jquery.dataTables.css" rel="stylesheet"/>

@@ -16,6 +16,7 @@ class Mprogram extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->model('minitiative');
+        $this->load->model('mworkblock');
     }
     
     //INSERT or CREATE FUNCTION
