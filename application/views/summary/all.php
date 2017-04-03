@@ -84,7 +84,7 @@ $("document").ready(function() {
 var chart;
 var legend;
 var selected;
-    var types = [
+    var typesInitiative = [
     <?php foreach ($wb_status as $key => $value) { ?>
             <?php if ($key == 'inprog') { ?>
                 {
@@ -108,28 +108,125 @@ var selected;
     <?php } ?>
     ];
 
-function generateChartData() {
+    var typesDeliverable = [
+    <?php foreach ($wb_status as $key => $value) { ?>
+            <?php if ($key == 'inprog') { ?>
+                {
+                type: "In Progress",
+                color: "grey",
+            <?php }elseif ($key == 'notyet') { ?>
+                {
+                type: "Not Yet",
+                color: "yellow",
+            <?php }elseif ($key == 'complete') { ?>
+                {
+                type: "Completed",
+                color: "green",
+            <?php }elseif ($key == 'delay') { ?>
+                {
+                type: "Delay",
+                color: "red",
+            <?php } ?>
+            percent: "<?php echo number_format(($value * $persen_initiative), 2, '.', ''); ?>",
+            },
+    <?php } ?>
+    ];
+
+    var typesWorkstream = [
+    <?php foreach ($wb_status as $key => $value) { ?>
+            <?php if ($key == 'inprog') { ?>
+                {
+                type: "In Progress",
+                color: "grey",
+            <?php }elseif ($key == 'notyet') { ?>
+                {
+                type: "Not Yet",
+                color: "yellow",
+            <?php }elseif ($key == 'complete') { ?>
+                {
+                type: "Completed",
+                color: "green",
+            <?php }elseif ($key == 'delay') { ?>
+                {
+                type: "Delay",
+                color: "red",
+            <?php } ?>
+            percent: "<?php echo number_format(($value * $persen_initiative), 2, '.', ''); ?>",
+            },
+    <?php } ?>
+    ];
+
+    var typesAction = [
+    <?php foreach ($chart_data_action as $key => $value) { ?>
+      <?php //echo $value['percent'];exit(); ?>
+            <?php if ($value['status'] == 'In Progress') { ?>
+                {
+                type: "In Progress",
+                color: "grey",
+            <?php }elseif ($value['status'] == 'Not Started Yet') { ?>
+                {
+                type: "Not Yet",
+                color: "yellow",
+            <?php }elseif ($value['status'] == 'Completed') { ?>
+                {
+                type: "Completed",
+                color: "green",
+            <?php }elseif ($value['status'] == 'Delay') { ?>
+                {
+                type: "Delay",
+                color: "red",
+            <?php } ?>
+            percent: "<?php echo $value['percent']; ?>",
+            },
+    <?php } ?>
+    ];
+
+function generateChartDataInitiative() {
   var chartData = [];
-  for (var i = 0; i < types.length; i++) {
+  for (var i = 0; i < typesInitiative.length; i++) {
     if (i == selected) {
-      for (var x = 0; x < types[i].subs.length; x++) {
+      for (var x = 0; x < typesInitiative[i].subs.length; x++) {
         chartData.push({
-          type: types[i].subs[x].type,
-          percent: types[i].subs[x].percent,
-          color: types[i].color,
+          type: typesInitiative[i].subs[x].type,
+          percent: typesInitiative[i].subs[x].percent,
+          color: typesInitiative[i].color,
           pulled: true
         });
       }
     } else {
       chartData.push({
-        type: types[i].type,
-        percent: types[i].percent,
-        color: types[i].color,
+        type: typesInitiative[i].type,
+        percent: typesInitiative[i].percent,
+        color: typesInitiative[i].color,
         id: i
       });
     }
   }
   return chartData;
+}
+
+function generateChartDataAction() {
+  var chartDataAction = [];
+  for (var i = 0; i < typesAction.length; i++) {
+    if (i == selected) {
+      for (var x = 0; x < typesAction[i].subs.length; x++) {
+        chartDataAction.push({
+          type: typesAction[i].subs[x].type,
+          percent: typesAction[i].subs[x].percent,
+          color: typesAction[i].color,
+          pulled: true
+        });
+      }
+    } else {
+      chartDataAction.push({
+        type: typesAction[i].type,
+        percent: typesAction[i].percent,
+        color: typesAction[i].color,
+        id: i
+      });
+    }
+  }
+  return chartDataAction;
 }
 
 AmCharts.makeChart("chart_initiative", {
@@ -141,7 +238,7 @@ AmCharts.makeChart("chart_initiative", {
         "autoMargins":true
       },
 
-  "dataProvider": generateChartData(),
+  "dataProvider": generateChartDataInitiative(),
   "labelText": "",
   "balloonText": "[[title]]: [[value]]%",
   "titleField": "type",
@@ -163,7 +260,47 @@ AmCharts.makeChart("chart_initiative", {
       } else {
         selected = undefined;
       }
-      chart.dataProvider = generateChartData();
+      chart.dataProvider = generateChartDataInitiative();
+      chart.validateData();
+    }
+  }],
+  // "export": {
+  //   "enabled": true
+  // }
+});
+
+AmCharts.makeChart("chart_action", {
+    "type": "pie",
+    "theme": "light",
+    "legend":{
+        "position":"right",
+        // "marginRight":1000000,
+        "autoMargins":true
+      },
+
+  "dataProvider": generateChartDataAction(),
+  "labelText": "",
+  "balloonText": "[[title]]: [[value]]%",
+  "titleField": "type",
+  "valueField": "percent",
+  "outlineColor": "#FFFFFF",
+  "outlineAlpha": 0.8,
+  "outlineThickness": 2,
+  "colorField": "color",
+  "pulledField": "pulled",
+  "titles": [{
+    "text": "Action Chart",
+  }],
+  "listeners": [{
+    "event": "clickSlice",
+    "method": function(event) {
+      var chart = event.chart;
+      if (event.dataItem.dataContext.id != undefined) {
+        selected = event.dataItem.dataContext.id;
+      } else {
+        selected = undefined;
+      }
+      chart.dataProvider = generateChartDataAction();
       chart.validateData();
     }
   }],

@@ -45,6 +45,10 @@ class Summary extends CI_Controller {
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
         $views['summary_completed'] = $this->mworkblock->get_summary_all('Completed');
+        $views['chart_data_action'] = $this->mworkblock->getDataChartAction();
+        $views['chart_data_deliverable'] = $this->minitiative->getDataChartDeliverable();
+        $views['chart_data_workstream'] = $this->mprogram->getDataChartWorkstream();
+        // var_dump($views['chart_data_action']);exit();
         //$views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
         
         //$prog['programs'] = $this->mprogram->get_segment_programs('','','','');

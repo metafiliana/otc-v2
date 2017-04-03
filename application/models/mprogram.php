@@ -385,4 +385,12 @@ class Mprogram extends CI_Model {
 
         return $result->result_array();
     }
+
+    function getDataChartWorkstream()
+    {
+        $query = 'SELECT title FROM program GROUP BY title';
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
 }

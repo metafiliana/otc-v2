@@ -625,4 +625,12 @@ class Minitiative extends CI_Model {
         $result = $query->result();
         return $result;
     }
+
+    function getDataChartDeliverable()
+    {
+        $query = 'SELECT title, STATUS FROM initiative GROUP BY title';
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
 }

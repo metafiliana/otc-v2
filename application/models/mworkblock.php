@@ -243,5 +243,13 @@ class Mworkblock extends CI_Model {
         $result = $query->result();
         return $result;
     }
+
+    function getDataChartAction()
+    {
+        $query = 'SELECT t.status, COUNT(t.status) as percent FROM (SELECT * FROM workblock GROUP BY title) AS t GROUP BY t.status';
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
     
 }
