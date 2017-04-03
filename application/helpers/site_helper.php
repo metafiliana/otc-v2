@@ -90,6 +90,19 @@
         return base_url()."assets/img/icon/".$img;
     }
 
+    function get_ext_icon($ext){
+    $arr_img = array('.jpg','.png','.jpeg');
+
+    if($ext == ".doc" || $ext == ".docx"){$img = "word - color";}
+    elseif($ext == ".xls" || $ext == ".xlsx"){$img = "xlx - color";}
+    elseif($ext == ".ppt" || $ext == ".pptx"){$img = "ppt - color";}
+    elseif($ext == ".pdf"){$img = "pdf - color";}
+    elseif(in_array($ext, $arr_img)){$img = "gallery - color";}
+    else{$img = "copy - color";}
+
+    return get_icon_url($img.'.png');
+    }
+
     
     function excelDateToDate($readDate){
 		$phpexcepDate = $readDate-25569; //to offset to Unix epoch

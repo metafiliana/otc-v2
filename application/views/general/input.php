@@ -23,7 +23,7 @@
 	                        <div class="form-group">
 								<label class="col-sm-2 control-label input-md">Attachment</label>
 								<div class="col-sm-10">
-									<input type="file" name="attachment[]" multiple class="btn-md btn-default">
+									<input type="file" name="attachment[]" class="btn-md">
 								</div>
 							</div>
 							<hr>

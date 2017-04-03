@@ -66,11 +66,6 @@
 	    display:none;
 	  }
 	}
-
-	.btn{
-		border:0px solid transparent; /* this was 1px earlier */
- 	}
-
  	.notifications-wrapper {
     overflow:auto;
     max-height: 500px;
@@ -88,8 +83,8 @@
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
 		<div class="col-md-4">
 			<div class="btn-group">
-				<a href="<?php echo base_url()?>" class="btn btn-default glyphicon glyphicon-home" style="font-size:18px;"></a>
-				<div class="dropdown dropdown-notifications sw-open btn btn-default">
+				<a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:18px;"></a>
+				<div class="dropdown dropdown-notifications sw-open btn btns btn-default">
 				  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown" style="font-size:18px; padding-top:5px;">
 				    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
 				    <span class="caret"></span>

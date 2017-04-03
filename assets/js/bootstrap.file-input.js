@@ -10,7 +10,7 @@
   <a class="btn">Browse</a>
 
 */
-$(function() {
+(function($) {
 
 $.fn.bootstrapFileInput = function() {
 
@@ -30,18 +30,15 @@ $.fn.bootstrapFileInput = function() {
       buttonWord = $elem.attr('title');
     }
 
-    // Start by getting the HTML of the input element.
-    // Thanks for the tip http://stackoverflow.com/a/1299069
-    var input = $('<div>').append( $elem.eq(0).clone() ).html();
     var className = '';
 
     if (!!$elem.attr('class')) {
       className = ' ' + $elem.attr('class');
     }
 
-    // Now we're going to replace that input field with a Bootstrap button.
+    // Now we're going to wrap that input field with a Bootstrap button.
     // The input will actually still be there, it will just be float above and transparent (done with the CSS).
-    $elem.replaceWith('<a class="file-input-wrapper btn' + className + '">'+buttonWord+input+'</a>');
+    $elem.wrap('<a class="file-input-wrapper btn btn-default ' + className + '"></a>').parent().prepend($('<span></span>').html(buttonWord));
   })
 
   // After we have found all of the file inputs let's apply a listener for tracking the mouse movement.
@@ -86,7 +83,7 @@ $.fn.bootstrapFileInput = function() {
       });
     });
 
-    $('.file-input-wrapper input[type=file]').change(function(){
+    $('body').on('change', '.file-input-wrapper input[type=file]', function(){
 
       var fileName;
       fileName = $(this).val();
@@ -95,15 +92,25 @@ $.fn.bootstrapFileInput = function() {
       $(this).parent().next('.file-input-name').remove();
       if (!!$(this).prop('files') && $(this).prop('files').length > 1) {
         fileName = $(this)[0].files.length+' files';
-        //$(this).parent().after('<span class="file-input-name">'+$(this)[0].files.length+' files</span>');
       }
       else {
-        // var fakepath = 'C:\\fakepath\\';
-        // fileName = $(this).val().replace('C:\\fakepath\\','');
-        fileName = fileName.substring(fileName.lastIndexOf('\\')+1,fileName.length);
+        fileName = fileName.substring(fileName.lastIndexOf('\\') + 1, fileName.length);
       }
 
-      $(this).parent().after('<span class="file-input-name">'+fileName+'</span>');
+      // Don't try to show the name if there is none
+      if (!fileName) {
+        return;
+      }
+
+      var selectedFileNamePlacement = $(this).data('filename-placement');
+      if (selectedFileNamePlacement === 'inside') {
+        // Print the fileName inside
+        $(this).siblings('span').html(fileName);
+        $(this).attr('title', fileName);
+      } else {
+        // Print the fileName aside (right after the the button)
+        $(this).parent().after('<span class="file-input-name">'+fileName+'</span>');
+      }
     });
 
   });
@@ -119,4 +126,4 @@ var cssHtml = '<style>'+
   '</style>';
 $('link[rel=stylesheet]').eq(0).before(cssHtml);
 
-});
+})(jQuery);

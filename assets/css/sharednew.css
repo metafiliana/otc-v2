@@ -314,6 +314,9 @@ hr{
 .btn-info-new:hover{
 	color:white !important;
 }
+.btns{
+	border:0px solid transparent; /* this was 1px earlier */
+}
 
 /********** Button Section ************/
 .btn-brobot{

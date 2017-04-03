@@ -107,6 +107,32 @@ class General extends CI_Controller {
         }
         redirect('general/files/');
      }
+
+    public function get_file(){
+        $init_code = $this->input->get('init_code');
+        
+        $data['files'] = $this->mfiles_upload->get_all_files_upload_modul_how($init_code,'');
+
+        $json['html'] = $this->load->view('general/_files',$data,TRUE);
+        $json['status'] = 1;
+
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
+
+    public function delete_file(){
+        $id = $this->input->get('id');
+        if($id){
+            $this->mfiles_upload->delete_with_files($id);
+            $json['status'] = true;
+        }
+        else
+        {
+             $json['status'] = false;
+        }
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+    }
     
     public function outlook(){
     	$data['title'] = 'Outlook 7 Sectors';

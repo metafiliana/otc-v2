@@ -13,7 +13,7 @@
 		<hr>
 		<?php $pv_init = $prog['prog']->segment;}?>
 	</div>
-	<div class="col-md-9" id="detail_<?php echo $prog['prog']->init_code?>">
+	<div class="col-md-9" id="detail_<?php echo $prog['prog']->init_code?>" style="display:none;">
 	</div>
 </div>
 <?php $i++;}?>
@@ -28,6 +28,7 @@ function show_detail(init_code){
 			success: function(resp){
 				if(resp.status==1){
 					$("#detail_"+init_code).html(resp.html);
+					toggle_visibility("detail_"+init_code);
 				}else{}
 			}
 		});
