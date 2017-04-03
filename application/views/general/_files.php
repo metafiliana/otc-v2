@@ -4,7 +4,7 @@
 <div title="<?php echo $file->title?>">
     <a href=<?php echo base_url()?><?php echo $file->full_url?>>
         <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($file->ext)?>"></span>
-        <span title="<?=$file->title?>"><?php long_text_real($file->title, 20)?></span>
+        <span title="<?=$file->title?>"><?php long_text_real($file->title, 20)?><img style="height:18px; margin-left:3px;" src="<?=get_icon_url('download.png')?>"></span>
     </a>
     <?php if($user['id'] == $file->user_id||$user['role']=='admin'){?>	
 		<a class="pull-right" onclick="delete_file(<?php echo $file->id?>)">
