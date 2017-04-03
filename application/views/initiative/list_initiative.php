@@ -6,7 +6,7 @@ $user = $this->session->userdata('user');
 		<div class="col-md-4">
 			<div class="component_part" style="min-height: 90px;">
 				<div>
-					<a class="btn btn-info-new btn-sm" href="<?php echo base_url();?>program/list_programs/">Back</a>
+					<a class="btn btn-info-new btn-sm" href="<?php echo base_url();?><?php if($user['role']=="admin"){ echo "program/list_programs/";} else{ echo "program/my_inisiatif/"; } ?>">Back</a>
 					<h5 style="margin:5px 0 0 0;"><span style="margin-right:15px"><?php echo $program->init_code?></span><?php echo $program->segment?></h5>
 					<h5 style="margin:5px 0 0 0;"><span style="margin-right:15px"><?php echo $program->code?></span><?php echo $program->title?></h5>
 				</div>

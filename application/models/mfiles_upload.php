@@ -81,7 +81,7 @@ class Mfiles_upload extends CI_Model {
     
     function insert_files_upload_with_full_url_with_param($full_url,$modul, $submodul, $atch, $ownership_id,$program){
 		$file_atch['full_url'] = $full_url.$atch['file_name'];
-		$user = $this->session->userdata('userdb');
+		$user = $this->session->userdata('user');
     	$file_atch['file_name'] = $atch['file_name'];
 		$file_atch['ext'] = $atch['file_ext'];
         if($program['title']){
@@ -93,18 +93,7 @@ class Mfiles_upload extends CI_Model {
 		$file_atch['modul'] = $modul;
 		$file_atch['sub_modul'] = $submodul;
 		$file_atch['user_id'] = $user['id'];
-		//$file_atch['created'] = $program['created'];
         $file_atch['created'] = date("Y-m-d H:i:s");
-		//$file_atch['ownership_id'] = $ownership_id;
-        /*if($program['user_allowed']){
-             $file_atch['user_allowed'] = $program['user_allowed'];
-        }
-        //$file_atch['description'] = $program['description'];
-
-        if($program['segment_allowed'])
-        {
-         $file_atch['segment_allowed'] = $program['segment_allowed'];   
-        }*/
 		return $this->insert_files_upload($file_atch);
 	}
 	
@@ -242,7 +231,9 @@ class Mfiles_upload extends CI_Model {
     function get_all_files_upload_modul_how($modul, $sort){
         $this->db->select('files_upload.*');
         $this->db->where('modul',$modul);
-        $this->db->order_by($sort,'desc');
+        if($sort){
+            $this->db->order_by($sort,'desc');
+        }
         $result = $this->db->get('files_upload');
         return $result->result();
     }
@@ -402,9 +393,9 @@ class Mfiles_upload extends CI_Model {
                 unlink("assets/uploads/ftp/files/".$file->file_name);
             }
         }
-        if($file->icon){
+        /*if($file->icon){
             unlink($file->icon);
-        }
+        }*/
         return $this->delete_files_upload($id);
     }
 

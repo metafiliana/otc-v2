@@ -14,6 +14,7 @@
         <link href="<?php echo base_url();?>assets/css/bootstrap-notifications.min.css" rel="stylesheet">
         <!-- <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
         <!-- <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
+        <link href="<?php echo base_url();?>assets/css/jquery-confirm.min.css" rel="stylesheet"/>
         <link href="<?php echo base_url();?>assets/css/ajax-bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
@@ -34,6 +35,7 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.form.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-confirm.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/application.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.file-input.js"></script>

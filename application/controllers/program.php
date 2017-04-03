@@ -289,7 +289,7 @@ class Program extends CI_Controller {
     
     public function input_data_segment(){
         //$segment = $this->uri->segment(3);
-        $exel = $this->read_excel("workblok.xlsx");
+        $exel = $this->read_excel("initiative.xlsx");
         $arrres = array(); $s=0;
         //if($this->mnasabah->empty_table('nasabah')){
         for ($row = 2; $row <= $exel['row']; ++$row) {
@@ -298,34 +298,35 @@ class Program extends CI_Controller {
                 $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
             }
             
-            /*Program
+            //Program
             
-            $data['category'] = $arrres[$row][0];
+            /*$data['category'] = $arrres[$row][0];
             $data['segment'] = $arrres[$row][1];
             $data['title'] = $arrres[$row][2];
             $data['code'] = $arrres[$row][3];
             $data['init_code'] = $arrres[$row][4];
             $data['dir_spon'] = $arrres[$row][5];
             $data['pmo_head'] = $arrres[$row][6];
-            $data['sort'] = $arrres[$row][7];
+            //$data['sort'] = $arrres[$row][7];
             
-            $this->mprogram->insert_program($data); */
+            $this->mprogram->insert_program($data);*/ 
             
 
-            /*Initiative
-            $data['title'] = $arrres[$row][0];
+            //Initiative
+            /*$data['title'] = $arrres[$row][0];
             $data['program_id'] = $arrres[$row][1];
             $data['start'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][2]));
             $data['end'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][3]));
             $this->minitiative->insert_initiative($data);*/
             
             //Workblock
-            $data['title'] = $arrres[$row][0];
+            /*$data['title'] = $arrres[$row][0];
             $data['initiative_id'] = $arrres[$row][3];
             $data['start'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][1]));
             $data['end'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][2]));
             $data['code'] = $arrres[$row][4];
-            $this->mworkblock->insert_workblock($data);
+            $data['status'] = $arrres[$row][5];
+            $this->mworkblock->insert_workblock($data);*/
         }
     }
 
