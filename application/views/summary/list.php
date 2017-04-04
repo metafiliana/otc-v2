@@ -35,9 +35,9 @@
             <select id="filter-select">
                 <option>- Filter -</option>
                 <option value="1">PMO Head</option>
-                <!-- <option value="2">CO-PMO</option> -->
+                <option value="2">CO-PMO</option>
                 <option value="3">Direktur Sponsor</option>
-                <!-- <option value="4">Initiative</option> -->
+                <option value="4">Initiative</option>
             </select>
         </div>
     </div>

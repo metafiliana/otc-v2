@@ -65,7 +65,7 @@ class Summary extends CI_Controller {
         $views['persen_workstream'] = 100/($this->mworkblock->getCountDataChartWorkstream());
         $views['summary_workstream_not_started'] = $this->mworkblock->get_summary_workstream_all('Not Started Yet');
         $views['summary_workstream_delay'] = $this->mworkblock->get_summary_workstream_all('Delay');
-        // $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
+        $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
         $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
         // var_dump($views['chart_data_action']);exit();
         //$views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
