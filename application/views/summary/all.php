@@ -19,7 +19,7 @@
 
 <div class="component_part">
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center"><br><br>
             <h3>Summary</h3>
             <!-- <h4> 30% (6 Initiative) Done dari Total 20 intiative Terdapat 3 initiative delay, dan 2 initiative at Risk.</h4> -->
         </div>

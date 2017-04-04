@@ -3,11 +3,11 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/inisiatif2.png" alt="profile-sample2"/>
       <figcaption>
-        <h3>Top 20 BOD Level Initiatives</h3>
+        <h3>Summary</h3>
         <blockquote>
           <p style="margin-left:5px">'Detail Activity and Summary Information in each Mandiri Level Initiative.'</p>
         </blockquote>
-      </figcaption><a href="<?php echo base_url()?>program/list_programs/"></a>
+      </figcaption><a href="<?php echo base_url()?>summary/"></a>
     </figure>
     </div>
     <div class="col-md-4">
