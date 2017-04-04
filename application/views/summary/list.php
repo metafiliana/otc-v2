@@ -13,7 +13,16 @@
         margin :10px 20px 5px 20px;
         padding: 10px auto;
     }*/
+    .well {
+        margin: 25px;
+    }
 </style>
+    <div class="row well">
+        <div class="clearfix" style="float: right;">
+          <a href="<?php echo base_url()?>summary/"><button class="btn btn-default">Summary All</button></a>
+          <button class="btn btn-default">Summary Program List</button>
+        </div>
+    </div>
 <div class="wrapper">
 <div class="component_part">
     <div class="row">
