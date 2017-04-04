@@ -19,6 +19,7 @@
         <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
+        <link href="<?php echo base_url();?>assets/export-amchart/export.css" rel="stylesheet"/>
 
         <!--DATA TABLES-->
         <link href="<?php echo base_url();?>assets/js/DataTables-1.10.9/css/jquery.dataTables.css" rel="stylesheet"/>
