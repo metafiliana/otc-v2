@@ -382,7 +382,8 @@ class Mprogram extends CI_Model {
         //     # code...
         // }
 
-        $sql = 'select id, '.$role.', title, code, init_code, segment from program where '.$role.' = "'.$nama.'" group by init_code';
+        // $sql = 'select id, '.$role.', title, code, init_code, segment from program where '.$role.' = "'.$nama.'" group by init_code';
+        $sql = 'select t.id, t.'.$role.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$role.' = "'.$nama.'" group by t.init_code';
         $result = $this->db->query($sql);
 
         return $result->result_array();
@@ -394,5 +395,10 @@ class Mprogram extends CI_Model {
         $result = $this->db->query($query)->result_array();
 
         return $result;
+    }
+
+    function getPercentProgram($nama, $role, $init_code)
+    {
+        // $q = 'select count(a.status) from workblock a where '.$role.' = "'.$nama.'" and a.status = 'Completed' and a.code = "'.$init_code.'"';
     }
 }

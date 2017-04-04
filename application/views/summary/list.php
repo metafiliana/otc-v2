@@ -81,6 +81,8 @@
             "info":   false,
             "searching":   false,
         } );
+
+        // list filter
         $('#filter-select').on('change', function() {
             $i = 0;
             if (this.value == '1') {
