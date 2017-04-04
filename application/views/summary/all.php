@@ -13,13 +13,22 @@
     .panel-default {
         margin: 25px;
     }
+    .well {
+        margin: 25px;
+    }
 </style>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
 <div class="component_part">
+    <div class="row well">
+        <div class="clearfix" style="float: right;">
+          <button class="btn btn-default">Summary All</button>
+          <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Program List</button></a>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-12 text-center"><br><br>
+        <div class="col-md-12 text-center">
             <h3>Summary</h3>
             <!-- <h4> 30% (6 Initiative) Done dari Total 20 intiative Terdapat 3 initiative delay, dan 2 initiative at Risk.</h4> -->
         </div>
