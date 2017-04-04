@@ -52,7 +52,8 @@
             <div id="chart_deliverable" class="col-md-3 chart-4"></div>
             <div id="chart_action" class="col-md-3 chart-4"></div>
         </div>
-        <div class="col-md-12">
+        <div id="event"></div>
+        <!-- <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 id="filter-value-title" class="panel-title">Charts Detail : <span id="keterangan-detail"></span></h4>
@@ -66,12 +67,114 @@
                             <th>End Date</th>
                         </thead>
                         <tbody id="chart-detail-body">
-                            <!-- isi disini -->
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+        <div id="keterangan-detail-chart" class="text-center"></div>
+        <div class="col-md-12">
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseDelay">
+                    Delay
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseDelay" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <table id="chart-detail-delay" class="table text-center">
+                        <thead>
+                            <th>Title</th>
+                            <th>Code</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </thead>
+                        <tbody id="chart-detail-body-delay">
+                            <!-- isi disini -->
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseNYS">
+                    Not Yet Started
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseNYS" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <table id="chart-detail-nys" class="table text-center">
+                        <thead>
+                            <th>Title</th>
+                            <th>Code</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </thead>
+                        <tbody id="chart-detail-body-nys">
+                            <!-- isi disini -->
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseIP">
+                    In Progress
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseIP" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <table id="chart-detail-ip" class="table text-center">
+                        <thead>
+                            <th>Title</th>
+                            <th>Code</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </thead>
+                        <tbody id="chart-detail-body-ip">
+                            <!-- isi disini -->
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseC">
+                    Completed
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseC" class="panel-collapse collapse in">
+                <div class="panel-body">
+                  <table id="chart-detail-completed" class="table text-center">
+                        <thead>
+                            <th>Title</th>
+                            <th>Code</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </thead>
+                        <tbody id="chart-detail-body-completed">
+                            <!-- isi disini -->
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
 </div>
 <div id="delayId" style="display: none;"></div>
 <script>
@@ -109,56 +212,7 @@ var selected;
     ];
 
     var typesDeliverable = [
-    <?php foreach ($wb_status as $key => $value) { ?>
-            <?php if ($key == 'inprog') { ?>
-                {
-                type: "In Progress",
-                color: "grey",
-            <?php }elseif ($key == 'notyet') { ?>
-                {
-                type: "Not Yet",
-                color: "yellow",
-            <?php }elseif ($key == 'complete') { ?>
-                {
-                type: "Completed",
-                color: "green",
-            <?php }elseif ($key == 'delay') { ?>
-                {
-                type: "Delay",
-                color: "red",
-            <?php } ?>
-            percent: "<?php echo number_format(($value * $persen_initiative), 2, '.', ''); ?>",
-            },
-    <?php } ?>
-    ];
-
-    var typesWorkstream = [
-    <?php foreach ($wb_status as $key => $value) { ?>
-            <?php if ($key == 'inprog') { ?>
-                {
-                type: "In Progress",
-                color: "grey",
-            <?php }elseif ($key == 'notyet') { ?>
-                {
-                type: "Not Yet",
-                color: "yellow",
-            <?php }elseif ($key == 'complete') { ?>
-                {
-                type: "Completed",
-                color: "green",
-            <?php }elseif ($key == 'delay') { ?>
-                {
-                type: "Delay",
-                color: "red",
-            <?php } ?>
-            percent: "<?php echo number_format(($value * $persen_initiative), 2, '.', ''); ?>",
-            },
-    <?php } ?>
-    ];
-
-    var typesAction = [
-    <?php foreach ($chart_data_action as $key => $value) { ?>
-      <?php //echo $value['percent'];exit(); ?>
+    <?php foreach ($chart_data_deliverable as $key => $value) { ?>
             <?php if ($value['status'] == 'In Progress') { ?>
                 {
                 type: "In Progress",
@@ -176,7 +230,57 @@ var selected;
                 type: "Delay",
                 color: "red",
             <?php } ?>
-            percent: "<?php echo $value['percent']; ?>",
+            percent: "<?php echo number_format(($value['percent'] * $persen_deliverable), 2, '.', ''); ?>",
+            },
+    <?php } ?>
+    ];
+
+    var typesWorkstream = [
+    <?php foreach ($chart_data_workstream as $key => $value) { ?>
+        <?php if ($value['status'] != null){ ?>
+            <?php if ($value['status'] == 'In Progress') { ?>
+                {
+                type: "In Progress",
+                color: "grey",
+            <?php }elseif ($value['status'] == 'Not Started Yet') { ?>
+                {
+                type: "Not Yet",
+                color: "yellow",
+            <?php }elseif ($value['status'] == 'Completed') { ?>
+                {
+                type: "Completed",
+                color: "green",
+            <?php }elseif ($value['status'] == 'Delay') { ?>
+                {
+                type: "Delay",
+                color: "red",
+            <?php } ?>
+            percent: "<?php echo number_format(($value['percent'] * $persen_workstream), 2, '.', ''); ?>",
+            },
+        <?php } ?>
+    <?php } ?>
+    ];
+
+    var typesAction = [
+    <?php foreach ($chart_data_action as $key => $value) { ?>
+            <?php if ($value['status'] == 'In Progress') { ?>
+                {
+                type: "In Progress",
+                color: "grey",
+            <?php }elseif ($value['status'] == 'Not Started Yet') { ?>
+                {
+                type: "Not Yet",
+                color: "yellow",
+            <?php }elseif ($value['status'] == 'Completed') { ?>
+                {
+                type: "Completed",
+                color: "green",
+            <?php }elseif ($value['status'] == 'Delay') { ?>
+                {
+                type: "Delay",
+                color: "red",
+            <?php } ?>
+            percent: "<?php echo number_format(($value['percent'] * $persen_action), 2, '.', ''); ?>",
             },
     <?php } ?>
     ];
@@ -227,6 +331,54 @@ function generateChartDataAction() {
     }
   }
   return chartDataAction;
+}
+
+function generateChartDataWorkstream() {
+  var chartDataWorkstream = [];
+  for (var i = 0; i < typesWorkstream.length; i++) {
+    if (i == selected) {
+      for (var x = 0; x < typesWorkstream[i].subs.length; x++) {
+        chartDataWorkstream.push({
+          type: typesWorkstream[i].subs[x].type,
+          percent: typesWorkstream[i].subs[x].percent,
+          color: typesWorkstream[i].color,
+          pulled: true
+        });
+      }
+    } else {
+      chartDataWorkstream.push({
+        type: typesWorkstream[i].type,
+        percent: typesWorkstream[i].percent,
+        color: typesWorkstream[i].color,
+        id: i
+      });
+    }
+  }
+  return chartDataWorkstream;
+}
+
+function generateChartDataDeliverable() {
+  var chartDataDeliverable = [];
+  for (var i = 0; i < typesDeliverable.length; i++) {
+    if (i == selected) {
+      for (var x = 0; x < typesDeliverable[i].subs.length; x++) {
+        chartDataDeliverable.push({
+          type: typesDeliverable[i].subs[x].type,
+          percent: typesDeliverable[i].subs[x].percent,
+          color: typesDeliverable[i].color,
+          pulled: true
+        });
+      }
+    } else {
+      chartDataDeliverable.push({
+        type: typesDeliverable[i].type,
+        percent: typesDeliverable[i].percent,
+        color: typesDeliverable[i].color,
+        id: i
+      });
+    }
+  }
+  return chartDataDeliverable;
 }
 
 AmCharts.makeChart("chart_initiative", {
@@ -309,12 +461,242 @@ AmCharts.makeChart("chart_action", {
   // }
 });
 
-$(document).on('click', '#delayId', function () {
-    // $("#initiative-table-body").empty();
-    $("#chart-detail-body").empty();
-    $("#keterangan-detail").empty();
-    $("#keterangan-detail").html('<font color="red">Delay</font>');
-    // $("#status").text("Delay");
+AmCharts.makeChart("chart_workstream", {
+    "type": "pie",
+    "theme": "light",
+    "legend":{
+        "position":"right",
+        // "marginRight":1000000,
+        "autoMargins":true
+      },
+
+  "dataProvider": generateChartDataWorkstream(),
+  "labelText": "",
+  "balloonText": "[[title]]: [[value]]%",
+  "titleField": "type",
+  "valueField": "percent",
+  "outlineColor": "#FFFFFF",
+  "outlineAlpha": 0.8,
+  "outlineThickness": 2,
+  "colorField": "color",
+  "pulledField": "pulled",
+  "titles": [{
+    "text": "Workstream Chart",
+  }],
+  "listeners": [{
+    "event": "clickSlice",
+    "method": function(event) {
+      var chart = event.chart;
+      if (event.dataItem.dataContext.id != undefined) {
+        selected = event.dataItem.dataContext.id;
+      } else {
+        selected = undefined;
+      }
+      chart.dataProvider = generateChartDataWorkstream();
+      chart.validateData();
+    }
+  }],
+  // "export": {
+  //   "enabled": true
+  // }
+});
+
+AmCharts.makeChart("chart_deliverable", {
+    "type": "pie",
+    "theme": "light",
+    "legend":{
+        "position":"right",
+        // "marginRight":1000000,
+        "autoMargins":true
+      },
+
+  "dataProvider": generateChartDataDeliverable(),
+  "labelText": "",
+  "balloonText": "[[title]]: [[value]]%",
+  "titleField": "type",
+  "valueField": "percent",
+  "outlineColor": "#FFFFFF",
+  "outlineAlpha": 0.8,
+  "outlineThickness": 2,
+  "colorField": "color",
+  "pulledField": "pulled",
+  "titles": [{
+    "text": "Deliverable Chart",
+  }],
+  "listeners": [{
+    "event": "clickSlice",
+    "method": function(event) {
+      var chart = event.chart;
+      if (event.dataItem.dataContext.id != undefined) {
+        selected = event.dataItem.dataContext.id;
+      } else {
+        selected = undefined;
+      }
+      chart.dataProvider = generateChartDataDeliverable();
+      chart.validateData();
+    }
+  }],
+  // "export": {
+  //   "enabled": true
+  // }
+})
+
+$(document).on('click', '#chart_workstream', function() {
+    $("#chart-detail-body-delay").empty();
+    $("#chart-detail-body-nys").empty();
+    $("#chart-detail-body-ip").empty();
+    $("#chart-detail-body-completed").empty();
+    $("#keterangan-detail-chart").empty();
+    $("#keterangan-detail-chart").html('<h3>Detail Workstream</h3>');
+
+    <?php foreach ($summary_workstream_delay as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_delay[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_delay[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_delay[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_workstream_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_not_started[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_workstream_completed as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_completed[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_completed[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_completed[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_completed[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-completed"));
+    <?php endforeach ?>
+});
+
+$(document).on('click', '#chart_deliverable', function() {
+    $("#chart-detail-body-delay").empty();
+    $("#chart-detail-body-nys").empty();
+    $("#chart-detail-body-ip").empty();
+    $("#chart-detail-body-completed").empty();
+    $("#keterangan-detail-chart").empty();
+    $("#keterangan-detail-chart").html('<h3>Detail Deliverable</h3>');
+
+    <?php foreach ($summary_deliverable_delay as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_deliverable_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_deliverable_delay[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_deliverable_delay[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_deliverable_delay[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_deliverable_progress as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_deliverable_progress[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_deliverable_progress[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_deliverable_progress[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_deliverable_progress[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-ip"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_deliverable_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_deliverable_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_deliverable_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_deliverable_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_deliverable_not_started[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_deliverable_completed as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_deliverable_completed[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_deliverable_completed[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_deliverable_completed[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_deliverable_completed[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-completed"));
+    <?php endforeach ?>
+});
+
+$(document).on('click', '#chart_action', function() {
+    $("#chart-detail-body-delay").empty();
+    $("#chart-detail-body-nys").empty();
+    $("#chart-detail-body-ip").empty();
+    $("#chart-detail-body-completed").empty();
+    $("#keterangan-detail-chart").empty();
+    $("#keterangan-detail-chart").html('<h3>Detail Action</h3>');
+
+    <?php foreach ($summary_action_delay as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_delay[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_delay[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_delay[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_action_progress as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_progress[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_progress[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_progress[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_progress[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-ip"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_action_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_not_started[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_action_completed as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_completed[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_completed[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_completed[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_completed[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-completed"));
+    <?php endforeach ?>
+});
+
+$(document).on('click', '#chart_initiative', function() {
+    $("#chart-detail-body-delay").empty();
+    $("#chart-detail-body-nys").empty();
+    $("#chart-detail-body-ip").empty();
+    $("#chart-detail-body-completed").empty();
+    $("#keterangan-detail-chart").empty();
+    $("#keterangan-detail-chart").html('<h3>Detail Initiative</h3>');
+
     <?php foreach ($summary_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_delay[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_delay[$key]['code']) ?>;
@@ -323,7 +705,58 @@ $(document).on('click', '#delayId', function () {
         // $('#initiative-info').text($text_info);
         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
         // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_progress as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_progress[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_progress[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_progress[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_progress[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-ip"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_not_started[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_completed as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_completed[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_completed[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_completed[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_completed[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-completed"));
     <?php endforeach ?>
 });
+
+// $(document).on('click', '#delayId', function () {
+//     // $("#initiative-table-body").empty();
+//     $("#chart-detail-body").empty();
+//     $("#keterangan-detail").empty();
+//     $("#keterangan-detail").html('<font color="red">Delay</font>');
+//     // $("#status").text("Delay");
+//     <?php //foreach ($summary_delay as $key => $value): ?>
+//         $text_info = <?php //echo json_encode($summary_delay[$key]['b_title']) ?>;
+//         $text_code = <?php //echo json_encode($summary_delay[$key]['code']) ?>;
+//         $text_start = <?php //echo json_encode($summary_delay[$key]['start']) ?>;
+//         $text_end = <?php //echo json_encode($summary_delay[$key]['end']) ?>;
+//         // $('#initiative-info').text($text_info);
+//         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+//         // $(newRowContent).appendTo($("#initiative-table-body"));
+//         $(newRowContent).appendTo($("#chart-detail-body"));
+//     <?php //endforeach ?>
+// });
 </script>

@@ -251,5 +251,93 @@ class Mworkblock extends CI_Model {
 
         return $result;
     }
+
+    function getCountDataChartAction()
+    {
+        $query = 'SELECT id FROM workblock GROUP BY title';
+        $result = count($this->db->query($query)->result_array());
+
+        return $result;
+    }
+
+    function get_summary_action_all($status){
+        if (empty($status)){
+            $status = 'Not Started Yet';
+        }
+
+        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+
+        $result = $this->db->query($sql);
+
+        if($result->num_rows>0){
+            return $result->result_array();
+        }else{
+            return false;
+        }
+    }
+
+    function getDataChartWorkstream()
+    {
+        $query = 'SELECT t.title, t.status, COUNT(t.STATUS) as percent FROM (SELECT b.title, a.initiative_id, a.`status` FROM workblock a RIGHT JOIN program AS b ON b.init_code = a.`initiative_id` GROUP BY b.title) AS t GROUP BY t.status';
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+
+    function getCountDataChartWorkstream()
+    {
+        $query = 'SELECT a.title, t.STATUS FROM workblock t RIGHT JOIN program AS a ON a.init_code = t.`initiative_id` WHERE t.status IS NOT NULL GROUP BY a.title';
+        $result = count($this->db->query($query)->result_array());
+
+        return $result;
+    }
+
+    function get_summary_workstream_all($status){
+        if (empty($status)){
+            $status = 'Not Started Yet';
+        }
+
+        $sql = 'SELECT b.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN program AS b ON b.init_code = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+
+        $result = $this->db->query($sql);
+
+        if($result->num_rows>0){
+            return $result->result_array();
+        }else{
+            return false;
+        }
+    }
+
+    function getDataChartDeliverable()
+    {
+        $query = 'SELECT t.title, t.status, COUNT(t.STATUS) as percent FROM (SELECT a.title, a.initiative_id, a.`status` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` GROUP BY b.title) AS t GROUP BY t.status';
+        $result = $this->db->query($query)->result_array();
+
+        return $result;
+    }
+
+    function getCountDataChartDeliverable()
+    {
+        $query = 'SELECT id FROM initiative GROUP BY title';
+        $result = count($this->db->query($query)->result_array());
+
+        return $result;
+    }
+
+    function get_summary_deliverable_all($status){
+        if (empty($status)){
+            $status = 'Not Started Yet';
+        }
+
+        $sql = 'SELECT b.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+
+        $result = $this->db->query($sql);
+
+        if($result->num_rows>0){
+            return $result->result_array();
+        }else{
+            return false;
+        }
+    }
     
 }

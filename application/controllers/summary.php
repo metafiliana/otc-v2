@@ -45,9 +45,28 @@ class Summary extends CI_Controller {
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
         $views['summary_completed'] = $this->mworkblock->get_summary_all('Completed');
+
         $views['chart_data_action'] = $this->mworkblock->getDataChartAction();
-        $views['chart_data_deliverable'] = $this->minitiative->getDataChartDeliverable();
-        $views['chart_data_workstream'] = $this->mprogram->getDataChartWorkstream();
+        $views['persen_action'] = 100/($this->mworkblock->getCountDataChartAction());
+        $views['summary_action_not_started'] = $this->mworkblock->get_summary_action_all('Not Started Yet');
+        $views['summary_action_delay'] = $this->mworkblock->get_summary_action_all('Delay');
+        $views['summary_action_progress'] = $this->mworkblock->get_summary_action_all('In Progress');
+        $views['summary_action_completed'] = $this->mworkblock->get_summary_action_all('Completed');
+        
+        $views['chart_data_deliverable'] = $this->mworkblock->getDataChartDeliverable();
+        $views['persen_deliverable'] = 100/($this->mworkblock->getCountDataChartDeliverable());
+        $views['summary_deliverable_not_started'] = $this->mworkblock->get_summary_deliverable_all('Not Started Yet');
+        $views['summary_deliverable_delay'] = $this->mworkblock->get_summary_deliverable_all('Delay');
+        $views['summary_deliverable_progress'] = $this->mworkblock->get_summary_deliverable_all('In Progress');
+        $views['summary_deliverable_completed'] = $this->mworkblock->get_summary_deliverable_all('Completed');
+        // var_dump($views['persen_workstream']);die;
+
+        $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
+        $views['persen_workstream'] = 100/($this->mworkblock->getCountDataChartWorkstream());
+        $views['summary_workstream_not_started'] = $this->mworkblock->get_summary_workstream_all('Not Started Yet');
+        $views['summary_workstream_delay'] = $this->mworkblock->get_summary_workstream_all('Delay');
+        // $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
+        $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
         // var_dump($views['chart_data_action']);exit();
         //$views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
         
