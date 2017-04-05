@@ -9,7 +9,7 @@
 		
 		<table class="table table-bordered">
 			<thead>
-				<tr class="headertab"><th>No</th><th>Nama</th><th>Role</th><th>Jabatan</th><th>Initiative</th><th></th></tr>
+				<tr class="headertab"><th>No</th><th>Nama</th><th>Role</th><th>Initiative</th><th></th></tr>
 			</thead>
 			<tbody>
 				<?php $i=1; foreach($user as $usr){?>
@@ -17,7 +17,6 @@
 					<td><?php echo $i;?></td>
 					<td><?php echo $usr->name;?></td>
 					<td><?php echo $usr->role;?></td>
-					<td><?php echo $usr->jabatan;?></td>
 					<td><?php echo $usr->initiative;?></td>
 					<td>
 						<a href="<?php echo base_url()?>user/input_user/<?php echo $usr->id?>" class="btn btn-warning  btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>

@@ -140,6 +140,7 @@ class Mprogram extends CI_Model {
             $arr[$i]['lu'] = $this->minitiative->get_initiative_last_update($prog->id);
             $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
             $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
+            //$arr[$i]['init_status'] = $this->minitiative->get_initiative_status($init_id,$arr[$i]['init']->end)['status'];
             $arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code);
             $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
 

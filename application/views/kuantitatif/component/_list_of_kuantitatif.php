@@ -1,7 +1,6 @@
 <table class="table table-hover">
     <thead class="black_color old_grey_color_bg">
     <tr>
-        <th style="vertical-align:middle">No</th>
         <th style="vertical-align:middle">Code & Initiative Name</th>
         <th style="vertical-align:middle">Metric</th>
         <th style="vertical-align:middle">Realisasi</th>
@@ -14,9 +13,6 @@
     <tbody>
     <?php $pv_init=""; $code=""; $i=1; foreach($programs as $prog){?>
         <tr>
-            <td style="vertical-align:middle">
-                <?php echo $i;?>
-            </td>
             <td style="vertical-align:middle">
             <?php if($code != $prog['prog']->init_code){?>
                 <div><?php echo $prog['prog']->init_code;?>. <?php echo $prog['prog']->title;?></div>

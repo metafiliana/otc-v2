@@ -222,6 +222,7 @@ var selected;
 
     var typesDeliverable = [
     <?php foreach ($chart_data_deliverable as $key => $value) { ?>
+            <?php if ($value['status'] != null){ ?>
             <?php if ($value['status'] == 'In Progress') { ?>
                 {
                 type: "In Progress",
@@ -242,6 +243,7 @@ var selected;
             percent: "<?php echo number_format(($value['percent'] * $persen_deliverable), 2, '.', ''); ?>",
             },
     <?php } ?>
+  <?php } ?>
     ];
 
     var typesWorkstream = [
