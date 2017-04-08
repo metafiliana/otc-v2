@@ -56,7 +56,7 @@ class Mfiles_upload extends CI_Model {
     
 	function insert_files_upload_with_full_url($full_url,$modul, $submodul, $atch, $ownership_id){
 		$file_atch['full_url'] = $full_url.$atch['file_name'];
-		$user = $this->session->userdata('userdb');
+		$user = $this->session->userdata('user');
     	$file_atch['file_name'] = $atch['file_name'];
 		$file_atch['ext'] = $atch['file_ext'];
 		$file_atch['title'] =  $atch['raw_name'];
@@ -93,6 +93,9 @@ class Mfiles_upload extends CI_Model {
 		$file_atch['modul'] = $modul;
 		$file_atch['sub_modul'] = $submodul;
 		$file_atch['user_id'] = $user['id'];
+        if($ownership_id){
+        $file_atch['ownership_id'] = $ownership_id;
+        }
         $file_atch['created'] = date("Y-m-d H:i:s");
 		return $this->insert_files_upload($file_atch);
 	}
@@ -622,7 +625,7 @@ class Mfiles_upload extends CI_Model {
     }
     
     function upload_file($form,$path,$modul,$submodul,$ownership_id,$to_files_upload){
-        $upload_path = "assets/uploads/".$path;
+        $upload_path = "assets/upload/".$path;
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 0777, true);
         }

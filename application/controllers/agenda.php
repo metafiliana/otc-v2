@@ -9,6 +9,7 @@ class Agenda extends CI_Controller {
         $this->load->model('magenda');
         $this->load->model('mmilestone');
         $this->load->model('mremark');
+        $this->load->model('mfiles_upload');
         
         $session = $this->session->userdata('user');
         
@@ -59,10 +60,11 @@ class Agenda extends CI_Controller {
     
     public function get_detail(){
        	$id = $this->input->get('id');
-    	$agenda = $this->magenda->get_agenda_by_id($id); 
+    	$agenda = $this->magenda->get_agenda_by_id($id);
+        $files = $this->mfiles_upload->get_files_upload_by_ownership_id('agenda','files',$id); 
 		if($agenda){
 			$json['status'] = 1;
-            $json['message'] = $data['content'] = $this->load->view('agenda/detail_agenda',array('agenda' => $agenda),TRUE);
+            $json['message'] = $data['content'] = $this->load->view('agenda/detail_agenda',array('agenda' => $agenda, 'files' => $files),TRUE);
             $json['title'] = $agenda->title;
 		}else{
 			$json['status'] = 0;
@@ -84,6 +86,8 @@ class Agenda extends CI_Controller {
         if($this->input->get('id')){
             $id = $this->input->get('id');
             $agenda = $this->magenda->get_agenda_by_id($id);
+            $files = $this->mfiles_upload->get_files_upload_by_ownership_id('agenda','files',$id);
+
         }
         else{
             $agenda="";
@@ -102,7 +106,7 @@ class Agenda extends CI_Controller {
 
 		$this->load->view('front',$data);*/
 
-        $json['html'] = $this->load->view('agenda/input_agenda',array('agenda' => $agenda,'choose_date'=>$choose_date),TRUE);
+        $json['html'] = $this->load->view('agenda/input_agenda',array('agenda' => $agenda,'choose_date'=>$choose_date, 'files' => $files),TRUE);
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
@@ -124,15 +128,40 @@ class Agenda extends CI_Controller {
     	if($this->input->post('end')){$end = DateTime::createFromFormat('m/d/Y', $this->input->post('end'));
     		$program['end'] = $end->format('Y-m-d')." ".$this->input->post('end_time').":00";
     	}
-        
         if($id){
-        	if($this->magenda->update_agenda($program,$id)){redirect('agenda');}
-        	else{redirect('agenda');}
+        	$this->magenda->update_agenda($program,$id);
+            if(isset($_FILES['attachment']) && !($_FILES['attachment']['error'] == UPLOAD_ERR_NO_FILE)){
+                $files = $this->mfiles_upload->get_files_upload_by_ownership_id('agenda','files',$id);
+                $this->mfiles_upload->delete_with_files($files->id);
+            }
         }
         else{
-        	if($this->magenda->insert_agenda($program)){redirect('agenda');}
-        	else{redirect('agenda');}
+            $id=$this->magenda->insert_agenda($program);
         }
+        /*Upload */ 
+        $upload_path = "assets/upload/agenda/".$id."/";
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 0777, true);
+        }
+        $config = array(
+            'upload_path' => $upload_path,
+            'allowed_types' => "*",
+            'overwrite' => TRUE,
+            'max_size' => "2048000000",
+        );
+        $this->load->library('upload', $config);
+        
+        if($this->upload->do_multi_upload("attachment"))
+        {
+            $attachments = $this->upload->get_multi_upload_data();
+            foreach($attachments as $atch){
+                $this->mfiles_upload->insert_files_upload_with_full_url_with_param($upload_path, 'agenda', 'files', $atch, $id, '');
+            }
+        }
+        else{
+            $error = array('error' => $this->upload->display_errors());
+        }
+        redirect('agenda');
     }
     
     public function delete_agenda(){
