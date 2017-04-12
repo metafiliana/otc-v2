@@ -98,6 +98,7 @@ class Summary extends CI_Controller {
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
         $views['co_pmo_list'] = $this->muser->get_all_co_pmo();
+        // $views['initiative_list'] = $this->muser->get_all_co_pmo();
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
