@@ -62,6 +62,7 @@ class Summary extends CI_Controller {
         // var_dump($views['persen_workstream']);die;
 
         $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
+        // var_dump($views['chart_data_deliverable']);die;
         $views['persen_workstream'] = 100/($this->mworkblock->getCountDataChartWorkstream());
         $views['summary_workstream_not_started'] = $this->mworkblock->get_summary_workstream_all('Not Started Yet');
         $views['summary_workstream_delay'] = $this->mworkblock->get_summary_workstream_all('Delay');
@@ -97,7 +98,6 @@ class Summary extends CI_Controller {
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
         $views['co_pmo_list'] = $this->muser->get_all_co_pmo();
-        // var_dump($views['pmo_head_list']);die;
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
@@ -120,9 +120,9 @@ class Summary extends CI_Controller {
             $data['programs'] = $this->mprogram->getInitCode($nama, $role);
         }
 
-        // if($code=="co_pmo"){
-        //     $data['programs'] = $this->mprogram->get_segment_programs('',$filter,'','');
-        // }
+        if($role == "co_pmo"){
+            $data['programs'] = $this->mprogram->getInitCode($nama, $role);
+        }
         
         // $data['user'] = $this->session->userdata('user');
 

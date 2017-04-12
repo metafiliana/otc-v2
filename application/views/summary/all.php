@@ -214,6 +214,10 @@ var selected;
                 {
                 type: "Delay",
                 color: "red",
+            <?php }else{ ?>
+                {
+                type: "At Risk",
+                color: "orange",
             <?php } ?>
             percent: "<?php echo number_format(($value * $persen_initiative), 2, '.', ''); ?>",
             },
@@ -238,6 +242,10 @@ var selected;
                 {
                 type: "Delay",
                 color: "red",
+            <?php }else{ ?>
+                {
+                type: "At Risk",
+                color: "orange",
             <?php } ?>
             percent: "<?php echo number_format(($value['percent'] * $persen_deliverable), 2, '.', ''); ?>",
             },
@@ -263,6 +271,10 @@ var selected;
                 {
                 type: "Delay",
                 color: "red",
+            <?php }else{ ?>
+                {
+                type: "At Risk",
+                color: "orange",
             <?php } ?>
             percent: "<?php echo number_format(($value['percent'] * $persen_workstream), 2, '.', ''); ?>",
             },

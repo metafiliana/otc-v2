@@ -297,9 +297,72 @@ class Muser extends CI_Model {
     function get_all_co_pmo(){
         $this->db->distinct();
         $this->db->where('role', 'Co-PMO');
-        $this->db->select('name as nama');
+        $this->db->select('name as nama, initiative');
         // $this->db->join('program','kuantitatif.init_code = program.init_code');
-        $query = $this->db->get('user');
-        return $query->result();
+        $query = $this->db->get('user')->result();
+
+        $data = array();
+        $i = 0;
+        foreach ($query as $key => $value) {
+            $status = 0;
+            $data[$i]['nama'] = $value->nama;
+            // array_push($database, $value->nama);
+            if (strpos($value->initiative, ';') !== false) {
+                $array = explode(';', $value->initiative);
+                // array_push($data[$i]['initiative'], $array);
+                $data[$i]['initiative'] = $array;
+                $status = 1;
+            }
+
+            if ($status == 0){
+                $data[$i]['initiative'] = $value->initiative;
+            }
+
+            $data[$i]['total_initiative'] = 0;
+            $data[$i]['total_completed'] = 0;
+            $i++;
+        }
+
+        $sql = 'SELECT t.code as code, COUNT(STATUS) AS t_complete, (SELECT COUNT(STATUS) AS total FROM workblock a WHERE a.code = t.code GROUP BY CODE) AS total FROM workblock t WHERE LOWER(STATUS) = "completed" GROUP BY CODE';
+        $result = $this->db->query($sql)->result_array();
+
+        foreach ($data as $key => $value) {
+            $total_initiative = 0;
+            $total_completed = 0;
+            foreach ($result as $key1 => $value1) {
+                if (is_array($value['initiative']) === true){
+                    foreach ($value['initiative'] as $key2 => $value2) {
+                        if ($value2 == $value1['code']){
+                            $total_initiative = $total_initiative + (int)$value1['total'];
+                            $total_completed = $total_completed + (int)$value1['t_complete'];
+                            // $data[$key]['total_initiative'] = (int)$value1['total'];
+                            // $data[$key]['total_completed'] = (int)$value1['t_complete'];
+                        }
+                    }
+                    if ($total_completed != 0 && $total_initiative != 0){
+                        $data[$key]['total_initiative'] = $total_initiative;
+                        $data[$key]['total_completed'] = $total_completed;
+                        if ($total_initiative != 0)
+                            $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative) * 100), 2);
+                    }
+                }else{
+                    if ($value['initiative'] == $value1['code']){
+                        $data[$key]['total_initiative'] = (int)$value1['total'];
+                        $data[$key]['total_completed'] = (int)$value1['t_complete'];
+                        if ($total_initiative != 0)
+                            $data[$key]['total_completed'] = round(((float)($value1['t_complete']/$total_initiative) * 100), 2);
+                    }
+                }
+            }
+        }
+
+        foreach ($data as $key => $row) {
+            // replace 0 with the field's index/key
+            $arsort[$key]  = $row['total_completed'];
+        }
+
+        array_multisort($arsort, SORT_ASC, $data);
+
+        return $data;
     }
 }
