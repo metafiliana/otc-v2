@@ -296,6 +296,12 @@ class Minitiative extends CI_Model {
         return $status;
     }
 
+    function get_initiative_status_only_by_id($id){
+        $status =  $this->get_initiative_status($id,'')['status'];
+        if(!$status){$status = $init->status;}
+        return $status;
+    }
+
     function get_initiative_status($id,$end){
     	$this->db->where('initiative_id', $id);
     	$this->db->order_by('status', 'asc');

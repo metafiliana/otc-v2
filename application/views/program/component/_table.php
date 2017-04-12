@@ -29,17 +29,14 @@ $user = $this->session->userdata('user');
 			<td>
 				<div class="center_text" style="float:left; width:100px;"><?php if(isset($prog['lu']->last_update)) echo date("j F Y G:i:s",strtotime($prog['lu']->last_update));?></div> 
 			</td>
-			<td>
+			<td class="center_text">
 				<?php if($prog['wb_total']==0){ ?>
 				<span style="font-size:14px; color:<?php echo color_status('Not Started Yet')?>; font-weight:bold">No Action</span>
 				<?php } else{ ?>
-				<?php if(($prog['wb_status']['complete']/$prog['wb_total'])*100==0){ ?>
-				<span style="font-size:14px; color:<?php echo color_status('Delay')?>; font-weight:bold">Delay</span>
-				<?php } else{ ?>
 				<span style="font-size:14px; color:<?php echo color_status($prog['init_status'])?>; font-weight:bold"><?php echo $prog['init_status']?></span>
-				<?php } }?> 
+				<?php } ?> 
 			</td>
-			<td><?php if($prog['wb_total']==0){"0";}else{ echo number_format((($prog['wb_status']['complete']/$prog['wb_total'])*100),2);}?>%</td>
+			<td class="center_text"><?php if($prog['wb_total']==0){"0";}else{ echo number_format((($prog['wb_status']['complete']/$prog['wb_total'])*100),2);}?>%</td>
 			<?php if($user['role']=='admin'){?><td style="width:50px">
 				<a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a class="btn btn-link btn-link-delete" onclick="delete_program(<?php echo $prog['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>

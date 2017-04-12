@@ -19,9 +19,12 @@ class Magenda extends CI_Model {
     
     //INSERT or CREATE FUNCTION
     
-    
     function insert_agenda($program){
-        return $this->db->insert('agenda', $program);
+        if($this->db->insert('agenda', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
     }
 
     function update_agenda($program,$id){

@@ -23,7 +23,7 @@
     <div class="col-md-4">
     <figure class="snip1579"><img src="<?php echo base_url()?>/assets/img/inisiatif1.png" alt="profile-sample6"/>
       <figcaption>
-        <h3>My Kuantitative</h3>
+        <h3>My Metrics</h3>
         <blockquote>
           <p style="margin-left:5px">'Selected Kuantitative.'</p>
         </blockquote>

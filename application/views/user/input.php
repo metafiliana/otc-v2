@@ -84,18 +84,6 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Jabatan</label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Jabatan" value="<?php if($info){echo $info->jabatan;}?>">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Unit Kerja</label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" id="unitkerja" name="unitkerja" placeholder="Unit Kerja" value="<?php if($info){echo $info->unitkerja;}?>">
-				</div>
-			</div>
-			<div class="form-group">
 				<label class="col-sm-3 control-label">Initiative</label>
 				<div class="col-sm-9">
 					<input type="text" class="form-control" id="initiative" name="initiative" placeholder="Initiative" value="<?php if($info){echo $info->initiative;}?>">
