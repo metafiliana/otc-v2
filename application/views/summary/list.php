@@ -37,7 +37,7 @@
                 <option value="1">PMO Head</option>
                 <option value="2">CO-PMO</option>
                 <option value="3">Direktur Sponsor</option>
-                <option value="4">Initiative</option>
+                <!-- <option value="4">Initiative</option> -->
             </select>
         </div>
     </div>
@@ -114,19 +114,24 @@
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
-            // else if(this.value == '2'){
-            //     $('#filter-value-title').text('CO - PMO');
-            //     $("#filter-value-table-primary-body").empty();
-            //     $('#filter-value-table-primary').show();
+            else if(this.value == '2'){
+                $('#filter-value-title').text('CO PMO');
+                $("#filter-value-table-primary-body").empty();
+                $('#filter-value-table-program').empty();
+                $('#filter-value-table-initiative').empty();
+                $('#filter-value-table-workblock').empty();
+                $('#nama-detail').text('');
+                $('#filter-value-table-primary').show();
 
-            //     <?php //foreach ($co_pmo_list as $key => $value): ?>
-            //         $i++;
-            //         $text_nama = <?php //echo json_encode($value['nama']); ?>;
-            //         $text_presentase = <?php //echo json_encode($value['total_completed']); ?>;
-            //         var newRowContent = '<tr><td><a class="filter-value-detail-cpmo" data-nama="'+$text_nama+'" >'+$text_nama+'</a></td><td>'+$text_presentase+' %</td></tr>';
-            //         $(newRowContent).appendTo($("#filter-value-table-primary-body"));
-            //     <?php //endforeach ?>
-            // }
+                <?php foreach ($co_pmo_list as $key => $value): ?>
+                    $i++;
+                    $text_nama = <?php echo json_encode($value['nama']); ?>;
+                    $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
+                    $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="co_pmo" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
+                    $(newRowContent).appendTo($("#filter-value-table-primary-body"));
+                <?php endforeach ?>
+            }
             else if(this.value == '3'){
                 $('#filter-value-title').text('Direktur Sponsor');
                 $("#filter-value-table-primary-body").empty();
@@ -145,6 +150,24 @@
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
+            // else if(this.value == '4'){
+            //     $('#filter-value-title').text('Initiative');
+            //     $("#filter-value-table-primary-body").empty();
+            //     $('#filter-value-table-program').empty();
+            //     $('#filter-value-table-initiative').empty();
+            //     $('#filter-value-table-workblock').empty();
+            //     $('#nama-detail').text('');
+            //     $('#filter-value-table-primary').show();
+
+            //     <?php foreach ($dir_spon_list as $key => $value): ?>
+            //         $i++;
+            //         $text_nama = <?php echo json_encode($value['nama']); ?>;
+            //         $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
+            //         $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
+            //         var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
+            //         $(newRowContent).appendTo($("#filter-value-table-primary-body"));
+            //     <?php endforeach ?>
+            // }
         });
 
     });

@@ -313,6 +313,13 @@ class Mprogram extends CI_Model {
             }
         }
 
+        foreach ($data as $key => $row) {
+            // replace 0 with the field's index/key
+            $arsort[$key]  = $row['total_completed'];
+        }
+
+        array_multisort($arsort, SORT_ASC, $data);
+
         return $data;
     }
 
@@ -351,6 +358,13 @@ class Mprogram extends CI_Model {
             }
         }
 
+        foreach ($data as $key => $row) {
+            // replace 0 with the field's index/key
+            $arsort[$key]  = $row['total_completed'];
+        }
+
+        array_multisort($arsort, SORT_ASC, $data);
+
         return $data;
     }
 
@@ -384,8 +398,13 @@ class Mprogram extends CI_Model {
         // }
 
         // $sql = 'select id, '.$role.', title, code, init_code, segment from program where '.$role.' = "'.$nama.'" group by init_code';
-        $sql = 'select t.id, t.'.$role.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$role.' = "'.$nama.'" group by t.init_code';
-        $result = $this->db->query($sql);
+        if ($role == 'pmo_head' || $role == 'dir_spon'){
+            $sql = 'select t.id, t.'.$role.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$role.' = "'.$nama.'" group by t.init_code';
+            $result = $this->db->query($sql);
+        }elseif ($role == 'co_pmo'){
+            $sql = 'SELECT t.id, t.`title`, t.`code`, t.init_code, t.`segment`, t.`nama`, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$nama.'" GROUP BY t.init_code';
+            $result = $this->db->query($sql);
+        }
 
         return $result->result_array();
     }
