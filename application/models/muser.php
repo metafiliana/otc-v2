@@ -85,6 +85,23 @@ class Muser extends CI_Model {
         return $result->result();
     }
 
+    function get_user_by_role($role){
+        $this->db->select('*');
+        $this->db->where('role',$role);
+        $result = $this->db->get('user');
+        return $result->result();
+    }
+
+    function check_date($date){
+        $this->db->where('check_date',$date);
+        $result = $this->db->get('email_date');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
+    }
+
     function get_user_by_id($id){
         $this->db->where('id',$id);
         $result = $this->db->get('user');
@@ -95,7 +112,14 @@ class Muser extends CI_Model {
         }
     }
 
-    function insert_notification_by_date(){
+    // function delete_notif_data_after_1year(){
+    //     $this->db->select('*');
+    //     $this->db->from('notification');
+    //     $this->db->where('date_time = date_sub(CURDATE(), INTERVAL 2 DAY)');
+    //     $this->db->delete('notification');
+    // }
+
+    function insert_notification_by_date_7(){
         $this->db->select('initiative.end as date_time');
         $this->db->select("CONCAT((user.name),('<p><br> tersisa 7 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
         $this->db->select('user.id as user_id_to');
@@ -104,6 +128,22 @@ class Muser extends CI_Model {
         $this->db->join('program','program.id = initiative.program_id');
         $this->db->join('user','program.init_code = user.initiative');
         $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -7 DAY)');
+        $sql = $this->db->get('initiative');
+        foreach($sql->result() as $row){
+            // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
+                $this->db->insert('notification',$row);
+        }
+    }
+
+    function insert_notification_by_date_2(){
+        $this->db->select('initiative.end as date_time');
+        $this->db->select("CONCAT((user.name),('<p><br> tersisa 2 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
+        $this->db->select('user.id as user_id_to');
+        $this->db->select('program.id as init_id');
+        $this->db->select('initiative.id as initiativeid');
+        $this->db->join('program','program.id = initiative.program_id');
+        $this->db->join('user','program.init_code = user.initiative');
+        $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -2 DAY)');
         $sql = $this->db->get('initiative');
         foreach($sql->result() as $row){
             // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
