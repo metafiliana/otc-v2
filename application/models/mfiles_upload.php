@@ -24,7 +24,7 @@ class Mfiles_upload extends CI_Model {
         return $insert_id;
     }
      
-    function  insert_user_customer($program){
+    function insert_user_customer($program){
         $insert_id = $this->db->insert('user_customer', $program);
         return $insert_id;
     }

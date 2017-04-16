@@ -151,11 +151,15 @@ class General extends CI_Controller {
 
     public function blast_email(){
         if(date('01-m-Y')==date('d-m-Y')){
-           $user=$this->muser->get_user_admin();//belum dibikin fungsinya di model
-           foreach ($user as $users) {
+            $data['check_date']=date('Y-m-01');
+            if(!$this->muser->check_date($data['check_date'])){
+                $user=$this->muser->get_user_by_role('admin');
+                foreach ($user as $users) {
                 $email = explode(';',$users->private_email); 
-                $this->send_email($users->name,$email,$initiative);
-           }
+                $this->send_email($users->name,$email,$users->initiative);
+                $this->mfiles_upload->insert_db($data,'email_date');
+                }
+            }
         }
     }
 
@@ -180,7 +184,7 @@ class General extends CI_Controller {
         $to = $email;
         //array('tezza.riyanto@bankmandiri.co.id');
         $subject = 'Permohonan update progress pada sistem OTC';
-        $message = 'Kepada'.$name.'untuk update progress pada initiative'.$init.'di https://10.200.53.7/otc Terima kasih.'; // use this line to send text email.
+        $message = 'Kepada '.$name.' untuk update progress pada initiative '.$init.' di https://10.200.53.7/otc Terima kasih.'; // use this line to send text email.
         // load view file called "welcome_message" in to a $message variable as a html string.
         //$message =  $this->load->view('welcome_message',[],true);
         // Load CodeIgniter Email library
@@ -198,7 +202,7 @@ class General extends CI_Controller {
             show_error($this->email->print_debugger());
         } else {
             // Show success notification or other things here
-            echo 'Success to send email';
+            //echo 'Success to send email';
         }
     }
     
