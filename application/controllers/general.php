@@ -10,6 +10,7 @@ class General extends CI_Controller {
         $this->load->model('mremark');
         $this->load->model('mfiles_upload');
         $this->load->model('mkuantitatif');
+        $this->load->model('muser');
         
         $session = $this->session->userdata('user');
         
@@ -146,6 +147,59 @@ class General extends CI_Controller {
 		$data['content'] = $this->load->view('general/outlook',array(),TRUE);
 
 		$this->load->view('front',$data);
+    }
+
+    public function blast_email(){
+        if(date('01-m-Y')==date('d-m-Y')){
+           $user=$this->muser->get_user_admin();//belum dibikin fungsinya di model
+           foreach ($user as $users) {
+                $email = explode(';',$users->private_email); 
+                $this->send_email($users->name,$email,$initiative);
+           }
+        }
+    }
+
+    public function send_email($name,$email,$init){
+        // Set SMTP Configuration
+        $emailConfig = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'smtp-mail.outlook.com',
+            'smtp_port' => 587,
+            'smtp_user' => 'otc.mandiri@outlook.com',
+            'smtp_pass' => 'QWEasd123',
+            'smtp_crypto' => 'tls'
+            //'mailtype' => 'html',
+            //'charset' => 'iso-8859-1'
+        ];
+        // Set your email information
+        $from = [
+            'email' => 'otc.mandiri@outlook.com',
+            'name' => 'OTC Mandiri'
+        ];
+      
+        $to = $email;
+        //array('tezza.riyanto@bankmandiri.co.id');
+        $subject = 'Permohonan update progress pada sistem OTC';
+        $message = 'Kepada'.$name.'untuk update progress pada initiative'.$init.'di https://10.200.53.7/otc Terima kasih.'; // use this line to send text email.
+        // load view file called "welcome_message" in to a $message variable as a html string.
+        //$message =  $this->load->view('welcome_message',[],true);
+        // Load CodeIgniter Email library
+        $this->load->library('email', $emailConfig);
+        // Sometimes you have to set the new line character for better result
+        $this->email->set_newline("\r\n");
+        // Set email preferences
+        $this->email->from($from['email'], $from['name']);
+        $this->email->to($to);
+        $this->email->subject($subject);
+        $this->email->message($message);
+        // Ready to send email and check whether the email was successfully sent
+        if (!$this->email->send()) {
+            // Raise error message
+            show_error($this->email->print_debugger());
+        } else {
+            // Show success notification or other things here
+            echo 'Success to send email';
+        }
     }
     
 }
