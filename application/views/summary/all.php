@@ -84,7 +84,7 @@
         </div> -->
 
         <div id="keterangan-detail-chart" class="text-center"></div>
-        <div class="col-md-12">
+        <div class="col-md-12" id="content-detail">
           <div class="panel-group" id="accordion">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -187,6 +187,7 @@
 </div>
 <div id="delayId" style="display: none;"></div>
 <script>
+$('#content-detail').hide();
 $("document").ready(function() {
     // $("#status").text("In Progress");
     setTimeout(function() {
@@ -565,6 +566,7 @@ AmCharts.makeChart("chart_deliverable", {
 })
 
 $(document).on('click', '#chart_workstream', function() {
+    $('#content-detail').show();
     $("#chart-detail-body-delay").empty();
     $("#chart-detail-body-nys").empty();
     $("#chart-detail-body-ip").empty();
@@ -581,6 +583,17 @@ $(document).on('click', '#chart_workstream', function() {
         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
         // $(newRowContent).appendTo($("#initiative-table-body"));
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+
+    <?php foreach ($summary_workstream_progress as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_progress[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_progress[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_progress[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_progress[$key]['end']) ?>;
+        // $('#initiative-info').text($text_info);
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        // $(newRowContent).appendTo($("#initiative-table-body"));
+        $(newRowContent).appendTo($("#chart-detail-body-ip"));
     <?php endforeach ?>
 
     <?php foreach ($summary_workstream_not_started as $key => $value): ?>
@@ -607,6 +620,7 @@ $(document).on('click', '#chart_workstream', function() {
 });
 
 $(document).on('click', '#chart_deliverable', function() {
+    $('#content-detail').show();
     $("#chart-detail-body-delay").empty();
     $("#chart-detail-body-nys").empty();
     $("#chart-detail-body-ip").empty();
@@ -660,6 +674,7 @@ $(document).on('click', '#chart_deliverable', function() {
 });
 
 $(document).on('click', '#chart_action', function() {
+    $('#content-detail').show();
     $("#chart-detail-body-delay").empty();
     $("#chart-detail-body-nys").empty();
     $("#chart-detail-body-ip").empty();
@@ -713,6 +728,7 @@ $(document).on('click', '#chart_action', function() {
 });
 
 $(document).on('click', '#chart_initiative', function() {
+    $('#content-detail').show();
     $("#chart-detail-body-delay").empty();
     $("#chart-detail-body-nys").empty();
     $("#chart-detail-body-ip").empty();

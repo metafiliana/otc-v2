@@ -278,7 +278,8 @@ class Mworkblock extends CI_Model {
 
     function getDataChartWorkstream()
     {
-        $query = 'SELECT t.title, t.status, COUNT(t.STATUS) as percent FROM (SELECT b.title, a.initiative_id, a.`status` FROM workblock a RIGHT JOIN program AS b ON b.init_code = a.`initiative_id` GROUP BY b.title) AS t GROUP BY t.status';
+        $query = 'SELECT t.title, t.status, COUNT(t.STATUS) as percent FROM (SELECT b.title, a.initiative_id, a.`status` FROM workblock a RIGHT JOIN program AS b ON b.init_code = a.`initiative_id`) AS t GROUP BY t.status';
+
         $result = $this->db->query($query)->result_array();
 
         return $result;
@@ -286,7 +287,7 @@ class Mworkblock extends CI_Model {
 
     function getCountDataChartWorkstream()
     {
-        $query = 'SELECT a.title, t.STATUS FROM workblock t RIGHT JOIN program AS a ON a.init_code = t.`initiative_id` WHERE t.status IS NOT NULL GROUP BY a.title';
+        $query = 'SELECT a.title, t.STATUS FROM workblock t RIGHT JOIN program AS a ON a.init_code = t.`initiative_id` WHERE t.status IS NOT NULL';
         $result = count($this->db->query($query)->result_array());
 
         return $result;
