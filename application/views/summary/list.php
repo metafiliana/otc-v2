@@ -214,6 +214,7 @@
                 if(resp.status==1){
                     $('#filter-value-table-initiative').empty();
                     // $('#filter-value-table-workblock').show();
+                    // $(this).css('font-weight', 'bold');
                     $('#panel-program-'+$id).html(resp.detail_programs);
 
                 }else{}

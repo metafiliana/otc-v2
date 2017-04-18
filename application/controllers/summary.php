@@ -37,10 +37,9 @@ class Summary extends CI_Controller {
         $init_id = null; //init
         
         $views['init'] = $this->minitiative->get_initiative_by_id($init_id);
-        // $views['init_status'] = $this->minitiative->get_initiative_status_only($views['init']);
+        
         $views['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
         $views['persen_initiative'] = 100/($this->mworkblock->get_count_workblock());
-        // var_dump($views['persen_initiative']);die;
         $views['summary_not_started'] = $this->mworkblock->get_summary_all('Not Started Yet');
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
@@ -59,21 +58,13 @@ class Summary extends CI_Controller {
         $views['summary_deliverable_delay'] = $this->mworkblock->get_summary_deliverable_all('Delay');
         $views['summary_deliverable_progress'] = $this->mworkblock->get_summary_deliverable_all('In Progress');
         $views['summary_deliverable_completed'] = $this->mworkblock->get_summary_deliverable_all('Completed');
-        // var_dump($views['persen_workstream']);die;
 
         $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
-        // var_dump($views['chart_data_deliverable']);die;
         $views['persen_workstream'] = 100/($this->mworkblock->getCountDataChartWorkstream());
         $views['summary_workstream_not_started'] = $this->mworkblock->get_summary_workstream_all('Not Started Yet');
         $views['summary_workstream_delay'] = $this->mworkblock->get_summary_workstream_all('Delay');
         $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
         $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
-        // var_dump($views['chart_data_action']);exit();
-        //$views['info'] = $this->load->view('initiative/detail/_general_info_old',array('initiative'=>$views['init'],'wb' => $views['wb_status'], 'summary_not_started' => $views['summary_not_started'], 'summary_delay' => $views['summary_delay'], 'summary_progress' => $views['summary_progress'], 'summary_completed' => $views['summary_completed']),TRUE);
-        
-        //$prog['programs'] = $this->mprogram->get_segment_programs('','','','');
-
-        //$prog['list_program'] = $this->load->view('program/component/_list_of_program',$prog,TRUE);
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
@@ -117,14 +108,10 @@ class Summary extends CI_Controller {
         //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
         // }
 
-        if($role == "dir_spon" || $role == "pmo_head"){
+        if($role == "dir_spon" || $role == "pmo_head" || $role == "co_pmo"){
             $data['programs'] = $this->mprogram->getInitCode($nama, $role);
         }
 
-        if($role == "co_pmo"){
-            $data['programs'] = $this->mprogram->getInitCode($nama, $role);
-        }
-        
         // $data['user'] = $this->session->userdata('user');
 
         $json['html'] = $this->load->view('summary/_program',$data,TRUE);
@@ -214,7 +201,21 @@ class Summary extends CI_Controller {
 
         $string = "<ul>";
         foreach ($data as $key => $value) {
-            $string .= "<li><a class = 'filter-value-detail-initiative' data-id = '".$value['id']."' data-initcode = '".$value['init_code']."'>".$value['title']."</a></li>";
+            $total_complete = 0;
+            $total_init = 0;
+            $data_persen = $this->minitiative->getInitiativeByProgramId($value['id']);
+
+            foreach ($data_persen as $key1 => $value1) {
+                $total_complete = $total_complete + $value1->total_c;
+                $total_init = $total_init + $value1->total_w;
+            }
+            $percent = 0;
+            if ($total_init != 0){
+                $percent_raw = ($total_complete / $total_init) * 100;
+                $percent = number_format($percent_raw, 2, '.', '');
+            }
+
+            $string .= "<li><a class = 'filter-value-detail-initiative' data-id = '".$value['id']."' data-initcode = '".$value['init_code']."'>".$value['title']." (".$percent."%)</a></li>";
         }
         $string .= "</ul>";
 

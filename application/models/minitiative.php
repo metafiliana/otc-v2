@@ -623,10 +623,10 @@ class Minitiative extends CI_Model {
     //afil
     function getInitiativeByProgramId($id)
     {
-        $this->db->select('*');
+        $this->db->select('t.*, (select count(a.id) from workblock a where a.initiative_id = t.id) as total_w, (select count(a.id) from workblock a where a.status = "Completed" AND a.initiative_id = t.id) as total_c');
         $this->db->where('program_id',$id);
         $this->db->order_by('title', 'asc');
-        $query = $this->db->get('initiative');
+        $query = $this->db->get('initiative t');
 
         $result = $query->result();
         return $result;
