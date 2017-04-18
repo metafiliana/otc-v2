@@ -453,12 +453,11 @@ function displayDetailInitiative(status)
   $("#chart-detail-body-delay").empty();
   $("#chart-detail-body-nys").empty();
   $("#chart-detail-body-completed").empty();
+  $("#keterangan-detail-chart").empty();
+  $("#keterangan-detail-chart").html('<h3>Detail Initiative</h3>');
 
   if (status == 'In Progress'){
     $(".p-ip").show();
-
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Initiative</h3>');
 
     <?php foreach ($summary_progress as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_progress[$key]['b_title']) ?>;
@@ -472,9 +471,6 @@ function displayDetailInitiative(status)
   }else if (status == 'Delay'){
     $(".p-delay").show();
 
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Initiative</h3>');
-
     <?php foreach ($summary_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_delay[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_delay[$key]['code']) ?>;
@@ -486,9 +482,6 @@ function displayDetailInitiative(status)
   }else if (status == 'Completed'){
     $(".p-c").show();
 
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Initiative</h3>');
-
     <?php foreach ($summary_completed as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_completed[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_completed[$key]['code']) ?>;
@@ -499,9 +492,6 @@ function displayDetailInitiative(status)
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
     $(".p-nys").show();
-
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Initiative</h3>');
 
     <?php foreach ($summary_not_started as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_not_started[$key]['b_title']) ?>;
@@ -538,21 +528,80 @@ AmCharts.makeChart("chart_action", {
   }],
   "listeners": [{
     "event": "clickSlice",
-    "method": function(event) {
-      var chart = event.chart;
-      if (event.dataItem.dataContext.id != undefined) {
-        selected = event.dataItem.dataContext.id;
-      } else {
-        selected = undefined;
-      }
-      chart.dataProvider = generateChartDataAction();
-      chart.validateData();
+    "method": function(e) {
+      var chart = e.chart;
+      var dp = e.dataItem.dataContext;
+        displayDetailAction(dp.type);
+        
+      e.chart.validateData();
     }
   }],
   // "export": {
   //   "enabled": true
   // }
 });
+
+function displayDetailAction(status)
+{
+  $('#content-detail').show();
+  $(".p-delay").hide();
+  $(".p-nys").hide();
+  $(".p-ip").hide();
+  $(".p-c").hide();
+  $("#chart-detail-body-ip").empty();
+  $("#chart-detail-body-delay").empty();
+  $("#chart-detail-body-nys").empty();
+  $("#chart-detail-body-completed").empty();
+  $("#keterangan-detail-chart").empty();
+  $("#keterangan-detail-chart").html('<h3>Detail Action</h3>');
+
+  if (status == 'In Progress'){
+    $(".p-ip").show();
+
+    <?php foreach ($summary_action_progress as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_progress[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_progress[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_progress[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_progress[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-ip"));
+    <?php endforeach ?>
+
+  }else if (status == 'Delay'){
+    $(".p-delay").show();
+
+    <?php foreach ($summary_action_delay as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_delay[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_delay[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_delay[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+  }else if (status == 'Completed'){
+    $(".p-c").show();
+
+    <?php foreach ($summary_action_completed as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_completed[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_completed[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_completed[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_completed[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-completed"));
+    <?php endforeach ?>
+  }else if (status == 'Not Yet'){
+    $(".p-nys").show();
+
+    <?php foreach ($summary_action_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_action_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_action_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_action_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_action_not_started[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+    <?php endforeach ?>
+  }
+}
 
 AmCharts.makeChart("chart_workstream", {
     "type": "pie",
@@ -578,21 +627,80 @@ AmCharts.makeChart("chart_workstream", {
   }],
   "listeners": [{
     "event": "clickSlice",
-    "method": function(event) {
-      var chart = event.chart;
-      if (event.dataItem.dataContext.id != undefined) {
-        selected = event.dataItem.dataContext.id;
-      } else {
-        selected = undefined;
-      }
-      chart.dataProvider = generateChartDataWorkstream();
-      chart.validateData();
+    "method": function(e) {
+      var chart = e.chart;
+      var dp = e.dataItem.dataContext;
+        displayDetailWorkstream(dp.type);
+        
+      e.chart.validateData();
     }
   }],
   // "export": {
   //   "enabled": true
   // }
 });
+
+function displayDetailWorkstream(status)
+{
+  $('#content-detail').show();
+  $(".p-delay").hide();
+  $(".p-nys").hide();
+  $(".p-ip").hide();
+  $(".p-c").hide();
+  $("#chart-detail-body-ip").empty();
+  $("#chart-detail-body-delay").empty();
+  $("#chart-detail-body-nys").empty();
+  $("#chart-detail-body-completed").empty();
+  $("#keterangan-detail-chart").empty();
+  $("#keterangan-detail-chart").html('<h3>Detail Workstream</h3>');
+
+  if (status == 'In Progress'){
+    $(".p-ip").show();
+
+    <?php foreach ($summary_workstream_progress as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_progress[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_progress[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_progress[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_progress[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-ip"));
+    <?php endforeach ?>
+
+  }else if (status == 'Delay'){
+    $(".p-delay").show();
+
+    <?php foreach ($summary_workstream_delay as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_delay[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_delay[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_delay[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
+    <?php endforeach ?>
+  }else if (status == 'Completed'){
+    $(".p-c").show();
+
+    <?php foreach ($summary_workstream_completed as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_completed[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_completed[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_completed[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_completed[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-completed"));
+    <?php endforeach ?>
+  }else if (status == 'Not Yet'){
+    $(".p-nys").show();
+
+    <?php foreach ($summary_workstream_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_workstream_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_workstream_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_workstream_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_workstream_not_started[$key]['end']) ?>;
+        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+    <?php endforeach ?>
+  }
+}
 
 AmCharts.makeChart("chart_deliverable", {
     "type": "pie",
@@ -618,181 +726,78 @@ AmCharts.makeChart("chart_deliverable", {
   }],
   "listeners": [{
     "event": "clickSlice",
-    "method": function(event) {
-      var chart = event.chart;
-      if (event.dataItem.dataContext.id != undefined) {
-        selected = event.dataItem.dataContext.id;
-      } else {
-        selected = undefined;
-      }
-      chart.dataProvider = generateChartDataDeliverable();
-      chart.validateData();
+    "method": function(e) {
+      var chart = e.chart;
+      var dp = e.dataItem.dataContext;
+        displayDetailDeliverable(dp.type);
+        
+      e.chart.validateData();
     }
   }],
   // "export": {
   //   "enabled": true
   // }
-})
-
-$(document).on('click', '#chart_workstream', function() {
-    $('#content-detail').show();
-    $("#chart-detail-body-delay").empty();
-    $("#chart-detail-body-nys").empty();
-    $("#chart-detail-body-ip").empty();
-    $("#chart-detail-body-completed").empty();
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Workstream</h3>');
-
-    <?php foreach ($summary_workstream_delay as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_workstream_delay[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_workstream_delay[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_workstream_delay[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_workstream_delay[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-delay"));
-    <?php endforeach ?>
-
-    <?php foreach ($summary_workstream_progress as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_workstream_progress[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_workstream_progress[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_workstream_progress[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_workstream_progress[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-ip"));
-    <?php endforeach ?>
-
-    <?php foreach ($summary_workstream_not_started as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_workstream_not_started[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_workstream_not_started[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_workstream_not_started[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_workstream_not_started[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-nys"));
-    <?php endforeach ?>
-
-    <?php foreach ($summary_workstream_completed as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_workstream_completed[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_workstream_completed[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_workstream_completed[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_workstream_completed[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-completed"));
-    <?php endforeach ?>
 });
 
-$(document).on('click', '#chart_deliverable', function() {
-    $('#content-detail').show();
-    $("#chart-detail-body-delay").empty();
-    $("#chart-detail-body-nys").empty();
-    $("#chart-detail-body-ip").empty();
-    $("#chart-detail-body-completed").empty();
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Deliverable</h3>');
+function displayDetailDeliverable(status)
+{
+  $('#content-detail').show();
+  $(".p-delay").hide();
+  $(".p-nys").hide();
+  $(".p-ip").hide();
+  $(".p-c").hide();
+  $("#chart-detail-body-ip").empty();
+  $("#chart-detail-body-delay").empty();
+  $("#chart-detail-body-nys").empty();
+  $("#chart-detail-body-completed").empty();
+  $("#keterangan-detail-chart").empty();
+  $("#keterangan-detail-chart").html('<h3>Detail Deliverable</h3>');
 
-    <?php foreach ($summary_deliverable_delay as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_deliverable_delay[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_deliverable_delay[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_deliverable_delay[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_deliverable_delay[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-delay"));
-    <?php endforeach ?>
+  if (status == 'In Progress'){
+    $(".p-ip").show();
 
     <?php foreach ($summary_deliverable_progress as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_deliverable_progress[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_deliverable_progress[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_deliverable_progress[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_deliverable_progress[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
     <?php endforeach ?>
 
-    <?php foreach ($summary_deliverable_not_started as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_deliverable_not_started[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_deliverable_not_started[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_deliverable_not_started[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_deliverable_not_started[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
+  }else if (status == 'Delay'){
+    $(".p-delay").show();
+
+    <?php foreach ($summary_deliverable_delay as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_deliverable_delay[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_deliverable_delay[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_deliverable_delay[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_deliverable_delay[$key]['end']) ?>;
         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-nys"));
+        $(newRowContent).appendTo($("#chart-detail-body-delay"));
     <?php endforeach ?>
+  }else if (status == 'Completed'){
+    $(".p-c").show();
 
     <?php foreach ($summary_deliverable_completed as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_deliverable_completed[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_deliverable_completed[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_deliverable_completed[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_deliverable_completed[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
     <?php endforeach ?>
-});
+  }else if (status == 'Not Yet'){
+    $(".p-nys").show();
 
-$(document).on('click', '#chart_action', function() {
-    $('#content-detail').show();
-    $("#chart-detail-body-delay").empty();
-    $("#chart-detail-body-nys").empty();
-    $("#chart-detail-body-ip").empty();
-    $("#chart-detail-body-completed").empty();
-    $("#keterangan-detail-chart").empty();
-    $("#keterangan-detail-chart").html('<h3>Detail Action</h3>');
-
-    <?php foreach ($summary_action_delay as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_action_delay[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_action_delay[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_action_delay[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_action_delay[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
+    <?php foreach ($summary_deliverable_not_started as $key => $value): ?>
+        $text_info = <?php echo json_encode($summary_deliverable_not_started[$key]['b_title']) ?>;
+        $text_code = <?php echo json_encode($summary_deliverable_not_started[$key]['code']) ?>;
+        $text_start = <?php echo json_encode($summary_deliverable_not_started[$key]['start']) ?>;
+        $text_end = <?php echo json_encode($summary_deliverable_not_started[$key]['end']) ?>;
         var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-delay"));
-    <?php endforeach ?>
-
-    <?php foreach ($summary_action_progress as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_action_progress[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_action_progress[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_action_progress[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_action_progress[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-ip"));
-    <?php endforeach ?>
-
-    <?php foreach ($summary_action_not_started as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_action_not_started[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_action_not_started[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_action_not_started[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_action_not_started[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
     <?php endforeach ?>
-
-    <?php foreach ($summary_action_completed as $key => $value): ?>
-        $text_info = <?php echo json_encode($summary_action_completed[$key]['b_title']) ?>;
-        $text_code = <?php echo json_encode($summary_action_completed[$key]['code']) ?>;
-        $text_start = <?php echo json_encode($summary_action_completed[$key]['start']) ?>;
-        $text_end = <?php echo json_encode($summary_action_completed[$key]['end']) ?>;
-        // $('#initiative-info').text($text_info);
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
-        // $(newRowContent).appendTo($("#initiative-table-body"));
-        $(newRowContent).appendTo($("#chart-detail-body-completed"));
-    <?php endforeach ?>
-});
+  }
+}
 </script>
