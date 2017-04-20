@@ -34,6 +34,7 @@ class Home extends CI_Controller {
         
         $data['notif_hari'] = $this->muser->insert_notification_by_date_7();
         $data['notif_hari'] = $this->muser->insert_notification_by_date_2();
+        $this->blast_email();
 
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -47,7 +48,7 @@ class Home extends CI_Controller {
         if(date('01-m-Y')==date('d-m-Y')){
             $data['check_date']=date('Y-m-01');
             if(!$this->muser->check_date($data['check_date'])){
-                $user=$this->muser->get_user_by_role('admin');
+                $user=$this->muser->get_user_by_role('Co-PMO');
                 foreach ($user as $users) {
                 $email = explode(';',$users->private_email); 
                 $this->send_email($users->name,$email,$users->initiative);
