@@ -363,41 +363,48 @@ class Muser extends CI_Model {
             $i++;
         }
 
-        $sql = 'SELECT t.code as code, COUNT(STATUS) AS t_complete, (SELECT COUNT(STATUS) AS total FROM workblock a WHERE a.code = t.code GROUP BY CODE) AS total FROM workblock t WHERE LOWER(STATUS) = "completed" GROUP BY CODE';
-        $result = $this->db->query($sql)->result_array();
+        // $sql = 'SELECT t.code as code, COUNT(STATUS) AS t_complete, (SELECT COUNT(STATUS) AS total FROM workblock a WHERE a.code = t.code GROUP BY CODE) AS total FROM workblock t WHERE LOWER(STATUS) = "completed" GROUP BY CODE';
+        // $result = $this->db->query($sql)->result_array();
+
 
         foreach ($data as $key => $value) {
+            //query persen
+            $sql1 = 'SELECT t.code, t.init_code, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$value["nama"].'" GROUP BY t.init_code';
+            $result1 = $this->db->query($sql1)->result_array();
+
             $total_initiative = 0;
             $total_completed = 0;
-            foreach ($result as $key1 => $value1) {
-                if (is_array($value['initiative']) === true){
-                    foreach ($value['initiative'] as $key2 => $value2) {
-                        if ($value2 == $value1['code']){
-                            $total_initiative = $total_initiative + (int)$value1['total'];
-                            $total_completed = $total_completed + (int)$value1['t_complete'];
-                            // $data[$key]['total_initiative'] = (int)$value1['total'];
-                            // $data[$key]['total_completed'] = (int)$value1['t_complete'];
+            $is_array = 0;
+            if (is_array($value['initiative']) === true){
+                $total_initiative = count($value['initiative']);
+
+                foreach ($value['initiative'] as $key2 => $value2) {
+                    foreach ($result1 as $key1 => $value1) {
+                        if ($value2 == $value1['init_code']){
+                            $total_completed = $total_completed + (int)$value1['status_c'];
                         }
                     }
-                    if ($total_completed != 0 && $total_initiative != 0){
-                        $data[$key]['total_initiative'] = $total_initiative;
-                        $data[$key]['total_completed'] = $total_completed;
+                }
+
+                $data[$key]['total_initiative'] = $total_initiative;
+                if ($total_completed != 0 && $total_initiative != 0){
+                    $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative) * 100), 2);
+                }
+            }else{
+                $total_initiative = 1;
+                $data[$key]['total_initiative'] = $total_initiative;
+                foreach ($result1 as $key1 => $value1) {
+                    if ($value['initiative'] == $value1['init_code']){
+                        $data[$key]['total_completed'] = (int)$value1['status_c'];
                         if ($total_initiative != 0)
-                            $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative) * 100), 2);
-                    }
-                }else{
-                    if ($value['initiative'] == $value1['code']){
-                        $data[$key]['total_initiative'] = (int)$value1['total'];
-                        $data[$key]['total_completed'] = (int)$value1['t_complete'];
-                        if ($total_initiative != 0)
-                            $data[$key]['total_completed'] = round(((float)($value1['t_complete']/$total_initiative) * 100), 2);
+                            $data[$key]['total_completed'] = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
                     }
                 }
             }
+
         }
 
         foreach ($data as $key => $row) {
-            // replace 0 with the field's index/key
             $arsort[$key]  = $row['total_completed'];
         }
 
