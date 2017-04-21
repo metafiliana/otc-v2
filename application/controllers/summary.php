@@ -76,7 +76,7 @@ class Summary extends CI_Controller {
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/all',$views,TRUE);
 
@@ -110,7 +110,7 @@ class Summary extends CI_Controller {
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/list',$views,TRUE);
 
