@@ -89,7 +89,7 @@ class Summary extends CI_Controller {
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
         $views['co_pmo_list'] = $this->muser->get_all_co_pmo();
-        // $views['initiative_list'] = $this->muser->get_all_co_pmo();
+        $views['initiative_list'] = $this->minitiative->getAllInitiative();
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
@@ -108,9 +108,9 @@ class Summary extends CI_Controller {
         //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
         // }
 
-        if($role == "dir_spon" || $role == "pmo_head" || $role == "co_pmo"){
+        // if($role == "dir_spon" || $role == "pmo_head" || $role == "co_pmo"){
             $data['programs'] = $this->mprogram->getInitCode($nama, $role);
-        }
+        // }
 
         // $data['user'] = $this->session->userdata('user');
 
