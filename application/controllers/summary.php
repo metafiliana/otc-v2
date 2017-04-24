@@ -66,8 +66,18 @@ class Summary extends CI_Controller {
         $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
         $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
 
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/all',$views,TRUE);
 
@@ -91,8 +101,18 @@ class Summary extends CI_Controller {
         $views['co_pmo_list'] = $this->muser->get_all_co_pmo();
         $views['initiative_list'] = $this->minitiative->getAllInitiative();
 
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/list',$views,TRUE);
 

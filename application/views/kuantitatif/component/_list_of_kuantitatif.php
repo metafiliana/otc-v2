@@ -22,7 +22,7 @@
                 <?php echo $prog['prog']->metric;?>
             </td>
             <td style="vertical-align:middle">
-                <?php if($prog['update']){ echo $prog['update']->amount; echo " (".date('F',mktime(0,0,0, $prog['update']->month,10)).")";}else{ echo $prog['prog']->realisasi." (December)"; }?>
+                <?php if($prog['update']){ echo $prog['update']->amount; echo " (".date('F',mktime(0,0,0, $prog['update']->month,10)).")";}else{ echo $prog['prog']->realisasi." (April)"; }?>
             </td>
             <td style="vertical-align:middle">
                 <?php echo $prog['prog']->target;?>
