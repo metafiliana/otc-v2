@@ -181,9 +181,9 @@ class Mkuantitatif extends CI_Model {
 
     //UPDATE FUNCTION
     
-    function update_program($program,$id){
+    function update_kuantitatif($program,$id){
         $this->db->where('id',$id);
-        return $this->db->update('program', $program);
+        return $this->db->update('kuantitatif', $program);
     }
     
     //DELETE FUNCTION

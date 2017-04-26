@@ -7,10 +7,10 @@
 			</div>
 			<div>
 				<div class="form-signin">
-					<h3 class="form-signin-heading">Update Kuantitatif</h3>
+					<h3 class="form-signin-heading">Update Kuantitatif Realisasi</h3>
 					<form class="form-horizontal" 
 					action="<?php echo base_url()."kuantitatif/submit_kuantitatif_update/";?>"
-				 	method="post" id="formsignup" role="form">
+				 	method="post" id="formsignup" role="form" style="margin-top:10px;">
 				 		<input type="hidden" value="<?php if($kuantitatif){echo $kuantitatif->id;}?>" name="id" id="id">
 				 		<input type="hidden" value="<?php if($kuantitatif){echo $kuantitatif->target_year;}?>" name="year" id="year">
 				 		<div class="form-group" style="margin-bottom:5px;">

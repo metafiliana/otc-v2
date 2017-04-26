@@ -1,3 +1,4 @@
+<?php $user = $this->session->userdata('user'); ?>
 <table class="table table-hover">
     <thead class="black_color old_grey_color_bg">
     <tr>
@@ -7,7 +8,10 @@
         <th style="vertical-align:middle">Target <?php if(isset($target_year)) echo $target_year; ?></th>
         <th style="vertical-align:middle">Percentage</th>
         <th style="vertical-align:middle">Percentage All</th>
-        <th>Update</th>
+        <th>Update Realisasi</th>
+        <?php if($user['role']=='admin') {?>
+        <th>Update Target</th>
+        <?php }?>
     </tr>
     </thead>
     <tbody>
@@ -38,8 +42,13 @@
                 <?php } }?>
             <?php $pv_init = $prog['prog']->init_code; } ?>
             <td style="vertical-align:middle">
-                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>);"><?php echo plus_icon()?> Update</a>
+                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Realisasi');"><?php echo plus_icon()?> Update</a>
             </td>
+            <?php if($user['role']=='admin') {?>
+            <td style="vertical-align:middle">
+                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Target');"><?php echo icon_small('plus_blue.png')?> Update Target</a>
+            </td>
+            <?php }?>
         </tr>
     <?php $i++; }?>
     </tbody>
