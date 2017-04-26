@@ -123,11 +123,17 @@ class Mkuantitatif extends CI_Model {
         if($this->get_kuantitatif_update($id))
         {
             $realisasi=$this->get_kuantitatif_update($id)->amount;
+            $total=(($realisasi/$res->target)*100);
+        }
+        if($res->target==0)
+        {
+            $total=0;
         }
         else{
             $realisasi=$res->realisasi;
+            $total=(($realisasi/$res->target)*100);
         }
-        $total=(($realisasi/$res->target)*100);
+        
         return $total;
     }
 
@@ -175,9 +181,9 @@ class Mkuantitatif extends CI_Model {
 
     //UPDATE FUNCTION
     
-    function update_program($program,$id){
+    function update_kuantitatif($program,$id){
         $this->db->where('id',$id);
-        return $this->db->update('program', $program);
+        return $this->db->update('kuantitatif', $program);
     }
     
     //DELETE FUNCTION

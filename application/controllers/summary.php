@@ -66,6 +66,8 @@ class Summary extends CI_Controller {
         $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
         $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
 
+        $data['user']=$user;
+
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
             $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
@@ -98,7 +100,17 @@ class Summary extends CI_Controller {
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
         $views['co_pmo_list'] = $this->muser->get_all_co_pmo();
-        // $views['initiative_list'] = $this->muser->get_all_co_pmo();
+        $views['initiative_list'] = $this->minitiative->getAllInitiative();
+
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
 
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
@@ -126,9 +138,9 @@ class Summary extends CI_Controller {
         //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
         // }
 
-        if($role == "dir_spon" || $role == "pmo_head" || $role == "co_pmo"){
+        // if($role == "dir_spon" || $role == "pmo_head" || $role == "co_pmo"){
             $data['programs'] = $this->mprogram->getInitCode($nama, $role);
-        }
+        // }
 
         // $data['user'] = $this->session->userdata('user');
 

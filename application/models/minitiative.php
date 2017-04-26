@@ -639,4 +639,91 @@ class Minitiative extends CI_Model {
 
         return $result;
     }
+
+    function getAllInitiative(){
+        $sql = 'SELECT a.init_code as nama, a.init_code, (((select count(b.id) from workblock b where b.status = "Completed" AND b.code = a.init_code)) / ((select count(c.id) from workblock c where c.code = a.init_code))) as persenan from program a ORDER BY init_code';
+
+        $result = $this->db->query($sql);
+
+        $item = $result->result_array();
+        // var_dump($item);die;
+        $data = array();
+        $nama = '';
+        $completed = 0.0;
+        $total_completed = 0.0;
+        $length = count($result->result_array());
+
+        $j = 0; // counter array $data
+        $k = 0; // counter completed
+        for ($i=0; $i < $length; $i++) { 
+            if ($i == 0){
+                $nama = $item[$i]['nama'];
+                $ci = $item[$i]['init_code'];
+                $k = 0; 
+            }else{
+                if ($item[$i]['nama'] != "$nama"){
+                        if ($item[$i]['init_code'] != $ci){
+                            $k++;
+                            $ci = $item[$i]['init_code'];
+                        }
+                    $data[$j]['nama'] = $nama;
+                    $k = ($k != 0) ? $k : 1;
+                    $data[$j]['total_initiative'] = $k;
+                    $total_completed = $completed / $k;
+                    // $data[$j]['total_completed'] = round($total_completed, 2);
+                    $data[$j]['total_completed'] = 0;
+                    $j++;
+                    $nama = $item[$i]['nama'];
+
+                    $k = 0;
+                }else{
+                    $completed = $completed + $item[$i]['persenan'];
+                    if ($item[$i]['init_code'] != $ci){
+                        $k++;
+                        $ci = $item[$i]['init_code'];
+                    }
+                }
+            }
+        }
+
+        $role = 'dir_spon';
+        foreach ($data as $key => $value) {
+            if ($value['nama'] != null){
+                $sql1 = 'select t.id, t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where t.init_code = "'.$value['nama'].'" group by t.init_code';
+                $result1 = $this->db->query($sql1)->result_array();
+
+                // $total_completed = 0;
+                $total_initiative = 0;
+                $percent_parsial = 0;
+                if (!empty($result1)){       
+                    foreach ($result1 as $key1 => $value1) {
+                        // $total_completed = $total_completed + $value1['status_c'];
+                        $total_initiative++;
+                        if ($value1['total_init'] != 0)
+                            $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
+                    }
+                    if ($total_initiative != 0){
+                        $percent_raw = (float)($percent_parsial/ $total_initiative);
+                        $percent = round((float)$percent_raw, 2);
+                        // $value['total_completed'] = $percent;
+                        $data[$key]['total_completed'] = $percent;
+                    }else{
+                        $data[$key]['total_completed'] = 0;
+                    }
+                }
+            }
+        }
+        
+        // delete null data
+        array_splice($data, array_search('null', $data), 1);
+
+        foreach ($data as $key => $row) {
+            // replace 0 with the field's index/key for sorting compare
+            $arsort[$key]  = $row['total_completed'];
+        }
+
+        array_multisort($arsort, SORT_ASC, $data);
+
+        return $data;
+    }
 }

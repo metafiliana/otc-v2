@@ -82,6 +82,11 @@
     echo "<img style=\"height:20px;\" src='".$src."'>";
     }
 
+    function icon_small($img){
+    $src = get_icon_url($img);
+    echo "<img style=\"height:20px;\" src='".$src."'>";
+    }
+
     function icon_url($img){
     echo base_url()."assets/img/icon/".$img;
     }

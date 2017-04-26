@@ -98,16 +98,23 @@ class Kuantitatif extends CI_Controller {
     }
 
     public function input_kuantitatif(){
-        $data['title'] = "Update Kuantitatif";
+        $id = $this->input->get('id'); 
+        $type = $this->input->get('type');       
         
-        $id = $this->input->get('id');        
-        
+        $data['title'] = "Update Kuantitatif ".$type;
+
         if($id){
             $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
             $data['update']= $this->mkuantitatif->get_kuantitatif_update($id);
         }
 
-        $json['html'] = $this->load->view('kuantitatif/input_kuantitatif',$data,TRUE);
+        if($type=="Realisasi"){
+            $json['html'] = $this->load->view('kuantitatif/input_kuantitatif_'.$type,$data,TRUE);
+        }
+        else{
+            $json['html'] = $this->load->view('kuantitatif/input_kuantitatif_'.$type,$data,TRUE);
+        }
+        
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
@@ -122,9 +129,21 @@ class Kuantitatif extends CI_Controller {
         $program['amount'] = $this->input->post('amount');
         
         if($id){
-            $this->mkuantitatif->update_program($program,$id);
+            $this->mkuantitatif->update_kuantitatif($program,$id);
         }
         else{$this->mkuantitatif->insert_kuantitatif_update($program);}
+        
+        redirect('kuantitatif');
+    }
+
+    public function submit_target(){
+        $program['id'] = $this->input->post('id');
+        $program['metric'] = $this->input->post('metric');
+        $program['target'] = $this->input->post('target');
+        
+        if($program['id']){
+            $this->mkuantitatif->update_kuantitatif($program,$program['id']);
+        }
         
         redirect('kuantitatif');
     }
