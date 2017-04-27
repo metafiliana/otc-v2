@@ -408,7 +408,7 @@ class Muser extends CI_Model {
             $arsort[$key]  = $row['total_completed'];
         }
 
-        array_multisort($arsort, SORT_ASC, $data);
+        array_multisort($arsort, SORT_DESC, $data);
 
         return $data;
     }
