@@ -268,4 +268,24 @@
             }
         });
     });
+
+    $(document).on("click",".filter-value-detail-kuantitatif",function(event){
+        $id = $(this).data('id');
+
+        $.ajax({
+            type: "GET",
+            url: config.base+"summary/listDetailKuantitatif/",
+            data: {id:$id},
+            dataType: 'json',
+            cache: false,
+            success: function(resp){
+                if(resp.status==1){
+                    // $('#filter-value-table-workblock').empty();
+                    // $('#filter-value-table-workblock').show();
+                    $('#panel-kuantitatif-'+$id).html(resp.kuantitatif_list);
+
+                }else{}
+            }
+        });
+    });
 </script>

@@ -200,4 +200,27 @@ class Mkuantitatif extends CI_Model {
     }
     
     // OTHER FUNCTION
+    // -- afil --
+    function getKuantitatifByInitCode($init_code)
+    {
+        $this->db->select('title, init_code');
+        $this->db->where('init_code',$init_code);
+        $this->db->group_by('init_code');
+        $this->db->order_by('title', 'asc');
+        $query = $this->db->get('kuantitatif');
+
+        $result = $query->result();
+        return $result;
+    }
+
+    function getKuantitatifDetailByInitCode($init_code)
+    {
+        $this->db->select('*');
+        $this->db->where('init_code', $init_code);
+        $this->db->order_by('init_code', 'asc');
+        $query = $this->db->get('kuantitatif');
+
+        $result = $query->result();
+        return $result;
+    }
 }
