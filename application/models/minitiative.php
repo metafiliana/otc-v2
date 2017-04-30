@@ -710,6 +710,28 @@ class Minitiative extends CI_Model {
                     }else{
                         $data[$key]['total_completed'] = 0;
                     }
+                        //keperluan penghitungan kuantitatif
+                    $arr_initcode= explode(";",$data[$key]['nama']);
+                    $hitung_kuantitatif = 0;
+                    $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
+                    
+                    $data[$key]['total_kuantitatif'] = 0;
+                    if (!empty($hitung_kuantitatif)){
+                        $counter = 0;
+                        $jumlah_kuantitatif = 0;
+                        foreach ($hitung_kuantitatif as $key2 => $value2) {
+                            $jumlah_kuantitatif = $this->mkuantitatif->get_count_init_code($key2);
+                            $hitung_total_kuantitatif[$counter] = $value2 / $jumlah_kuantitatif;
+
+                            $counter = $counter +1;
+                        }
+
+                        $total_kuantitatif = array_sum($hitung_total_kuantitatif);
+                        $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
+
+                        $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);
+                        $data[$key]['total_kuantitatif'] = $kuantitatif_percent;
+                    }
                 }
             }
         }

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
 <style>
     .pmo_header{
         margin-right:40px;
@@ -50,11 +51,14 @@
                     <h4 id="filter-value-title" class="panel-title">Filter</h4>
                 </div>
                 <div class="panel-body">
-                    <table id="filter-value-table-primary" class="table text-center" style="display: none;">
+                    <table id="filter-value-table-primary" class="table text-center display" style="display: none;">
                         <thead>
-                            <th>Nama</th>
-                            <th>Jumlah</th>
-                            <th>Presentase</th>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Jumlah</th>
+                                <th>Kualitatif</th>
+                                <th>Kuantitatif</th>
+                            </tr>
                         </thead>
                         <tbody id="filter-value-table-primary-body">
                             <!-- isi disini -->
@@ -68,11 +72,16 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">Detail : <span id="nama-detail"></span></h4>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" id="wrap-panel-initiative">
                     <div class="clearfix col-sm-6" id="filter-value-table-program" style="display: none;">
                         <!-- isi disini -->
                     </div>
                     <div class="clearfix col-sm-6" id="filter-value-table-initiative" style="display: none;">
+                        <!-- isi disini -->
+                    </div>
+                </div>
+                <div class="panel-body" id="wrap-panel-kuantitatif">
+                    <div class="clearfix col-sm-12" id="filter-value-table-kuantitatif" style="display: block;">
                         <!-- isi disini -->
                     </div>
                 </div>
@@ -82,17 +91,19 @@
 </div>
 </div>
 
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script>
     $(function() {
-        $('#filter-value-table-primary').DataTable( {
-            // "order": [[ 1, "asc" ]],
-            "paging":   false,
-            "info":   false,
-            "searching":   false,
-        } );
+        // $('#filter-value-table-primary').DataTable( {
+        //     // "order": [[ 1, "asc" ]],
+        //     "paging":   false,
+        //     "info":   false,
+        //     "searching":   false,
+        // } );
 
         // list filter
         $('#filter-select').on('change', function() {
+            $('#wrap-panel-kuantitatif').hide();
             $i = 0;
             if (this.value == '1') {
                 $('#filter-value-title').text('PMO Head');
@@ -110,7 +121,9 @@
                     $text_nama = <?php echo json_encode($value['nama']); ?>;
                     $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="pmo_head" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
+                    $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
+                    $inits = <?php echo json_encode($value['initiative']); ?>;
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="pmo_head" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -128,7 +141,9 @@
                     $text_nama = <?php echo json_encode($value['nama']); ?>;
                     $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="co_pmo" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
+                    $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
+                    $inits = <?php echo json_encode($value['initiative_string']); ?>;
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="co_pmo" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -146,7 +161,9 @@
                     $text_nama = <?php echo json_encode($value['nama']); ?>;
                     $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
+                    $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
+                    $inits = <?php echo json_encode($value['initiative']); ?>;
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -164,7 +181,8 @@
                     $text_nama = <?php echo json_encode($value['nama']); ?>;
                     $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="initiatives" >Initiative '+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td></tr>';
+                    $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
+                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="initiatives" >Initiative '+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$text_nama+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -191,6 +209,8 @@
                     $('#nama-detail').text('');
 
                     $('#nama-detail').text('Initiative '+$nama);
+                    $('#wrap-panel-kuantitatif').hide();
+                    $('#wrap-panel-initiative').show();
                     $('#filter-value-table-program').show();
                     $('#filter-value-table-program').html(resp.html);
                    // $('#wb_count').html(resp.wb);
@@ -270,21 +290,27 @@
     });
 
     $(document).on("click",".filter-value-detail-kuantitatif",function(event){
-        $id = $(this).data('id');
+        $init = $(this).data('init');
+        $nama = $(this).data('nama');
 
         $.ajax({
             type: "GET",
-            url: config.base+"summary/listDetailKuantitatif/",
-            data: {id:$id},
+            url: config.base+"summary/listDetailKuantitatif",
+            data: {init:$init},
             dataType: 'json',
             cache: false,
             success: function(resp){
                 if(resp.status==1){
-                    // $('#filter-value-table-workblock').empty();
-                    // $('#filter-value-table-workblock').show();
-                    $('#panel-kuantitatif-'+$id).html(resp.kuantitatif_list);
+                    $('#filter-value-table-program').empty();
+                    $('#filter-value-table-initiative').empty();
+                    $('#filter-value-table-workblock').empty();
+                    $('#nama-detail').text('');
 
-                }else{}
+                    $('#nama-detail').text('Kuantitatif '+$nama);
+                    $('#wrap-panel-initiative').hide();
+                    $('#wrap-panel-kuantitatif').show();
+                    $('#filter-value-table-kuantitatif').html(resp.html);
+                }
             }
         });
     });

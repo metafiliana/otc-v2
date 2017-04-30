@@ -95,6 +95,9 @@ class Summary extends CI_Controller {
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
         $init_id = null; //init
+
+        $prog['total'] = $this->mkuantitatif->get_total_kuantatif();
+        $prog['asd'] = $this->mkuantitatif->get_init_code_on_kuantitatif(array('17b', '18'));
         
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
@@ -138,7 +141,6 @@ class Summary extends CI_Controller {
         $data['init_code'] = $this->input->get('initcode');
 
         $data['initiatives'] = $this->minitiative->getInitiativeByProgramId($id);
-        $data['kuantitatif'] = $this->mkuantitatif->getKuantitatifByInitCode($data['init_code']);
 
         $json['html'] = $this->load->view('summary/_initiative',$data,TRUE);
         $json['status'] = 1;
@@ -177,20 +179,36 @@ class Summary extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 
+    // public function listDetailKuantitatif()
+    // {
+    //     $id = $this->input->get('id');
+        
+    //     $data = $this->mkuantitatif->getKuantitatifDetailByInitCode($id);
+
+    //     $color_style = 'active';
+    //     $string = "<table class='table'><thead><th>Metric</th><th>Realisasi</th><th>Target</th></thead>";
+    //     foreach ($data as $key => $value) {
+    //         $string .= "<tr><td>".$value->metric."</td><td>".$value->real_year." : ".$value->realisasi."</td><td>".$value->target_year." : ".$value->target."</td></tr>";
+    //     }
+    //     $string .= "</table>";
+
+    //     $json['kuantitatif_list'] = $string;
+    //     $json['status'] = 1;
+
+    //     $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    // }
+
     public function listDetailKuantitatif()
     {
-        $id = $this->input->get('id');
-        
-        $data = $this->mkuantitatif->getKuantitatifDetailByInitCode($id);
+        $init = $this->input->get('init');
+        $init_code = explode(";",$init);
+        // $data['init_code'] = $this->input->get('initcode');
 
-        $color_style = 'active';
-        $string = "<table class='table'><thead><th>Metric</th><th>Realisasi</th><th>Target</th></thead>";
-        foreach ($data as $key => $value) {
-            $string .= "<tr><td>".$value->metric."</td><td>".$value->real_year." : ".$value->realisasi."</td><td>".$value->target_year." : ".$value->target."</td></tr>";
-        }
-        $string .= "</table>";
+        // $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_user($init_code)->result();
+        $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_with_update($init_code);
+        // var_dump($data['initiatives']->result());die;
 
-        $json['kuantitatif_list'] = $string;
+        $json['html'] = $this->load->view('summary/_kuantitatif',$data,TRUE);
         $json['status'] = 1;
 
         $this->output->set_content_type('application/json')->set_output(json_encode($json));

@@ -94,7 +94,7 @@ class Mkuantitatif extends CI_Model {
         return $arr;
     }
 
-    function get_total_kuantatif($init_id){
+    function get_total_kuantatif($init_id = null){
         $this->db->select('*');
         if($init_id){
             foreach ($init_id as $row) {
