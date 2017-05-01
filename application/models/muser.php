@@ -120,6 +120,7 @@ class Muser extends CI_Model {
     // }
 
     function insert_notification_by_date_7(){
+        $this->db->db_debug = FALSE;
         $this->db->select('initiative.end as date_time');
         $this->db->select("CONCAT((user.name),('<p><br> tersisa 7 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
         $this->db->select('user.id as user_id_to');
@@ -130,12 +131,20 @@ class Muser extends CI_Model {
         $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -7 DAY)');
         $sql = $this->db->get('initiative');
         foreach($sql->result() as $row){
-            // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
-                $this->db->insert('notification',$row);
-        }
+            $data = array(
+                'date_time' => $row->date_time,
+                'notification' => $row->notification,
+                'user_id_to' => $row->user_id_to,
+                'init_id' => $row->init_id,
+                'initiativeid' => $row->initiativeid
+                    );
+                $insertest = $this->db->insert('notification',$data);
+            }
+            $this->db->_error_message();
     }
 
     function insert_notification_by_date_2(){
+        $this->db->db_debug = FALSE;
         $this->db->select('initiative.end as date_time');
         $this->db->select("CONCAT((user.name),('<p><br> tersisa 2 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
         $this->db->select('user.id as user_id_to');
@@ -145,10 +154,17 @@ class Muser extends CI_Model {
         $this->db->join('user','program.init_code = user.initiative');
         $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -2 DAY)');
         $sql = $this->db->get('initiative');
-        foreach($sql->result() as $row){
-            // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
-                $this->db->insert('notification',$row);
-        }
+            foreach($sql->result() as $row){
+                $data = array(
+                    'date_time' => $row->date_time,
+                    'notification' => $row->notification,
+                    'user_id_to' => $row->user_id_to,
+                    'init_id' => $row->init_id,
+                    'initiativeid' => $row->initiativeid
+                        );
+                    $insertest = $this->db->insert('notification',$data);
+            }
+            $this->db->_error_message();
     }
 
     function get_user_by_init_code($id){

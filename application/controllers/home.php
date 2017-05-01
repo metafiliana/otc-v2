@@ -8,6 +8,7 @@ class Home extends CI_Controller {
         $this->load->model('mmilestone');
         $this->load->model('mremark');
         $this->load->model('muser');
+        $this->load->model('mfiles_upload');
         $session = $this->session->userdata('user');
         if(!$session){
             redirect('user/login');
@@ -48,12 +49,12 @@ class Home extends CI_Controller {
         if(date('01-m-Y')==date('d-m-Y')){
             $data['check_date']=date('Y-m-01');
             if(!$this->muser->check_date($data['check_date'])){
-                $user=$this->muser->get_user_by_role('Co-PMO');
+                $user=$this->muser->get_user_by_role('Admin');
                 foreach ($user as $users) {
                 $email = explode(';',$users->private_email); 
                 $this->send_email($users->name,$email,$users->initiative);
-                $this->mfiles_upload->insert_db($data,'email_date');
                 }
+                $this->mfiles_upload->insert_db($data,'email_date');
             }
         }
     }
