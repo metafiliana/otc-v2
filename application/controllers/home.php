@@ -49,7 +49,7 @@ class Home extends CI_Controller {
         if(date('01-m-Y')==date('d-m-Y')){
             $data['check_date']=date('Y-m-01');
             if(!$this->muser->check_date($data['check_date'])){
-                $user=$this->muser->get_user_by_role('Admin');
+                $user=$this->muser->get_user_by_role('Co-PMO');
                 foreach ($user as $users) {
                 $email = explode(';',$users->private_email); 
                 $this->send_email($users->name,$email,$users->initiative);
