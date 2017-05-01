@@ -96,6 +96,9 @@ class Summary extends CI_Controller {
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
         $init_id = null; //init
+
+        $prog['total'] = $this->mkuantitatif->get_total_kuantatif();
+        $prog['asd'] = $this->mkuantitatif->get_init_code_on_kuantitatif(array('17b', '18'));
         
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
@@ -133,19 +136,12 @@ class Summary extends CI_Controller {
     {
         $nama = $this->input->get('nama');
         $role = $this->input->get('role');
-
-        // if($role == "category"){
-        //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
-        // }
-
-        // if($role == "dir_spon" || $role == "pmo_head" || $role == "co_pmo"){
-            $data['programs'] = $this->mprogram->getInitCode($nama, $role);
-        // }
-
-        // $data['user'] = $this->session->userdata('user');
+        
+        $data['programs'] = $this->mprogram->getInitCode($nama, $role);
 
         $json['html'] = $this->load->view('summary/_program',$data,TRUE);
         $json['status'] = 1;
+
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 
@@ -154,46 +150,19 @@ class Summary extends CI_Controller {
         $id = $this->input->get('id');
         $data['init_code'] = $this->input->get('initcode');
 
-        // if($role == "category"){
-        //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
-        // }
-
-        // if($role == "dir_spon" || $role == "pmo_head"){
         $data['initiatives'] = $this->minitiative->getInitiativeByProgramId($id);
-        // }
-
-        // if($code=="co_pmo"){
-        //     $data['programs'] = $this->mprogram->get_segment_programs('',$filter,'','');
-        // }
-        
-        // $data['user'] = $this->session->userdata('user');
 
         $json['html'] = $this->load->view('summary/_initiative',$data,TRUE);
         $json['status'] = 1;
+
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 
     public function listDetailWorkblock()
     {
         $id = $this->input->get('id');
-
-        // if($role == "category"){
-        //     $data['programs'] = $this->mprogram->get_segment_programs($filter,'','','');
-        // }
-
-        // if($role == "dir_spon" || $role == "pmo_head"){
-        $data = $this->mworkblock->getWorkblocksByInitiativeId($id);
-        // }
-
-        // if($code=="co_pmo"){
-        //     $data['programs'] = $this->mprogram->get_segment_programs('',$filter,'','');
-        // }
         
-        // $data['user'] = $this->session->userdata('user');
-
-        // $json['html'] = $this->load->view('summary/_workblocks',$data,TRUE);
-        // $json['status'] = 1;
-        // $this->output->set_content_type('application/json')->set_output(json_encode($json));
+        $data = $this->mworkblock->getWorkblocksByInitiativeId($id);
 
         $string = "<ul class='list-group'>";
         $color_style = 'active';
@@ -216,6 +185,23 @@ class Summary extends CI_Controller {
 
         $json['workblocks_list'] = $string;
         $json['status'] = 1;
+
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
+
+    public function listDetailKuantitatif()
+    {
+        $init = $this->input->get('init');
+        $init_code = explode(";",$init);
+        // $data['init_code'] = $this->input->get('initcode');
+
+        // $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_user($init_code)->result();
+        $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_with_update($init_code);
+        $data['init_code'] = $init_code;
+
+        $json['html'] = $this->load->view('summary/_kuantitatif',$data,TRUE);
+        $json['status'] = 1;
+
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 

@@ -286,6 +286,7 @@ class Mprogram extends CI_Model {
         $item = $result->result_array();
         // var_dump($item);die;
         $data = array();
+        $initiative = '';
         $nama = '';
         $completed = 0.0;
         $total_completed = 0.0;
@@ -297,11 +298,13 @@ class Mprogram extends CI_Model {
             if ($i == 0){
                 $nama = $item[$i]['nama'];
                 $ci = $item[$i]['init_code'];
+                $initiative .= $ci.';';
                 $k = 0; 
             }else{
                 if ($item[$i]['nama'] != "$nama"){
                         if ($item[$i]['init_code'] != $ci){
                             $k++;
+                            $initiative .= $ci.';';
                             $ci = $item[$i]['init_code'];
                         }
                     $data[$j]['nama'] = $nama;
@@ -310,14 +313,17 @@ class Mprogram extends CI_Model {
                     $total_completed = $completed / $k;
                     // $data[$j]['total_completed'] = round($total_completed, 2);
                     $data[$j]['total_completed'] = 0;
+                    $data[$j]['initiative'] = $initiative;
                     $j++;
                     $nama = $item[$i]['nama'];
 
+                    $initiative = '';
                     $k = 0;
                 }else{
                     $completed = $completed + $item[$i]['persenan'];
                     if ($item[$i]['init_code'] != $ci){
                         $k++;
+                        $initiative .= $ci.';';
                         $ci = $item[$i]['init_code'];
                     }
                 }
@@ -330,12 +336,12 @@ class Mprogram extends CI_Model {
                 $sql1 = 'select t.id, t.'.$role.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$role.' = "'.$value['nama'].'" group by t.init_code';
                 $result1 = $this->db->query($sql1)->result_array();
 
-                // $total_completed = 0;
+                    // $total_completed = 0;
                 $total_initiative = 0;
                 $percent_parsial = 0;
                 if (!empty($result1)){       
                     foreach ($result1 as $key1 => $value1) {
-                        // $total_completed = $total_completed + $value1['status_c'];
+                            // $total_completed = $total_completed + $value1['status_c'];
                         $total_initiative++;
                         if ($value1['total_init'] != 0)
                             $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
@@ -343,11 +349,38 @@ class Mprogram extends CI_Model {
                     if ($total_initiative != 0){
                         $percent_raw = (float)($percent_parsial/ $total_initiative);
                         $percent = round((float)$percent_raw, 2);
-                        // $value['total_completed'] = $percent;
+                            // $value['total_completed'] = $percent;
                         $data[$key]['total_completed'] = $percent;
                     }else{
                         $data[$key]['total_completed'] = 0;
                     }
+                }
+                $arr_initcode= explode(";",$data[$key]['initiative']);
+                    // $arr_initcode= array('9');
+                    // var_dump($data[$key]['initiative']);die;
+                $hitung_kuantitatif = 0;
+                $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
+                    // var_dump(($hitung_kuantitatif));die;
+                $data[$key]['total_kuantitatif'] = $hitung_kuantitatif;
+                
+                $data[$key]['total_kuantitatif'] = 0;
+                if (!empty($hitung_kuantitatif)){
+                    $counter = 0;
+                    $jumlah_kuantitatif = 0;
+                    foreach ($hitung_kuantitatif as $key2 => $value2) {
+                        $jumlah_kuantitatif = $this->mkuantitatif->get_count_init_code($key2);
+                        // var_dump($jumlah_kuantitatif);die;
+                        $hitung_total_kuantitatif[$counter] = $value2 / $jumlah_kuantitatif;
+
+                        $counter = $counter +1;
+                    }
+                        // $data[$key]['total_kuantitatif'] = $hitung_total_kuantitatif;
+
+                    $total_kuantitatif = array_sum($hitung_total_kuantitatif);
+                    $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
+
+                    $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);
+                    $data[$key]['total_kuantitatif'] = $kuantitatif_percent;
                 }
             }
         }
@@ -360,7 +393,7 @@ class Mprogram extends CI_Model {
             $arsort[$key]  = $row['total_completed'];
         }
 
-        array_multisort($arsort, SORT_ASC, $data);
+        array_multisort($arsort, SORT_DESC, $data);
 
         return $data;
     }
@@ -374,6 +407,7 @@ class Mprogram extends CI_Model {
         // var_dump($item);die;
         $data = array();
         $nama = '';
+        $initiative = '';
         $completed = 0.0;
         $total_completed = 0.0;
         $length = count($result->result_array());
@@ -389,6 +423,7 @@ class Mprogram extends CI_Model {
                 if ($item[$i]['nama'] != "$nama"){
                         if ($item[$i]['init_code'] != $ci){
                             $k++;
+                            $initiative .= $ci.';';
                             $ci = $item[$i]['init_code'];
                         }
                     $data[$j]['nama'] = $nama;
@@ -397,14 +432,17 @@ class Mprogram extends CI_Model {
                     $total_completed = $completed / $k;
                     // $data[$j]['total_completed'] = round($total_completed, 2);
                     $data[$j]['total_completed'] = 0;
+                    $data[$j]['initiative'] = $initiative;
                     $j++;
                     $nama = $item[$i]['nama'];
 
+                    $initiative = '';
                     $k = 0;
                 }else{
                     $completed = $completed + $item[$i]['persenan'];
                     if ($item[$i]['init_code'] != $ci){
                         $k++;
+                        $initiative .= $ci.';';
                         $ci = $item[$i]['init_code'];
                     }
                 }
@@ -436,6 +474,33 @@ class Mprogram extends CI_Model {
                         $data[$key]['total_completed'] = 0;
                     }
                 }
+                $arr_initcode= explode(";",$data[$key]['initiative']);
+                    // $arr_initcode= array('9');
+                    // var_dump($data[$key]['initiative']);die;
+                $hitung_kuantitatif = 0;
+                $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
+                    // var_dump(($hitung_kuantitatif));die;
+                $data[$key]['total_kuantitatif'] = $hitung_kuantitatif;
+                
+                $data[$key]['total_kuantitatif'] = 0;
+                if (!empty($hitung_kuantitatif)){
+                    $counter = 0;
+                    $jumlah_kuantitatif = 0;
+                    foreach ($hitung_kuantitatif as $key2 => $value2) {
+                        $jumlah_kuantitatif = $this->mkuantitatif->get_count_init_code($key2);
+                        // var_dump($jumlah_kuantitatif);die;
+                        $hitung_total_kuantitatif[$counter] = $value2 / $jumlah_kuantitatif;
+
+                        $counter = $counter +1;
+                    }
+                        // $data[$key]['total_kuantitatif'] = $hitung_total_kuantitatif;
+
+                    $total_kuantitatif = array_sum($hitung_total_kuantitatif);
+                    $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
+
+                    $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);
+                    $data[$key]['total_kuantitatif'] = $kuantitatif_percent;
+                }
             }
         }
         
@@ -447,7 +512,7 @@ class Mprogram extends CI_Model {
             $arsort[$key]  = $row['total_completed'];
         }
 
-        array_multisort($arsort, SORT_ASC, $data);
+        array_multisort($arsort, SORT_DESC, $data);
 
         return $data;
     }

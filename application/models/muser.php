@@ -120,6 +120,7 @@ class Muser extends CI_Model {
     // }
 
     function insert_notification_by_date_7(){
+        $this->db->db_debug = FALSE;
         $this->db->select('initiative.end as date_time');
         $this->db->select("CONCAT((user.name),('<p><br> tersisa 7 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
         $this->db->select('user.id as user_id_to');
@@ -130,12 +131,20 @@ class Muser extends CI_Model {
         $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -7 DAY)');
         $sql = $this->db->get('initiative');
         foreach($sql->result() as $row){
-            // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
-                $this->db->insert('notification',$row);
-        }
+            $data = array(
+                'date_time' => $row->date_time,
+                'notification' => $row->notification,
+                'user_id_to' => $row->user_id_to,
+                'init_id' => $row->init_id,
+                'initiativeid' => $row->initiativeid
+                    );
+                $insertest = $this->db->insert('notification',$data);
+            }
+            $this->db->_error_message();
     }
 
     function insert_notification_by_date_2(){
+        $this->db->db_debug = FALSE;
         $this->db->select('initiative.end as date_time');
         $this->db->select("CONCAT((user.name),('<p><br> tersisa 2 hari untuk initiative <br>'),(program.code),(' pada deliverable <br>'),(initiative.title),('</p>')) as notification");
         $this->db->select('user.id as user_id_to');
@@ -145,10 +154,17 @@ class Muser extends CI_Model {
         $this->db->join('user','program.init_code = user.initiative');
         $this->db->where('initiative.end = date_sub(CURDATE(), INTERVAL -2 DAY)');
         $sql = $this->db->get('initiative');
-        foreach($sql->result() as $row){
-            // $row->notification = "<p><b></b>, tersisa 7 hari untuk initiative : </b><br><br>".$row->notification."</b></p>";
-                $this->db->insert('notification',$row);
-        }
+            foreach($sql->result() as $row){
+                $data = array(
+                    'date_time' => $row->date_time,
+                    'notification' => $row->notification,
+                    'user_id_to' => $row->user_id_to,
+                    'init_id' => $row->init_id,
+                    'initiativeid' => $row->initiativeid
+                        );
+                    $insertest = $this->db->insert('notification',$data);
+            }
+            $this->db->_error_message();
     }
 
     function get_user_by_init_code($id){
@@ -378,7 +394,9 @@ class Muser extends CI_Model {
             if (is_array($value['initiative']) === true){
                 $total_initiative = count($value['initiative']);
 
+                $initiative = '';
                 foreach ($value['initiative'] as $key2 => $value2) {
+                    $initiative .= $value2.';';
                     foreach ($result1 as $key1 => $value1) {
                         if ($value2 == $value1['init_code']){
                             $total_completed = $total_completed + (int)$value1['status_c'];
@@ -386,12 +404,14 @@ class Muser extends CI_Model {
                     }
                 }
 
+                $data[$key]['initiative_string'] = $initiative;
                 $data[$key]['total_initiative'] = $total_initiative;
                 if ($total_completed != 0 && $total_initiative != 0){
                     $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative) * 100), 2);
                 }
             }else{
                 $total_initiative = 1;
+                $data[$key]['initiative_string'] = $value['initiative'];
                 $data[$key]['total_initiative'] = $total_initiative;
                 foreach ($result1 as $key1 => $value1) {
                     if ($value['initiative'] == $value1['init_code']){
@@ -401,6 +421,28 @@ class Muser extends CI_Model {
                     }
                 }
             }
+                //keperluan penghitungan kuantitatif
+            $arr_initcode= explode(";",$data[$key]['initiative_string']);
+            $hitung_kuantitatif = 0;
+            $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
+            
+            $data[$key]['total_kuantitatif'] = 0;
+            if (!empty($hitung_kuantitatif)){
+                $counter = 0;
+                $jumlah_kuantitatif = 0;
+                foreach ($hitung_kuantitatif as $key2 => $value2) {
+                    $jumlah_kuantitatif = $this->mkuantitatif->get_count_init_code($key2);
+                    $hitung_total_kuantitatif[$counter] = $value2 / $jumlah_kuantitatif;
+
+                    $counter = $counter +1;
+                }
+
+                $total_kuantitatif = array_sum($hitung_total_kuantitatif);
+                $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
+
+                $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);
+                $data[$key]['total_kuantitatif'] = $kuantitatif_percent;
+            }
 
         }
 
@@ -408,7 +450,7 @@ class Muser extends CI_Model {
             $arsort[$key]  = $row['total_completed'];
         }
 
-        array_multisort($arsort, SORT_ASC, $data);
+        array_multisort($arsort, SORT_DESC, $data);
 
         return $data;
     }
