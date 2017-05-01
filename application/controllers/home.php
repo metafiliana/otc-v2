@@ -8,6 +8,7 @@ class Home extends CI_Controller {
         $this->load->model('mmilestone');
         $this->load->model('mremark');
         $this->load->model('muser');
+        $this->load->model('mfiles_upload');
         $session = $this->session->userdata('user');
         if(!$session){
             redirect('user/login');
@@ -52,8 +53,8 @@ class Home extends CI_Controller {
                 foreach ($user as $users) {
                 $email = explode(';',$users->private_email); 
                 $this->send_email($users->name,$email,$users->initiative);
-                $this->mfiles_upload->insert_db($data,'email_date');
                 }
+                $this->mfiles_upload->insert_db($data,'email_date');
             }
         }
     }
