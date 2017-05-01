@@ -123,7 +123,7 @@
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
                     $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
                     $inits = <?php echo json_encode($value['initiative']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="pmo_head" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
+                    var newRowContent = '<tr><td>'+$text_nama+'</td><td>'+$total_initiative+'</td><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="pmo_head" >'+$text_presentase+' %</a></td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -143,7 +143,7 @@
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
                     $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
                     $inits = <?php echo json_encode($value['initiative_string']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="co_pmo" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
+                    var newRowContent = '<tr><td>'+$text_nama+'</td><td>'+$total_initiative+'</td><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="co_pmo" >'+$text_presentase+' %</a></td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -163,7 +163,7 @@
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
                     $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
                     $inits = <?php echo json_encode($value['initiative']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
+                    var newRowContent = '<tr><td>'+$text_nama+'</td><td>'+$total_initiative+'</td><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="dir_spon" >'+$text_presentase+' %</a></td><td><a class="filter-value-detail-kuantitatif" data-init="'+$inits+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }
@@ -182,7 +182,7 @@
                     $total_initiative = <?php echo json_encode($value['total_initiative']); ?>;
                     $text_presentase = <?php echo json_encode($value['total_completed']); ?>;
                     $text_kuantitative = <?php echo json_encode($value['total_kuantitatif']); ?>;
-                    var newRowContent = '<tr><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="initiatives" >Initiative '+$text_nama+'</a></td><td>'+$total_initiative+'</td><td>'+$text_presentase+' %</td><td><a class="filter-value-detail-kuantitatif" data-init="'+$text_nama+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
+                    var newRowContent = '<tr><td>Initiative '+$text_nama+'</td><td>'+$total_initiative+'</td><td><a class="filter-value-detail-program" data-nama="'+$text_nama+'" data-role="initiatives" >'+$text_presentase+' %</a></td><td><a class="filter-value-detail-kuantitatif" data-init="'+$text_nama+'" data-nama="'+$text_nama+'">'+$text_kuantitative+' %</a></td></tr>';
                     $(newRowContent).appendTo($("#filter-value-table-primary-body"));
                 <?php endforeach ?>
             }

@@ -1,3 +1,10 @@
+<p align="left">dengan kode initiative : 
+    <?php 
+        foreach ($init_code as $key => $value) {
+            echo $value.' ';
+        }
+    ?>
+</p>
 <strong><p align="center">Kuantitatif</p></strong>
 <div class="panel-group" id="accordion">
     <?php
@@ -8,7 +15,7 @@
         foreach ($kuantitatif as $key => $value) {
             echo '<tr>';
             if ($title != $value['prog']->init_code){
-                echo '<td style="vertical-align:middle">'.$value['prog']->title.'</td>';
+                echo '<td style="vertical-align:middle">'.$value['prog']->title.' ( '.$value['prog']->init_code.' )</td>';
                 $title = $value['prog']->init_code;
             }else{
                 echo '<td></td>';
@@ -25,16 +32,8 @@
             echo '<td>'.$value['prog']->target.'</td>';
             echo '<td>'.number_format($value['percentage'],2).' %</td>';
             echo '</tr>';
-
-
-            // echo "<a class = 'filter-value-detail-workblock' data-id = '".$value->id."' data-toggle='collapse' data-parent='#accordion' href='#collapse".$value->id."'>".$value->metric."</a></h4></div>";
-
-            // echo "<div id='collapse".$value->id."' class='panel-collapse collapse'><div class='panel-body' id='panel-initiative-".$value->id."'>";
-
-            // echo "</div></div></div>";
         }
         echo '</tbody>';
         echo '</table>';
-        // var_dump($kuantitatif);
     ?>
 </div>
