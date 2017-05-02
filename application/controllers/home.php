@@ -33,8 +33,8 @@ class Home extends CI_Controller {
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
         
-        //$data['notif_hari'] = $this->muser->insert_notification_by_date_7();
-        //$data['notif_hari'] = $this->muser->insert_notification_by_date_2();
+        $data['notif_hari'] = $this->muser->insert_notification_by_date_7();
+        $data['notif_hari'] = $this->muser->insert_notification_by_date_2();
         $this->blast_email();
 
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
