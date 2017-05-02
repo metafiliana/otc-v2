@@ -94,7 +94,7 @@ class Mkuantitatif extends CI_Model {
         return $arr;
     }
 
-    function get_total_kuantatif($init_id = null){
+    function get_total_kuantatif($init_id){
         $this->db->select('*');
         if($init_id){
             foreach ($init_id as $row) {
@@ -125,7 +125,7 @@ class Mkuantitatif extends CI_Model {
             $realisasi=$this->get_kuantitatif_update($id)->amount;
             $total=(($realisasi/$res->target)*100);
         }
-        if($res->target==0)
+        else if($res->target==0)
         {
             $total=0;
         }
