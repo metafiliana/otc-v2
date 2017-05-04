@@ -119,7 +119,7 @@ class User extends CI_Controller {
             $params['type_login']="failed";
             $this->login($params);
         }
-        $data['notif_hari'] = $this->muser->insert_notification_by_date();
+        //$data['notif_hari'] = $this->muser->insert_notification_by_date();
 	}
 	
 	public function chooseRole()
@@ -180,6 +180,19 @@ class User extends CI_Controller {
                      ->set_output(json_encode($json));
 	}
 	
+    public function reset_user(){
+        $id = $this->input->post('id');
+        $user['password'] = md5('123123');
+        if($this->muser->update_user($user,$id)){
+            $json['status'] = 1;
+        }
+        else{
+            $json['status'] = 0;
+        }
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
+
 	public function form_password(){
     	$data['title'] = 'Change Password';
     	
@@ -224,10 +237,13 @@ class User extends CI_Controller {
     	$user['password'] = md5($this->input->post('password_new'));
         $user_ses = $this->session->userdata('user');
         if($this->muser->update_user($user,$user_ses['id'])){
-        	// $json['status']=1;
-            // $json['success']=TRUE;
-            redirect('home');
+            $json['status']=1;
+            $json['success']=TRUE;
+            //echo "Password berhasil dirubah" ;
+            //redirect('home');
         }
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
     }
     
     public function not_login_yet(){

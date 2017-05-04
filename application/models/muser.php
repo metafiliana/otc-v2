@@ -323,6 +323,7 @@ class Muser extends CI_Model {
     		return $this->db->delete('profil');
     	}
     }
+    
     function delete_user(){
     	$id = $this->input->post('id');
     	$this->db->where('id',$id);

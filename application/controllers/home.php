@@ -80,7 +80,7 @@ class Home extends CI_Controller {
         $to = $email;
         //array('tezza.riyanto@bankmandiri.co.id');
         $subject = 'Permohonan update progress pada sistem OTC';
-        $message = 'Kepada '.$name.' untuk update progress pada initiative '.$init.' di https://10.200.53.7/otc Terima kasih.'; // use this line to send text email.
+        $message = 'Kepada '.$name.' untuk update progress pada initiative '.$init.' di http://10.200.7.53/otc Terima kasih.'; // use this line to send text email.
         // load view file called "welcome_message" in to a $message variable as a html string.
         //$message =  $this->load->view('welcome_message',[],true);
         // Load CodeIgniter Email library
