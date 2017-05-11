@@ -595,6 +595,11 @@ class Mfiles_upload extends CI_Model {
         }
     }
 
+    function delete_db_truncate($db){
+        $this->db->truncate($db); 
+        return true;
+    }
+
     function upload_files($form,$path,$modul,$submodul,$ownership_id,$to_files_upload,$make_thumbnail){
         $upload_path = "assets/uploads/".$path;
         if (!is_dir($upload_path)) {
