@@ -91,6 +91,7 @@ class Agenda extends CI_Controller {
         }
         else{
             $agenda="";
+            $files="";
         }
          
 		
@@ -165,9 +166,15 @@ class Agenda extends CI_Controller {
     }
     
     public function delete_agenda(){
-    	$id = $this->uri->segment(3);
+    	$id = $this->input->get('id');
     	if($id){
-        	if($this->magenda->delete_agenda($id)){redirect('agenda/'.$segment);}
+        	if($this->magenda->delete_agenda($id))
+            {
+                $this->mfiles_upload->delete_with_files_ownership($id,'agenda','files');
+                $json['status'] = true;
+                $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+            }
         	//else{redirect('initiative/input_initiative/'.$segment);}
         }
     }

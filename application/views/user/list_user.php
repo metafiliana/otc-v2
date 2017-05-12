@@ -21,6 +21,7 @@
 					<td>
 						<a href="<?php echo base_url()?>user/input_user/<?php echo $usr->id?>" class="btn btn-warning  btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 						<button class="btn btn-danger btn-xs" onclick="delete_user(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-trash"></span></button>
+						<button class="btn btn-primary btn-xs" onclick="reset_user(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-refresh"></span></button>
 					</td>
 				</tr>
 				
@@ -32,7 +33,7 @@
 
 <script>
 	function delete_user(id, event){
-		bootbox.confirm("Apa anda yakin?", function(confirmed) {
+		bootbox.confirm("Apa anda yakin menghapus user?", function(confirmed) {
 			if(confirmed===true){
 				$.ajax({
 					url: config.base+"user/delete_user",
@@ -42,7 +43,25 @@
 					success: function (resp) {
 						if(resp.status == 1){
 							$('#usersu_'+id).animate({'opacity':'toggle'});
-							succeedMessage('User berhasil dihapus');
+							alert('User berhasil dihapus');
+						}
+					}
+				});
+			}
+		});
+	}
+
+	function reset_user(id, event){
+		bootbox.confirm("Apa anda yakin mengganti password?", function(confirmed) {
+			if(confirmed===true){
+				$.ajax({
+					url: config.base+"user/reset_user",
+					data: {id: id},
+					dataType: 'json',
+					type: "POST",
+					success: function (resp) {
+						if(resp.status == 1){
+							alert('User berhasil memakai password default');
 						}
 					}
 				});

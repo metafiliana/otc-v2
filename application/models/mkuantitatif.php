@@ -74,6 +74,16 @@ class Mkuantitatif extends CI_Model {
             return false;
         }
     }
+
+    function get_all_kuantitatif_update($id,$year){
+        $this->db->where('id_kuan',$id);
+        $this->db->where('year',$year);
+        $this->db->order_by('id', 'asc');
+        $result = $this->db->get('kuantitatif_update');
+        if($result){
+            return $result->result();
+        }
+    }
     
     function get_kuantitatif_with_update($init_id){
         $this->db->select('*');
@@ -94,7 +104,7 @@ class Mkuantitatif extends CI_Model {
         return $arr;
     }
 
-    function get_total_kuantatif($init_id = null){
+    function get_total_kuantatif($init_id){
         $this->db->select('*');
         if($init_id){
             foreach ($init_id as $row) {
@@ -125,7 +135,7 @@ class Mkuantitatif extends CI_Model {
             $realisasi=$this->get_kuantitatif_update($id)->amount;
             $total=(($realisasi/$res->target)*100);
         }
-        if($res->target==0)
+        else if($res->target==0)
         {
             $total=0;
         }
