@@ -1,4 +1,4 @@
-<strong><p align="center">Initiatives ( <?php echo $init_code; ?> )</p></strong>
+<strong><p align="center">Deliverables ( <?php echo $init_code; ?> )</p></strong>
 <div class="panel-group" id="accordion">
     <?php
         foreach ($initiatives as $key => $value) {

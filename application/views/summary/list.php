@@ -21,7 +21,7 @@
     <div class="row well">
         <div class="clearfix" style="float: right;">
           <a href="<?php echo base_url()?>summary/"><button class="btn btn-default">Summary All</button></a>
-          <button class="btn btn-default">Summary Program List</button>
+          <button class="btn btn-info" disabled="disabled">Summary Detail</button>
         </div>
     </div>
 <div class="wrapper">
@@ -93,6 +93,10 @@
 
 <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script>
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     $(function() {
         // $('#filter-value-table-primary').DataTable( {
         //     // "order": [[ 1, "asc" ]],

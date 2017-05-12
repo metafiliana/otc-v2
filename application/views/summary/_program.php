@@ -7,7 +7,7 @@
         	// 	echo "</tr>";
         	// }
         ?>
-<strong><p align="center">Programs</p></strong>
+<strong><p align="center">Initiative</p></strong>
 <div class="panel-group" id="accordion">
     <?php
         foreach ($programs as $key => $value) {

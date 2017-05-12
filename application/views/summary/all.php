@@ -23,38 +23,14 @@
 <div class="component_part">
     <div class="row well">
         <div class="clearfix" style="float: right;">
-          <button class="btn btn-default">Summary All</button>
-          <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Program List</button></a>
+          <button class="btn btn-info" disabled="disabled">Summary All</button>
+          <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Detail</button></a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
             <h3>Summary</h3>
-            <!-- <h4> 30% (6 Initiative) Done dari Total 20 intiative Terdapat 3 initiative delay, dan 2 initiative at Risk.</h4> -->
         </div>
-        <!-- <div class="col-md-12">
-            <div class="col-md-3">
-                <?php //echo $info?>
-            </div>
-            <div class="col-md-9">
-                <table id='initiative-table' class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr class="headertab">
-                            <th>Initiative</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id='initiative-table-body'>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
         <div class="col-md-12">
             <div id="chart_initiative" class="col-md-3 chart-4"></div>
             <div id="chart_workstream" class="col-md-3 chart-4"></div>
@@ -62,26 +38,6 @@
             <div id="chart_action" class="col-md-3 chart-4"></div>
         </div>
         <div id="event"></div>
-        <!-- <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 id="filter-value-title" class="panel-title">Charts Detail : <span id="keterangan-detail"></span></h4>
-                </div>
-                <div class="panel-body">
-                    <table id="chart-detail" class="table text-center">
-                        <thead>
-                            <th>Initiative</th>
-                            <th>Code</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                        </thead>
-                        <tbody id="chart-detail-body">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> -->
 
         <div id="keterangan-detail-chart" class="text-center"></div>
         <div class="col-md-12" id="content-detail">
@@ -96,11 +52,12 @@
               </div>
               <div id="collapseDelay" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <table id="chart-detail-delay" class="table text-center">
+                    <table id="chart-detail-delay" class="table">
                         <thead>
-                            <th>Title</th>
                             <th>Code</th>
+                            <th>Sub Init</th>
                             <th>Start Date</th>
+                            <th>Sisa</th>
                             <th>End Date</th>
                         </thead>
                         <tbody id="chart-detail-body-delay">
@@ -121,11 +78,12 @@
               </div>
               <div id="collapseNYS" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <table id="chart-detail-nys" class="table text-center">
+                  <table id="chart-detail-nys" class="table">
                         <thead>
-                            <th>Title</th>
                             <th>Code</th>
+                            <th>Sub Init</th>
                             <th>Start Date</th>
+                            <th>Sisa</th>
                             <th>End Date</th>
                         </thead>
                         <tbody id="chart-detail-body-nys">
@@ -145,11 +103,12 @@
               </div>
               <div id="collapseIP" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <table id="chart-detail-ip" class="table text-center">
+                  <table id="chart-detail-ip" class="table">
                         <thead>
-                            <th>Title</th>
                             <th>Code</th>
+                            <th>Sub Init</th>
                             <th>Start Date</th>
+                            <th>Sisa</th>
                             <th>End Date</th>
                         </thead>
                         <tbody id="chart-detail-body-ip">
@@ -169,11 +128,12 @@
               </div>
               <div id="collapseC" class="panel-collapse collapse in">
                 <div class="panel-body">
-                  <table id="chart-detail-completed" class="table text-center">
+                  <table id="chart-detail-completed" class="table">
                         <thead>
-                            <th>Title</th>
                             <th>Code</th>
+                            <th>Sub Init</th>
                             <th>Start Date</th>
+                            <th>Sisa</th>
                             <th>End Date</th>
                         </thead>
                         <tbody id="chart-detail-body-completed">
@@ -464,7 +424,8 @@ function displayDetailInitiative(status)
         $text_code = <?php echo json_encode($summary_progress[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_progress[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_progress[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_progress[$key]['start']); $b = new DateTime($summary_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
     <?php endforeach ?>
 
@@ -476,7 +437,8 @@ function displayDetailInitiative(status)
         $text_code = <?php echo json_encode($summary_delay[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_delay[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_delay[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_progress[$key]['start']); $b = new DateTime($summary_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
     <?php endforeach ?>
   }else if (status == 'Completed'){
@@ -487,7 +449,8 @@ function displayDetailInitiative(status)
         $text_code = <?php echo json_encode($summary_completed[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_completed[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_completed[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_completed[$key]['start']); $b = new DateTime($summary_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
@@ -498,7 +461,8 @@ function displayDetailInitiative(status)
         $text_code = <?php echo json_encode($summary_not_started[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_not_started[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_not_started[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_not_started[$key]['start']); $b = new DateTime($summary_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
     <?php endforeach ?>
   }
@@ -563,7 +527,8 @@ function displayDetailAction(status)
         $text_code = <?php echo json_encode($summary_action_progress[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_action_progress[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_action_progress[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_action_progress[$key]['start']); $b = new DateTime($summary_action_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
     <?php endforeach ?>
 
@@ -575,7 +540,8 @@ function displayDetailAction(status)
         $text_code = <?php echo json_encode($summary_action_delay[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_action_delay[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_action_delay[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_action_delay[$key]['start']); $b = new DateTime($summary_action_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
     <?php endforeach ?>
   }else if (status == 'Completed'){
@@ -586,7 +552,8 @@ function displayDetailAction(status)
         $text_code = <?php echo json_encode($summary_action_completed[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_action_completed[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_action_completed[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_action_completed[$key]['start']); $b = new DateTime($summary_action_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
@@ -597,7 +564,8 @@ function displayDetailAction(status)
         $text_code = <?php echo json_encode($summary_action_not_started[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_action_not_started[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_action_not_started[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_action_not_started[$key]['start']); $b = new DateTime($summary_action_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
     <?php endforeach ?>
   }
@@ -662,7 +630,8 @@ function displayDetailWorkstream(status)
         $text_code = <?php echo json_encode($summary_workstream_progress[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_workstream_progress[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_workstream_progress[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_workstream_progress[$key]['start']); $b = new DateTime($summary_workstream_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
     <?php endforeach ?>
 
@@ -674,7 +643,8 @@ function displayDetailWorkstream(status)
         $text_code = <?php echo json_encode($summary_workstream_delay[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_workstream_delay[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_workstream_delay[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_workstream_delay[$key]['start']); $b = new DateTime($summary_workstream_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
     <?php endforeach ?>
   }else if (status == 'Completed'){
@@ -685,7 +655,8 @@ function displayDetailWorkstream(status)
         $text_code = <?php echo json_encode($summary_workstream_completed[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_workstream_completed[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_workstream_completed[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_workstream_completed[$key]['start']); $b = new DateTime($summary_workstream_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
@@ -696,7 +667,8 @@ function displayDetailWorkstream(status)
         $text_code = <?php echo json_encode($summary_workstream_not_started[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_workstream_not_started[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_workstream_not_started[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_workstream_not_started[$key]['start']); $b = new DateTime($summary_workstream_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
     <?php endforeach ?>
   }
@@ -761,7 +733,8 @@ function displayDetailDeliverable(status)
         $text_code = <?php echo json_encode($summary_deliverable_progress[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_deliverable_progress[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_deliverable_progress[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_deliverable_progress[$key]['start']); $b = new DateTime($summary_deliverable_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
     <?php endforeach ?>
 
@@ -773,7 +746,8 @@ function displayDetailDeliverable(status)
         $text_code = <?php echo json_encode($summary_deliverable_delay[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_deliverable_delay[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_deliverable_delay[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_deliverable_delay[$key]['start']); $b = new DateTime($summary_deliverable_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
     <?php endforeach ?>
   }else if (status == 'Completed'){
@@ -784,7 +758,8 @@ function displayDetailDeliverable(status)
         $text_code = <?php echo json_encode($summary_deliverable_completed[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_deliverable_completed[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_deliverable_completed[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_deliverable_completed[$key]['start']); $b = new DateTime($summary_deliverable_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
@@ -795,7 +770,8 @@ function displayDetailDeliverable(status)
         $text_code = <?php echo json_encode($summary_deliverable_not_started[$key]['code']) ?>;
         $text_start = <?php echo json_encode($summary_deliverable_not_started[$key]['start']) ?>;
         $text_end = <?php echo json_encode($summary_deliverable_not_started[$key]['end']) ?>;
-        var newRowContent = '<tr><td>'+$text_info+'</td><td>'+$text_code+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td></tr>';
+        $diff = <?php $a = new DateTime($summary_deliverable_not_started[$key]['start']); $b = new DateTime($summary_deliverable_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
+        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
     <?php endforeach ?>
   }
