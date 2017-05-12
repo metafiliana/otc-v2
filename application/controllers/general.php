@@ -272,6 +272,7 @@ class General extends CI_Controller {
                 }
 
                 if($file['for']=='kuantitatif'){
+                    $this->mfiles_upload->delete_db_truncate('kuantitatif_update');
                     for ($row = 2; $row <= $exel['row']; ++$row) {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {

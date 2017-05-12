@@ -74,6 +74,16 @@ class Mkuantitatif extends CI_Model {
             return false;
         }
     }
+
+    function get_all_kuantitatif_update($id,$year){
+        $this->db->where('id_kuan',$id);
+        $this->db->where('year',$year);
+        $this->db->order_by('id', 'asc');
+        $result = $this->db->get('kuantitatif_update');
+        if($result){
+            return $result->result();
+        }
+    }
     
     function get_kuantitatif_with_update($init_id){
         $this->db->select('*');

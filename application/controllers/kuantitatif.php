@@ -50,6 +50,7 @@ class Kuantitatif extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
+        //$this->mkuantitatif->get_kuantitatif_update_with_detail('1');
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
@@ -146,6 +147,24 @@ class Kuantitatif extends CI_Controller {
         }
         
         redirect('kuantitatif');
+    }
+
+    public function detail_update(){
+        $id = $this->input->get('id');
+        $year = $this->input->get('year');       
+        
+        $data['title'] = "Detail Update Kuantitatif";
+
+        if($id){
+            $data['detail']= $this->mkuantitatif->get_kuantitatif_by_id($id);
+            $data['update']= $this->mkuantitatif->get_all_kuantitatif_update($id,$year);
+        }
+
+        $json['html'] = $this->load->view('kuantitatif/component/_detail_update_kuantitatif',$data,TRUE);
+        
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
     }
 
 }
