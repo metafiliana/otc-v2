@@ -42,11 +42,11 @@
                 <?php } }?>
             <?php $pv_init = $prog['prog']->init_code; } ?>
             <td style="vertical-align:middle">
-                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Realisasi');"><?php echo plus_icon()?> Update</a>
+                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Realisasi','');"><?php echo plus_icon()?> Update</a>
             </td>
             <?php if($user['role']=='admin') {?>
             <td style="vertical-align:middle">
-                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Target');"><?php echo icon_small('plus_blue.png')?> Update Target</a>
+                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Target','');"><?php echo icon_small('plus_blue.png')?> Update Target</a>
             </td>
             <?php }?>
         </tr>

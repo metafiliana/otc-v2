@@ -100,14 +100,22 @@ class Kuantitatif extends CI_Controller {
 
     public function input_kuantitatif(){
         $id = $this->input->get('id'); 
-        $type = $this->input->get('type');       
+        $type = $this->input->get('type');
+        $id_update = $this->input->get('id_update');       
         
-        $data['title'] = "Update Kuantitatif ".$type;
-
+        $data['kuan_update']="";
         if($id){
             $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
             $data['update']= $this->mkuantitatif->get_kuantitatif_update($id);
         }
+        else if($id_update){
+            $data['kuan_update']= $this->mkuantitatif->get_update_by_id($id_update);
+            $id=$data['kuan_update']->id_kuan;
+            $data['update']= "";
+            $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
+        }
+
+        $data['title'] = "Update Kuantitatif ".$type;
 
         if($type=="Realisasi"){
             $json['html'] = $this->load->view('kuantitatif/input_kuantitatif_'.$type,$data,TRUE);
@@ -130,11 +138,17 @@ class Kuantitatif extends CI_Controller {
         $program['amount'] = $this->input->post('amount');
         
         if($id){
-            $this->mkuantitatif->update_kuantitatif($program,$id);
+            $this->mkuantitatif->update_kuantitatif_update($program,$id);
         }
         else{$this->mkuantitatif->insert_kuantitatif_update($program);}
+        $user = $this->session->userdata('user');
+        if($user['role']=='admin'){
+            redirect('kuantitatif');
+        }
+        else{
+            redirect('kuantitatif/my_kuantitatif');
+        }
         
-        redirect('kuantitatif');
     }
 
     public function submit_target(){
@@ -163,6 +177,20 @@ class Kuantitatif extends CI_Controller {
         $json['html'] = $this->load->view('kuantitatif/component/_detail_update_kuantitatif',$data,TRUE);
         
         $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+    }
+
+    public function delete_kuantitatif_update(){
+        $id = $this->input->get('id');
+        if($id){
+            $this->mkuantitatif->delete_kuantitatif_update($id);
+            $json['status'] = true;
+        }
+        else
+        {
+             $json['status'] = false;
+        }
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
     }
