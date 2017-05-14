@@ -1,3 +1,4 @@
+<?php $user = $this->session->userdata('user'); ?>
 <div class="modal fade" id="popup_Modal" tabindex="-13" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="width:50%;">
     <div class="modal-content">
@@ -16,14 +17,19 @@
 				    <tr>
 				        <th style="vertical-align:middle">Month</th>
 				        <th style="vertical-align:middle">Amount</th>
+			        	<th style="vertical-align:middle">Update</th>
 				    </tr>
 			    </thead>
 			    <tbody>
 				    <?php if($update){ ?>
 					    <?php foreach($update as $updates){ ?>
-					    	<tr>
+					    	<tr id="update_<?php echo $updates->id?>">
 					    		<td class="center_text"><?php echo date('F',mktime(0,0,0, $updates->month,10));?></td>
 					    		<td class="center_text"><?php echo $updates->amount; ?></td>
+					    		<td>
+									<a class="btn btn-link btn-link-edit" onclick="show_form('','Realisasi',<?php echo $updates->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a class="btn btn-link btn-link-delete" onclick="detele_update_kuan(<?php echo $updates->id?>);"><span class="glyphicon glyphicon-trash"></span></a>
+								</td>
 					    	</tr>
 				    	<?php } ?>
 		    	 	<?php } else{ ?>
@@ -39,3 +45,31 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+function detele_update_kuan(id){
+$.confirm({
+    title: 'Apa anda yakin?',
+    content: '',
+    confirmButton: 'Ya',
+    confirm: function(){  
+      $.ajax({
+        type: "GET",
+        url: config.base+"kuantitatif/delete_kuantitatif_update",
+        data: {id:id},
+        dataType: 'json',
+        cache: false,
+        success: function(resp){
+          console.log(resp);
+          if(resp.status==true){
+            $('#update_'+id).animate({'opacity':'toggle'});
+          }else{
+            console.log('action after failed');
+          }
+        }
+      });
+    },
+});
+}	
+	
+
+</script>
