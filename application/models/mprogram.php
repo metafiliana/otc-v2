@@ -27,6 +27,13 @@ class Mprogram extends CI_Model {
     }
     
     //GET FUNCTION
+
+    function get_all_program()
+    {
+        $result = $this->db->get('program');
+
+        return $result->result();
+    }
     
     function get_program_by_id($id){
         $this->db->where('id',$id);

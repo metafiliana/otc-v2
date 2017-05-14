@@ -44,7 +44,7 @@ class Summary extends CI_Controller {
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
         $views['summary_completed'] = $this->mworkblock->get_summary_all('Completed');
-        $views['total_summary_initiative'] = count($views['summary_not_started']) + count($views['summary_delay']) + count($views['summary_progress']) + count($views['summary_completed']);
+        $views['total_summary_initiative'] = count($this->mprogram->get_all_program());
 
         $views['chart_data_action'] = $this->mworkblock->getDataChartAction();
         $views['persen_action'] = 100/($this->mworkblock->getCountDataChartAction());
@@ -52,7 +52,7 @@ class Summary extends CI_Controller {
         $views['summary_action_delay'] = $this->mworkblock->get_summary_action_all('Delay');
         $views['summary_action_progress'] = $this->mworkblock->get_summary_action_all('In Progress');
         $views['summary_action_completed'] = $this->mworkblock->get_summary_action_all('Completed');
-        $views['total_summary_action'] = count($views['summary_action_not_started']) + count($views['summary_action_delay']) + count($views['summary_action_progress']) + count($views['summary_action_completed']);
+        $views['total_summary_action'] = $this->mworkblock->get_count_workblock();
         
         $views['chart_data_deliverable'] = $this->mworkblock->getDataChartDeliverable();
         $views['persen_deliverable'] = 100/($this->mworkblock->getCountDataChartDeliverable());
