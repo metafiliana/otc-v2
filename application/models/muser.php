@@ -417,7 +417,7 @@ class Muser extends CI_Model {
                 foreach ($result1 as $key1 => $value1) {
                     if ($value['initiative'] == $value1['init_code']){
                         $data[$key]['total_completed'] = (int)$value1['status_c'];
-                        if ($total_initiative != 0)
+                        if ($total_initiative != 0 && $value1['total_init'] != 0)
                             $data[$key]['total_completed'] = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
                     }
                 }
