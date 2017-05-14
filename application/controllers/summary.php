@@ -44,6 +44,7 @@ class Summary extends CI_Controller {
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
         $views['summary_completed'] = $this->mworkblock->get_summary_all('Completed');
+        $views['total_summary_initiative'] = count($views['summary_not_started']) + count($views['summary_delay']) + count($views['summary_progress']) + count($views['summary_completed']);
 
         $views['chart_data_action'] = $this->mworkblock->getDataChartAction();
         $views['persen_action'] = 100/($this->mworkblock->getCountDataChartAction());
@@ -51,6 +52,7 @@ class Summary extends CI_Controller {
         $views['summary_action_delay'] = $this->mworkblock->get_summary_action_all('Delay');
         $views['summary_action_progress'] = $this->mworkblock->get_summary_action_all('In Progress');
         $views['summary_action_completed'] = $this->mworkblock->get_summary_action_all('Completed');
+        $views['total_summary_action'] = count($views['summary_action_not_started']) + count($views['summary_action_delay']) + count($views['summary_action_progress']) + count($views['summary_action_completed']);
         
         $views['chart_data_deliverable'] = $this->mworkblock->getDataChartDeliverable();
         $views['persen_deliverable'] = 100/($this->mworkblock->getCountDataChartDeliverable());
@@ -58,6 +60,7 @@ class Summary extends CI_Controller {
         $views['summary_deliverable_delay'] = $this->mworkblock->get_summary_deliverable_all('Delay');
         $views['summary_deliverable_progress'] = $this->mworkblock->get_summary_deliverable_all('In Progress');
         $views['summary_deliverable_completed'] = $this->mworkblock->get_summary_deliverable_all('Completed');
+        $views['total_summary_deliverable'] = count($views['summary_deliverable_not_started']) + count($views['summary_deliverable_delay']) + count($views['summary_deliverable_progress']) + count($views['summary_deliverable_completed']);
 
         $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
         $views['persen_workstream'] = 100/($this->mworkblock->getCountDataChartWorkstream());
@@ -65,6 +68,7 @@ class Summary extends CI_Controller {
         $views['summary_workstream_delay'] = $this->mworkblock->get_summary_workstream_all('Delay');
         $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
         $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
+        $views['total_summary_workstream'] = count($views['summary_workstream_not_started']) + count($views['summary_workstream_delay']) + count($views['summary_workstream_progress']) + count($views['summary_workstream_completed']);
 
         $data['user']=$user;
         if($user['role']!='admin'){
