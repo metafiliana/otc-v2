@@ -159,19 +159,19 @@ var legend;
 var selected;
     var typesInitiative = [
     <?php foreach ($wb_status as $key => $value) { ?>
-            <?php if ($key == 'inprog') { ?>
+            <?php if (strtolower($key) == 'inprog') { ?>
                 {
                 type: "In Progress",
                 color: "grey",
-            <?php }elseif ($key == 'notyet') { ?>
+            <?php }elseif (strtolower($key) == 'notyet') { ?>
                 {
                 type: "Not Yet",
                 color: "yellow",
-            <?php }elseif ($key == 'complete') { ?>
+            <?php }elseif (strtolower($key) == 'complete') { ?>
                 {
                 type: "Completed",
                 color: "green",
-            <?php }elseif ($key == 'delay') { ?>
+            <?php }elseif (strtolower($key) == 'delay') { ?>
                 {
                 type: "Delay",
                 color: "red",
@@ -188,19 +188,19 @@ var selected;
     var typesDeliverable = [
     <?php foreach ($chart_data_deliverable as $key => $value) { ?>
             <?php if ($value['status'] != null){ ?>
-            <?php if ($value['status'] == 'In Progress') { ?>
+            <?php if (strtolower($value['status']) == 'in progress') { ?>
                 {
                 type: "In Progress",
                 color: "grey",
-            <?php }elseif ($value['status'] == 'Not Started Yet') { ?>
+            <?php }elseif (strtolower($value['status']) == 'not started yet') { ?>
                 {
                 type: "Not Yet",
                 color: "yellow",
-            <?php }elseif ($value['status'] == 'Completed') { ?>
+            <?php }elseif (strtolower($value['status']) == 'completed') { ?>
                 {
                 type: "Completed",
                 color: "green",
-            <?php }elseif ($value['status'] == 'Delay') { ?>
+            <?php }elseif (strtolower($value['status']) == 'delay') { ?>
                 {
                 type: "Delay",
                 color: "red",
@@ -218,19 +218,19 @@ var selected;
     var typesWorkstream = [
     <?php foreach ($chart_data_workstream as $key => $value) { ?>
         <?php if ($value['status'] != null){ ?>
-            <?php if ($value['status'] == 'In Progress') { ?>
+            <?php if (strtolower($value['status']) == 'in progress') { ?>
                 {
                 type: "In Progress",
                 color: "grey",
-            <?php }elseif ($value['status'] == 'Not Started Yet') { ?>
+            <?php }elseif (strtolower($value['status']) == 'not started yet') { ?>
                 {
                 type: "Not Yet",
                 color: "yellow",
-            <?php }elseif ($value['status'] == 'Completed') { ?>
+            <?php }elseif (strtolower($value['status']) == 'completed') { ?>
                 {
                 type: "Completed",
                 color: "green",
-            <?php }elseif ($value['status'] == 'Delay') { ?>
+            <?php }elseif (strtolower($value['status']) == 'delay') { ?>
                 {
                 type: "Delay",
                 color: "red",
@@ -247,19 +247,19 @@ var selected;
 
     var typesAction = [
     <?php foreach ($chart_data_action as $key => $value) { ?>
-            <?php if ($value['status'] == 'In Progress') { ?>
+            <?php if (strtolower($value['status']) == 'in progress') { ?>
                 {
                 type: "In Progress",
                 color: "grey",
-            <?php }elseif ($value['status'] == 'Not Started Yet') { ?>
+            <?php }elseif (strtolower($value['status']) == 'not started yet') { ?>
                 {
                 type: "Not Yet",
                 color: "yellow",
-            <?php }elseif ($value['status'] == 'Completed') { ?>
+            <?php }elseif (strtolower($value['status']) == 'completed') { ?>
                 {
                 type: "Completed",
                 color: "green",
-            <?php }elseif ($value['status'] == 'Delay') { ?>
+            <?php }elseif (strtolower($value['status']) == 'delay') { ?>
                 {
                 type: "Delay",
                 color: "red",
