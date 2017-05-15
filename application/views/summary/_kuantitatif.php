@@ -23,13 +23,13 @@
             echo '<td>'.$value['prog']->metric.'</td>';
                 if($value['update']){ 
                     echo '<td>';
-                    echo $value['update']->amount; 
+                    echo number_format($value['update']->amount); 
                     echo " (".date('F',mktime(0,0,0, $value['update']->month,10)).")";
                     echo '</td>';
                 }else{ 
-                    echo '<td>'.$value['prog']->realisasi." (April)</td>"; 
+                    echo '<td>'.number_format($value['prog']->realisasi)." (April)</td>"; 
                 }
-            echo '<td>'.$value['prog']->target.'</td>';
+            echo '<td>'.number_format($value['prog']->target,2).'</td>';
             echo '<td>'.number_format($value['percentage'],2).' %</td>';
             echo '</tr>';
         }

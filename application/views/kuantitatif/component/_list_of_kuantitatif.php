@@ -26,7 +26,7 @@
                 <?php echo $prog['prog']->metric;?>
             </td>
             <td style="vertical-align:middle">
-                <?php if($prog['update']){ echo $prog['update']->amount; echo " (".date('F',mktime(0,0,0, $prog['update']->month,10)).")";}else{ echo $prog['prog']->realisasi." (April)"; }?>
+                <a onclick="detail_update(<?php echo $prog['prog']->id?>,<?php echo $prog['prog']->target_year?>);"><?php if($prog['update']){ echo $prog['update']->amount; echo " (".date('F',mktime(0,0,0, $prog['update']->month,10)).")";}else{ echo $prog['prog']->realisasi; echo " (".$prog['prog']->real_month.")"; }?></a>
             </td>
             <td style="vertical-align:middle">
                 <?php echo $prog['prog']->target;?>
@@ -42,11 +42,11 @@
                 <?php } }?>
             <?php $pv_init = $prog['prog']->init_code; } ?>
             <td style="vertical-align:middle">
-                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Realisasi');"><?php echo plus_icon()?> Update</a>
+                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Realisasi','');"><?php echo plus_icon()?> Update</a>
             </td>
             <?php if($user['role']=='admin') {?>
             <td style="vertical-align:middle">
-                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Target');"><?php echo icon_small('plus_blue.png')?> Update Target</a>
+                <a class="btn" onclick="show_form(<?php echo $prog['prog']->id?>,'Target','');"><?php echo icon_small('plus_blue.png')?> Update Target</a>
             </td>
             <?php }?>
         </tr>

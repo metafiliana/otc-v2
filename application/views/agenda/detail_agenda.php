@@ -27,7 +27,7 @@
     <hr>
     <div style="margin-top:20px; text-align:center">
         <a onclick="show_form('','','',<?php echo $agenda->id?>)" class="btn btn-warning  btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a href="<?php echo base_url()?>agenda/delete_agenda/<?php echo $agenda->id?>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
+        <a onclick="delete_agenda(<?php echo $agenda->id?>)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
     </div>
 </div>
 <script>
@@ -61,6 +61,31 @@
               console.log(resp);
               if(resp.status==true){
                 $('#file_'+id).animate({'opacity':'toggle'});
+              }else{
+                console.log('action after failed');
+              }
+            }
+          });
+        },
+    });
+    }
+
+    function delete_agenda(id){
+    $.confirm({
+        title: 'Apa anda yakin?',
+        content: '',
+        confirmButton: 'Ya',
+        confirm: function(){  
+          $.ajax({
+            type: "GET",
+            url: config.base+"agenda/delete_agenda",
+            data: {id:id},
+            dataType: 'json',
+            cache: false,
+            success: function(resp){
+              console.log(resp);
+              if(resp.status==true){
+                location.reload(config.base+"agenda"); 
               }else{
                 console.log('action after failed');
               }

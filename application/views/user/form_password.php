@@ -56,20 +56,20 @@
 			}
 		
 		});
-	// 	$("#formpsswd").ajaxForm({	
-	// 		beforeSubmit: function() 
- //    		{
- //    			please_wait_msg("pass_pw");
- //    		},
-	// 		success: function(res) 
-	// 		{
-	// 			if(resp.status==1){
-	// 				$("#pass_pw").html('');
-	// 				succeedMessage('Password was successfully updated');
-	// 				$("#formpsswd")[0].reset();
-	// 				location.reload(config.base);
-	// 			}
-	// 		},
-	// 	});
-	// });
+		$("#formpsswd").ajaxForm({	
+			beforeSubmit: function() 
+    		{
+    			please_wait_msg("pass_pw");
+    		},
+			success: function(resp) 
+			{
+				if(resp.status==1){
+					$("#pass_pw").html('');
+					alert('Password was successfully updated');
+					$("#formpsswd")[0].reset();
+					//location.reload(config.base+'home');
+				}
+			},
+		});
+	});
 </script>

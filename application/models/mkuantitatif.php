@@ -64,6 +64,16 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
+    function get_update_by_id($id){
+        $this->db->where('id',$id);
+        $result = $this->db->get('kuantitatif_update');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
+    }
+
     function get_kuantitatif_update($id){
         $this->db->where('id_kuan',$id);
         $this->db->order_by('id', 'desc');
@@ -72,6 +82,16 @@ class Mkuantitatif extends CI_Model {
             return $result->row(0);
         }else{
             return false;
+        }
+    }
+
+    function get_all_kuantitatif_update($id,$year){
+        $this->db->where('id_kuan',$id);
+        $this->db->where('year',$year);
+        $this->db->order_by('id', 'asc');
+        $result = $this->db->get('kuantitatif_update');
+        if($result){
+            return $result->result();
         }
     }
     
@@ -94,7 +114,7 @@ class Mkuantitatif extends CI_Model {
         return $arr;
     }
 
-    function get_total_kuantatif($init_id){
+    function get_total_kuantatif($init_id = null){
         $this->db->select('*');
         if($init_id){
             foreach ($init_id as $row) {
@@ -185,6 +205,11 @@ class Mkuantitatif extends CI_Model {
         $this->db->where('id',$id);
         return $this->db->update('kuantitatif', $program);
     }
+
+    function update_kuantitatif_update($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('kuantitatif_update', $program);
+    }
     
     //DELETE FUNCTION
     function delete_program(){
@@ -197,6 +222,17 @@ class Mkuantitatif extends CI_Model {
     	else{
     		return false;
     	}
+    }
+
+    function delete_kuantitatif_update($id){
+        $this->db->where('id',$id);
+        $this->db->delete('kuantitatif_update');
+        if($this->db->affected_rows()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     // OTHER FUNCTION
