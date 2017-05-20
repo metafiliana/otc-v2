@@ -33,6 +33,15 @@ class Minitiative extends CI_Model {
     }
     
     //GET FUNCTION
+
+    function get_initiatives($distinct = false)
+    {
+        if ($distinct)
+            $this->db->distinct();
+        $result = $this->db->get('initiative');
+
+        return $result->result();
+    }
     
     function get_all_programs(){
     	//$this->db->where('role', 3);

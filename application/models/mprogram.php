@@ -28,8 +28,13 @@ class Mprogram extends CI_Model {
     
     //GET FUNCTION
 
-    function get_all_program()
+    function get_all_program($distinct = false, $segment = false)
     {
+        if ($distinct)
+            $this->db->distinct();
+
+        if ($segment)
+            $this->db->select('segment');
         $result = $this->db->get('program');
 
         return $result->result();
