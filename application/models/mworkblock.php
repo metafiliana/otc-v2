@@ -265,7 +265,7 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a where a.status = "'.$status.'" GROUP BY b_title';
 
         $result = $this->db->query($sql);
 
@@ -298,7 +298,7 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT b.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN program AS b ON b.init_code = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+        $sql = 'SELECT a.title as b_title, b.initiative_id, b.`status`, b.`start`, b.`end`, b.`code` FROM program a RIGHT JOIN workblock AS b ON a.init_code = b.`initiative_id` where b.status = "'.$status.'" GROUP BY a.title';
 
         $result = $this->db->query($sql);
 
@@ -311,7 +311,7 @@ class Mworkblock extends CI_Model {
 
     function getDataChartDeliverable()
     {
-        $query = 'SELECT t.title, t.status, COUNT(t.STATUS) as percent FROM (SELECT a.title, a.initiative_id, a.`status` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` GROUP BY b.title) AS t GROUP BY t.status';
+        $query = 'SELECT t.title, t.status, COUNT(t.status) as percent FROM (SELECT DISTINCT c.title as title, b.initiative_id, b.`status` as status, b.`start`, b.`end`, b.`code` FROM initiative c RIGHT JOIN workblock AS b ON c.id = b.`initiative_id`) AS t GROUP BY t.status';
         $result = $this->db->query($query)->result_array();
 
         return $result;
@@ -330,7 +330,7 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT b.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+        $sql = 'SELECT DISTINCT c.title as b_title, b.initiative_id, b.`status`, b.`start`, b.`end`, b.`code` FROM initiative c RIGHT JOIN workblock AS b ON c.id = b.`initiative_id` where b.status = "'.$status.'" GROUP BY b_title';
 
         $result = $this->db->query($sql);
 
