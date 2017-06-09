@@ -265,7 +265,7 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` where a.status = "'.$status.'" GROUP BY b.title';
+        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a where a.status = "'.$status.'"';
 
         $result = $this->db->query($sql);
 
@@ -340,5 +340,79 @@ class Mworkblock extends CI_Model {
             return false;
         }
     }
+
+    function getDeliverableStatusByInitiative($id){
+        $this->db->where('initiative_id', (int)$id);
+        $this->db->order_by('status', 'asc');
+        $query = $this->db->get('workblock');
+        $result = $query->result();
+        $status = "";
+        foreach($result as $res){
+            $status = $res->status;
+
+            if($res->status == "Delay"){
+                $status = "Delay";
+                break;
+            }
+
+            if(($res->status == "In Progress") || ($res->status == "Not Started Yet")){
+                $status = "In Progress";
+                break;
+            }
+        }
+
+        return $status;
+    }
     
+    function getSummaryDeliverable()
+    {
+        $sql = 'SELECT * FROM initiative';
+
+        $result = $this->db->query($sql)->result_array();
+
+        $summary = array();
+
+        $completed = 0;
+        $delay = 0;
+        $inprog = 0;
+        $notstarted = 0;
+        $status = '';
+        for ($i = 0; $i < count($result); $i++) {
+            $status = $this->getDeliverableStatusByInitiative($result[$i]['id']);
+            if (strtolower($status) == 'completed'){
+                $completed++;
+            }
+
+            if (strtolower($status) == 'delay'){
+                $delay++;
+            }
+
+            if (strtolower($status) == 'in progress'){
+                $inprog++;
+            }
+
+            if (strtolower($status) == 'not started yet'){
+                $notstarted++;
+            }
+        }
+
+        $summary[0]['title'] = '';
+        $summary[0]['status'] = 'Completed';
+        $summary[0]['percent'] = $completed;
+
+        $summary[1]['title'] = '';
+        $summary[1]['status'] = 'Delay';
+        $summary[1]['percent'] = $delay;
+
+        $summary[2]['title'] = '';
+        $summary[2]['status'] = 'In Progress';
+        $summary[2]['percent'] = $inprog;
+
+        $summary[3]['title'] = '';
+        $summary[3]['status'] = 'Not Started Yet';
+        $summary[3]['percent'] = $notstarted;
+        
+        return $summary;
+
+    }
 }
