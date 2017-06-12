@@ -38,13 +38,15 @@ class Summary extends CI_Controller {
         
         $views['init'] = $this->minitiative->get_initiative_by_id($init_id);
         
-        $views['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
-        $views['persen_initiative'] = 100/($this->mworkblock->get_count_workblock());
+        // $views['wb_status'] = $this->minitiative->get_init_workblocks_status($init_id);
         $views['summary_not_started'] = $this->mworkblock->get_summary_all('Not Started Yet');
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
         $views['summary_completed'] = $this->mworkblock->get_summary_all('Completed');
         $views['total_summary_initiative'] = count($this->mprogram->get_all_program(true, true));
+        $views['wb_status'] = $this->mworkblock->getSummaryInit();
+        $views['persen_initiative'] = 100/($views['total_summary_initiative']);
+        // var_dump($views['total_summary_initiative']);die;
 
         $views['chart_data_action'] = $this->mworkblock->getDataChartAction();
         $views['persen_action'] = 100/($this->mworkblock->getCountDataChartAction());
@@ -64,13 +66,14 @@ class Summary extends CI_Controller {
         // var_dump($views['summary_deliverable_completed']);die;
         var_dump($this->minitiative->get_initiatives(true));die;
 
-        $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
-        $views['persen_workstream'] = 100/($this->mworkblock->getCountDataChartWorkstream());
+        // $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
         $views['summary_workstream_not_started'] = $this->mworkblock->get_summary_workstream_all('Not Started Yet');
         $views['summary_workstream_delay'] = $this->mworkblock->get_summary_workstream_all('Delay');
         $views['summary_workstream_progress'] = $this->mworkblock->get_summary_workstream_all('In Progress');
         $views['summary_workstream_completed'] = $this->mworkblock->get_summary_workstream_all('Completed');
         $views['total_summary_workstream'] = count($this->mprogram->get_all_program(true));
+        $views['chart_data_workstream'] = $this->mworkblock->getSummaryWorkstream();
+        $views['persen_workstream'] = 100/($views['total_summary_workstream']);
 
         $data['user']=$user;
         if($user['role']!='admin'){

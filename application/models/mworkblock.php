@@ -340,5 +340,227 @@ class Mworkblock extends CI_Model {
             return false;
         }
     }
+
+    function getDeliverableStatusByInitiative($id){
+        $this->db->where('initiative_id', (int)$id);
+        $this->db->order_by('status', 'asc');
+        $query = $this->db->get('workblock');
+        $result = $query->result();
+        $status = "";
+        foreach($result as $res){
+            $status = $res->status;
+
+            if($res->status == "Delay"){
+                $status = "Delay";
+                break;
+            }
+
+            if(($res->status == "In Progress") || ($res->status == "Not Started Yet")){
+                $status = "In Progress";
+                break;
+            }
+        }
+
+        if (empty($status))
+            $status = "Not Started Yet";
+
+        return $status;
+    }
+
+    function getStatusByCode($id){
+        $this->db->where('code', $id);
+        $this->db->order_by('status', 'asc');
+        $query = $this->db->get('workblock');
+        $result = $query->result();
+        $status = "";
+        foreach($result as $res){
+            $status = $res->status;
+
+            if($res->status == "Delay"){
+                $status = "Delay";
+                break;
+            }
+
+            if(($res->status == "In Progress") || ($res->status == "Not Started Yet")){
+                $status = "In Progress";
+                break;
+            }
+        }
+
+        if (empty($status))
+            $status = "Not Started Yet";
+
+        return $status;
+    }
     
+    function getSummaryDeliverable()
+    {
+        $sql = 'SELECT * FROM initiative';
+
+        $result = $this->db->query($sql)->result_array();
+
+        $summary = array();
+
+        $completed = 0;
+        $delay = 0;
+        $inprog = 0;
+        $notstarted = 0;
+        $status = '';
+        for ($i = 0; $i < count($result); $i++) {
+            $status = $this->getDeliverableStatusByInitiative($result[$i]['id']);
+            if (strtolower($status) == 'completed'){
+                $completed++;
+            }
+
+            if (strtolower($status) == 'delay'){
+                $delay++;
+            }
+
+            if (strtolower($status) == 'in progress'){
+                $inprog++;
+            }
+
+            if (strtolower($status) == 'not started yet'){
+                $notstarted++;
+            }
+        }
+
+        $summary[0]['title'] = '';
+        $summary[0]['status'] = 'Completed';
+        $summary[0]['percent'] = $completed;
+
+        $summary[1]['title'] = '';
+        $summary[1]['status'] = 'Delay';
+        $summary[1]['percent'] = $delay;
+
+        $summary[2]['title'] = '';
+        $summary[2]['status'] = 'In Progress';
+        $summary[2]['percent'] = $inprog;
+
+        $summary[3]['title'] = '';
+        $summary[3]['status'] = 'Not Started Yet';
+        $summary[3]['percent'] = $notstarted;
+        
+        return $summary;
+
+    }
+
+    function getSummaryWorkstream()
+    {
+        $sql = 'SELECT * FROM program';
+
+        $result = $this->db->query($sql)->result_array();
+
+        $summary_workblock = array();
+        $summary = array();
+
+        $completed = 0;
+        $delay = 0;
+        $inprog = 0;
+        $notstarted = 0;
+        $status = '';
+        foreach ($result as $key => $value) {
+            $data_initiative = $this->minitiative->get_initiative_by_program_id($value['id']);
+
+            if (!empty($data_initiative)){
+                foreach ($data_initiative as $key1 => $value1) {
+                    $status = $this->getDeliverableStatusByInitiative($value1->id);
+                    array_push($summary_workblock, $status);
+                }
+                foreach($summary_workblock as $res){
+                    $status_res = $res;
+
+                    if($res == "Delay"){
+                        $status_res = "Delay";
+                        break;
+                    }
+
+                    if(($res == "In Progress") || ($res == "Not Started Yet")){
+                        $status_res = "In Progress";
+                        break;
+                    }
+                }
+
+                if (empty($status_res))
+                    $status_res = "Not Started Yet";
+
+                if (strtolower($status_res) == 'completed'){
+                    $completed++;
+                }
+
+                if (strtolower($status_res) == 'delay'){
+                    $delay++;
+                }
+
+                if (strtolower($status_res) == 'in progress'){
+                    $inprog++;
+                }
+
+                if (strtolower($status_res) == 'not started yet'){
+                    $notstarted++;
+                }
+            }else{
+                $notstarted++;
+            }
+        }
+
+        $summary[0]['title'] = '';
+        $summary[0]['status'] = 'Completed';
+        $summary[0]['percent'] = $completed;
+
+        $summary[1]['title'] = '';
+        $summary[1]['status'] = 'Delay';
+        $summary[1]['percent'] = $delay;
+
+        $summary[2]['title'] = '';
+        $summary[2]['status'] = 'In Progress';
+        $summary[2]['percent'] = $inprog;
+
+        $summary[3]['title'] = '';
+        $summary[3]['status'] = 'Not Started Yet';
+        $summary[3]['percent'] = $notstarted;
+        
+        return $summary;
+    }
+
+    function getSummaryInit()
+    {
+        $sql = 'SELECT * FROM program GROUP BY segment';
+
+        $result = $this->db->query($sql)->result_array();
+
+        $summary = array();
+
+        $completed = 0;
+        $delay = 0;
+        $inprog = 0;
+        $notstarted = 0;
+        $status = '';
+        foreach ($result as $key => $value) {
+            $status = $this->getStatusByCode($value['id']);
+            if (strtolower($status) == 'completed'){
+                $completed++;
+            }
+
+            if (strtolower($status) == 'delay'){
+                $delay++;
+            }
+
+            if (strtolower($status) == 'in progress'){
+                $inprog++;
+            }
+
+            if (strtolower($status) == 'not started yet'){
+                $notstarted++;
+            }
+        }
+
+        $summary['inprog'] = $inprog;
+        $summary['notyet'] = $notstarted;
+        $summary['complete'] = $completed;
+        $summary['delay'] = $delay;
+
+        return $summary;
+
+    }
 }
