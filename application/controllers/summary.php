@@ -61,10 +61,8 @@ class Summary extends CI_Controller {
         $views['summary_deliverable_progress'] = $this->mworkblock->get_summary_deliverable_all('In Progress');
         $views['summary_deliverable_completed'] = $this->mworkblock->get_summary_deliverable_all('Completed');
         $views['total_summary_deliverable'] = count($this->minitiative->get_initiatives(true));
-        $views['chart_data_deliverable'] = $this->mworkblock->getDataChartDeliverable();
+        $views['chart_data_deliverable'] = $this->mworkblock->getSummaryDeliverable();
         $views['persen_deliverable'] = 100/$views['total_summary_deliverable'];
-        // var_dump($views['summary_deliverable_completed']);die;
-        var_dump($this->minitiative->get_initiatives(true));die;
 
         // $views['chart_data_workstream'] = $this->mworkblock->getDataChartWorkstream();
         $views['summary_workstream_not_started'] = $this->mworkblock->get_summary_workstream_all('Not Started Yet');

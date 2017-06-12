@@ -265,7 +265,7 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a where a.status = "'.$status.'" GROUP BY b_title';
+        $sql = 'SELECT a.title as b_title, a.initiative_id, a.`status`, a.`start`, a.`end`, a.`code` FROM workblock a where a.status = "'.$status.'"';
 
         $result = $this->db->query($sql);
 
