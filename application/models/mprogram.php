@@ -398,7 +398,7 @@ class Mprogram extends CI_Model {
         }
         
         // delete null data
-        array_splice($data, array_search('null', $data), 1);
+        // array_splice($data, array_search('null', $data), 1);
 
         foreach ($data as $key => $row) {
             // replace 0 with the field's index/key for sorting compare

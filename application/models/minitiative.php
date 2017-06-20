@@ -270,6 +270,15 @@ class Minitiative extends CI_Model {
             return false;
         }
     }
+
+    function get_initiative_by_program_id($id){
+        $this->db->select('*');
+        $this->db->where('program_id',$id);
+        $result = $this->db->get('initiative');
+        $res = $result->result();
+        
+        return $res;
+    }
     
     /*function get_initiative_status($id){
     	$this->db->where('initiative_id', $id);
