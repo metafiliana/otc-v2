@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /
+RewriteBase /otc/
 RewriteCond $1 !^(index\.php|assets)
 RewriteRule ^(.*)$ index.php/$1 [L]
 
