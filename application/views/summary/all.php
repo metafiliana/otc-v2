@@ -22,6 +22,7 @@
 
 <div class="component_part">
     <div class="row well">
+          <a href="<?php echo base_url()?>summary/initSummary"><button class="btn btn-warning">Generate Summary</button></a>
         <div class="clearfix" style="float: right;">
           <button class="btn btn-info" disabled="disabled">Summary All</button>
           <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Detail</button></a>

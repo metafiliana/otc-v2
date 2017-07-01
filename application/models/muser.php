@@ -385,32 +385,39 @@ class Muser extends CI_Model {
 
 
         foreach ($data as $key => $value) {
-            //query persen
-            $sql1 = 'SELECT t.code, t.init_code, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$value["nama"].'" GROUP BY t.init_code';
-            $result1 = $this->db->query($sql1)->result_array();
-
             $total_initiative = 0;
             $total_completed = 0;
             $is_array = 0;
             if (is_array($value['initiative']) === true){
+                $r_init = array();
+                foreach ($value['initiative'] as $ky => $v) {
+                    $sql = 'SELECT t.code, t.init_code, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON f.`init_code` = "'.$v.'") t WHERE t.nama = "'.$value["nama"].'" GROUP BY t.init_code';
+                    $r_hasil = $this->db->query($sql)->result_array();
+
+                    array_push($r_init, $r_hasil[0]);
+                }
+
                 $total_initiative = count($value['initiative']);
 
                 $initiative = '';
                 foreach ($value['initiative'] as $key2 => $value2) {
                     $initiative .= $value2.';';
-                    foreach ($result1 as $key1 => $value1) {
-                        if ($value2 == $value1['init_code']){
-                            $total_completed = $total_completed + (int)$value1['status_c'];
-                        }
-                    }
+                }
+
+                foreach ($r_init as $key1 => $value1) {
+                    $jumlah_completed = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
+                    $total_completed = $total_completed + $jumlah_completed;
                 }
 
                 $data[$key]['initiative_string'] = $initiative;
                 $data[$key]['total_initiative'] = $total_initiative;
                 if ($total_completed != 0 && $total_initiative != 0){
-                    $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative) * 100), 2);
+                    $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative)), 2);
                 }
             }else{
+                $sql1 = 'SELECT t.code, t.init_code, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$value["nama"].'" GROUP BY t.init_code';
+                $result1 = $this->db->query($sql1)->result_array();
+
                 $total_initiative = 1;
                 $data[$key]['initiative_string'] = $value['initiative'];
                 $data[$key]['total_initiative'] = $total_initiative;
@@ -452,6 +459,39 @@ class Muser extends CI_Model {
         }
 
         array_multisort($arsort, SORT_DESC, $data);
+
+        return $data;
+    }
+
+    public function getInitiative($name = null)
+    {
+        $this->db->distinct();
+        $this->db->where('role', 'Co-PMO');
+        if ($name !== null)
+            $this->db->where('name', $name);
+        $this->db->select('name as nama, initiative');
+        // $this->db->join('program','kuantitatif.init_code = program.init_code');
+        $query = $this->db->get('user')->result();
+
+        $data = array();
+        $i = 0;
+        foreach ($query as $key => $value) {
+            $status = 0;
+            $data['nama'] = $value->nama;
+            // array_push($database, $value->nama);
+            if (strpos($value->initiative, ';') !== false) {
+                $array = explode(';', $value->initiative);
+                // array_push($data[$i]['initiative'], $array);
+                $data['initiative'] = $array;
+                $status = 1;
+            }
+
+            if ($status == 0){
+                $data['initiative'] = $value->initiative;
+            }
+
+            $i++;
+        }
 
         return $data;
     }

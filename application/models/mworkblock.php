@@ -145,15 +145,16 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT b.title AS b_title, a.title AS w_title, a.status, a.`start`, a.`end`, a.`code` FROM workblock AS a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` WHERE a.`status` = "'.$status.'" GROUP BY b_title ORDER BY code ASC';
+        // $sql = 'SELECT b.title AS b_title, a.title AS w_title, a.status, a.`start`, a.`end`, a.`code` FROM workblock AS a RIGHT JOIN initiative AS b ON b.id = a.`initiative_id` WHERE a.`status` = "'.$status.'" GROUP BY b_title ORDER BY code ASC';
+        $sql = 'SELECT segment AS b_title, segment AS w_title, status, start, end, init_code as code FROM summary_initiative WHERE status = "'.$status.'" ORDER BY init_code ASC';
 
         $result = $this->db->query($sql);
 
-        if($result->num_rows>0){
+        // if($result->num_rows>0){
             return $result->result_array();
-        }else{
-            return false;
-        }
+        // }else{
+        //     return false;
+        // }
     }
 
     // function get_summary_pmo($status){
@@ -298,15 +299,16 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT a.title as b_title, b.initiative_id, b.`status`, b.`start`, b.`end`, b.`code` FROM program a RIGHT JOIN workblock AS b ON a.init_code = b.`initiative_id` where b.status = "'.$status.'" GROUP BY a.title';
+        // $sql = 'SELECT a.title as b_title, b.initiative_id, b.`status`, b.`start`, b.`end`, b.`code` FROM program a RIGHT JOIN workblock AS b ON a.init_code = b.`initiative_id` where b.status = "'.$status.'" GROUP BY a.title';
+        $sql = 'SELECT title AS b_title, title AS w_title, status, start, end, program_id as code, program_id as initiative_id FROM summary_workstream WHERE status = "'.$status.'" ORDER BY program_id ASC';
 
         $result = $this->db->query($sql);
 
-        if($result->num_rows>0){
+        // if($result->num_rows>0){
             return $result->result_array();
-        }else{
-            return false;
-        }
+        // }else{
+            // return false;
+        // }
     }
 
     function getDataChartDeliverable()
@@ -330,15 +332,16 @@ class Mworkblock extends CI_Model {
             $status = 'Not Started Yet';
         }
 
-        $sql = 'SELECT DISTINCT c.title as b_title, b.initiative_id, b.`status`, b.`start`, b.`end`, b.`code` FROM initiative c RIGHT JOIN workblock AS b ON c.id = b.`initiative_id` where b.status = "'.$status.'" GROUP BY b_title';
+        // $sql = 'SELECT DISTINCT c.title as b_title, b.initiative_id, b.`status`, b.`start`, b.`end`, b.`code` FROM initiative c RIGHT JOIN workblock AS b ON c.id = b.`initiative_id` where b.status = "'.$status.'" GROUP BY b_title';
+        $sql = 'SELECT title AS b_title, title AS w_title, status, start, end, initiative_id as code, initiative_id FROM summary_deliverable WHERE status = "'.$status.'" ORDER BY initiative_id ASC';
 
         $result = $this->db->query($sql);
 
-        if($result->num_rows>0){
+        // if($result->num_rows>0){
             return $result->result_array();
-        }else{
-            return false;
-        }
+        // }else{
+            // return false;
+        // }
     }
 
     function getDeliverableStatusByInitiative($id){

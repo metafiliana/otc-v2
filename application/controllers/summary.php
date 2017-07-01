@@ -31,11 +31,13 @@ class Summary extends CI_Controller {
         $this->msummary->insertDeliverable(); //uncomment to insert automatically summary base on data
         $this->msummary->insertWorkstream(); //uncomment to insert automatically summary base on data
         $this->msummary->insertInitiative(); //uncomment to insert automatically summary base on data
+
+        redirect('summary/index');
     }
 
     public function index()
     {
-        // $this->mworkblock->insertDeliverable(); //uncomment to insert automatically summary base on data
+        // $this->initSummary(); //insert automatically summary base on data
         $data['title'] = "List All Program";
         
         $prog['page']="all";
