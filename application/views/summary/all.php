@@ -591,7 +591,7 @@ function displayDetailAction(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_action_completed[$key]['start']); $b = new DateTime($summary_action_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td>td>'+$text_end+'</td><td>'+$diff+'</td><</tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td><</tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
         $i++;
     <?php endforeach ?>
