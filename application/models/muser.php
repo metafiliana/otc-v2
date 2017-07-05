@@ -386,6 +386,7 @@ class Muser extends CI_Model {
 
         foreach ($data as $key => $value) {
             $total_initiative = 0;
+            $total_completed_raw = 0;
             $total_completed = 0;
             $is_array = 0;
             if (is_array($value['initiative']) === true){
@@ -405,14 +406,18 @@ class Muser extends CI_Model {
                 }
 
                 foreach ($r_init as $key1 => $value1) {
-                    $jumlah_completed = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
-                    $total_completed = $total_completed + $jumlah_completed;
+                    // $jumlah_completed = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
+                    // $total_completed = $total_completed + $jumlah_completed;
+                    $get_persen = $this->mprogram->getPercentProgram($value1['init_code'], false);
+                    $total_completed_raw = $total_completed_raw + $get_persen;
                 }
 
                 $data[$key]['initiative_string'] = $initiative;
                 $data[$key]['total_initiative'] = $total_initiative;
-                if ($total_completed != 0 && $total_initiative != 0){
-                    $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative)), 2);
+                if ($total_completed_raw != 0 && $total_initiative != 0){
+                    // $data[$key]['total_completed'] = round(((float)($total_completed/$total_initiative)), 2);
+                    $total_completed = $total_completed_raw / count($r_init);
+                    $data[$key]['total_completed'] = number_format($total_completed, 2, '.', '');
                 }
             }else{
                 $sql1 = 'SELECT t.code, t.init_code, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$value["nama"].'" GROUP BY t.init_code';
@@ -425,7 +430,8 @@ class Muser extends CI_Model {
                     if ($value['initiative'] == $value1['init_code']){
                         $data[$key]['total_completed'] = (int)$value1['status_c'];
                         if ($total_initiative != 0 && $value1['total_init'] != 0)
-                            $data[$key]['total_completed'] = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
+                            // $data[$key]['total_completed'] = round(((float)($value1['status_c']/$value1['total_init']) * 100), 2);
+                            $data[$key]['total_completed'] = $this->mprogram->getPercentProgram($value1['init_code']);
                     }
                 }
             }
