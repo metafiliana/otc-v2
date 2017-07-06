@@ -33,6 +33,15 @@ class Minitiative extends CI_Model {
     }
     
     //GET FUNCTION
+
+    function get_initiatives($distinct = false)
+    {
+        if ($distinct)
+            $this->db->distinct();
+        $result = $this->db->get('initiative');
+
+        return $result->result();
+    }
     
     function get_all_programs(){
     	//$this->db->where('role', 3);
@@ -260,6 +269,15 @@ class Minitiative extends CI_Model {
         }else{
             return false;
         }
+    }
+
+    function get_initiative_by_program_id($id){
+        $this->db->select('*');
+        $this->db->where('program_id',$id);
+        $result = $this->db->get('initiative');
+        $res = $result->result();
+        
+        return $res;
     }
     
     /*function get_initiative_status($id){

@@ -7,7 +7,7 @@
 			if(str_replace(".",'',$prog['prog']->init_code)){$code=str_replace(".",'',$prog['prog']->init_code); }
 			else{$code=$prog['prog']->init_code;}
 		?>
-		<a onclick="show_detail('<?php echo $prog['prog']->init_code?>','<?php echo $code?>');"><div style="float:left; max-width:300px"><b><?php echo $prog['prog']->init_code?>. <?php echo $prog['prog']->segment?></b></div></a>
+		<a onclick="show_detail('<?php echo $prog['prog']->init_code?>','<?php echo $code?>');"><div style="max-width:300px" class="center_text"><b><?php echo $prog['prog']->init_code?>. <?php echo $prog['prog']->segment?></b></div></a>
 		<b><div style="float:left; max-width:300px; margin-top:10px">Direktur Sponsor: <?php echo $prog['prog']->dir_spon?></div></b>
 		<div style="clear:both"></div>
 		<b><div style="float:left; max-width:300px; margin-top:10px">PMO Head: <?php echo $prog['prog']->pmo_head?></div></b>

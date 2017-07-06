@@ -75,6 +75,12 @@
         <script src="<?php echo base_url();?>assets/export-amchart/export.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/amcharts/gauge.js"></script>
 
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/html2canvas.js"></script>
+        
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/rgbcolor.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/StackBlur.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/canvg.js"></script>
+
     </head>
     
     <body>

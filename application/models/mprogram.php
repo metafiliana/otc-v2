@@ -28,8 +28,13 @@ class Mprogram extends CI_Model {
     
     //GET FUNCTION
 
-    function get_all_program()
+    function get_all_program($distinct = false, $segment = false)
     {
+        if ($distinct)
+            $this->db->distinct();
+
+        if ($segment)
+            $this->db->select('segment');
         $result = $this->db->get('program');
 
         return $result->result();
@@ -345,19 +350,24 @@ class Mprogram extends CI_Model {
 
                     // $total_completed = 0;
                 $total_initiative = 0;
+                $total_completed_raw = 0;
+                $total_completed = 0;
                 $percent_parsial = 0;
                 if (!empty($result1)){       
                     foreach ($result1 as $key1 => $value1) {
                             // $total_completed = $total_completed + $value1['status_c'];
                         $total_initiative++;
-                        if ($value1['total_init'] != 0)
-                            $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
+                        // if ($value1['total_init'] != 0)
+                        //     $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
+
+                        $get_persen = $this->getPercentProgram($value1['init_code'], false);
+                        $total_completed_raw = $total_completed_raw + $get_persen;
                     }
                     if ($total_initiative != 0){
-                        $percent_raw = (float)($percent_parsial/ $total_initiative);
-                        $percent = round((float)$percent_raw, 2);
-                            // $value['total_completed'] = $percent;
-                        $data[$key]['total_completed'] = $percent;
+                        // $percent_raw = (float)($percent_parsial/ $total_initiative);
+                        // $percent = round((float)$percent_raw, 2);
+                        $total_completed = $total_completed_raw / count($result1);
+                        $data[$key]['total_completed'] = number_format($total_completed, 2, '.', '');
                     }else{
                         $data[$key]['total_completed'] = 0;
                     }
@@ -393,7 +403,7 @@ class Mprogram extends CI_Model {
         }
         
         // delete null data
-        array_splice($data, array_search('null', $data), 1);
+        // array_splice($data, array_search('null', $data), 1);
 
         foreach ($data as $key => $row) {
             // replace 0 with the field's index/key for sorting compare
@@ -464,19 +474,27 @@ class Mprogram extends CI_Model {
 
                 // $total_completed = 0;
                 $total_initiative = 0;
+                $total_completed_raw = 0;
+                $total_completed = 0;
                 $percent_parsial = 0;
                 if (!empty($result1)){       
                     foreach ($result1 as $key1 => $value1) {
                         // $total_completed = $total_completed + $value1['status_c'];
                         $total_initiative++;
-                        if ($value1['total_init'] != 0)
-                            $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
+                        // if ($value1['total_init'] != 0)
+                        //     $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
+
+                        $get_persen = $this->getPercentProgram($value1['init_code'], false);
+                        $total_completed_raw = $total_completed_raw + $get_persen;
                     }
                     if ($total_initiative != 0){
-                        $percent_raw = (float)($percent_parsial/ $total_initiative);
-                        $percent = round((float)$percent_raw, 2);
+                        // $percent_raw = (float)($percent_parsial/ $total_initiative);
+                        // $percent = round((float)$percent_raw, 2);
                         // $value['total_completed'] = $percent;
-                        $data[$key]['total_completed'] = $percent;
+                        // $data[$key]['total_completed'] = $percent;
+
+                        $total_completed = $total_completed_raw / count($result1);
+                        $data[$key]['total_completed'] = number_format($total_completed, 2, '.', '');
                     }else{
                         $data[$key]['total_completed'] = 0;
                     }
@@ -556,17 +574,37 @@ class Mprogram extends CI_Model {
         // $sql = 'select id, '.$role.', title, code, init_code, segment from program where '.$role.' = "'.$nama.'" group by init_code';
         if ($role == 'pmo_head' || $role == 'dir_spon'){
             $sql = 'select t.id, t.'.$role.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$role.' = "'.$nama.'" group by t.init_code';
-            $result = $this->db->query($sql);
+            $result = $this->db->query($sql)->result_array();
+
+            foreach ($result as $key => $value) {
+                $result[$key]['percent'] = $this->getPercentProgram($value['init_code']);
+            }
         }elseif ($role == 'co_pmo'){
-            $sql = 'SELECT t.id, t.`title`, t.`code`, t.init_code, t.`segment`, t.`nama`, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$nama.'" GROUP BY t.init_code';
-            $result = $this->db->query($sql);
+            $data = $this->muser->getInitiative($nama);
+
+            if (!is_array($data['initiative'])){
+                $sql = 'SELECT t.id, t.`title`, t.`code`, t.init_code, t.`segment`, t.`nama`, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON e.`initiative` = f.`init_code`) t WHERE t.nama = "'.$nama.'" GROUP BY t.init_code';
+                $result = $this->db->query($sql)->result_array();
+                $result[0]['percent'] = $this->getPercentProgram($result[0]['init_code']);
+            }else{
+                $result = array();
+                foreach ($data['initiative'] as $key => $value) {
+                    $sql = 'SELECT t.id, t.`title`, t.`code`, t.init_code, t.`segment`, t.`nama`, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init FROM (SELECT f.*, e.`name` AS nama FROM program f RIGHT JOIN user e ON f.`init_code` = "'.$value.'") t WHERE t.nama = "'.$nama.'" GROUP BY t.init_code';
+                    $hasil = $this->db->query($sql)->result_array();
+
+                    array_push($result, $hasil[0]);
+                    $result[$key]['percent'] = $this->getPercentProgram($result[$key]['init_code']);
+                }
+            }
+
         }elseif ($role == 'initiatives'){
             $select = 'init_code';
             $sql = 'select t.id, t.'.$select.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$select.' = "'.$nama.'" group by t.init_code';
-            $result = $this->db->query($sql);
+            $result = $this->db->query($sql)->result_array();
+            $result[0]['percent'] = $this->getPercentProgram($result[0]['init_code']);
         }
 
-        return $result->result_array();
+        return $result;
     }
 
     function getDataChartWorkstream()
@@ -577,8 +615,33 @@ class Mprogram extends CI_Model {
         return $result;
     }
 
-    function getPercentProgram($nama, $role, $init_code)
+    function getPercentProgram($init_code, $format = true)
     {
-        // $q = 'select count(a.status) from workblock a where '.$role.' = "'.$nama.'" and a.status = 'Completed' and a.code = "'.$init_code.'"';
+        //get percent per program
+        $percent_all_raw = 0;
+        $data_program = $this->mprogram->getProgramByRole($init_code);
+        foreach ($data_program as $key2 => $value2) {
+            $total_complete = 0;
+            $total_init = 0;
+            $data_percent_program = $this->minitiative->getInitiativeByProgramId($value2['id']);
+
+            foreach ($data_percent_program as $key1 => $value1) {
+                $total_complete = $total_complete + $value1->total_c;
+                $total_init = $total_init + $value1->total_w;
+            }
+            $percent = 0;
+            if ($total_init != 0){
+                $percent = ($total_complete / $total_init) * 100;
+            }
+            $percent_all_raw = $percent_all_raw + $percent;
+        }
+        $percent_all = $percent_all_raw / count($data_program);
+
+        $result = $percent_all;
+
+        if ($format == true)
+            $result = number_format($percent_all, 2, '.', '');
+
+        return $result;
     }
 }

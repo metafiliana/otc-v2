@@ -22,6 +22,7 @@
 
 <div class="component_part">
     <div class="row well">
+          <a href="<?php echo base_url()?>summary/initSummary"><button class="btn btn-warning">Generate Summary</button></a>
         <div class="clearfix" style="float: right;">
           <button class="btn btn-info" disabled="disabled">Summary All</button>
           <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Detail</button></a>
@@ -54,11 +55,12 @@
                 <div class="panel-body">
                     <table id="chart-detail-delay" class="table">
                         <thead>
+                            <th>No</th>
                             <th>Code</th>
                             <th>Sub Init</th>
                             <th>Start Date</th>
-                            <th>Sisa</th>
                             <th>End Date</th>
+                            <th>Sisa</th>
                         </thead>
                         <tbody id="chart-detail-body-delay">
                             <!-- isi disini -->
@@ -80,11 +82,12 @@
                 <div class="panel-body">
                   <table id="chart-detail-nys" class="table">
                         <thead>
+                            <th>No</th>
                             <th>Code</th>
                             <th>Sub Init</th>
                             <th>Start Date</th>
-                            <th>Sisa</th>
                             <th>End Date</th>
+                            <th>Sisa</th>
                         </thead>
                         <tbody id="chart-detail-body-nys">
                             <!-- isi disini -->
@@ -105,11 +108,12 @@
                 <div class="panel-body">
                   <table id="chart-detail-ip" class="table">
                         <thead>
+                            <th>No</th>
                             <th>Code</th>
                             <th>Sub Init</th>
                             <th>Start Date</th>
-                            <th>Sisa</th>
                             <th>End Date</th>
+                            <th>Sisa</th>
                         </thead>
                         <tbody id="chart-detail-body-ip">
                             <!-- isi disini -->
@@ -130,11 +134,12 @@
                 <div class="panel-body">
                   <table id="chart-detail-completed" class="table">
                         <thead>
+                            <th>No</th>
                             <th>Code</th>
                             <th>Sub Init</th>
                             <th>Start Date</th>
-                            <th>Sisa</th>
                             <th>End Date</th>
+                            <th>Sisa</th>
                         </thead>
                         <tbody id="chart-detail-body-completed">
                             <!-- isi disini -->
@@ -422,6 +427,7 @@ function displayDetailInitiative(status)
   if (status == 'In Progress'){
     $(".p-ip").show();
 
+    $i = 1;
     <?php foreach ($summary_progress as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_progress[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_progress[$key]['code']) ?>;
@@ -430,13 +436,15 @@ function displayDetailInitiative(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_progress[$key]['start']); $b = new DateTime($summary_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
+        $i++;
     <?php endforeach ?>
 
   }else if (status == 'Delay'){
     $(".p-delay").show();
 
+    $i = 1;
     <?php foreach ($summary_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_delay[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_delay[$key]['code']) ?>;
@@ -445,12 +453,14 @@ function displayDetailInitiative(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_delay[$key]['start']); $b = new DateTime($summary_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Completed'){
     $(".p-c").show();
 
+    $i = 1;
     <?php foreach ($summary_completed as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_completed[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_completed[$key]['code']) ?>;
@@ -459,12 +469,14 @@ function displayDetailInitiative(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_completed[$key]['start']); $b = new DateTime($summary_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
     $(".p-nys").show();
 
+    $i = 1;
     <?php foreach ($summary_not_started as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_not_started[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_not_started[$key]['code']) ?>;
@@ -473,8 +485,9 @@ function displayDetailInitiative(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_not_started[$key]['start']); $b = new DateTime($summary_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
+        $i++;
     <?php endforeach ?>
   }
 }
@@ -536,6 +549,7 @@ function displayDetailAction(status)
   if (status == 'In Progress'){
     $(".p-ip").show();
 
+    $i = 1;
     <?php foreach ($summary_action_progress as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_action_progress[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_action_progress[$key]['code']) ?>;
@@ -544,13 +558,15 @@ function displayDetailAction(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_action_progress[$key]['start']); $b = new DateTime($summary_action_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
+        $i++;
     <?php endforeach ?>
 
   }else if (status == 'Delay'){
     $(".p-delay").show();
 
+    $i = 1;
     <?php foreach ($summary_action_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_action_delay[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_action_delay[$key]['code']) ?>;
@@ -559,12 +575,14 @@ function displayDetailAction(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_action_delay[$key]['start']); $b = new DateTime($summary_action_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Completed'){
     $(".p-c").show();
 
+    $i = 1;
     <?php foreach ($summary_action_completed as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_action_completed[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_action_completed[$key]['code']) ?>;
@@ -573,12 +591,14 @@ function displayDetailAction(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_action_completed[$key]['start']); $b = new DateTime($summary_action_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td><</tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
     $(".p-nys").show();
 
+    $i = 1;
     <?php foreach ($summary_action_not_started as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_action_not_started[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_action_not_started[$key]['code']) ?>;
@@ -587,8 +607,9 @@ function displayDetailAction(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_action_not_started[$key]['start']); $b = new DateTime($summary_action_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
+        $i++;
     <?php endforeach ?>
   }
 }
@@ -650,6 +671,7 @@ function displayDetailWorkstream(status)
   if (status == 'In Progress'){
     $(".p-ip").show();
 
+    $i = 1;
     <?php foreach ($summary_workstream_progress as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_workstream_progress[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_workstream_progress[$key]['code']) ?>;
@@ -658,13 +680,15 @@ function displayDetailWorkstream(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_workstream_progress[$key]['start']); $b = new DateTime($summary_workstream_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
+        $i++;
     <?php endforeach ?>
 
   }else if (status == 'Delay'){
     $(".p-delay").show();
 
+    $i = 1;
     <?php foreach ($summary_workstream_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_workstream_delay[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_workstream_delay[$key]['code']) ?>;
@@ -673,12 +697,14 @@ function displayDetailWorkstream(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_workstream_delay[$key]['start']); $b = new DateTime($summary_workstream_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Completed'){
     $(".p-c").show();
 
+    $i = 1;
     <?php foreach ($summary_workstream_completed as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_workstream_completed[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_workstream_completed[$key]['code']) ?>;
@@ -687,12 +713,14 @@ function displayDetailWorkstream(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_workstream_completed[$key]['start']); $b = new DateTime($summary_workstream_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
     $(".p-nys").show();
 
+    $i = 1;
     <?php foreach ($summary_workstream_not_started as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_workstream_not_started[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_workstream_not_started[$key]['code']) ?>;
@@ -701,8 +729,9 @@ function displayDetailWorkstream(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_workstream_not_started[$key]['start']); $b = new DateTime($summary_workstream_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
+        $i++;
     <?php endforeach ?>
   }
 }
@@ -764,6 +793,7 @@ function displayDetailDeliverable(status)
   if (status == 'In Progress'){
     $(".p-ip").show();
 
+    $i = 1;
     <?php foreach ($summary_deliverable_progress as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_deliverable_progress[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_deliverable_progress[$key]['code']) ?>;
@@ -772,13 +802,15 @@ function displayDetailDeliverable(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_deliverable_progress[$key]['start']); $b = new DateTime($summary_deliverable_progress[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-ip"));
+        $i++;
     <?php endforeach ?>
 
   }else if (status == 'Delay'){
     $(".p-delay").show();
 
+    $i = 1;
     <?php foreach ($summary_deliverable_delay as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_deliverable_delay[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_deliverable_delay[$key]['code']) ?>;
@@ -787,12 +819,14 @@ function displayDetailDeliverable(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_deliverable_delay[$key]['start']); $b = new DateTime($summary_deliverable_delay[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-delay"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Completed'){
     $(".p-c").show();
 
+    $i = 1;
     <?php foreach ($summary_deliverable_completed as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_deliverable_completed[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_deliverable_completed[$key]['code']) ?>;
@@ -801,12 +835,14 @@ function displayDetailDeliverable(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_deliverable_completed[$key]['start']); $b = new DateTime($summary_deliverable_completed[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-completed"));
+        $i++;
     <?php endforeach ?>
   }else if (status == 'Not Yet'){
     $(".p-nys").show();
 
+    $i = 1;
     <?php foreach ($summary_deliverable_not_started as $key => $value): ?>
         $text_info = <?php echo json_encode($summary_deliverable_not_started[$key]['b_title']) ?>;
         $text_code = <?php echo json_encode($summary_deliverable_not_started[$key]['code']) ?>;
@@ -815,8 +851,9 @@ function displayDetailDeliverable(status)
         $text_start = <?php echo json_encode($newDateStart) ?>;
         $text_end = <?php echo json_encode($newDateEnd) ?>;
         $diff = <?php $a = new DateTime($summary_deliverable_not_started[$key]['start']); $b = new DateTime($summary_deliverable_not_started[$key]['end']); $c = $a->diff($b); echo json_encode($c->days); ?>;
-        var newRowContent = '<tr><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$diff+'</td><td>'+$text_end+'</td></tr>';
+        var newRowContent = '<tr><td>'+$i+'</td><td>'+$text_code+'</td><<td>'+$text_info+'</td><td>'+$text_start+'</td><td>'+$text_end+'</td><td>'+$diff+'</td></tr>';
         $(newRowContent).appendTo($("#chart-detail-body-nys"));
+        $i++;
     <?php endforeach ?>
   }
 }

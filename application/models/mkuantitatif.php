@@ -108,7 +108,7 @@ class Mkuantitatif extends CI_Model {
         foreach($progs as $prog){
         	$arr[$i]['prog'] = $prog;
             $arr[$i]['update'] = $this->get_kuantitatif_update($prog->id);
-            $arr[$i]['percentage'] = $this->get_total_kuantitatif_by_id($prog->id);
+            $arr[$i]['percentage'] = $this->get_total_kuantitatif_by_id($prog->id,$prog->metric);
         	$i++;
         }
         return $arr;
@@ -129,12 +129,12 @@ class Mkuantitatif extends CI_Model {
            if(!isset($arr[$prog->init_code])){
             $arr[$prog->init_code]=0;
            }
-           $arr[$prog->init_code] += $this->get_total_kuantitatif_by_id($prog->id);
+           $arr[$prog->init_code] += $this->get_total_kuantitatif_by_id($prog->id,$prog->metric);
         }
         return $arr;
     }
 
-    function get_total_kuantitatif_by_id($id){
+    function get_total_kuantitatif_by_id($id,$npl){
         $total=0;$realisasi=0;
         $this->db->select('*');
         $this->db->where('id',$id);
@@ -144,6 +144,18 @@ class Mkuantitatif extends CI_Model {
         {
             $realisasi=$this->get_kuantitatif_update($id)->amount;
             $total=(($realisasi/$res->target)*100);
+        }
+        if(strpos($npl,"NPL")!==false){
+           if($this->get_kuantitatif_update($id))
+            {
+                $realisasi=$this->get_kuantitatif_update($id)->amount;
+                $total=(($res->target/$realisasi)*100);
+            }
+            else{
+                $realisasi=$res->realisasi;
+                $total=(($res->target/$realisasi)*100);
+            }
+
         }
         else if($res->target==0)
         {
