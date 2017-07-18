@@ -98,15 +98,6 @@ class Summary extends CI_Controller {
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
-        //print kuantitatif
-        $prog['page']="all";
-        $prog['user'] = $user;
-        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update('');
-        $prog['total'] = $this->mkuantitatif->get_total_kuantatif('');
-        $prog['init_code']=$this->mkuantitatif->get_init_code_on_kuantitatif();
-        $prog['target_year']=$this->mkuantitatif->get_target_year_kuantitatif()->target_year;
-        $views['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif',$prog,TRUE);
-
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);

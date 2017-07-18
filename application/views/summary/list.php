@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
 <style>
     .pmo_header{
         margin-right:40px;
@@ -19,12 +18,13 @@
     }
 </style>
     <div class="row well">
+        <a onclick="take('list')" class="btn btn-info-new "><span class="glyphicon glyphicon-print"></span> Print Kuantitatif</a>
         <div class="clearfix" style="float: right;">
           <a href="<?php echo base_url()?>summary/"><button class="btn btn-default">Summary All</button></a>
           <button class="btn btn-info" disabled="disabled">Summary Detail</button>
         </div>
     </div>
-<div class="wrapper">
+<div class="wrapper" id='list'>
 <div class="component_part">
     <div class="row">
         <div class="col-md-12">
@@ -56,8 +56,8 @@
                             <tr>
                                 <th>Nama</th>
                                 <th>Jumlah</th>
-                                <th id="kualitatifPercent">Kualitatif</th>
-                                <th id="kuantitatifPercent">Kuantitatif</th>
+                                <th id="kualitatifPercent"><a>Kualitatif</a></th>
+                                <th id="kuantitatifPercent"><a>Kuantitatif</a></th>
                             </tr>
                         </thead>
                         <tbody id="filter-value-table-primary-body">
@@ -91,7 +91,6 @@
 </div>
 </div>
 
-<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery.sortElements.js"></script>
 <script>
     function numberWithCommas(x) {
@@ -353,5 +352,42 @@
                     
             });
         });
-            
+
+function take(div) {
+// First render all SVGs to canvases
+var svgElements= $("#"+div).find('svg');
+
+//replace all svgs with a temp canvas
+svgElements.each(function () {
+ var canvas, xml;
+
+ canvas = document.createElement("canvas");
+ canvas.className = "screenShotTempCanvas";
+ //convert SVG into a XML string
+ xml = (new XMLSerializer()).serializeToString(this);
+
+ // Removing the name space as IE throws an error
+ xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+
+ //draw the SVG onto a canvas
+ canvg(canvas, xml);
+ $(canvas).insertAfter(this);
+ //hide the SVG element
+ this.className = "tempHide";
+ $(this).hide();
+});
+
+html2canvas($("#"+div), {
+     allowTaint: true,
+     onrendered: function (canvas) {
+         var myImage = canvas.toDataURL("image/pdf");
+         var tWindow = window.open(""); 
+         $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
+             tWindow.focus();
+             tWindow.print();
+         });
+     }
+});
+//location.reload();
+}     
 </script>

@@ -17,21 +17,18 @@
         margin: 25px;
     }
 </style>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-
 <div class="component_part" id="list_of_program" style="display: none;"><?php echo $list_program?></div>
 
 <div class="component_part">
     <div class="row well">
           <a href="<?php echo base_url()?>summary/initSummary"><button class="btn btn-warning">Generate Summary</button></a>
-        <div class="clearfix" style="float: right;">
+          <a onclick="take('chart')" class="btn btn-info-new "><span class="glyphicon glyphicon-print"></span> Print Kuantitatif</a>
+          <div class="clearfix" style="float: right;">
           <button class="btn btn-info" disabled="disabled">Summary All</button>
           <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Detail</button></a>
-          <a onclick="take('list_of_program')" class="btn btn-info-new "><span class="glyphicon glyphicon-print"></span> Print Kuantitatif</a>
-        </div>
+          </div>
     </div>
-    <div class="row">
+    <div class="row" id='chart'>
         <div class="col-md-12 text-center">
             <h3>Summary</h3>
         </div>
@@ -861,12 +858,12 @@ function displayDetailDeliverable(status)
   }
 }
 
-  function take(div) {
-    // First render all SVGs to canvases
-    var svgElements= $("#"+div).find('svg');
+function take(div) {
+  // First render all SVGs to canvases
+  var svgElements= $("#"+div).find('svg');
 
-    //replace all svgs with a temp canvas
-    svgElements.each(function () {
+  //replace all svgs with a temp canvas
+  svgElements.each(function () {
      var canvas, xml;
 
      canvas = document.createElement("canvas");
@@ -883,6 +880,19 @@ function displayDetailDeliverable(status)
      //hide the SVG element
      this.className = "tempHide";
      $(this).hide();
-    });
-  };
+  });
+    
+  html2canvas($("#"+div), {
+         allowTaint: true,
+         onrendered: function (canvas) {
+             var myImage = canvas.toDataURL("image/pdf");
+             var tWindow = window.open(""); 
+             $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
+                 tWindow.focus();
+                 tWindow.print();
+             });
+         }
+  });
+  //location.reload();
+}
 </script>
