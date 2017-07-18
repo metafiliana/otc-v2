@@ -394,6 +394,7 @@ class Mprogram extends CI_Model {
                         // $data[$key]['total_kuantitatif'] = $hitung_total_kuantitatif;
 
                     $total_kuantitatif = array_sum($hitung_total_kuantitatif);
+                    var_dump($total_kuantitatif);die;
                     $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
 
                     $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);

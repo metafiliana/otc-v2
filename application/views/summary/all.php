@@ -20,12 +20,15 @@
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
+<div class="component_part" id="list_of_program" style="display: none;"><?php echo $list_program?></div>
+
 <div class="component_part">
     <div class="row well">
           <a href="<?php echo base_url()?>summary/initSummary"><button class="btn btn-warning">Generate Summary</button></a>
         <div class="clearfix" style="float: right;">
           <button class="btn btn-info" disabled="disabled">Summary All</button>
           <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary Detail</button></a>
+          <a onclick="take('list_of_program')" class="btn btn-info-new "><span class="glyphicon glyphicon-print"></span> Print Kuantitatif</a>
         </div>
     </div>
     <div class="row">
@@ -857,4 +860,29 @@ function displayDetailDeliverable(status)
     <?php endforeach ?>
   }
 }
+
+  function take(div) {
+    // First render all SVGs to canvases
+    var svgElements= $("#"+div).find('svg');
+
+    //replace all svgs with a temp canvas
+    svgElements.each(function () {
+     var canvas, xml;
+
+     canvas = document.createElement("canvas");
+     canvas.className = "screenShotTempCanvas";
+     //convert SVG into a XML string
+     xml = (new XMLSerializer()).serializeToString(this);
+
+     // Removing the name space as IE throws an error
+     xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+
+     //draw the SVG onto a canvas
+     canvg(canvas, xml);
+     $(canvas).insertAfter(this);
+     //hide the SVG element
+     this.className = "tempHide";
+     $(this).hide();
+    });
+  };
 </script>
