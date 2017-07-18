@@ -337,7 +337,7 @@
                     
                 }).sortElements(function(a, b){
                     
-                    return $.text([a]) > $.text([b]) ?
+                    return parseFloat($.text([a])) > parseFloat($.text([b])) ?
                         inverse ? -1 : 1
                         : inverse ? 1 : -1;
                     
