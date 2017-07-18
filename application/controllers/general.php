@@ -155,6 +155,18 @@ class General extends CI_Controller {
     public function form_input_file()
     {
         $data['title'] = "Form Input File";
+
+        $user = $this->session->userdata('user');
+        
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
         
         $data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
         $data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');

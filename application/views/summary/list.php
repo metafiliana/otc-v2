@@ -56,8 +56,8 @@
                             <tr>
                                 <th>Nama</th>
                                 <th>Jumlah</th>
-                                <th>Kualitatif</th>
-                                <th>Kuantitatif</th>
+                                <th id="kualitatifPercent">Kualitatif</th>
+                                <th id="kuantitatifPercent">Kuantitatif</th>
                             </tr>
                         </thead>
                         <tbody id="filter-value-table-primary-body">
@@ -92,6 +92,7 @@
 </div>
 
 <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.sortElements.js"></script>
 <script>
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -318,4 +319,39 @@
             }
         });
     });
+
+    var table = $('#filter-value-table-primary');
+    
+    $('#kualitatifPercent, #kuantitatifPercent')
+        .wrapInner('<span title="sort this column"/>')
+        .each(function(){
+            
+            var th = $(this),
+                thIndex = th.index(),
+                inverse = false;
+            
+            th.click(function(){
+                
+                table.find('td').filter(function(){
+                    
+                    return $(this).index() === thIndex;
+                    
+                }).sortElements(function(a, b){
+                    
+                    return $.text([a]) > $.text([b]) ?
+                        inverse ? -1 : 1
+                        : inverse ? 1 : -1;
+                    
+                }, function(){
+                    
+                    // parentNode is the element we want to move
+                    return this.parentNode; 
+                    
+                });
+                
+                inverse = !inverse;
+                    
+            });
+        });
+            
 </script>
