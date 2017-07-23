@@ -121,7 +121,7 @@ class Summary extends CI_Controller {
 
         $prog['total'] = $this->mkuantitatif->get_total_kuantatif();
         $prog['asd'] = $this->mkuantitatif->get_init_code_on_kuantitatif(array('17b', '18'));
-        
+
         $views['pmo_head_list'] = $this->mprogram->get_all_pmo_head();
         $views['dir_spon_list'] = $this->mprogram->get_all_dir_spon();
         $views['co_pmo_list'] = $this->muser->get_all_co_pmo();

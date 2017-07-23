@@ -344,6 +344,8 @@ class Mprogram extends CI_Model {
 
         $role = 'pmo_head';
         foreach ($data as $key => $value) {
+            // if ($value['nama'] != 'Maswar Purnama')
+            //     continue;
             if ($value['nama'] != null){
                 $sql1 = 'select t.id, t.'.$role.', t.title, t.code, t.init_code, t.segment, (SELECT COUNT(a.STATUS) FROM workblock a WHERE a.STATUS = "Completed" AND a.code = t.`init_code`) AS status_c, (SELECT COUNT(b.STATUS) FROM workblock b WHERE b.STATUS = "In Progress" AND b.code = t.`init_code`) AS status_i, (SELECT COUNT(c.STATUS) FROM workblock c WHERE c.STATUS = "Delay" AND c.code = t.`init_code`) AS status_d, (SELECT COUNT(d.STATUS) FROM workblock d WHERE d.STATUS = "Not Started Yet" AND d.code = t.`init_code`) AS status_n, (SELECT COUNT(STATUS) FROM workblock z WHERE z.code = t.`init_code`) total_init from program t where '.$role.' = "'.$value['nama'].'" group by t.init_code';
                 $result1 = $this->db->query($sql1)->result_array();
@@ -355,48 +357,52 @@ class Mprogram extends CI_Model {
                 $percent_parsial = 0;
                 if (!empty($result1)){       
                     foreach ($result1 as $key1 => $value1) {
-                            // $total_completed = $total_completed + $value1['status_c'];
                         $total_initiative++;
-                        // if ($value1['total_init'] != 0)
-                        //     $percent_parsial = $percent_parsial + ($value1['status_c']/ $value1['total_init']) * 100;
 
                         $get_persen = $this->getPercentProgram($value1['init_code'], false);
                         $total_completed_raw = $total_completed_raw + $get_persen;
                     }
                     if ($total_initiative != 0){
-                        // $percent_raw = (float)($percent_parsial/ $total_initiative);
-                        // $percent = round((float)$percent_raw, 2);
                         $total_completed = $total_completed_raw / count($result1);
                         $data[$key]['total_completed'] = number_format($total_completed, 2, '.', '');
                     }else{
                         $data[$key]['total_completed'] = 0;
                     }
                 }
-                $arr_initcode= explode(";",$data[$key]['initiative']);
-                    // $arr_initcode= array('9');
-                    // var_dump($data[$key]['initiative']);die;
+                $arr_initcode= explode(";",$value['initiative']);
+                    // $arr_initcode= array('15');
                 $hitung_kuantitatif = 0;
-                $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
-                    // var_dump(($hitung_kuantitatif));die;
-                $data[$key]['total_kuantitatif'] = $hitung_kuantitatif;
-                
                 $data[$key]['total_kuantitatif'] = 0;
+                $list_kuantitatif_raw = array_unique($arr_initcode);
+                $list_kuantitatif = array_filter($list_kuantitatif_raw, create_function('$value', 'return $value !== "";'));
+
+                $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($list_kuantitatif);
+                // $jumlah_kuantitatif = 0;
+                // foreach ($hitung_kuantitatif as $key3 => $value3) {
+                //     $jumlah_kuantitatif = $jumlah_kuantitatif + $value3;
+                // }
+                // if (!empty($hitung_kuantitatif)){
+                //     $list_kuantitatif_raw = array_unique($arr_initcode);
+                //     $list_kuantitatif = array_filter($list_kuantitatif_raw, create_function('$value', 'return $value !== "";'));
+                //     $data[$key]['total_kuantitatif'] = $jumlah_kuantitatif / count($list_kuantitatif);
+                // }
+                    // var_dump(($hitung_kuantitatif));die;
+                
                 if (!empty($hitung_kuantitatif)){
                     $counter = 0;
                     $jumlah_kuantitatif = 0;
                     foreach ($hitung_kuantitatif as $key2 => $value2) {
                         $jumlah_kuantitatif = $this->mkuantitatif->get_count_init_code($key2);
-                        // var_dump($jumlah_kuantitatif);die;
                         $hitung_total_kuantitatif[$counter] = $value2 / $jumlah_kuantitatif;
 
                         $counter = $counter +1;
                     }
-                        // $data[$key]['total_kuantitatif'] = $hitung_total_kuantitatif;
+                        // $data[$key]['total_kuantitatif'] = $hitung_total_kuantitatif[0];
 
-                    $total_kuantitatif = array_sum($hitung_total_kuantitatif);
-                    $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
+                    // $total_kuantitatif = array_sum($hitung_total_kuantitatif);
+                    // $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
 
-                    $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);
+                    $kuantitatif_percent = round((float)$hitung_total_kuantitatif[0], 2);
                     $data[$key]['total_kuantitatif'] = $kuantitatif_percent;
                 }
             }
@@ -503,27 +509,23 @@ class Mprogram extends CI_Model {
                     // $arr_initcode= array('9');
                     // var_dump($data[$key]['initiative']);die;
                 $hitung_kuantitatif = 0;
-                $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
-                    // var_dump(($hitung_kuantitatif));die;
-                $data[$key]['total_kuantitatif'] = $hitung_kuantitatif;
-                
                 $data[$key]['total_kuantitatif'] = 0;
+                $list_kuantitatif_raw = array_unique($arr_initcode);
+                $list_kuantitatif = array_filter($list_kuantitatif_raw, create_function('$value', 'return $value !== "";'));
+
+                $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
+                
                 if (!empty($hitung_kuantitatif)){
                     $counter = 0;
                     $jumlah_kuantitatif = 0;
                     foreach ($hitung_kuantitatif as $key2 => $value2) {
                         $jumlah_kuantitatif = $this->mkuantitatif->get_count_init_code($key2);
-                        // var_dump($jumlah_kuantitatif);die;
                         $hitung_total_kuantitatif[$counter] = $value2 / $jumlah_kuantitatif;
 
                         $counter = $counter +1;
                     }
-                        // $data[$key]['total_kuantitatif'] = $hitung_total_kuantitatif;
 
-                    $total_kuantitatif = array_sum($hitung_total_kuantitatif);
-                    $jumlah_total_kuantitatif = $total_kuantitatif / count($hitung_total_kuantitatif);
-
-                    $kuantitatif_percent = round((float)$jumlah_total_kuantitatif, 2);
+                    $kuantitatif_percent = round((float)$hitung_total_kuantitatif[0], 2);
                     $data[$key]['total_kuantitatif'] = $kuantitatif_percent;
                 }
             }
