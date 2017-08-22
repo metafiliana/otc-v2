@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 index.php
 .htaccess
 /application/config/*
@@ -8,6 +9,8 @@ index.php
 /assets/*
 .DS_Store
 
+=======
+>>>>>>> 3796cbcb555485d9c43fdcf9b8be059162db3e00
 */config/development
 */logs/log-*.php
 !*/logs/index.html
