@@ -38,7 +38,6 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.form.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-confirm.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/application.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.file-input.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/ChartNew.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datepicker.js"></script>

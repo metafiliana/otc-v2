@@ -271,6 +271,17 @@ class User extends CI_Controller {
         }
     }
 
+    public function troublelogin(){
+        $data['title'] = "Recover Password";
+        
+        $data['header'] = '';
+        $data['sidebar'] = '';
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['content'] = $this->load->view('user/trouble_login','',TRUE);
+    
+        $this->load->view('front',$data);
+    }
+
     /*Function PHP EXCEL for parsing*/ 
     function read_excel($file){
         $arrres = array();
@@ -297,5 +308,4 @@ class User extends CI_Controller {
         $phpexcepDate = $readDate-25569; //to offset to Unix epoch
         return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
     }
-
 }

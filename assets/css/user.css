@@ -1,8 +1,13 @@
-/* Style fot Halaman Singin
+/* Style for Halaman Sign in
 -------------------------------------------------- */
 .form-signin{
 	padding: 15px;
 	margin: 0 auto;
+}
+.abc{
+  position: relative;
+  margin-top: 25%;
+  text-align: center;
 }
 .form-signin .form-signin-heading{
 	margin-bottom: 10px;
@@ -33,3 +38,6 @@
 .desc_login_form{
 	color:#666
 }
+.submit{
+    margin: 0 auto;
+  }
