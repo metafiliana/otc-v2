@@ -15,6 +15,7 @@ class Summary extends CI_Controller {
         $this->load->model('mkuantitatif');
         $this->load->model('msummary');
         $this->load->library('excel');
+        $this->load->helper('form');
         
         $session = $this->session->userdata('user');
         
@@ -258,6 +259,36 @@ class Summary extends CI_Controller {
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/front',TRUE);
+    }
+
+    public function listAll()
+    {
+        $data['title'] = "List All Program";
+
+        $views = array();
+        
+        $prog['page']="all";
+
+        $user = $this->session->userdata('user');
+        $prog['user'] = $user;
+        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        $data['content'] = $this->load->view('summary/summary',$views,TRUE);
+
+        $this->load->view('front',$data);
     }
 
 }
