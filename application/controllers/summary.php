@@ -16,6 +16,7 @@ class Summary extends CI_Controller {
         $this->load->model('msummary');
         $this->load->library('excel');
         $this->load->helper('form');
+        $this->load->helper('site_helper');
         
         $session = $this->session->userdata('user');
         
@@ -264,15 +265,10 @@ class Summary extends CI_Controller {
     public function listAll()
     {
         $data['title'] = "List All Program";
-
-        $views = array();
-        
         $prog['page']="all";
-
         $user = $this->session->userdata('user');
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
@@ -282,6 +278,13 @@ class Summary extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
+        // views start
+        $views = array();
+        // views end
+
+        //process start
+        $data['init_table'] = $this->minitiative->get_initiatives();
+        //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
@@ -289,6 +292,18 @@ class Summary extends CI_Controller {
         $data['content'] = $this->load->view('summary/summary',$views,TRUE);
 
         $this->load->view('front',$data);
+    }
+
+    public function searchSummary()
+    {
+        $user = $this->input->post('user');
+        $bulan = $this->input->post('bulan');
+
+        $return['message'] = 'success';
+        $return['data'] = $bulan;
+
+        header('Content-Type: application/json');
+        echo json_encode($return);
     }
 
 }
