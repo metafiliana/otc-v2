@@ -17,18 +17,18 @@ class Mfiles_upload extends CI_Model {
         $this->load->database();
         $this->load->library('excel');
     }
-    
+
     //INSERT or CREATE FUNCTION
     function insert($program){
         $insert_id = $this->db->insert('files_upload', $program);
         return $insert_id;
     }
-     
+
     function insert_user_customer($program){
         $insert_id = $this->db->insert('user_customer', $program);
         return $insert_id;
     }
-   
+
     function insert_files_upload($program){
         if($this->db->insert('files_upload', $program)){
            return $this->db->insert_id();
@@ -47,13 +47,13 @@ class Mfiles_upload extends CI_Model {
         }
     }
 
-    function insert_db_batch($data,$db){ 
+    function insert_db_batch($data,$db){
         $this->db->trans_start();
         $this->db->insert_batch($db, $data);
         //$this->db->insert_id();
         $this->db->trans_complete();
     }
-    
+
 	function insert_files_upload_with_full_url($full_url,$modul, $submodul, $atch, $ownership_id){
 		$file_atch['full_url'] = $full_url.$atch['file_name'];
 		$user = $this->session->userdata('user');
@@ -69,7 +69,7 @@ class Mfiles_upload extends CI_Model {
         }
 		return $this->insert_files_upload($file_atch);
 	}
-    
+
     function insert_files_upload_with_full_url_return_id($full_url,$modul, $submodul, $atch, $ownership_id){
 		if($this->insert_files_upload_with_full_url($full_url,$modul, $submodul, $atch, $ownership_id)){
              return $this->db->insert_id();
@@ -78,7 +78,7 @@ class Mfiles_upload extends CI_Model {
             return false;
         }
 	}
-    
+
     function insert_files_upload_with_full_url_with_param($full_url,$modul, $submodul, $atch, $ownership_id,$program){
 		$file_atch['full_url'] = $full_url.$atch['file_name'];
 		$user = $this->session->userdata('user');
@@ -99,7 +99,7 @@ class Mfiles_upload extends CI_Model {
         $file_atch['created'] = date("Y-m-d H:i:s");
 		return $this->insert_files_upload($file_atch);
 	}
-	
+
     function insert_files_upload_with_param_input($modul, $submodul, $atch, $ownership_id){
     	$user = $this->session->userdata('userdb');
     	$file_atch['file_name'] = $atch['file_name'];
@@ -113,9 +113,9 @@ class Mfiles_upload extends CI_Model {
 		return $this->insert_files_upload($file_atch);
     }
 
-    function insert_by_param($title, $file_name, $ext, $description, $user_id, $modul, 
+    function insert_by_param($title, $file_name, $ext, $description, $user_id, $modul,
         $sub_modul, $user_allowed, $customer, $type, $ownership_id, $cust_type){
-        
+
         $file_atch['title'] = $title;
         $file_atch['file_name'] = $file_name;
         $file_atch['ext'] = $file_ext;
@@ -129,40 +129,40 @@ class Mfiles_upload extends CI_Model {
         return $this->db->insert('files_upload', $file_atch);
     }
 
-    
+
     //GET FUNCTION
-  	
+
   	function get_latest_date_employee($db,$employee){
        $this->db->select('MAX(a.date) as latest_date',false);
 		$this->db->from($db);
 		$this->db->join('user_customer as b','a.customer = b.customer_name');
-		$this->db->where('b.nip',$employee); 
+		$this->db->where('b.nip',$employee);
         $realizations = $this->db->get();
 		//echo $this->db->last_query();die();
-        return $realizations -> result()[0]->latest_date;  
-		
+        return $realizations -> result()[0]->latest_date;
+
     }
-  
+
   	function get_latest_date_clncl($db){
-		$string_query_cl = 
+		$string_query_cl =
             "select MAX(date) as latest_date
 			FROM (`summarycredit`)";
-		$string_query_ncl = 
+		$string_query_ncl =
             "select MAX(date) as latest_date
 			FROM (`summarynclouts`)";
-		
+
 		$string_query = "select MAX(a.latest_date) as latest_date
-			from( ".$string_query_cl." UNION ".$string_query_ncl.")a";	
-		
+			from( ".$string_query_cl." UNION ".$string_query_ncl.")a";
+
 		$realizations = $this->db->query($string_query);
-		
-		
+
+
 		// realizations $this->db->last_query();die();
 	 	return $realizations->row('latest_date');
-		
-    
+
+
     }
-	
+
   	function get_db_employee($employee,$order,$how,$db,$arr_where,$select,$limit){
         if($select){$this->db->select($select,false);}
 		$this->db->from($db);
@@ -177,17 +177,17 @@ class Mfiles_upload extends CI_Model {
             }
         }
         else{$this->db->order_by($order,$how);}
-        
+
         $query = $this->db->get();
         return $query->result();
     }
-    
+
     function get_detil_files_by_id($id){
 		$this->db->where('id',$id);
         $query = $this->db->get('files_upload');
 		return $query->result()[0];
 	}
-	
+
 	function get_all_files_upload_modul_sort_like($modul,$param,$how,$col,$value,$query){
 		if($value!='all' && $col){
 			$this->db->like($col, $value, 'after');
@@ -197,12 +197,12 @@ class Mfiles_upload extends CI_Model {
 		}
 		return $this->get_all_files_upload_modul_sort($modul,$param,$how);
 	}
-    
+
 	function get_all_files_upload_modul_limit($modul,$param,$how,$limit){
     	$this->db->limit($limit);
     	return $this->get_all_files_upload_modul_sort($modul,$param,$how);
     }
-    
+
     function get_all_files_upload_modul_sort($modul,$param,$how){
     	if($modul == "customer_files"){
     		$this->db->distinct();
@@ -212,7 +212,7 @@ class Mfiles_upload extends CI_Model {
     	$this->db->order_by($param,$how);
     	return $this->get_all_files_upload_modul($modul);
     }
-    
+
     function get_all_files_upload_modul($modul){
     	$this->db->select('files_upload.*');
 		$this->db->where('modul',$modul);
@@ -220,7 +220,7 @@ class Mfiles_upload extends CI_Model {
     	$result = $this->db->get('files_upload');
     	return $result->result();
     }
-    
+
     function get_all_files_upload_modul_join_id($modul){
     	//$this->db->select('files_upload.*');
         $this->db->select('files_upload.id as files_id ,user.id as idu, full_name , title, file_name, ext, modul, sub_modul, created, updated, customer, description, full_url');
@@ -240,7 +240,7 @@ class Mfiles_upload extends CI_Model {
         $result = $this->db->get('files_upload');
         return $result->result();
     }
-    
+
     function get_all_files_upload_modul_submodul($modul,$submodul,$limit){
     	if($limit){
     		$this->db->limit($limit);
@@ -253,23 +253,23 @@ class Mfiles_upload extends CI_Model {
     	$result = $this->db->get('files_upload');
     	return $result->result();
     }
-    
+
     function get_files_upload_by_id($id){
     	$this->db->select('files_upload.*');
     	$this->db->where('files_upload.id',$id);
-    	$res = $this->db->get('files_upload'); 
+    	$res = $this->db->get('files_upload');
     	$result = $res->row(0);
     	return $result;
     }
-	
+
 	function get_cr_files_upload_by_id($id){
     	$this->db->select('call_reports.*');
     	$this->db->where('call_reports.id',$id);
-    	$res = $this->db->get('call_reports'); 
+    	$res = $this->db->get('call_reports');
     	$result = $res->row(0);
     	return $result;
     }
-    
+
     function get_files_upload_by_ownership_id($modul, $submodul, $id){
     	$this->db->select('files_upload.*');
     	$this->db->where('modul',$modul);
@@ -281,7 +281,7 @@ class Mfiles_upload extends CI_Model {
     	$result = $this->db->get('files_upload');
     	return $result->result();
     }
-    
+
     function get_files_upload_by_ownership_id_order($modul, $submodul, $id, $order_by, $how){
     	$this->db->select('files_upload.*');
     	if($modul){
@@ -343,7 +343,7 @@ class Mfiles_upload extends CI_Model {
         $this->db->where('modul',$modul);
         return $this->db->update('files_upload', $program);
     }
-    
+
     function update_files_upload_with_id($program,$modul,$submodul,$id){
         $this->db->where('modul',$modul);
         $this->db->where('sub_modul',$submodul);
@@ -360,7 +360,7 @@ class Mfiles_upload extends CI_Model {
         $this->db->where($arr_where);
         return $this->db->update($db, $program);
     }
-    
+
     //DELETE FUNCTION
     function delete_files_upload($id){
     	$this->db->where('id',$id);
@@ -372,7 +372,7 @@ class Mfiles_upload extends CI_Model {
     		return false;
     	}
     }
-    
+
     function delete_files_upload_by_file_name($file,$modul,$submodul){
     	$this->db->where('file_name',$file);
     	$this->db->where('modul',$modul);
@@ -385,7 +385,7 @@ class Mfiles_upload extends CI_Model {
     		return false;
     	}
     }
-    
+
     //DELETE FUNCTION with files
     function delete_with_files($id){
     	$file=$this->get_detil_files_by_id($id);
@@ -421,7 +421,7 @@ class Mfiles_upload extends CI_Model {
                   //rmdir($folder."thumb/");
                 }
                 //rmdir($folder);
-                
+
             }else{
                 if($file->modul == "ftp"){
                     unlink("assets/uploads/ftp/files/".$file->file_name);
@@ -443,7 +443,7 @@ class Mfiles_upload extends CI_Model {
             return false;
         }
     }
-    
+
     function delete_by_date_user_customer($date){
     	$this->db->where('date',$date);
     	$this->db->delete('user_customer');
@@ -454,8 +454,8 @@ class Mfiles_upload extends CI_Model {
     		return true;
     	}
     }
-    
-    
+
+
     // OTHER FUNCTION
     function get_db($order,$how,$db,$arr_where,$select,$limit){
         if($arr_where){$this->db->where($arr_where);}
@@ -469,7 +469,7 @@ class Mfiles_upload extends CI_Model {
             }
         }
         else{$this->db->order_by($order,$how);}
-        
+
         $query = $this->db->get($db);
         return $query->result();
     }
@@ -482,7 +482,7 @@ class Mfiles_upload extends CI_Model {
             foreach($join as $row){
                 if(isset($row['how'])) $this->db->join($row['table'], $row['in'], $row['how']);
                 else $this->db->join($row['table'], $row['in']);
-                
+
             }
         }
         return $this->get_db_group_by($order,$how,$db,$arr_where,$select,$limit,$group_by);
@@ -559,7 +559,7 @@ class Mfiles_upload extends CI_Model {
             }
 
             $search_value = "'%".$search."%'";
-            
+
             $arr_after = array('custname','custgroup');
             if(in_array($db, $arr_after)){
                 $search_value = "'".$search."%'";
@@ -576,7 +576,7 @@ class Mfiles_upload extends CI_Model {
         $this->db->where($like_stc);
         $this->db->order_by($order_by, $how);
         $this->db->from($db);
-        
+
         $query = $this->db->get();
         return $query->result();
     }
@@ -585,7 +585,7 @@ class Mfiles_upload extends CI_Model {
         if($arr_where){
             $this->db->delete($db,$arr_where);
         }else{
-            $this->db->empty_table($db); 
+            $this->db->empty_table($db);
         }
         if($this->db->affected_rows()>0){
             return true;
@@ -596,7 +596,12 @@ class Mfiles_upload extends CI_Model {
     }
 
     function delete_db_truncate($db){
-        $this->db->truncate($db); 
+        if($db=='action'){
+          $this->db->truncate('m_action');
+        }
+        else{
+          $this->db->truncate($db);
+        }
         return true;
     }
 
@@ -628,7 +633,7 @@ class Mfiles_upload extends CI_Model {
             $error = array('error' => $this->upload->display_errors());
         }
     }
-    
+
     function upload_file($form,$path,$modul,$submodul,$ownership_id,$to_files_upload){
         $upload_path = "assets/upload/".$path;
         if (!is_dir($upload_path)) {
@@ -649,13 +654,13 @@ class Mfiles_upload extends CI_Model {
             }
             $atch['full_url'] = $upload_path.$atch['file_name'];
            return $atch;
-            
+
         }
         else{
             $error = array('error' => $this->upload->display_errors());
         }
     }
-    
+
     function upload_file_with_icon($form,$icon,$path,$modul,$submodul,$id){
         $upload_path = "assets/uploads/".$path;
         if (!is_dir($upload_path)) {
@@ -668,7 +673,7 @@ class Mfiles_upload extends CI_Model {
             'max_size' => "2048000000",
         );
         $this->load->library('upload', $config);
-        
+
         if($id){
             $url=$this->get_files_upload_by_id($id);
             if($this->input->post('description'))
@@ -697,7 +702,7 @@ class Mfiles_upload extends CI_Model {
                 $programs['icon'] = $upload_path.$atchs['file_name'];
                 $this->update_files_upload($programs,$id);
             }
-        } 
+        }
         else{
             $program['title']=$this->input->post('title');
             if($this->input->post('description'))
@@ -712,19 +717,19 @@ class Mfiles_upload extends CI_Model {
            if($this->upload->do_upload($form))
             {
                 $atch = $this->upload->data();
-                
+
                 $file=$this->insert_files_upload_with_full_url_return_id($upload_path,$modul,$submodul, $atch, '0');
                 $this->upload->reset_multi_upload_data();
-                
+
             }
             if($this->upload->do_upload($icon)){
                     $atchs = $this->upload->data();
                     $program['icon'] = $upload_path.$atchs['file_name'];
-                    
+
             }
             $this->update_files_upload_with_id($program,$modul,$submodul,$file);
         }
-              
+
 	}
 
     function make_photo_thumb($image_name, $image_location, $target_folder, $w_thumb, $ext_thumb_name){
@@ -736,10 +741,10 @@ class Mfiles_upload extends CI_Model {
         list($width, $height) = getimagesize($upload_image);
         $newwidth = $w_thumb;
         $newheight = $w_thumb*$height/$width;
-        
+
         // Load the images
         $thumb = imagecreatetruecolor($newwidth, $newheight);
-        
+
         $stype = explode(".", $image_name);
         $stype = $stype[count($stype)-1];
         switch($stype) {
@@ -754,39 +759,39 @@ class Mfiles_upload extends CI_Model {
                 break;
             case 'JPG':
                 $source = imagecreatefromjpeg($upload_image);
-                break;    
+                break;
             case 'png':
                 $source = imagecreatefrompng($upload_image);
                 break;
         }
         // Resize the $thumb image.
         imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-        
+
         // Save the new file to the location specified by $thumbnail
         imagejpeg($thumb, $thumbnail, 80);
     }
-    
-     /*Function PHP EXCEL for parsing*/ 
+
+     /*Function PHP EXCEL for parsing*/
     function read_excel($file){
     	$arrres = array();
-    	
+
         if(end(explode(".", $file)) == "xlsx") $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         else $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
 		$objReader->setReadDataOnly(TRUE);
 
-        
+
 		$objPHPExcel = $objReader->load($file);
-		
+
 		$arrres['wrksheet'] = $objPHPExcel->getActiveSheet();
 		// Get the highest row and column numbers referenced in the worksheet
 		$arrres['row'] = $arrres['wrksheet']->getHighestRow(); // e.g. 10
 		$highestColumn = $arrres['wrksheet']->getHighestColumn(); // e.g 'F'
 		$arrres['col'] = PHPExcel_Cell::columnIndexFromString($highestColumn);
-		
+
 		return $arrres;
     }
-    
+
     function SaveViaTempFile($objWriter){
 		$filePath = '/tmp/' . rand(0, getrandmax()) . rand(0, getrandmax()) . ".tmp";
 		$objWriter->save($filePath);
@@ -797,14 +802,14 @@ class Mfiles_upload extends CI_Model {
 		$phpexcepDate = $readDate-25569; //to offset to Unix epoch
 		return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
 	}
-	
+
 	function get_pic_employee(){
 		$this->db->select("*")->from("user")->where("is_employee",1)->order_by("full_name asc");
 		$q = $this->db->get();
 		return $q->result_array();
 	}
-	
+
 	function insert_activity_step($data){
-		
+
 	}
 }

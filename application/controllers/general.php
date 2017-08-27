@@ -2,7 +2,7 @@
 
 
 class General extends CI_Controller {
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->model('mworkblock');
@@ -14,9 +14,9 @@ class General extends CI_Controller {
         $this->load->model('minitiative');
         $this->load->model('mworkblock');
         $this->load->model('muser');
-        
+
         $session = $this->session->userdata('user');
-        
+
         if(!$session){
             redirect('user/login');
         }
@@ -26,27 +26,27 @@ class General extends CI_Controller {
      */
     public function index()
     {
-		
+
     }
-    
+
     public function overview(){
     	$data['title'] = 'Overview Tower Center';
-    	
+
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-		
+
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('general/overview',array(),TRUE);
 
 		$this->load->view('front',$data);
     }
-    
+
     public function files(){
     	$data['title'] = 'Files Control Tower';
-    	
+
     	$user = $this->session->userdata('user');
-    	
+
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
@@ -57,7 +57,7 @@ class General extends CI_Controller {
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
         $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment('init_code','asc','program');
-        
+
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('general/_all_files',$prog,TRUE);
@@ -67,11 +67,11 @@ class General extends CI_Controller {
 
     public function input_file(){
         $data['title'] = "Upload Files";
-        
+
         $data['init_code'] = $this->input->get('init_code');
         if($this->input->get('id')){
             $id = $this->input->get('id');
-            $data['files'] = $this->mkuantitatif->get_kuantitatif_by_id($id);  
+            $data['files'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
         }
 
         $json['html'] = $this->load->view('general/input',$data,TRUE);
@@ -85,8 +85,8 @@ class General extends CI_Controller {
         $user = $this->session->userdata('userdb');
         $program['title'] = $this->input->post('title');
         $data['init_code'] = $this->input->post('init_code');
-         
-        /*Upload */ 
+
+        /*Upload */
         $upload_path = "assets/upload/files/".$data['init_code']."/";
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 0777, true);
@@ -98,7 +98,7 @@ class General extends CI_Controller {
             'max_size' => "2048000000",
         );
         $this->load->library('upload', $config);
-        
+
         if($this->upload->do_multi_upload("attachment"))
         {
             $attachments = $this->upload->get_multi_upload_data();
@@ -114,7 +114,7 @@ class General extends CI_Controller {
 
     public function get_file(){
         $init_code = $this->input->get('init_code');
-        
+
         $data['files'] = $this->mfiles_upload->get_all_files_upload_modul_how($init_code,'');
 
         $json['html'] = $this->load->view('general/_files',$data,TRUE);
@@ -137,14 +137,14 @@ class General extends CI_Controller {
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
     }
-    
+
     public function outlook(){
     	$data['title'] = 'Outlook 7 Sectors';
-    	
+
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-		
-		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);	
+
+		$data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
 		$data['content'] = $this->load->view('general/outlook',array(),TRUE);
@@ -157,7 +157,7 @@ class General extends CI_Controller {
         $data['title'] = "Form Input File";
 
         $user = $this->session->userdata('user');
-        
+
         $data['user']=$user;
         if($user['role']!='admin'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
@@ -167,10 +167,10 @@ class General extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
-        
-        $data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
-        $data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');
-        $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('workblock','','1');
+
+        //$data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
+        //$data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');
+        $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
         $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
         $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
 
@@ -179,7 +179,7 @@ class General extends CI_Controller {
         $data['content'] = $this->load->view('general/form_input_file',$data,TRUE);
 
         $this->load->view('front',$data);
-        
+
     }
 
     public function submit_input_file()
@@ -202,7 +202,7 @@ class General extends CI_Controller {
         $oldfiles = glob("$upload_path/$filepattern");*/
 
         $json = array();
-        
+
         $config = array(
             'upload_path' => $upload_path,
             'allowed_types' => "*",
@@ -233,51 +233,17 @@ class General extends CI_Controller {
             if($file['for']!='user'){
                 $this->mfiles_upload->delete_db_truncate($file['for']);
             }
-                if($file['for']=='program'){
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    }
-                        $data['category'] = $arrres[$row][0];
-                        $data['segment'] = $arrres[$row][1];
-                        $data['title'] = $arrres[$row][2];
-                        $data['code'] = $arrres[$row][3];
-                        $data['init_code'] = $arrres[$row][4];
-                        $data['dir_spon'] = $arrres[$row][5];
-                        $data['pmo_head'] = $arrres[$row][6];
-                        
-                        $this->mprogram->insert_program($data);
-                    }
-                }
-
-                if($file['for']=='initiative'){
+                if($file['for']=='action'){
                     for ($row = 2; $row <= $exel['row']; ++$row) {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {
                     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
                     }
                         $data['title'] = $arrres[$row][0];
-                        $data['program_id'] = $arrres[$row][1];
-                        $data['start'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][2]));
-                        $data['end'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][3]));
-                    
-                        $this->minitiative->insert_initiative($data);
-                    }
-                }
-
-                if($file['for']=='workblock'){
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    }    
-                        $data['title'] = $arrres[$row][0];
-                        $data['initiative_id'] = $arrres[$row][3];
-                        $data['start'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][1]));
-                        $data['end'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][2]));
-                        $data['code'] = $arrres[$row][4];
-                        $data['status'] = $arrres[$row][5];
+                        $data['initiative_id'] = $arrres[$row][4];
+                        $data['start_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][2]));
+                        $data['end_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][3]));
+                        $data['status'] = $arrres[$row][1];
 
                         $this->mworkblock->insert_workblock($data);
                     }
@@ -289,7 +255,7 @@ class General extends CI_Controller {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {
                     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    } 
+                    }
                         $data['init_code'] = $arrres[$row][0];
                         $data['title'] = $arrres[$row][1];
                         $data['metric'] = $arrres[$row][2];
@@ -299,7 +265,7 @@ class General extends CI_Controller {
                         $data['real_year'] = $year-1;
                         $data['target_year'] = $year;
 
-                        $this->mkuantitatif->insert_kuantitatif($data); 
+                        $this->mkuantitatif->insert_kuantitatif($data);
                     }
                 }
 
@@ -310,7 +276,7 @@ class General extends CI_Controller {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {
                     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    } 
+                    }
                         $data['username'] = $arrres[$row][0];
                         $data['password'] = md5($arrres[$row][1]);
                         $data['name'] = $arrres[$row][2];
@@ -321,12 +287,12 @@ class General extends CI_Controller {
                         $this->muser->insert_user($data);
                     }
                 }
-                $json['msg'] = "<div> Sukses </div> <a href='".base_url()."general/form_input_file/'>Back</a>"; 
+                $json['msg'] = "<div> Sukses </div> <a href='".base_url()."general/form_input_file/'>Back</a>";
         }
         else
         {
             $error = array('error' => $this->upload->display_errors());
-            
+
             $json['msg'] = "<div class='alert alert-danger' role='alert'> ".$error['error']."</div>";
             $json['config'] = $config;
         }
@@ -345,9 +311,9 @@ class General extends CI_Controller {
             for ($col = 0; $col < $exel['col']; ++$col) {
                 $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
             }
-            
+
             //Program
-            
+
             /*$data['category'] = $arrres[$row][0];
             $data['segment'] = $arrres[$row][1];
             $data['title'] = $arrres[$row][2];
@@ -356,9 +322,9 @@ class General extends CI_Controller {
             $data['dir_spon'] = $arrres[$row][5];
             $data['pmo_head'] = $arrres[$row][6];
             //$data['sort'] = $arrres[$row][7];
-            
-            $this->mprogram->insert_program($data);*/ 
-            
+
+            $this->mprogram->insert_program($data);*/
+
 
             //Initiative
             /*$data['title'] = $arrres[$row][0];
@@ -366,7 +332,7 @@ class General extends CI_Controller {
             $data['start'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][2]));
             $data['end'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][3]));
             $this->minitiative->insert_initiative($data);*/
-            
+
             //Workblock
             /*$data['title'] = $arrres[$row][0];
             $data['initiative_id'] = $arrres[$row][3];
@@ -397,8 +363,8 @@ class General extends CI_Controller {
             $data['target_year'] = $target;
             //date("Y-m-d",$this->excelDateToDate($arrres[$row][1]));
             //$data['end'] = date("Y-m-d",$this->excelDateToDate($arrres[$row][2]));
-            $this->mkuantitatif->insert_kuantitatif($data); 
+            $this->mkuantitatif->insert_kuantitatif($data);
         }
     }
-    
+
 }
