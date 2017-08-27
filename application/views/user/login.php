@@ -3,7 +3,7 @@
 	body{
 		margin:0;padding:20px 430px 20px 430px;
 		background-size:cover;
-		background-image:url('<?php echo base_url()?>assets/img/BG.png');
+		background-image:url('<?php echo base_url()?>assets/img/tower.jpg');
 		opacity: 0.9;
 	}
 	.container{
