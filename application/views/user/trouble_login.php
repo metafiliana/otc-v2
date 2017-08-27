@@ -3,7 +3,7 @@
 	body{
 		margin:0;padding:20px 430px 20px 430px;
 		background-size:cover;
-		background-image:url('<?php echo base_url()?>assets/img/BG.png');
+		background-image:url('<?php echo base_url()?>assets/img/tower.jpg');
 		opacity: 0.9;
 	}
 	.container{
@@ -44,13 +44,21 @@ $(document).ready(function(){
 	</div>
 
 	<div class="col-md-8 login-form container" style="position: relative; margin-top: 5%;">
-		<button style="margin-top: 15px; float: left;" class="btn btn-sm btn-default center_text submit" style="border-radius: 7px;"><a href="<?php echo base_url();?>user/login" style="text-decoration:none;">Back</a></button>
+		<a href="<?php echo base_url();?>user/login" style="text-decoration:none;"><button style="margin-top: 15px; float: left;" class="btn btn-sm btn-default center_text submit" style="border-radius: 7px;">Back</button></a>
 
 	<div class="center_text recover" style="margin-top: 40px;">
 		<h3 style="color: rgb(35,95,111); font-weight: bold;">RECOVER PASSWORD</h3>
 	</div>
-		<form class="form-signin" action="" method="post" role="form">
+		<form class="form-signin" action="<?php echo base_url();?>user/sendMail" method="post" role="form">
 			<p class="desc_login_form center_text" style="padding-top: 10px; margin-bottom: 30px;">Please enter your username or email address, and we will email you updated login detail</p>
+			
+			<?php if($this->session->flashdata('email_sent')): ?>
+			<div class="alert alert-success alert-dismissable fade in">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			    <p><?php echo $this->session->flashdata('email_sent'); ?></p>
+			</div>
+			<?php endif; ?>
+			
 			<input type="text" class="form-control" placeholder="" name="username" id="username" required autofocus style="border-radius: 7px;">
 			<button style="margin-top:30px; width: 150px;" class="btn btn-md btn-primary btn-block center_text submit" type="submit" style="border-radius: 7px;">Submit</button>
 		</form>
@@ -75,14 +83,14 @@ $(document).ready(function(){
       </div>
       <div class="modal-body">
         <p>Jl. Gatot Subroto Kav. 36-38
-Plaza Mandiri lantai 18, CTF
-<br>Jakarta Selatan, 12190</p>
-<p>Email : PMO Control Tower (control.tower@bankmandiri.co.id)</p><br>
-<p>Team : <br>
-Tongki Lentari (712 3471)<br>
-Dessy Damayanti (712 7807)<br>
-Nurul Y. Karunia (712 7263)<br>
-Santy Supriyani (712 3076)</p>
+		Plaza Mandiri lantai 18, CTF
+		<br>Jakarta Selatan, 12190</p>
+		<p>Email : PMO Control Tower (control.tower@bankmandiri.co.id)</p><br>
+		<p>Team : <br>
+		Tongki Lentari (712 3471)<br>
+		Dessy Damayanti (712 7807)<br>
+		Nurul Y. Karunia (712 7263)<br>
+		Santy Supriyani (712 3076)</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

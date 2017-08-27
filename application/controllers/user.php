@@ -292,6 +292,50 @@ class User extends CI_Controller {
         $this->load->view('front',$data);
     }
 
+    public function sendMail(){
+        // Set SMTP Configuration
+        $emailConfig = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'smtp.gmail.com',
+            'smtp_port' => 587,
+            'smtp_user' => 'sundfor0@gmail.com',
+            'smtp_pass' => 'legalizer14',
+            'smtp_crypto' => 'tls'
+            //'mailtype' => 'html',
+            //'charset' => 'iso-8859-1'
+        ];
+        // Set your email information
+        $from = [
+            'email' => 'sundfor0@gmail.com',
+            'name' => 'OTC Mandiri'
+        ];
+        $nameuser = $this->input->post('username');
+        $to = 'alfiansyah.ichsan@gmail.com';
+        //array('tezza.riyanto@bankmandiri.co.id');
+        $subject = 'Permohonan ubah password pada sistem OTC';
+        $message = 'Mohon ubah password untuk user '.$nameuser.' Silahkan klik link di bawah ini untuk melakukan approval https://www.google.co.id/?gws_rd=cr&ei=V_OeWd6nCMz8vgT2qbfYBw'; 
+        // use this line to send text email.
+        // load view file called "welcome_message" in to a $message variable as a html string.
+        //$message =  $this->load->view('welcome_message',[],true);
+        // Load CodeIgniter Email library
+        $this->load->library('email', $emailConfig);
+        // Sometimes you have to set the new line character for better result
+        $this->email->set_newline("\r\n");
+        // Set email preferences
+        $this->email->from($from['email'], $from['name']);
+        $this->email->to($to);
+        $this->email->subject($subject);
+        // $body = $this->load->view('user/email.php',$data,TRUE);
+        $this->email->message($message);
+        // Ready to send email and check whether the email was successfully sent
+        if (!$this->email->send()) {
+            $this->session->set_flashdata("email_sent","Error in sending Email.");
+        } else {
+            $this->session->set_flashdata("email_sent","Email sent successfully.");
+        }
+        redirect('user/troublelogin');
+    }
+
     /*Function PHP EXCEL for parsing*/
     function read_excel($file){
         $arrres = array();
