@@ -17,7 +17,7 @@ class Mkuantitatif extends CI_Model {
         $this->load->database();
         $this->load->model('minitiative');
     }
-    
+
     //INSERT or CREATE FUNCTION
 
     function get_kuantitatif(){
@@ -52,8 +52,16 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
+    function insert_baseline($program){
+        if($this->db->insert('baseline', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
     //GET FUNCTION
-    
+
     function get_kuantitatif_by_id($id){
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif');
@@ -94,7 +102,7 @@ class Mkuantitatif extends CI_Model {
             return $result->result();
         }
     }
-    
+
     function get_kuantitatif_with_update($init_id){
         $this->db->select('*');
         if($init_id){
@@ -165,7 +173,7 @@ class Mkuantitatif extends CI_Model {
             $realisasi=$res->realisasi;
             $total=(($realisasi/$res->target)*100);
         }
-        
+
         return $total;
     }
 
@@ -201,7 +209,7 @@ class Mkuantitatif extends CI_Model {
         $query = $this->db->get('kuantitatif');
         return $query->result()[0];
     }
-    
+
     function get_all_programs_with_segment($segment){
     	$this->db->order_by('code', 'asc');
     	if($segment != 'all'){
@@ -212,7 +220,7 @@ class Mkuantitatif extends CI_Model {
     }
 
     //UPDATE FUNCTION
-    
+
     function update_kuantitatif($program,$id){
         $this->db->where('id',$id);
         return $this->db->update('kuantitatif', $program);
@@ -222,7 +230,7 @@ class Mkuantitatif extends CI_Model {
         $this->db->where('id',$id);
         return $this->db->update('kuantitatif_update', $program);
     }
-    
+
     //DELETE FUNCTION
     function delete_program(){
     	$id = $this->input->post('id');
@@ -246,7 +254,7 @@ class Mkuantitatif extends CI_Model {
             return false;
         }
     }
-    
+
     // OTHER FUNCTION
     // -- afil --
     function getKuantitatifByInitCode($init_code)

@@ -250,21 +250,29 @@ class General extends CI_Controller {
                 }
 
                 if($file['for']=='kuantitatif'){
-                    $this->mfiles_upload->delete_db_truncate('kuantitatif_update');
+                    $this->mfiles_upload->delete_db_truncate('kuantitatif');
                     for ($row = 2; $row <= $exel['row']; ++$row) {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {
                     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
                     }
                         $data['init_code'] = $arrres[$row][0];
-                        $data['title'] = $arrres[$row][1];
-                        $data['metric'] = $arrres[$row][2];
-                        $data['realisasi'] = $arrres[$row][3];
-                        $data['target'] = $arrres[$row][4];
-                        $data['real_month'] = $arrres[$row][5];
-                        $data['real_year'] = $year-1;
+                        $data['type'] = $arrres[$row][1];
+                        $data['init_id'] = $arrres[$row][2];
+                        $data['metric'] = $arrres[$row][3];
+                        $data['measurment'] = $arrres[$row][4];
+                        $data['target'] = $arrres[$row][5];
                         $data['target_year'] = $year;
-
+                        for ($i = 1; $i <= 12; $i++) {
+                            $data[$i]= (($i/12)*$arrres[$row][5]);
+                        }
+                        if($arrres[$row][6]){
+                          $this->mfiles_upload->delete_db_truncate('baseline');
+                          $baseline['kuantitatif_id'] = $data['init_id'];
+                          $baseline['amount_baseline'] = $arrres[$row][6];
+                          $baseline['year'] = $year-1;
+                          $this->mkuantitatif->insert_baseline($baseline);
+                        }
                         $this->mkuantitatif->insert_kuantitatif($data);
                     }
                 }
