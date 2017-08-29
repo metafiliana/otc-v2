@@ -16,9 +16,9 @@ class Muser extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
-    
+
     //INSERT or CREATE FUNCTION
-    
+
     function verify_username($username){
         $this->db->where('username',$username);
         $result = $this->db->get('user');
@@ -39,45 +39,45 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     function insert_profil($profil){
         return $this->db->insert('profil', $profil);
     }
-    
+
     function insert_user($user){
         return $this->db->insert('user', $user);
     }
-    
+
     function insert_payment($payment){
         return $this->db->insert('payment', $payment);
     }
-    
+
     function insert_shipping($shipping){
         return $this->db->insert('shipping', $shipping);
     }
-    
+
     function register($user){
     	return $this->db->insert('user', $user);
     }
-    
+
     function insert_get_new_address($profil){
     	if($this->insert_profil($profil)){
     		return $this->get_address_by_id($this->get_last_profil_id());
     	}
     }
-    
+
     function insert_photo_slider($photo_slider){
         return $this->db->insert('photo_slider', $photo_slider);
     }
-    
+
     //GET FUNCTION
-    
+
     function get_all_user(){
     	$this->db->order_by('name', 'asc');
     	$query = $this->db->get('user');
         return $query->result();
     }
-    
+
     function get_user_co_pmo(){
         $this->db->select('name,initiative');
         $this->db->where('role','Co-PMO');
@@ -90,6 +90,17 @@ class Muser extends CI_Model {
         $this->db->where('role',$role);
         $result = $this->db->get('user');
         return $result->result();
+    }
+
+    function get_id_m_role($role){
+        $this->db->select('id');
+        $this->db->where('title',$role);
+        $result = $this->db->get('m_role');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
     }
 
     function check_date($date){
@@ -169,13 +180,13 @@ class Muser extends CI_Model {
 
     function get_user_by_init_code($id){
         if($this->get_user_like_1($id)!=false){
-            return $this->get_user_like_1($id);   
+            return $this->get_user_like_1($id);
         }
         if($this->get_user_like_2($id)!=false){
-            return $this->get_user_like_2($id);   
+            return $this->get_user_like_2($id);
         }
         else{
-            return $this->get_user_like_3($id);   
+            return $this->get_user_like_3($id);
         }
     }
 
@@ -210,14 +221,14 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     function get_all_customer_order($atr, $how){
     	$this->db->where('role',3);
     	$this->db->order_by($atr, $how);
     	$query = $this->db->get('user');
         return $query->result();
     }
-    
+
     function get_all_customer_search($query){
     	$like = "name LIKE '$query%' OR username LIKE '$query%'";
     	$this->db->where("($like)");
@@ -226,7 +237,7 @@ class Muser extends CI_Model {
     	$query = $this->db->get('user');
         return $query->result();
     }
-    
+
     function get_user_login(){
         $user = $this->session->userdata('user');
     	$this->db->where('id',$user['id']);
@@ -238,7 +249,7 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     function get_user_id_by_username($username){
         $this->db->where('username',$username);
         $result = $this->db->get('user');
@@ -248,7 +259,7 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     function get_user_password($password){
     	$user = $this->session->userdata('user');
     	$this->db->where('id',$user['id']);
@@ -261,7 +272,7 @@ class Muser extends CI_Model {
     	if($m == $user->password){return true;}
     	else{return false;}
     }
-    
+
     function get_last_profil_id(){
         $result = $this->db->query('SELECT MAX(id) as id FROM profil');
         if($result->num_rows>0){
@@ -270,7 +281,7 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     function get_last_user_id(){
         $result = $this->db->query('SELECT MAX(id) as id FROM user');
         if($result->num_rows>0){
@@ -279,7 +290,7 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     function get_pic_token(){
         $q=$this->input->get('q');
         $like = "(name LIKE '%".$q."%')";
@@ -291,9 +302,9 @@ class Muser extends CI_Model {
             return $result->result_array();
         }else{
             return false;
-        }   
+        }
     }
-    
+
     function get_existing_pic_token($user_id){
         $this->db->where('id',$user_id);
         $result = $this->db->get('user');
@@ -303,27 +314,27 @@ class Muser extends CI_Model {
             return false;
         }
     }
-    
+
     //UPDATE FUNCTION
     function update_user($user,$id){
         $this->db->where('id',$id);
         return $this->db->update('user', $user);
     }
-    
-    
+
+
     //DELETE FUNCTION
     function delete_address(){
     	$address_id = $this->input->post('address_id');
     	if($this->is_address_used($address_id)){
     		$this->db->where('id',$address_id);
     		$profil['user_id'] = '';
-			return $this->db->update('profil', $profil);	
+			return $this->db->update('profil', $profil);
     	}else{
     		$this->db->where('id',$address_id);
     		return $this->db->delete('profil');
     	}
     }
-    
+
     function delete_user(){
     	$id = $this->input->post('id');
     	$this->db->where('id',$id);
@@ -335,7 +346,7 @@ class Muser extends CI_Model {
     		return false;
     	}
     }
-    
+
     // OTHER FUNCTION
     function config_email(){
     	$config['protocol'] = 'smtp';
@@ -346,7 +357,7 @@ class Muser extends CI_Model {
         $config['mailtype'] = 'html';
         $config['newline'] = "<br>";
         $config['wordwrap'] = TRUE;
-        
+
         return $config;
     }
 
@@ -439,7 +450,7 @@ class Muser extends CI_Model {
             $arr_initcode= explode(";",$data[$key]['initiative_string']);
             $hitung_kuantitatif = 0;
             $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
-            
+
             $data[$key]['total_kuantitatif'] = 0;
             if (!empty($hitung_kuantitatif)){
                 $counter = 0;

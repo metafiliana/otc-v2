@@ -10,6 +10,7 @@
 							<option value="action">Action</option>
 							<option value="user">User</option>
 							<option value="kuantitatif">Kuantitatif</option>
+							<option value="kuantitatif_update">Kuantitatif Update</option>
 						</select>
 					</div><div style="clear:both"></div>
 				</div>

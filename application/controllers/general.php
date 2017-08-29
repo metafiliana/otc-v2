@@ -277,6 +277,23 @@ class General extends CI_Controller {
                     }
                 }
 
+                if($file['for']=='kuantitatif_update'){
+                    $this->mfiles_upload->delete_db_truncate($file['for']);
+                    for ($row = 2; $row <= $exel['row']; ++$row) {
+                    $data = "";
+                    for ($col = 0; $col < $exel['col']; ++$col) {
+                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+                    }
+                        //$data['init_code'] = $arrres[$row][0];
+                        //$data['init_id'] = $arrres[$row][1];
+                        $data['year'] = $year;
+                        for ($i = 1; $i <= 12; $i++) {
+                            $data[$i]= $arrres[$row][$i-1];
+                        }
+                        $this->mkuantitatif->insert_kuantitatif_update($data);
+                    }
+                }
+
                 if($file['for']=='user'){
                     $array = array('id >' => '4');
                     $this->mfiles_upload->delete_db_where($array,$file['for']);
@@ -288,9 +305,10 @@ class General extends CI_Controller {
                         $data['username'] = $arrres[$row][0];
                         $data['password'] = md5($arrres[$row][1]);
                         $data['name'] = $arrres[$row][2];
-                        $data['role'] = $arrres[$row][3];
-                        $data['private_email']= $arrres[$row][4];
-                        $data['initiative']= $arrres[$row][5];
+                        $data['role'] = $this->muser->get_id_m_role($arrres[$row][3])->id;
+                        $data['work_email']= $arrres[$row][4];
+                        $data['private_email']= $arrres[$row][5];
+                        $data['initiative']= $arrres[$row][6];
 
                         $this->muser->insert_user($data);
                     }
