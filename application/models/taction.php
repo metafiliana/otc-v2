@@ -72,6 +72,18 @@ class Taction extends CI_Model {
         return $return;
     }
 
+    function getStatusSummaryMilestone($initiative_id, $status = false)
+    {
+    	$where = 'initiative_id = '.$initiative_id;
+        if ($status !== false){
+    		$where .= ' AND status = '.$status;
+        }
+    	$sql = 'select count(id) as jumlah from t_action WHERE '.$where;
+        $query = $this->db->query($sql)->row();
+
+        return ($query->jumlah > 0) ? $query->jumlah : 0;
+    }
+
 }
 
 ?>

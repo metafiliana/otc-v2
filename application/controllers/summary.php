@@ -14,6 +14,7 @@ class Summary extends CI_Controller {
         $this->load->model('mfiles_upload');
         $this->load->model('mkuantitatif');
         $this->load->model('msummary');
+        $this->load->model('taction');
         $this->load->library('excel');
         $this->load->helper('form');
         $this->load->helper('site_helper');
@@ -283,7 +284,8 @@ class Summary extends CI_Controller {
         // views end
 
         //process start
-        $data['init_table'] = $this->minitiative->getAll();
+        $data['init_table'] = $this->taction->getAllInitiative();
+        $data['controller'] = $this;
         //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -304,6 +306,14 @@ class Summary extends CI_Controller {
 
         header('Content-Type: application/json');
         echo json_encode($return);
+    }
+
+    public function getStatus($initiative_id, $status = false)
+    {
+        $return = 0;
+        $return = $this->taction->getStatusSummaryMilestone($initiative_id, $status);
+        
+        return $return;
     }
 
 }

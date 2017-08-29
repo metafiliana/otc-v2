@@ -89,18 +89,17 @@
                     </thead>
                     <tbody class="text-center">
                         <?php
-                            $i = 0;
+                            $i = '-';
                             foreach ($init_table as $key => $value) {
-                                $i++;
                                 echo "<tr>";
                                     echo "<td>".$value->title."</td>";
+                                    echo "<td>".$controller->getStatus($value->id, 1)."</td>";
                                     echo "<td>".$i."</td>";
+                                    echo "<td>".$controller->getStatus($value->id, 2)."</td>";
+                                    echo "<td>".$controller->getStatus($value->id, 3)."</td>";
+                                    echo "<td>".$controller->getStatus($value->id, 0)."</td>";
                                     echo "<td>".$i."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$controller->getStatus($value->id)."</td>";
                                     echo "<td>".$i."</td>";
                                     echo "<td>".$i."</td>";
                                     // if () {
