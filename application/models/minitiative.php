@@ -766,4 +766,5 @@ class Minitiative extends CI_Model {
 
         return $data;
     }
+    
 }

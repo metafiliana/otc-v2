@@ -262,7 +262,7 @@ class Summary extends CI_Controller {
         $data['content'] = $this->load->view('summary/front',TRUE);
     }
 
-    public function listAll()
+    public function listMilestone()
     {
         $data['title'] = "List All Program";
         $prog['page']="all";
@@ -283,7 +283,7 @@ class Summary extends CI_Controller {
         // views end
 
         //process start
-        $data['init_table'] = $this->minitiative->get_initiatives();
+        $data['init_table'] = $this->minitiative->getAll();
         //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);

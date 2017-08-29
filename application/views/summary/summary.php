@@ -70,40 +70,42 @@
                 </div>
             </div>
             <!-- data area -->
-            <div class="col-md-10">
-                <table id="example" class="display" cellspacing="0" width="100%">
+            <div class="col-md-10 table-content">
+                <table id="example" class="display nowrap">
                     <thead>
                         <tr>
-                            <th>No</th>
                             <th>Initiative Title</th>
-                            <!-- <th>Milestone Bulan Berjalan</th> -->
-                            <!-- <th>Leading</th> -->
-                            <!-- <th>Lagging</th> -->
-                            <!-- <th>Final Monthly Score</th> -->
-                            <th></th>
-                            <!-- <th>Leading</th> -->
-                            <!-- <th>Lagging</th> -->
-                            <!-- <th>Final Yearly Score</th> -->
+                            <th>Complete</th>
+                            <th>Future Start</th>
+                            <th>On-Track</th>
+                            <th>Issues</th>
+                            <th>Not Started</th>
+                            <th>Flagged</th>
+                            <th>Total Action</th>
+                            <th>Completion Rate (MTD)</th>
+                            <th>Completion Rate (YTD)</th>
+                            <!-- <th></th> -->
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <?php
                             $i = 0;
                             foreach ($init_table as $key => $value) {
                                 $i++;
                                 echo "<tr>";
-                                    echo "<td>".$i."</td>";
                                     echo "<td>".$value->title."</td>";
-                                    // echo "<td>".$value->title."</td>";
-                                    // echo "<td>".$value->title."</td>";
-                                    // echo "<td>".$value->title."</td>";
-                                    // echo "<td>".$value->title."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$i."</td>";
                                     // if () {
-                                    echo "<td><i class='bullet-green'>&#8226</i></td>";
+                                    // echo "<td><i class='bullet-green'>&#8226</i></td>";
                                     // }
-                                    // echo "<td>".$value->title."</td>";
-                                    // echo "<td>".$value->title."</td>";
-                                    // echo "<td>".$value->title."</td>";
                                 echo "</tr>";
                             }
                         ?>
@@ -121,6 +123,7 @@
         $('#example').DataTable( {
             paging: false,
             searching: false,
+            scrollX: true,
             // "ajax": '../ajax/data/arrays.txt'
         } );
 
