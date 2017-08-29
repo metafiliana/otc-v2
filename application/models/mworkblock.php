@@ -16,15 +16,15 @@ class Mworkblock extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
-    
+
     //INSERT or CREATE FUNCTION
-    
+
     function insert_workblock($program){
-        return $this->db->insert('workblock', $program);
+        return $this->db->insert('m_action', $program);
     }
-    
+
     //GET FUNCTION
-    
+
     function get_count_workblock(){
     $this->db->select('*');
     $this->db->from('workblock');
@@ -48,21 +48,21 @@ class Mworkblock extends CI_Model {
         }
         return $arr;
     }
-    
+
     function get_milestone_minmax_date($id){
     	$this->db->select('MAX(end) max_end, MIN(start) min_start');
     	$this->db->where('workblock_id', $id);
     	$query = $this->db->get('milestone');
         return $query->row(0);
     }
-    
+
     function get_all_workblock_milestone($workblock_id){
     	$this->db->where('workblock_id', $workblock_id);
     	$this->db->order_by('id', 'asc');
     	$query = $this->db->get('milestone');
         return $query->result();
     }
-    
+
     function get_workblock_by_id($id){
     	$this->db->select('workblock.*,initiative.code as code, initiative.title as initiative, program.title as program, program.code as program_code, program.segment as segment');
         $this->db->join('initiative', 'initiative.id = workblock.initiative_id');
@@ -75,7 +75,7 @@ class Mworkblock extends CI_Model {
             return false;
         }
     }
-    
+
     function get_workblock_by_code($code){
         $this->db->where('code',$code);
         $result = $this->db->get('workblock');
@@ -85,7 +85,7 @@ class Mworkblock extends CI_Model {
             return false;
         }
     }
-    
+
     function get_workblock_status($id){
     	$this->db->where('workblock_id', $id);
     	$this->db->order_by('status', 'asc');
@@ -106,15 +106,15 @@ class Mworkblock extends CI_Model {
         }
         return $status;
     }
-    
+
     //UPDATE FUNCTION
     function update_workblock($program,$id){
         $this->db->where('id',$id);
         return $this->db->update('workblock', $program);
     }
-    
+
     //DELETE FUNCTION
-    
+
     function delete_workblock(){
     	$id = $this->input->post('id');
     	$this->db->where('id',$id);
@@ -126,7 +126,7 @@ class Mworkblock extends CI_Model {
     		return false;
     	}
     }
-    
+
     function delete_milestone_workblock($id){
     	$this->db->where('workblock_id',$id);
     	$this->db->delete('milestone');
@@ -138,7 +138,7 @@ class Mworkblock extends CI_Model {
     	}
     }
 
-    
+
     // afil
     function get_summary_all($status){
         if (empty($status)){
@@ -220,7 +220,7 @@ class Mworkblock extends CI_Model {
         }
 
         if ($role != null){
-            
+
             foreach ($nama as $key => $value) {
                 $completed = $this->getCompleteByCode($value['init_code']);
                 $jumlah_wb = count($this->getAllByCode($value['init_code']));
@@ -395,7 +395,7 @@ class Mworkblock extends CI_Model {
 
         return $status;
     }
-    
+
     function getSummaryDeliverable()
     {
         $sql = 'SELECT * FROM initiative';
@@ -443,7 +443,7 @@ class Mworkblock extends CI_Model {
         $summary[3]['title'] = '';
         $summary[3]['status'] = 'Not Started Yet';
         $summary[3]['percent'] = $notstarted;
-        
+
         return $summary;
 
     }
@@ -522,7 +522,7 @@ class Mworkblock extends CI_Model {
         $summary[3]['title'] = '';
         $summary[3]['status'] = 'Not Started Yet';
         $summary[3]['percent'] = $notstarted;
-        
+
         return $summary;
     }
 

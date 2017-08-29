@@ -22,7 +22,7 @@ class User extends CI_Controller {
 			$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
 		    $data['user']=$user;
-            if($user['role']!='admin'){
+            if($user['role']!='2'){
                 $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
                 $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
             }
@@ -61,9 +61,9 @@ class User extends CI_Controller {
     public function input_user()
     {
       $user = $this->session->userdata('user');
-      if($user && $user['role']=='admin'){
+      if($user && $user['role']=='2'){
     	$user_id = $this->uri->segment(3);
-        $data_user="";
+      $data_user="";
 
     	if($user_id){$data_user = $this->muser->get_user_by_id($user_id);}
 
@@ -72,7 +72,7 @@ class User extends CI_Controller {
         // $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
         // $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
       $data['user']=$user;
-        if($user['role']!='admin'){
+        if($user['role']!='2'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
             $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
@@ -206,7 +206,7 @@ class User extends CI_Controller {
   	    $data_content['segment_status'] = $this->minitiative->get_all_segments_status();
 
         $data['user']=$user;
-        if($user['role']!='admin'){
+        if($user['role']!='2'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
             $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],5);
         }
@@ -313,7 +313,7 @@ class User extends CI_Controller {
         $to = 'alfiansyah.ichsan@gmail.com';
         //array('tezza.riyanto@bankmandiri.co.id');
         $subject = 'Permohonan ubah password pada sistem OTC';
-        $message = 'Mohon ubah password untuk user '.$nameuser.' Silahkan klik link di bawah ini untuk melakukan approval https://www.google.co.id/?gws_rd=cr&ei=V_OeWd6nCMz8vgT2qbfYBw'; 
+        $message = 'Mohon ubah password untuk user '.$nameuser.' Silahkan klik link di bawah ini untuk melakukan approval https://www.google.co.id/?gws_rd=cr&ei=V_OeWd6nCMz8vgT2qbfYBw';
         // use this line to send text email.
         // load view file called "welcome_message" in to a $message variable as a html string.
         //$message =  $this->load->view('welcome_message',[],true);

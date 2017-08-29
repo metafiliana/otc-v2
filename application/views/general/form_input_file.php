@@ -7,11 +7,10 @@
 					<label class="col-sm-1 control-label input-md">For</label>
 					<div class="col-sm-3">
 						<select class="form-control" name="file_for">
-							<option value="program">Initiative + Sub initiative</option>
-							<option value="initiative">Deliverable</option>
-							<option value="workblock">Action</option>
+							<option value="action">Action</option>
 							<option value="user">User</option>
 							<option value="kuantitatif">Kuantitatif</option>
+							<option value="kuantitatif_update">Kuantitatif Update</option>
 						</select>
 					</div><div style="clear:both"></div>
 				</div>
@@ -45,44 +44,12 @@
 					</div><div style="clear:both"></div>
 				</div>
 			</form>
-			
-			
+
+
 			<hr><div style="clear: both;"></div>
 			<div class="center_text">
 				<h2>Last File Upload</h2>
 				<div class="row" style="margin: 0 auto; padding-top:20px;">
-					<div class="col-md-2">
-						<h4>Initiative + Sub initiative</h4>
-							<div style="margin-top:10px">
-							<?php if($initiative){ foreach($initiative as $file1){?>
-							<div>
-							    <a href=<?php echo base_url()?><?php echo $file1->full_url?>>
-							        <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($file1->ext)?>"></span>
-							        <span title="<?=$file1->title?>"><?php long_text_real($file1->title, 20)?><img style="height:18px; margin-left:3px;" src="<?=get_icon_url('download.png')?>"></span>
-							    </a>
-							</div>
-							    <?php } } else{  ?>
-							    <h5 class="center_text">No File</h5>
-							    <?php } ?>
-							    <div style="clear:both"></div>
-							</div>
-					</div>
-					<div class="col-md-2">
-						<h4>Deliverable</h4>
-							<div style="margin-top:10px">
-							<?php if($deliverable){ foreach($deliverable as $file2){?>
-							<div>
-							    <a href=<?php echo base_url()?><?php echo $file2->full_url?>>
-							        <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($file2->ext)?>"></span>
-							        <span title="<?=$file2->title?>"><?php long_text_real($file2->title, 20)?><img style="height:18px; margin-left:3px;" src="<?=get_icon_url('download.png')?>"></span>
-							    </a>
-							</div>
-							    <?php } } else{  ?>
-							    <h5 class="center_text">No File</h5>
-							    <?php } ?>
-							    <div style="clear:both"></div>
-							</div>
-					</div>
 					<div class="col-md-2">
 						<h4>Action</h4>
 							<div style="margin-top:10px">

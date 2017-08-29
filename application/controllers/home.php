@@ -2,7 +2,7 @@
 
 
 class Home extends CI_Controller {
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->model('mmilestone');
@@ -24,7 +24,7 @@ class Home extends CI_Controller {
 
         $user = $this->session->userdata('user');
         $data['user']=$user;
-        if($user['role']!='admin'){
+        if($user['role']!='2'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
             $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
@@ -32,17 +32,17 @@ class Home extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
-        
+
         $data['notif_hari'] = $this->muser->insert_notification_by_date_7();
         $data['notif_hari'] = $this->muser->insert_notification_by_date_2();
         $this->blast_email();
 
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
 		$data['content'] = $this->load->view('home/home',$data,TRUE);
 
 		$this->load->view('front',$data);
-        
+
     }
 
     public function blast_email(){
@@ -51,7 +51,7 @@ class Home extends CI_Controller {
             if(!$this->muser->check_date($data['check_date'])){
                 $user=$this->muser->get_user_by_role('Co-PMO');
                 foreach ($user as $users) {
-                $email = explode(';',$users->private_email); 
+                $email = explode(';',$users->private_email);
                 $this->send_email($users->name,$email,$users->initiative);
                 }
                 $this->mfiles_upload->insert_db($data,'email_date');
@@ -76,7 +76,7 @@ class Home extends CI_Controller {
             'email' => 'otc.mandiri@outlook.com',
             'name' => 'OTC Mandiri'
         ];
-      
+
         $to = $email;
         //array('tezza.riyanto@bankmandiri.co.id');
         $subject = 'Permohonan update progress pada sistem OTC';
