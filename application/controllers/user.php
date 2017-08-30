@@ -323,12 +323,12 @@ class User extends CI_Controller {
 
                     $reco['u_recover'] = $this->input->post('username');
                     $reco['key'] = md5(md5(time()));
-                    
+
                     $to = 'alfiansyah.ichsan@gmail.com';
                     //array('tezza.riyanto@bankmandiri.co.id');
                     $subject = 'Permohonan ubah password pada sistem OTC';
 
-                    // $message = 'Mohon ubah password untuk user '.$u_recover.' Silahkan klik link di bawah ini untuk melakukan approval <a href="'.base_url().'user/recover_password/'.$key.'">disini</a>'; 
+                    // $message = 'Mohon ubah password untuk user '.$u_recover.' Silahkan klik link di bawah ini untuk melakukan approval <a href="'.base_url().'user/recover_password/'.$key.'">disini</a>';
                     // use this line to send text email.
                     // load view file called "welcome_message" in to a $message variable as a html string.
                     //$message =  $this->load->view('welcome_message',[],true);
@@ -373,6 +373,16 @@ class User extends CI_Controller {
         $this->load->view('front',$data);
     }
 
+    public function generateRandomString($length = 6) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     public function recover_password($usernamerec){
         $b = $this->uri->segment(3);
         $emailrec = $this->muser->get_workemail_reco($b);
@@ -385,9 +395,10 @@ class User extends CI_Controller {
                 redirect('user/login');
 
             } else{
-                $data['password'] = md5('123123');
+                $tut['pass'] = $this->generateRandomString();
+                $data['password'] = md5($tut['pass']);
                 $data['token'] = '';
-                
+
                 $cond['token'] = $this->uri->segment(3);
                 $this->db->update('user',$data, $cond);
 
@@ -406,12 +417,12 @@ class User extends CI_Controller {
                     'email' => 'sundfor0@gmail.com',
                     'name' => 'OTC Mandiri'
                 ];
-                
+
                 $to = $emailrec;
-                
+
                 $subject = 'Recover Password';
 
-                // $message = 'Password anda telah dirubah setelah disetujui oleh admin otc, dengan detail sebagai berikut: <br> Username : '.$usernamerec.' <br> Password : 123123 <br> Mohon untuk mengganti password setelah login ke sistem.'; 
+                // $message = 'Password anda telah dirubah setelah disetujui oleh admin otc, dengan detail sebagai berikut: <br> Username : '.$usernamerec.' <br> Password : 123123 <br> Mohon untuk mengganti password setelah login ke sistem.';
                 $body = $this->load->view('user/detail_email.php',$tut,TRUE);
                 $this->load->library('email', $emailConfig);
                 // Sometimes you have to set the new line character for better result

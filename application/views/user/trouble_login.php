@@ -51,7 +51,7 @@ $(document).ready(function(){
 	</div>
 		<form class="form-signin" action="<?php echo base_url();?>user/sendMail" method="post" role="form">
 			<p class="desc_login_form center_text" style="padding-top: 10px; margin-bottom: 30px;">Please enter your username, and we will email you updated login detail</p>
-			
+
 			<?php if($this->session->flashdata('email_sent')): ?>
 			<div class="alert alert-success alert-dismissable fade in">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -63,7 +63,7 @@ $(document).ready(function(){
 			    <p><?php echo $this->session->flashdata('error'); ?></p>
 			</div>
 			<?php endif; ?>
-			
+
 			<input type="text" class="form-control" placeholder="" name="username" id="username" required autofocus style="border-radius: 7px;">
 			<button style="margin-top:30px; width: 150px;" class="btn btn-md btn-primary btn-block center_text submit" type="submit" style="border-radius: 7px;">Submit</button>
 		</form>
@@ -74,7 +74,7 @@ $(document).ready(function(){
 
 	</div>
 	<div class="col-md-2">
-			
+
 	</div>
 
 	<div id="myModal" class="modal fade" role="dialog">
