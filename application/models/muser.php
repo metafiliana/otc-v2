@@ -178,6 +178,27 @@ class Muser extends CI_Model {
             $this->db->_error_message();
     }
 
+    function get_workemail_reco($b){
+        $this->db->select('work_email');
+        $this->db->where('token',$b);
+        $result = $this->db->get('user');
+        return $result->row()->work_email;
+    }
+
+    function check_token($b){
+        $this->db->select('token');
+        $this->db->where('token',$b);
+        $result = $this->db->get('user');
+        return $result->row()->token;
+    }
+
+    function get_username_reco($b){
+        $this->db->select('username');
+        $this->db->where('token',$b);
+        $result = $this->db->get('user');
+        return $result->row()->username;
+    }
+
     function get_user_by_init_code($id){
         if($this->get_user_like_1($id)!=false){
             return $this->get_user_like_1($id);

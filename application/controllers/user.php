@@ -10,6 +10,7 @@ class User extends CI_Controller {
         $this->load->model('minitiative');
         $this->load->model('mremark');
         $this->load->library('excel');
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -292,48 +293,143 @@ class User extends CI_Controller {
         $this->load->view('front',$data);
     }
 
-    public function sendMail(){
-        // Set SMTP Configuration
-        $emailConfig = [
-            'protocol' => 'smtp',
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_port' => 587,
-            'smtp_user' => 'sundfor0@gmail.com',
-            'smtp_pass' => 'legalizer14',
-            'smtp_crypto' => 'tls'
-            //'mailtype' => 'html',
-            //'charset' => 'iso-8859-1'
-        ];
-        // Set your email information
-        $from = [
-            'email' => 'sundfor0@gmail.com',
-            'name' => 'OTC Mandiri'
-        ];
-        $nameuser = $this->input->post('username');
-        $to = 'alfiansyah.ichsan@gmail.com';
-        //array('tezza.riyanto@bankmandiri.co.id');
-        $subject = 'Permohonan ubah password pada sistem OTC';
-        $message = 'Mohon ubah password untuk user '.$nameuser.' Silahkan klik link di bawah ini untuk melakukan approval https://www.google.co.id/?gws_rd=cr&ei=V_OeWd6nCMz8vgT2qbfYBw';
-        // use this line to send text email.
-        // load view file called "welcome_message" in to a $message variable as a html string.
-        //$message =  $this->load->view('welcome_message',[],true);
-        // Load CodeIgniter Email library
-        $this->load->library('email', $emailConfig);
-        // Sometimes you have to set the new line character for better result
-        $this->email->set_newline("\r\n");
-        // Set email preferences
-        $this->email->from($from['email'], $from['name']);
-        $this->email->to($to);
-        $this->email->subject($subject);
-        // $body = $this->load->view('user/email.php',$data,TRUE);
-        $this->email->message($message);
-        // Ready to send email and check whether the email was successfully sent
-        if (!$this->email->send()) {
-            $this->session->set_flashdata("email_sent","Error in sending Email.");
-        } else {
-            $this->session->set_flashdata("email_sent","Email sent successfully.");
+    public function sendMail($u_recover, $key){
+        $a = $this->input->post('username', TRUE);
+        if($a)
+        {
+            $this->form_validation->set_rules('username', 'username', 'required');
+
+            if($this->form_validation->run() == TRUE)
+            {
+                $get = $this->db->get_where('user', array('username' => $this->input->post('username', TRUE)));
+
+                if($get->num_rows() > 0 )
+                {
+                    $emailConfig = [
+                        'protocol' => 'smtp',
+                        'smtp_host' => 'smtp.gmail.com',
+                        'smtp_port' => 587,
+                        'smtp_user' => 'sundfor0@gmail.com',
+                        'smtp_pass' => 'legalizer14',
+                        'smtp_crypto' => 'tls',
+                        'mailtype' => 'html'
+                        //'charset' => 'iso-8859-1'
+                    ];
+                    // Set your email information
+                    $from = [
+                        'email' => 'sundfor0@gmail.com',
+                        'name' => 'OTC Mandiri'
+                    ];
+
+                    $reco['u_recover'] = $this->input->post('username');
+                    $reco['key'] = md5(md5(time()));
+                    
+                    $to = 'alfiansyah.ichsan@gmail.com';
+                    //array('tezza.riyanto@bankmandiri.co.id');
+                    $subject = 'Permohonan ubah password pada sistem OTC';
+
+                    // $message = 'Mohon ubah password untuk user '.$u_recover.' Silahkan klik link di bawah ini untuk melakukan approval <a href="'.base_url().'user/recover_password/'.$key.'">disini</a>'; 
+                    // use this line to send text email.
+                    // load view file called "welcome_message" in to a $message variable as a html string.
+                    //$message =  $this->load->view('welcome_message',[],true);
+                    // Load CodeIgniter Email library
+
+                    $body = $this->load->view('user/email.php',$reco,TRUE);
+                    $this->load->library('email', $emailConfig);
+                    // Sometimes you have to set the new line character for better result
+                    $this->email->set_newline("\r\n");
+                    // Set email preferences
+                    $this->email->from($from['email'], $from['name']);
+                    $this->email->to($to);
+                    $this->email->subject($subject);
+                    $this->email->message($body);
+                    // Ready to send email and check whether the email was successfully sent
+                    if (!$this->email->send()) {
+                        $this->session->set_flashdata("error","Error in sending Email.");
+                    } else {
+                        $data['token'] = $reco['key'];
+                        $cond['username'] = $this->input->post('username', TRUE);
+                        $this->db->update('user', $data, $cond);
+                        $this->session->set_flashdata("email_sent","Email sent successfully.");
+                    }
+                    redirect('user/troublelogin');
+                }else{
+                    $this->session->set_flashdata("error","Username tidak terdaftar.");
+                    redirect('user/troublelogin');
+                }
+            }
         }
-        redirect('user/troublelogin');
+        $this->load->view('user/trouble_login');
+    }
+
+    public function success_reset(){
+        $data['title'] = "Recover Password";
+
+        $data['header'] = '';
+        $data['sidebar'] = '';
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['content'] = $this->load->view('user/success_reset','',TRUE);
+
+        $this->load->view('front',$data);
+    }
+
+    public function recover_password($usernamerec){
+        $b = $this->uri->segment(3);
+        $emailrec = $this->muser->get_workemail_reco($b);
+        $tut['usernamerec'] = $this->muser->get_username_reco($b);
+        if($b)
+        {
+            $result = $this->muser->check_token($b);
+            if(empty($result))
+            {
+                redirect('user/login');
+
+            } else{
+                $data['password'] = md5('123123');
+                $data['token'] = '';
+                
+                $cond['token'] = $this->uri->segment(3);
+                $this->db->update('user',$data, $cond);
+
+                $emailConfig = [
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'smtp.gmail.com',
+                    'smtp_port' => 587,
+                    'smtp_user' => 'sundfor0@gmail.com',
+                    'smtp_pass' => 'legalizer14',
+                    'smtp_crypto' => 'tls',
+                    'mailtype' => 'html'
+                    //'charset' => 'iso-8859-1'
+                ];
+                // Set your email information
+                $from = [
+                    'email' => 'sundfor0@gmail.com',
+                    'name' => 'OTC Mandiri'
+                ];
+                
+                $to = $emailrec;
+                
+                $subject = 'Recover Password';
+
+                // $message = 'Password anda telah dirubah setelah disetujui oleh admin otc, dengan detail sebagai berikut: <br> Username : '.$usernamerec.' <br> Password : 123123 <br> Mohon untuk mengganti password setelah login ke sistem.'; 
+                $body = $this->load->view('user/detail_email.php',$tut,TRUE);
+                $this->load->library('email', $emailConfig);
+                // Sometimes you have to set the new line character for better result
+                $this->email->set_newline("\r\n");
+                // Set email preferences
+                $this->email->from($from['email'], $from['name']);
+                $this->email->to($to);
+                $this->email->subject($subject);
+                $this->email->message($body);
+                // Ready to send email and check whether the email was successfully sent
+                if (!$this->email->send()) {
+                    $this->session->set_flashdata("email_sent","Error in sending Email.");
+                } else {
+                    $this->session->set_flashdata("email_sent","Email sent successfully.");
+                }
+                $this->load->view('user/success_reset');
+            }
+        }
     }
 
     /*Function PHP EXCEL for parsing*/
