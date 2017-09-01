@@ -147,8 +147,6 @@ th{
 }
 hr{
 	border-top: 1px solid #e3e3e3 !important;
-	margin-top: 5px;
-	margin-bottom: 5px;
 }
 
 .sidebar_submenu{
@@ -390,11 +388,11 @@ hr{
 /*CBIC NEW CSS*/
 
 .cntr_cbic_new{
-	width:100%;
-	max-width:1400px;
-	height:100%;
-	margin:0 auto;
-	padding:20px 10px 0 10px;
+	width:100%; 
+	max-width:1400px; 
+	height:100%; 
+	margin:0 auto; 
+	padding:20px 10px 0 10px; 
 	margin-top:5px;
 }
 
@@ -452,11 +450,11 @@ hr{
 	padding: 3px;
 	padding-left: 10px;
 	border-left:5px solid white;
-
+	
 }
 .menu_selected{
 	border-left:5px solid #189cb8;
-	background-color: #e7f5f7;
+	background-color: #e7f5f7;	
 }
 .menu_selected a{
 	color:#989898 !important;
@@ -635,39 +633,39 @@ table{margin-bottom: 0px !important;}
 
 /*Arrow*/
 .arrow-up {
-  width: 0;
-  height: 0;
+  width: 0; 
+  height: 0; 
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-
+  
   border-top: 10px solid black;
 }
 
 .arrow-down {
-  width: 0;
-  height: 0;
+  width: 0; 
+  height: 0; 
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-
+  
   border-top: 20px solid #f00;
 }
 
 .arrow-right {
-  width: 0;
-  height: 0;
+  width: 0; 
+  height: 0; 
   border-top: 60px solid transparent;
   border-bottom: 60px solid transparent;
-
+  
   border-left: 60px solid green;
 }
 
 .arrow-left {
-  width: 0;
-  height: 0;
+  width: 0; 
+  height: 0; 
   border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-
-  border-right:10px solid blue;
+  border-bottom: 10px solid transparent; 
+  
+  border-right:10px solid blue; 
 }
 /*End of Arrow*/
 
@@ -726,7 +724,7 @@ table{margin-bottom: 0px !important;}
 
 .ios_table{
 	padding:0 0px 0px 15px;
-	border-top: 1px solid #f3f3f3;
+	border-top: 1px solid #f3f3f3; 
 }
 
 .ios_table_margin{
@@ -741,8 +739,8 @@ table{margin-bottom: 0px !important;}
 }
 
 .icon_table_ios{
-	float:left;
-	text-align:center;
+	float:left; 
+	text-align:center; 
 	border-radius:6px; color:white; font-size:14px; padding:8px 4px 4px 4px; width:35px; height:35px;
 }
 
@@ -825,7 +823,7 @@ table{margin-bottom: 0px !important;}
 }
 
 .panel-wsa{
-
+	
 }
 
 a.link_apple{
@@ -939,7 +937,7 @@ a.sub_menu_link{
 
 a{
 	color:#122E8A;
-}
+}	
 body a:hover{
 	color:#444;
 }
