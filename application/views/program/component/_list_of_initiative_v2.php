@@ -7,7 +7,7 @@
 	</div>
 	<div class="col-md-1">
 		<?php if($user['role']=='1'){?>
-		<button onclick="input_initiative(<?php echo $prog->id?>);" class="btn btn-info-new btn-sm right_text"><span class="glyphicon glyphicon-plus"></span> Action</button>
+		<button onclick="input_action(<?php echo $prog->id?>,'');" class="btn btn-info-new btn-sm right_text"><span class="glyphicon glyphicon-plus"></span> Action</button>
 		<?php } ?>
 	</div>
 </div>

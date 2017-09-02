@@ -20,14 +20,51 @@ class Mprogram extends CI_Model {
     }
 
     //INSERT or CREATE FUNCTION
-
-
     function insert_program($program){
         return $this->db->insert('program', $program);
     }
 
-    //GET FUNCTION
+    function insert_action($program){
+        return $this->db->insert('m_action', $program);
+    }
 
+    //UPDATE FUNCTION
+    function update_program($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('program', $program);
+    }
+
+    function update_action($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('m_action', $program);
+    }
+
+    //DELETE FUNCTION
+    function delete_program(){
+    	$id = $this->input->post('id');
+    	$this->db->where('id',$id);
+    	$this->db->delete('program');
+    	if($this->db->affected_rows()>0){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    }
+
+    function delete_action(){
+    	$id = $this->input->post('id');
+    	$this->db->where('id',$id);
+    	$this->db->delete('m_action');
+    	if($this->db->affected_rows()>0){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    }
+
+    //GET FUNCTION
     function get_all_program($distinct = false, $segment = false)
     {
         if ($distinct)
@@ -176,9 +213,15 @@ class Mprogram extends CI_Model {
     }
 
     //otc v2
-    function get_action_by_init_code($id){
-        $this->db->where('initiative_id', $id);
+    function get_action_by_init_code($id,$id_action){
+        if($id){
+          $this->db->where('initiative_id', $id);
+        }
+        if($id_action){
+          $this->db->where('id', $id_action);
+        }
         $this->db->select('*');
+        $this->db->order_by('id','asc'); 
         $query = $this->db->get('m_action');
         $progs = $query->result();
         return $progs;
@@ -286,25 +329,6 @@ class Mprogram extends CI_Model {
         $this->db->join('program','kuantitatif.init_code = program.init_code');
         $query = $this->db->get('kuantitatif');
         return $query;
-    }
-    //UPDATE FUNCTION
-
-    function update_program($program,$id){
-        $this->db->where('id',$id);
-        return $this->db->update('program', $program);
-    }
-
-    //DELETE FUNCTION
-    function delete_program(){
-    	$id = $this->input->post('id');
-    	$this->db->where('id',$id);
-    	$this->db->delete('program');
-    	if($this->db->affected_rows()>0){
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
     }
 
     // OTHER FUNCTION

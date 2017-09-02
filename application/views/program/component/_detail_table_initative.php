@@ -17,7 +17,7 @@ $user = $this->session->userdata('user');
 	<tbody>
 		<?php $i=1;
 		foreach($programs as $prog){?>
-		<tr>
+		<tr id="action_<?= $prog->id?>">
 			<td>
 				<?php echo $i?>
 			</td>
@@ -34,8 +34,8 @@ $user = $this->session->userdata('user');
 				<?php echo $prog->end_date?>
 			</td>
 			<?php if($user['role']=='1'){?><td style="width:50px">
-				<a class="btn btn-link btn-link-edit" onclick="show_form(<?php echo $prog->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a class="btn btn-link btn-link-delete" onclick="delete_program(<?php echo $prog->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
+				<a class="btn btn-link btn-link-edit" onclick="input_action(<?php echo $prog->initiative_id?>,<?php echo $prog->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a class="btn btn-link btn-link-delete" onclick="delete_action(<?php echo $prog->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
 			</td><?php }?>
 		</tr>
 		<?php $i++;}?>

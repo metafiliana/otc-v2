@@ -171,6 +171,25 @@ class Program extends CI_Controller {
                          ->set_output(json_encode($json));
     }
 
+    //otc v2
+    public function input_action(){
+        $data['init_id'] = $this->input->get('init_id');
+        $data['action_id'] = $this->input->get('action_id');
+
+        if($data['action_id']){
+          $data['title'] = "Edit Action";
+          $data['action'] = $this->mprogram->get_action_by_init_code('',$data['action_id'])[0];
+        }
+        else{
+          $data['title'] = "Add Action";
+        }
+
+        $json['html'] = $this->load->view('program/component/_form_action',$data,TRUE);
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+    }
+
     public function filter_data(){
         $user = $this->session->userdata('user');
         $code = $this->input->get('code_filter');
@@ -259,9 +278,47 @@ class Program extends CI_Controller {
         redirect('program/list_programs');
     }
 
+    //otc v2
+    public function submit_action(){
+        $id = $this->uri->segment(3);
+
+        $program['title'] = $this->input->post('title');
+        $program['status'] = $this->input->post('status');
+        $program['initiative_id'] = $this->input->post('initiative_id');
+        if($this->input->post('start')){$start = DateTime::createFromFormat('m/d/Y', $this->input->post('start'));
+      		$program['start_date'] = $start->format('Y-m-d');
+      	}
+
+      	if($this->input->post('end')){$end = DateTime::createFromFormat('m/d/Y', $this->input->post('end'));
+      		$program['end_date'] = $end->format('Y-m-d');
+      	}
+
+        if($id){
+          $this->mprogram->update_action($program,$id);
+        }
+        else{
+          $this->mprogram->insert_action($program);
+        }
+
+        redirect('program/list_programs');
+    }
+
     public function delete_program(){
         $id = $this->input->post('id');
         if($this->minitiative->delete_program($id)){
+            $json['status'] = 1;
+        }
+        else{
+            $json['status'] = 0;
+        }
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
+
+    //otc v2
+    public function delete_action(){
+        $id = $this->input->post('id');
+        if($this->mprogram->delete_action($id)){
             $json['status'] = 1;
         }
         else{
@@ -287,7 +344,7 @@ class Program extends CI_Controller {
     public function detail_minitative(){
         $id = $this->input->get('id');
 
-        $data['programs'] = $this->mprogram->get_action_by_init_code($id);
+        $data['programs'] = $this->mprogram->get_action_by_init_code($id,'');
 
         $json['html'] = $this->load->view('program/component/_detail_table_initative',$data,TRUE);
         $json['status'] = 1;
