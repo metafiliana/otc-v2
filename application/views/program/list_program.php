@@ -4,6 +4,9 @@
 </style>
 <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
   <div style="">
+    <div class="col-md right_text">
+      <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>
+    </div>
     <div style="clear:both"></div>
     <div class="component_part" id="list_of_program">
       <?php echo $list_program?>
@@ -82,4 +85,42 @@
         }
       });
     }
+
+    function take(div) {
+    // First render all SVGs to canvases
+    var svgElements= $("#"+div).find('svg');
+
+    //replace all svgs with a temp canvas
+    svgElements.each(function () {
+     var canvas, xml;
+
+     canvas = document.createElement("canvas");
+     canvas.className = "screenShotTempCanvas";
+     //convert SVG into a XML string
+     xml = (new XMLSerializer()).serializeToString(this);
+
+     // Removing the name space as IE throws an error
+     xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+
+     //draw the SVG onto a canvas
+     canvg(canvas, xml);
+     $(canvas).insertAfter(this);
+     //hide the SVG element
+     this.className = "tempHide";
+     $(this).hide();
+    });
+
+    html2canvas($("#"+div), {
+         allowTaint: true,
+         onrendered: function (canvas) {
+             var myImage = canvas.toDataURL("image/pdf");
+             var tWindow = window.open("");
+             $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
+                 tWindow.focus();
+                 tWindow.print();
+             });
+         }
+    });
+    //location.reload();
+    }
 </script>

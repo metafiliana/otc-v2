@@ -342,9 +342,9 @@ class Program extends CI_Controller {
 
     //otc v2
     public function detail_minitative(){
-        $id = $this->input->get('id');
+        $data['id'] = $this->input->get('id');
 
-        $data['programs'] = $this->mprogram->get_action_by_init_code($id,'');
+        $data['programs'] = $this->mprogram->get_action_by_init_code($data['id'],'');
 
         $json['html'] = $this->load->view('program/component/_detail_table_initative',$data,TRUE);
         $json['status'] = 1;

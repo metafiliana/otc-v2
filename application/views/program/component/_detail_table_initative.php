@@ -1,14 +1,14 @@
 <?php
 $user = $this->session->userdata('user');
 ?>
-<table class="table table-hover table-striped">
+<table class="table display" id="table_id_<?= $id ?>">
 	<thead class="black_color old_grey_color_bg">
 		<tr>
-			<th style="vertical-align:middle">No</th>
-			<th style="vertical-align:middle">Title</th>
-			<th style="vertical-align:middle">Status</th>
-			<th style="vertical-align:middle">Start Date</th>
-			<th style="vertical-align:middle">Completed Date</th>
+			<th>No</th>
+			<th>Title</th>
+			<th>Status</th>
+			<th>Start Date</th>
+			<th>Completed Date</th>
 			<?php if($user['role']=='1'){?>
 				<th style="vertical-align:middle"></th>
 			<?php } ?>
@@ -28,10 +28,10 @@ $user = $this->session->userdata('user');
 				<?php echo $prog->status?>
 			</td>
 			<td class="center_text">
-				<?php echo $prog->start_date?>
+				<?php echo date("j M y", strtotime($prog->start_date));?>
 			</td>
 			<td class="center_text">
-				<?php echo $prog->end_date?>
+				<?php echo date("j M y", strtotime($prog->end_date));?>
 			</td>
 			<?php if($user['role']=='1'){?><td style="width:50px">
 				<a class="btn btn-link btn-link-edit" onclick="input_action(<?php echo $prog->initiative_id?>,<?php echo $prog->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -41,3 +41,18 @@ $user = $this->session->userdata('user');
 		<?php $i++;}?>
 	</tbody>
 </table>
+<hr />
+<script>
+$(document).ready(function () {
+
+	$('#table_id_<?= $id ?>').DataTable( {
+					dom: 'Bfrtip',
+					paging: false,
+					buttons: [
+							'excelHtml5',
+							'pdfHtml5',
+					]
+			} );
+});
+
+</script>
