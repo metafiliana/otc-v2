@@ -1,10 +1,10 @@
 <style>
 	.glyphicon-home:hover  {
- 	 border-bottom: 5px solid #A8D8F0;
+ 	 border-bottom: 4px solid #A8D8F0;
 	}
 
 	.sw-open:hover  {
- 	 border-bottom: 5px solid #A8D8F0;
+ 	 border-bottom: 4px solid #A8D8F0;
 	}
 
 	body a.notif{
@@ -80,7 +80,10 @@
     nav li.menu {
     float: left;
     vertical-align: middle;
-    width: 20%;
+    width: 18%;
+    border-bottom: 4px solid #fff;
+    border-radius: 5px;
+    margin-bottom: 3px;
 	}
 	 nav li.image {
     float: left;
@@ -97,9 +100,10 @@
     text-transform: uppercase;
     color: #111;
 	}
-	nav li.menu a:hover {  
+	nav li.menu:hover {  
     text-decoration: none;   
-    color:  rgb(175,170,163) ;
+    background-color:  #e6e6e6 ;
+    border-bottom: 4px solid #A8D8F0;
 	}
 </style>
 <?php 
@@ -110,18 +114,18 @@
 	$page_tit=""; if(isset($page_name)){$page_tit = $page_name;}
 ?>
 <div class="navbar-top">
-	<div class="row" style="width:100%; margin:0 auto; padding:0px 5px 0px 5px;background-color: #fff; 
+	<div class="row" style="width:100%; margin:0 auto; padding:3px 5px 0px 5px;background-color: #fff; 
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
-		<div class="col-md-1">
+		<div class="col-md-2">
 			<div class="col-md-2">
 				<img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/general/tower.png">
 			</div>
-			<div class="col-md-10" style="padding-top: 10px; left:20px;">
-				<h3 style="color: rgb(15,43,91); font-weight: bold; font-size: 10px;">PMO CORPLAN</h3>
-				<h4 style="color: rgb(247,127,0);font-size: 8px;font-weight: bold;">TOP BOD LEVEL INITIATIVES</h4>
+			<div class="col-md-10" style="padding-top: 10px;">
+				<h3 style="color: rgb(15,43,91); font-weight: bold; font-size: 14px;">PMO CORPLAN</h3>
+				<h4 style="color: rgb(247,127,0);font-size: 12px;font-weight: bold;">TOP BOD LEVEL INITIATIVES</h4>
 			</div>
 		</div>
-		<div class="col-md-9 center_text" style="left: 45px;">
+		<div class="col-md-8 center_text" style="left: 45px;">
 			<div class="col-md-1" style="padding-right: 0px;">
 			<div class="btn-group" style="margin-top: 2px;">
 				<a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:18px;"></a>
@@ -133,8 +137,8 @@
 						<li class="menu"><a href=#>Update Progress</a></li>
 						<li class="menu"><a href=#>Initiatives</a></li>
 						<li class="image"><a href=#><img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/logo.png"></a></li>
-						<li class="menu" style="width: 16%"><a href=#; >Sharing Files</a></li>
-						<li class="menu"><a href=# >Agenda</a></li>
+						<li class="menu"><a href=#>Sharing Files</a></li>
+						<li class="menu"><a href=#>Agenda</a></li>
 					</ul>
 				</nav></div>
 		</div>
@@ -146,7 +150,7 @@
 				</div>
 				<div class="col-md-3 pull-right" style="top: 5px;height: 100%;">
 				<div class="btn-group">
-				<div class="dropdown dropdown-notifications sw-open btns btn-default">
+				<div class="dropdown dropdown-notifications sw-open btns btn-default" style="border-radius: 5px; height: 30px;">
 				  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown" style="font-size:18px;">
 				    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
 				    <span class="caret"></span>
