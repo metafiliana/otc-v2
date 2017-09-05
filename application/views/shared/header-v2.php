@@ -75,16 +75,17 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    
+
     }
     nav li.menu {
     float: left;
     vertical-align: middle;
-    width: 18%;
+    width: 20%;
     border-bottom: 4px solid #fff;
     border-radius: 5px;
     margin-bottom: 3px;
 	}
+
 	 nav li.image {
     float: left;
     vertical-align: middle;
@@ -100,13 +101,13 @@
     text-transform: uppercase;
     color: #111;
 	}
-	nav li.menu:hover {  
-    text-decoration: none;   
+	nav li.menu:hover {
+    text-decoration: none;
     background-color:  #e6e6e6 ;
     border-bottom: 4px solid #A8D8F0;
 	}
 </style>
-<?php 
+<?php
 	$contr = $this->uri->segment(1);
 	$func = $this->uri->segment(2);
 	$user = $this->session->userdata('user'); $user_disp="";
@@ -114,7 +115,7 @@
 	$page_tit=""; if(isset($page_name)){$page_tit = $page_name;}
 ?>
 <div class="navbar-top">
-	<div class="row" style="width:100%; margin:0 auto; padding:3px 5px 0px 5px;background-color: #fff; 
+	<div class="row" style="width:100%; margin:0 auto; padding:3px 5px 0px 5px;background-color: #fff;
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
 		<div class="col-md-2">
 			<div class="col-md-2">
@@ -128,14 +129,14 @@
 		<div class="col-md-8 center_text" style="left: 45px;">
 			<div class="col-md-1" style="padding-right: 0px;">
 			<div class="btn-group" style="margin-top: 2px;">
-				<a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:18px;"></a>
+				<a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:23px;"></a>
 			</div>
 			</div>
 			<div class="col-md-11" style="padding-left: 0px;">
 			<nav>
 					<ul>
 						<li class="menu"><a href=#>Update Progress</a></li>
-						<li class="menu"><a href=#>Initiatives</a></li>
+						<li class="menu"><a href="<?php echo base_url()?>program/list_programs/">Initiatives</a></li>
 						<li class="image"><a href=#><img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/logo.png"></a></li>
 						<li class="menu"><a href=#>Sharing Files</a></li>
 						<li class="menu"><a href=#>Agenda</a></li>
@@ -146,37 +147,33 @@
 			<div class="row">
 				<div class="col-md-7 pull-right">
 					<div class="black_color" style="font-size:12px;"><?php long_text_all($user['name'],15);?></div>
-					<div class="black_color" style="font-size:10px;"><?php echo $user['role']?></div>
+					<div class="black_color" style="font-size:10px;"><?= user_role($user['role']);?></div>
 				</div>
-				<div class="col-md-3 pull-right" style="top: 5px;height: 100%;">
-				<div class="btn-group">
-				<div class="dropdown dropdown-notifications sw-open btns btn-default" style="border-radius: 5px; height: 30px;">
-				  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown" style="font-size:18px;">
-				    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
-				    <span class="caret"></span>
-				  </span>
-				  <div class="dropdown-container notifications-wrapper" style="left:-400px; top: 28px;">
-				   <div class="dropdown-toolbar">
-				      <div class="dropdown-toolbar-actions">
-				        <a onclick="mark_as_read(<?php echo $user['id']?>,'<?php echo $user['role']?>');"><i></i> Mark all as read</a>
-				      </div>
-				      <h3 class="dropdown-toolbar-title">Notifications (<?php if($notif_count){echo $notif_count;}?>)</h3>
-				    </div>
-				    <?php if($notif){ foreach ($notif as $notifs ) { ?>
-				    <ul class="dropdown-menu notifications" style="padding:0 10px 0 10px; overflow-x: hidden;">
-				      <a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $notifs->init_id;?>" onclick="update_notif(<?php echo $notifs->id;?>,'<?php echo $user['role']?>')">
-				      <?php echo long_text_real($notifs->notification,195); ?>
-				      </a>
-				    </ul>
-				    <hr>
-			     	<?php } } ?>
-				    <!-- <div class="dropdown-footer text-center">
-	                	<a>View All</a>
-	              	</div> -->
-				  </div>
+				<!-- <div class="col-md-3 pull-right" style="top: 5px;height: 100%;">
+					<div class="btn-group">
+					<div class="dropdown dropdown-notifications sw-open btn btns btn-default" style="height: 30px;">
+					  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown" style="font-size:23px; margin-top:-3px;">
+					    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
+					  </span>
+					  <div class="dropdown-container notifications-wrapper" style="left:-400px; top: 28px;">
+					   <div class="dropdown-toolbar">
+					      <div class="dropdown-toolbar-actions">
+					        <a onclick="mark_as_read(<?php echo $user['id']?>,'<?php echo $user['role']?>');"><i></i> Mark all as read</a>
+					      </div>
+					      <h3 class="dropdown-toolbar-title">Notifications (<?php if($notif_count){echo $notif_count;}?>)</h3>
+					    </div>
+					    <?php if($notif){ foreach ($notif as $notifs ) { ?>
+					    <ul class="dropdown-menu notifications" style="padding:0 10px 0 10px; overflow-x: hidden;">
+					      <a href="<?php echo base_url()?>initiative/list_program_initiative/<?php echo $notifs->init_id;?>" onclick="update_notif(<?php echo $notifs->id;?>,'<?php echo $user['role']?>')">
+					      <?php echo long_text_real($notifs->notification,195); ?>
+					      </a>
+					    </ul>
+					    <hr>
+				     	<?php } } ?>
+					  </div>
+					</div>
 				</div>
-			</div>
-			</div>
+			</div> -->
 				<div style="clear:both"></div>
 				<div class="col-md-4 dropdown pull-right">
 					<button style="margin:-40px 10px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -202,7 +199,7 @@
 			</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 
 <script>

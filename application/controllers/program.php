@@ -59,7 +59,7 @@ class Program extends CI_Controller {
       }
 
   		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-  		$data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+  		$data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
   		$data['content'] = $this->load->view('program/list_program',$prog,TRUE);
 
   		$this->load->view('front',$data);

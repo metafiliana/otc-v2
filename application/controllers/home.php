@@ -39,7 +39,7 @@ class Home extends CI_Controller {
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('home/home',$data,TRUE);
+		$data['content'] = $this->load->view('home/undermt',$data,TRUE);
 
 		$this->load->view('front',$data);
 
