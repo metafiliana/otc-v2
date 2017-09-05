@@ -106,6 +106,39 @@
     background-color:  #e6e6e6 ;
     border-bottom: 4px solid #A8D8F0;
 	}
+	.btn2 {
+    display: inline-block;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border-radius: 4px;
+}
+.glyphicon2 {
+    position: relative;
+    top: 5px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 34px;
+    width: 45px;
+    padding-top: 3px;
+}
 </style>
 <?php
 	$contr = $this->uri->segment(1);
@@ -149,13 +182,13 @@
 					<div class="black_color" style="font-size:12px;"><?php long_text_all($user['name'],15);?></div>
 					<div class="black_color" style="font-size:10px;"><?= user_role($user['role']);?></div>
 				</div>
-				<!-- <div class="col-md-3 pull-right" style="top: 5px;height: 100%;">
+				<div class="col-md-3 pull-right" style="top: 0px;height: 100%;">
 					<div class="btn-group">
-					<div class="dropdown dropdown-notifications sw-open btn btns btn-default" style="height: 30px;">
-					  <span class="dropdown-toggle glyphicon glyphicon-bell" data-toggle="dropdown" style="font-size:23px; margin-top:-3px;">
+					<div class="dropdown dropdown-notifications sw-open btn2 btns btn-default" style="height: 34px;">
+					  <span class="dropdown-toggle glyphicon2 glyphicon-bell" data-toggle="dropdown" style="font-size:23px; margin-top:-3px;">
 					    <?php if(isset($notif_count) && $notif_count){ ?><i data-count="<?php echo $notif_count;?>" class="notification-icon" style="margin:-10px 0 0 -10px;"></i><?php } ?>
 					  </span>
-					  <div class="dropdown-container notifications-wrapper" style="left:-400px; top: 28px;">
+					  <div class="dropdown-container notifications-wrapper" style="left:-400px; top: 40px;">
 					   <div class="dropdown-toolbar">
 					      <div class="dropdown-toolbar-actions">
 					        <a onclick="mark_as_read(<?php echo $user['id']?>,'<?php echo $user['role']?>');"><i></i> Mark all as read</a>
@@ -173,15 +206,15 @@
 					  </div>
 					</div>
 				</div>
-			</div> -->
+			</div>
 				<div style="clear:both"></div>
 				<div class="col-md-4 dropdown pull-right">
 					<button style="margin:-40px 10px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						<div style="height:35px; width:35px; border-radius:30px; overflow:hidden; border:1px solid #e3e3e3; margin-top: 5px;">
+						<div style="height:35px; width:35px; border-radius:30px; overflow:hidden; border:1px solid #e3e3e3; margin-top: 0px;">
 							<img style="height:50px; margin-left:0px;" width="100%" src="<?php echo base_url()?>assets/img/general/no-profile-img.gif">
 						</div>
 					</button>
-					<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2">
+					<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2" style="top: 10px;">
 					<?php if($user['role']=='admin'){?>
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>general/form_input_file">Upload Data</a></li>
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>user/">User Management</a></li>
