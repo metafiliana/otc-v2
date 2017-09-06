@@ -98,7 +98,8 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    text-transform: uppercase;
+		font-size: 15px;
+		/*text-transform: uppercase;*/
     color: #111;
 	}
 	nav li.menu:hover {
