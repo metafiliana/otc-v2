@@ -88,6 +88,30 @@
 			font-size:22px;
 			font-weight: normal;
 		}
+		.button-secondary {
+            background: rgb(66, 184, 221); /* this is a light blue */
+            display: flex;
+			  overflow: hidden;
+
+			  margin: 10px;
+			  padding: 13px 40px;
+
+			  cursor: pointer;
+			  user-select: none;
+			  transition: all 60ms ease-in-out;
+			  text-align: center;
+			  white-space: nowrap;
+			  text-decoration: none !important;
+			  text-transform: none;
+
+			  color: #fff;
+			  border: 0 none;
+			  border-radius: 4px;
+
+			  font-size: 13px;
+			  font-weight: 500;
+			  line-height: 1.3;
+        }
 
 		.bgItem{
 			background:#F4A81C;
@@ -165,7 +189,7 @@
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
 													<p>Mohon ubah password untuk user <strong><?php echo $u_recover ?></strong>. Silahkan klik button di bawah ini untuk melakukan approval </p><br>
-													<a href="<?php echo base_url();?>user/recover_password/<?php echo $key ?>" class="link2"><button>Confirm</button></a>
+													<a href="<?php echo base_url();?>user/recover_password/<?php echo $key ?>" class="link2"><button class="button-secondary">Confirm</button></a>
 												</div>
 											</div>
 										</td>

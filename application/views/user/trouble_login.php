@@ -50,7 +50,7 @@ $(document).ready(function(){
 		<h3 style="color: rgb(35,95,111); font-weight: bold;">RECOVER PASSWORD</h3>
 	</div>
 		<form class="form-signin" action="<?php echo base_url();?>user/sendMail" method="post" role="form">
-			<p class="desc_login_form center_text" style="padding-top: 10px; margin-bottom: 30px;">Please enter your username, and we will email you updated login detail</p>
+			<p class="desc_login_form center_text" style="padding-top: 10px; margin-bottom: 30px;">Please enter your username, and we will email to your <strong>mandiri/work email</strong> for updated login detail</p>
 
 			<?php if($this->session->flashdata('email_sent')): ?>
 			<div class="alert alert-success alert-dismissable fade in">
