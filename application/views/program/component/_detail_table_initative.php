@@ -44,7 +44,6 @@ $user = $this->session->userdata('user');
 <hr />
 <script>
 $(document).ready(function () {
-
 	$('#table_id_<?= $id ?>').DataTable( {
 					dom: 'Bfrtip',
 					paging: false,

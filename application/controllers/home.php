@@ -35,7 +35,7 @@ class Home extends CI_Controller {
 
         $data['notif_hari'] = $this->muser->insert_notification_by_date_7();
         $data['notif_hari'] = $this->muser->insert_notification_by_date_2();
-        $this->blast_email();
+        //$this->blast_email();
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);

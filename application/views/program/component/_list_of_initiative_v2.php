@@ -12,8 +12,9 @@
 	</div>
 </div>
 <hr>
-<div class="col-md" id="detail_<?php echo $prog->id?>" style="display:none;">
+<div id="detail_<?php echo $prog->id?>" style="display:none;">
 </div>
+<div style="clear:both"></div>
 <?php }?>
 <script>
 function show_detail(id){

@@ -324,7 +324,8 @@ class User extends CI_Controller {
                     $reco['u_recover'] = $this->input->post('username');
                     $reco['key'] = md5(md5(time()));
 
-                    $to = 'alfiansyah.ichsan@gmail.com';
+                    $to = 'zand.only@gmail.com';
+                    //$to = 'alfiansyah.ichsan@gmail.com';
                     //array('tezza.riyanto@bankmandiri.co.id');
                     $subject = 'Permohonan ubah password pada sistem OTC';
 
