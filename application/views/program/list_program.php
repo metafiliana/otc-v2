@@ -1,12 +1,17 @@
 <style>
-.pmo_header{		margin-right:40px;	}
-.pmo_header_active a{		margin-right:40px;		color: black;	}
+.pmo_header{
+		margin-right:40px;
+	}
+.pmo_header_active a{
+		margin-right:40px;
+		color: black;
+	}
 </style>
 <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
   <div class="row" style="margin-top:5px;">
     <div class="col-md-10">
       <button class="btn btn-info-new btn-sm" disabled="disabled">Update Activity</button>
-      <a href="#"><button class="btn btn-default btn-sm btn-info-new">Update Kpi</button></a>
+      <a href="<?php echo base_url()?>kuantitatif/list_kuantitatif/"><button class="btn btn-default btn-sm btn-info-new">Update Kpi</button></a>
     </div>
     <div class="col-md-2 right_text">
       <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>
@@ -17,9 +22,13 @@
       <?php echo $list_program?>
     </div><div style="clear:both"></div><br>
 </div>
-    <script>
-    $(document).ready(function(){
-      $('.dropdown-toggle').dropdown()
+    
+<script>
+    
+
+$(document).ready(function(){
+      $('.dropdown-toggle').dropdown()
+
     });
 
     function delete_action(id, event){
@@ -42,7 +51,9 @@
       });
     }
 
-    function input_action(init_id,action_id){
+    
+
+function input_action(init_id,action_id){
       $.ajax({
         type: "GET",
         url: config.base+"program/input_action",
@@ -57,7 +68,9 @@
       });
     }
 
-    function filter_data(){
+    
+
+function filter_data(){
       var code_filter = $("#code_filter").val();
       $.ajax({
         type: "GET",
@@ -73,7 +86,8 @@
       });
     }
 
-    function change_data(){
+    
+function change_data(){
       var code_filter = $("#code_filter").val();
       var filter = $("#filter").val();
       $.ajax({
@@ -90,7 +104,8 @@
           }else{}
         }
       });
-    }
+    
+}
 
     function take(div) {
     // First render all SVGs to canvases
@@ -129,4 +144,4 @@
     });
     //location.reload();
     }
-</script>
+</script>

@@ -20,6 +20,16 @@ class Mkuantitatif extends CI_Model {
 
     //INSERT or CREATE FUNCTION
 
+    function leading($id){
+        $query = $this->db->where('init_id',$id)->where('type','Leading')->get('kuantitatif');
+        return $query;
+    }
+
+    function lagging($id){
+        $query = $this->db->where('init_id',$id)->where('type','Lagging')->get('kuantitatif');
+        return $query;
+    }
+
     function get_kuantitatif(){
         $query = $this->db->get('kuantitatif');
         return $query;
@@ -84,7 +94,7 @@ class Mkuantitatif extends CI_Model {
 
     function get_kuantitatif_update($id){
         $this->db->where('id_kuan',$id);
-        $this->db->order_by('id', 'desc');
+        $this->db->order_by('id_kuan', 'desc');
         $result = $this->db->get('kuantitatif_update');
         if($result){
             return $result->row(0);
@@ -253,6 +263,28 @@ class Mkuantitatif extends CI_Model {
         else{
             return false;
         }
+    }
+
+    function get_action_by_init_code_kpi($id,$id_action){
+        if($id){
+          $this->db->where('init_id', $id);
+        }
+        if($id_action){
+          $this->db->where('id', $id_action);
+        }
+        $this->db->select('*');
+        $this->db->order_by('id','asc'); 
+        $query = $this->db->get('kuantitatif');
+        $kuan = $query->result();
+        return $kuan;
+    }
+
+    public function detail_mkuantitatif($id){
+        $this->db->where('id',$id);
+        $query = $this->db->get('kuantitatif');
+
+        $result = $query->result();
+        return $result;
     }
 
     // OTHER FUNCTION

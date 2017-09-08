@@ -24,6 +24,18 @@ class Kuantitatif extends CI_Controller {
     /**
      * Method for page (public)
      */
+    public function test()
+    {
+        $data['id'] = $this->input->get('id');
+
+        $data['leading'] = $this->mkuantitatif->leading($data['id'],'');
+        $data['lagging'] = $this->mkuantitatif->lagging($data['id'],'');
+        $json['html'] = $this->load->view('kuantitatif/component/_list_detail_kuantitatif',$data,TRUE);
+        $json['status'] = 1;
+
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
     public function index()
     {
         $data['title'] = "All Kuantitatif";
@@ -59,6 +71,41 @@ class Kuantitatif extends CI_Controller {
         $this->load->view('front',$data);
     }
 
+    public function list_kuantitatif()
+    {
+        $data['title'] = "List All Initiative";
+
+        $user = $this->session->userdata('user');
+        $prog['user'] = $user;
+        $data['user'] = $user;
+
+        //View list of initiative
+        if($user['role']=='1'){
+        $init_code= explode(";",$user['initiative']);
+        $prog['programs'] = $this->mprogram->get_m_initiative($init_code);
+        }
+        else{
+        $prog['programs'] = $this->mprogram->get_m_initiative('');
+        }
+        $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif_v2',$prog,TRUE);
+
+
+        //notification
+        if($user['role']!='2'){
+        $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+        $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+        $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+        $data['content'] = $this->load->view('kuantitatif/list_kuantitatif',$prog,TRUE);
+
+        $this->load->view('front',$data);
+    }
 
     public function my_kuantitatif()
     {

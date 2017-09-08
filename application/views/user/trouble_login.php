@@ -1,15 +1,18 @@
 <link href="<?php echo base_url();?>assets/css/user.css" rel="stylesheet"/>
 <style>
 	body{
-		margin:0;padding:20px 430px 20px 430px;
-		background-size:cover;
+		margin:0;
 		background-image:url('<?php echo base_url()?>assets/img/BG.png');
-		opacity: 0.9;
+		background-size: cover;
+	    background-repeat: no-repeat;
+	    background-position: 50% 50%;
 	}
 	.container{
+		width: 25%;
+		margin-left: 20%;
 		background-color: white;
 		border-radius: 5px;
-		padding-bottom: 20px;
+		padding-bottom: 35px;
 		padding-left: 20px;
 		padding-right: 20px;
 	}
@@ -39,9 +42,6 @@ $(document).ready(function(){
 </script>
 
 <div style="height:100%;">
-	<div class="col-md-2">
-
-	</div>
 
 	<div class="col-md-8 login-form container" style="position: relative; margin-top: 5%;">
 		<a href="<?php echo base_url();?>user/login" style="text-decoration:none;"><button style="margin-top: 15px; float: left;" class="btn btn-sm btn-default center_text submit" style="border-radius: 7px;">Back</button></a>
@@ -71,6 +71,10 @@ $(document).ready(function(){
 	<div style="text-align: center; margin-top: 10px;">
 		<a data-toggle="modal" data-target="#myModal">>>Contact Us</a>
 	</div>
+
+	</div>
+
+	<div class="col-md-2">
 
 	</div>
 	<div class="col-md-2">
