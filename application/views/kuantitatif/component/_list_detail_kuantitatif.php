@@ -4,19 +4,23 @@
 			<th style="width: 50px;">No</th>
 			<th>KPI Metric</th>
 			<th>Measurement</th>
-			<th>Target</th>
+			<th><?= $month_view ?></th>
+			<th>Mothly Target</th>
+			<th>Year End Target</th>
 		</tr>
 		<tr style="background-color: yellow;">
 			<th>Leading</th>
 		</tr>
 	</thead>
 	<tbody>
-	<?php $i=1; foreach($leading->result() as $d) { ?>
+	<?php $i=1; foreach($leading as $d) { ?>
 	<tr>
 		<td><?php echo $i++?></td>
-        <td><?php echo $d->metric;?></td>
-        <td><?php echo $d->measurment;?></td>
-		<td><?php echo $d->target;?></td>
+    <td><?php echo $d['prog']->metric;?></td>
+    <td><?php echo $d['prog']->measurment;?></td>
+		<td><?= $d['update']->$month_view;?></td>
+		<td><?php echo number_format($d['prog']->$month_view,0,",",".");?></td>
+		<td><?php echo number_format($d['prog']->target,0,",",".");?></td>
 	</tr>
     <?php } ?>
 	</tbody>
@@ -38,16 +42,3 @@
 	</tbody>
 </table>
 <br><br>
-<script>
-$(document).ready(function () {
-	$('#table_id_<?= $id ?>').DataTable( {
-					dom: 'Bfrtip',
-					paging: false,
-					buttons: [
-							'excelHtml5',
-							'pdfHtml5',
-					]
-			} );
-});
-
-</script>

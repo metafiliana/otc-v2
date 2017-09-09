@@ -20,13 +20,23 @@ class Mkuantitatif extends CI_Model {
 
     //INSERT or CREATE FUNCTION
 
-    function leading($id){
+    function get_leading($id,$month){
         $query = $this->db->where('init_id',$id)->where('type','Leading')->get('kuantitatif');
-        return $query;
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+        	  $arr[$i]['prog'] = $prog;
+            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
+            //$arr[$i]['baseline'] = $this->get_baseline_by_kuan_id($prog->id);
+        	$i++;
+        }
+        return $arr;
+        //return $query;
     }
 
     function lagging($id){
         $query = $this->db->where('init_id',$id)->where('type','Lagging')->get('kuantitatif');
+
         return $query;
     }
 
@@ -82,7 +92,8 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
-    function get_update_by_id($id){
+    function get_update_by_id($id,$month){
+        $this->db->select($month);
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif_update');
         if($result->num_rows==1){
@@ -90,6 +101,13 @@ class Mkuantitatif extends CI_Model {
         }else{
             return false;
         }
+    }
+
+    function get_baseline_by_kuan_id($id){
+        $this->db->select('amount_baseline','year');
+        $this->db->where('kuantitatif_id',$id);
+        $result = $this->db->get('baseline');
+        return $result->result();
     }
 
     function get_kuantitatif_update($id){
@@ -273,7 +291,7 @@ class Mkuantitatif extends CI_Model {
           $this->db->where('id', $id_action);
         }
         $this->db->select('*');
-        $this->db->order_by('id','asc'); 
+        $this->db->order_by('id','asc');
         $query = $this->db->get('kuantitatif');
         $kuan = $query->result();
         return $kuan;

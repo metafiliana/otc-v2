@@ -27,9 +27,11 @@ class Kuantitatif extends CI_Controller {
     public function test()
     {
         $data['id'] = $this->input->get('id');
+        $time=strtotime(date("Y-m-d"));
+        $data['month_view']=date("F",$time);
 
-        $data['leading'] = $this->mkuantitatif->leading($data['id'],'');
-        $data['lagging'] = $this->mkuantitatif->lagging($data['id'],'');
+        $data['leading'] = $this->mkuantitatif->get_leading($data['id'],$data['month_view']);
+        $data['lagging'] = $this->mkuantitatif->lagging($data['id']);
         $json['html'] = $this->load->view('kuantitatif/component/_list_detail_kuantitatif',$data,TRUE);
         $json['status'] = 1;
 
@@ -125,7 +127,7 @@ class Kuantitatif extends CI_Controller {
 
         $prog['all_count_wb'] = $this->mworkblock->get_count_workblock();
         $init = $this->mprogram->get_init_code();
-        
+
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif',$prog,TRUE);
 
         $data['user']=$user;
@@ -146,10 +148,10 @@ class Kuantitatif extends CI_Controller {
     }
 
     public function input_kuantitatif(){
-        $id = $this->input->get('id'); 
+        $id = $this->input->get('id');
         $type = $this->input->get('type');
-        $id_update = $this->input->get('id_update');       
-        
+        $id_update = $this->input->get('id_update');
+
         $data['kuan_update']="";
         if($id){
             $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
@@ -170,7 +172,7 @@ class Kuantitatif extends CI_Controller {
         else{
             $json['html'] = $this->load->view('kuantitatif/input_kuantitatif_'.$type,$data,TRUE);
         }
-        
+
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
@@ -183,7 +185,7 @@ class Kuantitatif extends CI_Controller {
         $program['year'] = $this->input->post('year');
         $program['month'] = $this->input->post('month');
         $program['amount'] = $this->input->post('amount');
-        
+
         if($id){
             $this->mkuantitatif->update_kuantitatif_update($program,$id);
         }
@@ -195,25 +197,25 @@ class Kuantitatif extends CI_Controller {
         else{
             redirect('kuantitatif/my_kuantitatif');
         }
-        
+
     }
 
     public function submit_target(){
         $program['id'] = $this->input->post('id');
         $program['metric'] = $this->input->post('metric');
         $program['target'] = $this->input->post('target');
-        
+
         if($program['id']){
             $this->mkuantitatif->update_kuantitatif($program,$program['id']);
         }
-        
+
         redirect('kuantitatif');
     }
 
     public function detail_update(){
         $id = $this->input->get('id');
-        $year = $this->input->get('year');       
-        
+        $year = $this->input->get('year');
+
         $data['title'] = "Detail Update Kuantitatif";
 
         if($id){
@@ -222,7 +224,7 @@ class Kuantitatif extends CI_Controller {
         }
 
         $json['html'] = $this->load->view('kuantitatif/component/_detail_update_kuantitatif',$data,TRUE);
-        
+
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
