@@ -27,7 +27,7 @@ class Mkuantitatif extends CI_Model {
         foreach($progs as $prog){
         	  $arr[$i]['prog'] = $prog;
             $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
-            //$arr[$i]['baseline'] = $this->get_baseline_by_kuan_id($prog->id);
+            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
         	$i++;
         }
         return $arr;
@@ -96,6 +96,17 @@ class Mkuantitatif extends CI_Model {
         $this->db->select($month);
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif_update');
+        if($result->num_rows==1){
+            return $result->row(0);
+        }else{
+            return false;
+        }
+    }
+
+    function get_month_target_by_id($id,$month){
+        $this->db->select($month);
+        $this->db->where('id',$id);
+        $result = $this->db->get('kuantitatif');
         if($result->num_rows==1){
             return $result->row(0);
         }else{

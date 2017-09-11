@@ -173,6 +173,7 @@ class General extends CI_Controller {
         $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
         $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
         $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
+        $data['kuantitatif_update']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif_update','','1');
 
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -222,6 +223,7 @@ class General extends CI_Controller {
             foreach ($oldfiles as $oldfile) {
                 @unlink($oldfile);
             }*/
+            $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
             $file_uploaded = $this->upload->data();
             $file_address = $upload_path.$filename.$file_uploaded['file_ext'];
 
@@ -263,16 +265,12 @@ class General extends CI_Controller {
                         $data['measurment'] = $arrres[$row][4];
                         $data['target'] = $arrres[$row][5];
                         $data['target_year'] = $year;
-                        for ($i = 1; $i <= 12; $i++) {
-                            $data[$i]= (($i/12)*$arrres[$row][5]);
+                        $i=1;
+                        foreach ($arr_month as $val) {
+                          $data[$val]= (($i/12)*$arrres[$row][5]);
                         }
-                        if($arrres[$row][6]){
-                          $this->mfiles_upload->delete_db_truncate('baseline');
-                          $baseline['kuantitatif_id'] = $data['init_id'];
-                          $baseline['amount_baseline'] = $arrres[$row][6];
-                          $baseline['year'] = $year-1;
-                          $this->mkuantitatif->insert_baseline($baseline);
-                        }
+                        $data['baseline'] = $arrres[$row][6];
+                        $data['baseline_year'] = $year-1;
                         $this->mkuantitatif->insert_kuantitatif($data);
                     }
                 }
@@ -284,11 +282,11 @@ class General extends CI_Controller {
                     for ($col = 0; $col < $exel['col']; ++$col) {
                     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
                     }
-                        //$data['init_code'] = $arrres[$row][0];
-                        //$data['init_id'] = $arrres[$row][1];
                         $data['year'] = $year;
-                        for ($i = 1; $i <= 12; $i++) {
-                            $data[$i]= $arrres[$row][$i-1];
+                        $j=1;
+                        foreach ($arr_month as $val) {
+                          $data[$val]= $arrres[$row][$j-1];
+                          $j++;
                         }
                         $this->mkuantitatif->insert_kuantitatif_update($data);
                     }
