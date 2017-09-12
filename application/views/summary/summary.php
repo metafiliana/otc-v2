@@ -40,33 +40,35 @@
         <div class="col-md-12">
             <!-- search area -->
             <div class="col-md-2">
-                <div class="col-sm-6 form-group">
-                    <button class="btn btn-info" disabled="disabled">Summary</button>
-                </div>
-                <div class="col-sm-6 form-group">
-                    <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Milestone</button></a>
-                </div>
-                <?php echo form_open('summary/searchSummary', 'id="formSearch"'); ?>
-                <div class="col-sm-12 form-group">
-                    <label>User</label>
-                    <?php 
-                        echo form_dropdown('user', array(1 => 'CO-PMO', 2 => 'PMO'), array(), 'class = "form-control"');
-                    ?>
-                </div>
-                <div class="col-sm-12 form-group">
-                    <label>Tanggal Tarik Data</label>
-                    <?php 
-                        echo form_dropdown('bulan', getMonth(), date('m'), 'class = "form-control"');
-                    ?>
-                </div>
-                <div class="col-sm-6 form-group">
-                    <?php 
-                        echo form_submit('', 'Cari', 'class = "form-control btn btn-success"');
-                    ?>
-                </div>
-                <?php echo form_close(); ?>
-                <div class="col-sm-6 form-group">
-                    <button type="button" class="btn btn-danger">Print</button>
+                <div class="affix col-md-2" style="padding-right: 30px;">
+                    <div class="col-sm-6 form-group">
+                        <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary</button></a>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <button class="btn btn-info" disabled="disabled">Milestone</button>
+                    </div>
+                    <?php echo form_open('summary/searchSummary', 'id="formSearch"'); ?>
+                    <div class="col-sm-12 form-group">
+                        <label>User</label>
+                        <?php 
+                            echo form_dropdown('user', array(1 => 'CO-PMO', 2 => 'PMO'), array(), 'class = "form-control"');
+                        ?>
+                    </div>
+                    <div class="col-sm-12 form-group">
+                        <label>Tanggal Tarik Data</label>
+                        <?php 
+                            echo form_dropdown('bulan', getMonth(), date('m'), 'class = "form-control"');
+                        ?>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <?php 
+                            echo form_submit('', 'Cari', 'class = "form-control btn btn-success"');
+                        ?>
+                    </div>
+                    <?php echo form_close(); ?>
+                    <div class="col-sm-6 form-group">
+                        <button type="button" class="btn btn-danger">Print</button>
+                    </div>
                 </div>
             </div>
             <!-- data area -->
