@@ -31,8 +31,11 @@ class Kuantitatif extends CI_Controller {
         $data['month_view']=date("F",$time);
         $data['year_view']=date("Y",$time);
 
-        $data['leading'] = $this->mkuantitatif->get_leading($data['id'],$data['month_view']);
-        $data['lagging'] = $this->mkuantitatif->lagging($data['id']);
+        $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
+        $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
+        $data['count_leading'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Leading');
+        $data['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Lagging');
+
         $json['html'] = $this->load->view('kuantitatif/component/_list_detail_kuantitatif',$data,TRUE);
         $json['status'] = 1;
 

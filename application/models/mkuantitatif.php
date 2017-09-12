@@ -20,23 +20,30 @@ class Mkuantitatif extends CI_Model {
 
     //INSERT or CREATE FUNCTION
 
-    function get_leading($id,$month){
-        $query = $this->db->where('init_id',$id)->where('type','Leading')->get('kuantitatif');
+    function get_leading_lagging($id,$month,$type){
+        $query = $this->db->where('init_id',$id)->where('type',$type)->get('kuantitatif');
         $arr = array(); $i=0;
         $progs = $query->result();
         foreach($progs as $prog){
         	  $arr[$i]['prog'] = $prog;
             $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
             $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
-        	$i++;
+        	  $i++;
         }
         return $arr;
         //return $query;
     }
 
+    function get_leading_leading_count($id,$type){
+        $this->db->select('init_id');
+        $this->db->where('init_id',$id);
+        $this->db->where('type',$type);
+        $query = $this->db->get('kuantitatif');
+        return count($query->result());
+    }
+
     function lagging($id){
         $query = $this->db->where('init_id',$id)->where('type','Lagging')->get('kuantitatif');
-
         return $query;
     }
 

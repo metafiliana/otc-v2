@@ -268,6 +268,7 @@ class General extends CI_Controller {
                         $i=1;
                         foreach ($arr_month as $val) {
                           $data[$val]= (($i/12)*$arrres[$row][5]);
+                          $i++;
                         }
                         $data['baseline'] = $arrres[$row][6];
                         $data['baseline_year'] = $year-1;
