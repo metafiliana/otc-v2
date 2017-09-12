@@ -30,6 +30,7 @@ class Kuantitatif extends CI_Controller {
         $time=strtotime(date("Y-m-d"));
         $data['month_view']=date("F",$time);
         $data['year_view']=date("Y",$time);
+        $data['month_number']=date("n",$time);
 
         $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
         $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
@@ -180,6 +181,43 @@ class Kuantitatif extends CI_Controller {
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
+    }
+
+    //otc v2
+    public function update_realisasi(){
+        $data['id'] = $this->input->get('id');
+        $data['month_view'] = $this->input->get('month_view');
+        $data['month_number'] = $this->input->get('month_number');
+
+        if($data['id']){
+          $data['title'] = "Update Realisasi";
+          $data['all_kuantitatif'] = $this->mkuantitatif->get_all_kuantitatif_by_id($data['id']);
+        }
+
+        $json['html'] = $this->load->view('kuantitatif/component/_form_update_realisasi',$data,TRUE);
+        $json['status'] = 1;
+        $this->output->set_content_type('application/json')
+                         ->set_output(json_encode($json));
+    }
+
+    public function submit_kuantitatif_realisasi(){
+        $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
+        $id = $this->input->post('id');
+        $month_number = $this->input->post('month_number');
+
+        for ($i=0; $i<=$month_number-1 ; $i++) {
+          if($this->input->post($arr_month[$i])){
+            $program[$arr_month[$i]] = $this->input->post($arr_month[$i]);
+          }
+          else{
+            $program[$arr_month[$i]]=0;
+          }
+        }
+
+        $this->mkuantitatif->update_kuantitatif_update($program,$id);
+
+        redirect('kuantitatif/list_kuantitatif');
+
     }
 
     public function submit_kuantitatif_update(){

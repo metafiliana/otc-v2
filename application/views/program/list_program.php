@@ -22,9 +22,9 @@
       <?php echo $list_program?>
     </div><div style="clear:both"></div><br>
 </div>
-    
+
 <script>
-    
+
 
 $(document).ready(function(){
       $('.dropdown-toggle').dropdown()
@@ -51,24 +51,24 @@ $(document).ready(function(){
       });
     }
 
-    
+
 
 function input_action(init_id,action_id){
-      $.ajax({
-        type: "GET",
-        url: config.base+"program/input_action",
-        data: {init_id:init_id, action_id:action_id},
-        dataType: 'json',
-        cache: false,
-        success: function(resp){
-          if(resp.status==1){
-            show_popup_modal(resp.html);
-          }else{}
-        }
-      });
+  $.ajax({
+    type: "GET",
+    url: config.base+"program/input_action",
+    data: {init_id:init_id, action_id:action_id},
+    dataType: 'json',
+    cache: false,
+    success: function(resp){
+      if(resp.status==1){
+        show_popup_modal(resp.html);
+      }else{}
     }
+  });
+}
 
-    
+
 
 function filter_data(){
       var code_filter = $("#code_filter").val();
@@ -86,7 +86,7 @@ function filter_data(){
       });
     }
 
-    
+
 function change_data(){
       var code_filter = $("#code_filter").val();
       var filter = $("#filter").val();
@@ -104,7 +104,7 @@ function change_data(){
           }else{}
         }
       });
-    
+
 }
 
     function take(div) {

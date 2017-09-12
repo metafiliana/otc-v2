@@ -20,49 +20,6 @@ class Mkuantitatif extends CI_Model {
 
     //INSERT or CREATE FUNCTION
 
-    function get_leading_lagging($id,$month,$type){
-        $query = $this->db->where('init_id',$id)->where('type',$type)->get('kuantitatif');
-        $arr = array(); $i=0;
-        $progs = $query->result();
-        foreach($progs as $prog){
-        	  $arr[$i]['prog'] = $prog;
-            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
-            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
-        	  $i++;
-        }
-        return $arr;
-        //return $query;
-    }
-
-    function get_leading_leading_count($id,$type){
-        $this->db->select('init_id');
-        $this->db->where('init_id',$id);
-        $this->db->where('type',$type);
-        $query = $this->db->get('kuantitatif');
-        return count($query->result());
-    }
-
-    function lagging($id){
-        $query = $this->db->where('init_id',$id)->where('type','Lagging')->get('kuantitatif');
-        return $query;
-    }
-
-    function get_kuantitatif(){
-        $query = $this->db->get('kuantitatif');
-        return $query;
-    }
-
-    function get_kuantitatif_by_user($init_id){
-        $this->db->select('*');
-        if($init_id){
-            foreach ($init_id as $row) {
-                $this->db->or_where('init_code', $row);
-            }
-        }
-        $query = $this->db->get('kuantitatif');
-        return $query;
-    }
-
     function insert_kuantitatif($program){
         if($this->db->insert('kuantitatif', $program)){
             return $this->db->insert_id();
@@ -89,6 +46,58 @@ class Mkuantitatif extends CI_Model {
 
     //GET FUNCTION
 
+    //otc v2
+    function get_leading_lagging($id,$month,$type){
+        $query = $this->db->where('init_id',$id)->where('type',$type)->get('kuantitatif');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+        	  $arr[$i]['prog'] = $prog;
+            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
+            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
+        	  $i++;
+        }
+        return $arr;
+        //return $query;
+    }
+
+    function get_leading_leading_count($id,$type){
+        $this->db->select('init_id');
+        $this->db->where('init_id',$id);
+        $this->db->where('type',$type);
+        $query = $this->db->get('kuantitatif');
+        return count($query->result());
+    }
+
+    function get_all_kuantitatif_by_id($id){
+        $this->db->where('id',$id);
+        $result = $this->db->get('kuantitatif');
+        $all['kuantitatif']=$result->row(0);
+        $all['update'] = $this->get_update_by_id($id,'');
+        return $all;
+    }
+
+    function lagging($id){
+        $query = $this->db->where('init_id',$id)->where('type','Lagging')->get('kuantitatif');
+        return $query;
+    }
+
+    function get_kuantitatif(){
+        $query = $this->db->get('kuantitatif');
+        return $query;
+    }
+
+    function get_kuantitatif_by_user($init_id){
+        $this->db->select('*');
+        if($init_id){
+            foreach ($init_id as $row) {
+                $this->db->or_where('init_code', $row);
+            }
+        }
+        $query = $this->db->get('kuantitatif');
+        return $query;
+    }
+
     function get_kuantitatif_by_id($id){
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif');
@@ -100,7 +109,9 @@ class Mkuantitatif extends CI_Model {
     }
 
     function get_update_by_id($id,$month){
-        $this->db->select($month);
+        if($month){
+          $this->db->select($month);
+        }
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif_update');
         if($result->num_rows==1){

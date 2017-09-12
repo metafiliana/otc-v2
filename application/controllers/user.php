@@ -34,7 +34,7 @@ class User extends CI_Controller {
 
             $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
             $data['footer'] = $this->load->view('shared/footer','',TRUE);
-			$data['content'] = $this->load->view('user/list_user',array('user'=>$users),TRUE);
+			      $data['content'] = $this->load->view('user/list_user',array('user'=>$users),TRUE);
 
 			$this->load->view('front',$data);
         }else{
