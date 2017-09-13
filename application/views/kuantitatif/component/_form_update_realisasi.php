@@ -5,16 +5,14 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 <div class="modal fade" id="popup_Modal" tabindex="-13" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document" style="width:80%;">
     <div class="modal-content">
-    	<div class="modal-body">
-			<div>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div>
-				<div class="form-signin">
-					<h3 class="form-signin-heading"><?= $title ?></h3>
-					<form class="form-horizontal"
-					action="<?php echo base_url()."kuantitatif/submit_kuantitatif_realisasi"; ?>"
-				 	method="post" id="formsignup" role="form">
+      <div class="modal-body">
+      <div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div>
+        <div class="form-signin">
+          <h3 class="form-signin-heading"><?= $title ?></h3>
+          <form class="form-horizontal" action="<?php echo base_url()."kuantitatif/submit_kuantitatif_realisasi"; ?>" method="post" id="formsignup" role="form">
                   <div style="margin-top:20px">
                         <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
                         <input type="hidden" id="month_number" name="month_number" value="<?php echo $month_number; ?>">
@@ -54,13 +52,12 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                         </tr>
                     </table>
                   </div>
-                  </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-                  </div>
-					</form>
-				</div>
-			</div>
-		</div>
-		</div>
-	</div>
+            </form>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
 </div>
