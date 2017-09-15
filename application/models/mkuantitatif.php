@@ -48,7 +48,7 @@ class Mkuantitatif extends CI_Model {
 
     //otc v2
     function get_leading_lagging($id,$month,$type){
-        $query = $this->db->where('init_id',$id)->where('type',$type)->get('kuantitatif');
+        $query = $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc')->get('kuantitatif');
         $arr = array(); $i=0;
         $progs = $query->result();
         foreach($progs as $prog){
@@ -304,6 +304,17 @@ class Mkuantitatif extends CI_Model {
     function delete_kuantitatif_update($id){
         $this->db->where('id',$id);
         $this->db->delete('kuantitatif_update');
+        if($this->db->affected_rows()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    function delete_db_id($db,$id){
+        $this->db->where('id',$id);
+        $this->db->delete($db);
         if($this->db->affected_rows()>0){
             return true;
         }

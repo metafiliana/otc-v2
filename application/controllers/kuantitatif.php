@@ -152,38 +152,70 @@ class Kuantitatif extends CI_Controller {
         $this->load->view('front',$data);
     }
 
+    //otc v2
     public function input_kuantitatif(){
-        $id = $this->input->get('id');
-        $type = $this->input->get('type');
-        $id_update = $this->input->get('id_update');
+        $data['init_id'] = $this->input->get('init_id');
+        $data['init_code'] = $this->input->get('init_code');
+        $data['kuan_id'] = $this->input->get('kuan_id');
 
-        $data['kuan_update']="";
-        if($id){
-            $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
-            $data['update']= $this->mkuantitatif->get_kuantitatif_update($id);
-        }
-        else if($id_update){
-            $data['kuan_update']= $this->mkuantitatif->get_update_by_id($id_update);
-            $id=$data['kuan_update']->id_kuan;
-            $data['update']= "";
-            $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($id);
-        }
-
-        $data['title'] = "Update Kuantitatif ".$type;
-
-        if($type=="Realisasi"){
-            $json['html'] = $this->load->view('kuantitatif/input_kuantitatif_'.$type,$data,TRUE);
+        if($data['kuan_id']){
+            $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($data['kuan_id']);
+            $data['title'] = "Edit Kuantitatif";
         }
         else{
-            $json['html'] = $this->load->view('kuantitatif/input_kuantitatif_'.$type,$data,TRUE);
+            $data['title'] = "Add Kuantitatif";
         }
+
+        $json['html'] = $this->load->view('kuantitatif/component/_input_kuantitatif',$data,TRUE);
 
         $json['status'] = 1;
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
     }
 
-    //otc v2
+    public function submit_kuantitatif(){
+        $id = $this->uri->segment(3);
+        $program['init_id'] = $this->input->post('init_id');
+        $program['init_code'] = $this->input->post('init_code');
+        $program['type'] = $this->input->post('type');
+        $program['metric'] = $this->input->post('metric');
+        $program['measurment'] = $this->input->post('measurment');
+        $program['target'] = $this->input->post('target');
+        $program['baseline'] = 0;
+
+        $time=strtotime(date("Y-m-d"));
+        $year=date("Y",$time);
+
+        $program['target_year']= $year;
+        $update['year']= $year;
+        $program['baseline_year'] = $year-1;
+
+        $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+        if($id){
+          foreach ($arr_month as $vals) {
+            $program[$vals]= $this->input->post('target_'.$vals);
+          }
+            $this->mkuantitatif->update_kuantitatif($program,$id);
+        }
+        else{
+            $i=1;
+            foreach ($arr_month as $val) {
+              $program[$val]= (($i/12)*$program['target']);
+              $i++;
+            }
+
+            foreach ($arr_month as $val2) {
+              $update[$val2]= 0;
+            }
+
+            $this->mkuantitatif->insert_kuantitatif($program);
+            $this->mkuantitatif->insert_kuantitatif_update($update);
+        }
+
+        redirect('kuantitatif/list_kuantitatif');
+    }
+
     public function update_realisasi(){
         $data['id'] = $this->input->get('id');
         $data['month_view'] = $this->input->get('month_view');
@@ -284,6 +316,20 @@ class Kuantitatif extends CI_Controller {
         }
         $this->output->set_content_type('application/json')
                          ->set_output(json_encode($json));
+    }
+
+    public function delete_kuantitatif(){
+        $id = $this->input->post('id');
+        if($id){
+            $this->mkuantitatif->delete_db_id('kuantitatif',$id);
+            $this->mkuantitatif->delete_db_id('kuantitatif_update',$id);
+            $json['status'] = 1;
+        }
+        else{
+            $json['status'] = 0;
+        }
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
     }
 
 }

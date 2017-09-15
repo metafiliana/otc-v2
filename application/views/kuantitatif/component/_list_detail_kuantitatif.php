@@ -16,6 +16,7 @@ $user = $this->session->userdata('user');
 			<th>Year End Target</th>
 			<th>Monthly Kinerja</th>
 			<th>Year End Kinerja</th>
+			<th></th>
 		</tr>
 		<tr style="background-color: yellow;">
 			<th>Leading</th>
@@ -23,7 +24,7 @@ $user = $this->session->userdata('user');
 	</thead>
 	<tbody class="center_text">
 	<?php $totmonth=""; $totyear=""; $i=1; foreach($leading as $d) { ?>
-	<tr>
+	<tr id='kuantitatif_<?= $d['prog']->id ?>'>
 		<?php $totmonth += ($d['update']->$month_view/$d['target']->$month_view); ?>
 		<?php $totyear += ($d['update']->$month_view/$d['prog']->target); ?>
 		<td><?php echo $i++?></td>
@@ -40,6 +41,12 @@ $user = $this->session->userdata('user');
 		<td><?php echo number_format($d['prog']->target,0,",",".");?></td>
 		<td><?php echo number_format((($d['update']->$month_view/$d['target']->$month_view)*100),2,",",".");?> %</td>
 		<td><?php echo number_format((($d['update']->$month_view/$d['prog']->target)*100),2,",",".");?> %</td>
+		<?php if($user['role']=='2'){?>
+			<td>
+				<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $d['prog']->init_id?>,'<?php echo $d['prog']->init_code?>',<?php echo $d['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a class="btn btn-link btn-link-delete" onclick="delete_kuantitatif(<?php echo $d['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
+			</td>
+		<?php }?>
 	</tr>
     <?php } ?>
 		<hr>
@@ -69,11 +76,22 @@ $user = $this->session->userdata('user');
 	    <td><?php echo $e['prog']->metric;?></td>
 	    <td><?php echo $e['prog']->measurment;?></td>
 			<td><?php echo number_format($e['prog']->baseline,0,",",".");?></td>
-			<td><?= $e['update']->$month_view;?></td>
+			<td>
+				<?= number_format($e['update']->$month_view,0,",",".");?>
+				<?php if($user['role']=='1'){?>
+					<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $e['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
+				<?php }?>
+			</td>
 			<td><?php echo number_format($e['target']->$month_view,0,",",".");?></td>
 			<td><?php echo number_format($e['prog']->target,0,",",".");?></td>
 			<td><?php echo number_format(($e['update']->$month_view/$e['target']->$month_view),0,",",".");?> %</td>
 			<td><?php echo number_format(($e['update']->$month_view/$e['prog']->target),0,",",".");?> %</td>
+			<?php if($user['role']=='2'){?>
+				<td>
+					<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $e['prog']->init_id?>,'<?php echo $e['prog']->init_code?>',<?php echo $e['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a class="btn btn-link btn-link-delete" onclick="delete_kuantitatif(<?php echo $e['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
+			<?php }?>
 		</tr>
     <?php } ?>
 		<tr>

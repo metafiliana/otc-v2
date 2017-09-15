@@ -18,6 +18,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                         <input type="hidden" id="month_number" name="month_number" value="<?php echo $month_number; ?>">
                         <h4>Metric: <?php if (isset($all_kuantitatif['kuantitatif']->metric)){ echo $all_kuantitatif['kuantitatif']->metric ; }?></h4>
                         <h4>Measurment: <?php if (isset($all_kuantitatif['kuantitatif']->measurment)){ echo $all_kuantitatif['kuantitatif']->measurment ; }?></h4>
+                        <h4>Type: <?php if (isset($all_kuantitatif['kuantitatif']->measurment)){ echo $all_kuantitatif['kuantitatif']->type ; }?></h4>
                         <h4>Oleh: <?php echo $user['name'] ?></h4>
                   </div>
                   <div class="row" style="margin:20px 0 20px 0;">
@@ -46,7 +47,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                           </td>
                           <?php for ($i=0; $i <= $month_number-1 ; $i++) { ?>
                           <td>
-                            <input type="number" class="form-control" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo $all_kuantitatif['update']->$arr_month[$i];} ?>" />
+                            <input type="number" class="form-control" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');} ?>" />
                           </td>
                           <?php } ?>
                         </tr>

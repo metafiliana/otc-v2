@@ -6,8 +6,8 @@
 		<a onclick="show_detail('<?php echo $prog->id?>')"><div><b><?php echo $prog->init_code?>. <?php echo $prog->title?></b></div></a>
 	</div>
 	<div class="col-md-1">
-		<?php if($user['role']=='1'){?>
-		<button onclick="input_action(<?php echo $prog->id?>,'');" class="btn btn-info-new btn-sm right_text"><span class="glyphicon glyphicon-plus"></span> Action</button>
+		<?php if($user['role']=='2'){?>
+		<button onclick="input_kuantitatif(<?php echo $prog->id?>,'<?php echo $prog->init_code?>','');" class="btn btn-info-new btn-sm right_text"><span class="glyphicon glyphicon-plus"></span> Kuantitatif</button>
 		<?php } ?>
 	</div>
 </div>

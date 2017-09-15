@@ -26,19 +26,19 @@ $(document).ready(function(){
 
     });
 
-function delete_action(id, event){
+function delete_kuantitatif(id, event){
   bootbox.confirm("Apa anda yakin?",
   function(confirmed) {
     if(confirmed===true){
       $.ajax({
-        url: config.base+"program/delete_action",
+        url: config.base+"kuantitatif/delete_kuantitatif",
         data: {id: id},
         dataType: 'json',
         type: "POST",
         success: function (resp) {
           if(resp.status == 1){
-            $('#action_'+id).animate({'opacity':'toggle'});
-            succeedMessage('Action berhasil dihapus');
+            $('#kuantitatif_'+id).animate({'opacity':'toggle'});
+            succeedMessage('Kuantitatif berhasil dihapus');
           }
         }
       });
@@ -46,11 +46,11 @@ function delete_action(id, event){
   });
 }
 
-function input_action(init_id,action_id){
+function input_kuantitatif(init_id,init_code,kuan_id){
   $.ajax({
     type: "GET",
-    url: config.base+"program/input_action",
-    data: {init_id:init_id, action_id:action_id},
+    url: config.base+"kuantitatif/input_kuantitatif",
+    data: {init_id:init_id, init_code:init_code , kuan_id:kuan_id},
     dataType: 'json',
     cache: false,
     success: function(resp){
