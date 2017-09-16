@@ -23,24 +23,22 @@ $user = $this->session->userdata('user');
 		</tr>
 	</thead>
 	<tbody class="center_text">
-	<?php $totmonth=""; $totyear=""; $i=1; foreach($leading as $d) { ?>
+	<?php  $i=1; foreach($leading as $d) { ?>
 	<tr id='kuantitatif_<?= $d['prog']->id ?>'>
-		<?php $totmonth += ($d['update']->$month_view/$d['target']->$month_view); ?>
-		<?php $totyear += ($d['update']->$month_view/$d['prog']->target); ?>
 		<td><?php echo $i++?></td>
     <td><?php echo $d['prog']->metric;?></td>
     <td><?php echo $d['prog']->measurment;?></td>
-		<td><?php echo number_format($d['prog']->baseline,0,",",".");?></td>
+		<td><?php echo number_format($d['prog']->baseline,2,",",".");?></td>
 		<td>
-			<?= number_format($d['update']->$month_view,0,",",".");?>
+			<?= number_format($d['update']->$month_view,2,",",".");?>
 			<?php if($user['role']=='1'){?>
 				<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $d['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 			<?php }?>
 		</td>
-		<td><?php echo number_format($d['target']->$month_view,0,",",".");?></td>
-		<td><?php echo number_format($d['prog']->target,0,",",".");?></td>
-		<td><?php echo number_format((($d['update']->$month_view/$d['target']->$month_view)*100),2,",",".");?> %</td>
-		<td><?php echo number_format((($d['update']->$month_view/$d['prog']->target)*100),2,",",".");?> %</td>
+		<td><?php echo number_format($d['target']->$month_view,2,",",".");?></td>
+		<td><?php echo number_format($d['prog']->target,2,",",".");?></td>
+		<td><?php echo number_format((($d['month_kiner'])*100),2,",",".");?> %</td>
+		<td><?php echo number_format((($d['year_kiner'])*100),2,",",".");?> %</td>
 		<?php if($user['role']=='2'){?>
 			<td>
 				<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $d['prog']->init_id?>,'<?php echo $d['prog']->init_code?>',<?php echo $d['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -54,10 +52,10 @@ $user = $this->session->userdata('user');
 			<td colspan="6" style="background-color:black"></td>
 			<td><b>Final</b></td>
 			<td>
-				<?= number_format(($totmonth*100)/$count_leading,2,",","."); ?> %
+				<?= number_format(($tot_leading['month']*100)/$count_leading,2,",","."); ?> %
 			</td>
 			<td>
-				<?= number_format(($totyear*100)/$count_leading,2,",","."); ?> %
+				<?= number_format(($tot_leading['year']*100)/$count_leading,2,",","."); ?> %
 			</td>
 		</tr>
 	</tbody>
@@ -68,24 +66,22 @@ $user = $this->session->userdata('user');
 		</tr>
 	</thead>
 	<tbody class="center_text">
-	<?php $i=1; $totmonth2=""; $totyear2=""; foreach($lagging as $e) { ?>
+	<?php $i=1; foreach($lagging as $e) { ?>
 		<tr>
-			<?php $totmonth2 += ($e['update']->$month_view/$e['target']->$month_view); ?>
-			<?php $totyear2 += ($e['update']->$month_view/$e['prog']->target); ?>
 			<td><?php echo $i++?></td>
 	    <td><?php echo $e['prog']->metric;?></td>
 	    <td><?php echo $e['prog']->measurment;?></td>
-			<td><?php echo number_format($e['prog']->baseline,0,",",".");?></td>
+			<td><?php echo number_format($e['prog']->baseline,2,",",".");?></td>
 			<td>
-				<?= number_format($e['update']->$month_view,0,",",".");?>
+				<?= number_format($e['update']->$month_view,2,",",".");?>
 				<?php if($user['role']=='1'){?>
 					<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $e['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 				<?php }?>
 			</td>
-			<td><?php echo number_format($e['target']->$month_view,0,",",".");?></td>
-			<td><?php echo number_format($e['prog']->target,0,",",".");?></td>
-			<td><?php echo number_format(($e['update']->$month_view/$e['target']->$month_view),0,",",".");?> %</td>
-			<td><?php echo number_format(($e['update']->$month_view/$e['prog']->target),0,",",".");?> %</td>
+			<td><?php echo number_format($e['target']->$month_view,2,",",".");?></td>
+			<td><?php echo number_format($e['prog']->target,2,",",".");?></td>
+			<td><?php echo number_format(($e['month_kiner']*100),2,",",".");?> %</td>
+			<td><?php echo number_format(($e['year_kiner']*100),2,",",".");?> %</td>
 			<?php if($user['role']=='2'){?>
 				<td>
 					<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $e['prog']->init_id?>,'<?php echo $e['prog']->init_code?>',<?php echo $e['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -98,10 +94,10 @@ $user = $this->session->userdata('user');
 			<td colspan="6" style="background-color:black"></td>
 			<td><b>Final</b></td>
 			<td>
-				<?= number_format(($totmonth2*100)/$count_leading,2,",","."); ?> %
+				<?= number_format(($tot_lagging['month']*100)/$count_lagging,2,",","."); ?> %
 			</td>
 			<td>
-				<?= number_format(($totyear2*100)/$count_leading,2,",","."); ?> %
+				<?= number_format(($tot_lagging['year']*100)/$count_lagging,2,",","."); ?> %
 			</td>
 		</tr>
 	</tbody>

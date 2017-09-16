@@ -51,13 +51,46 @@ class Mkuantitatif extends CI_Model {
         $query = $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc')->get('kuantitatif');
         $arr = array(); $i=0;
         $progs = $query->result();
+        $legend = $this->get_id_different_sum_kuantitatif();
         foreach($progs as $prog){
         	  $arr[$i]['prog'] = $prog;
             $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
             $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
+            if(in_array($prog->id,$legend,TRUE)){
+              $arr[$i]['month_kiner'] = (1-(($arr[$i]['update']->$month-$arr[$i]['target']->$month)/$arr[$i]['target']->$month));
+              $arr[$i]['year_kiner'] = (1-(($arr[$i]['update']->$month-$prog->target)/$prog->target));
+            }
+            else{
+              $arr[$i]['month_kiner'] = ($arr[$i]['update']->$month/$arr[$i]['target']->$month);
+              $arr[$i]['year_kiner'] = ($arr[$i]['update']->$month/$prog->target);
+            }
         	  $i++;
         }
         return $arr;
+        //return $query;
+    }
+
+    function get_total_per_type($id,$month,$type){
+        $query = $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc')->get('kuantitatif');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        $tot['month']=""; $tot['year']="";
+        $legend = $this->get_id_different_sum_kuantitatif();
+        foreach($progs as $prog){
+        	  $arr[$i]['prog'] = $prog;
+            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
+            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
+            if(in_array($prog->id,$legend,TRUE)){
+              $tot['month'] += (1-(($arr[$i]['update']->$month-$arr[$i]['target']->$month)/$arr[$i]['target']->$month));
+              $tot['year'] += (1-(($arr[$i]['update']->$month-$prog->target)/$prog->target));
+            }
+            else{
+              $tot['month'] += ($arr[$i]['update']->$month/$arr[$i]['target']->$month);
+              $tot['year'] += ($arr[$i]['update']->$month/$prog->target);
+            }
+            $i++;
+        }
+        return $tot;
         //return $query;
     }
 
@@ -75,6 +108,17 @@ class Mkuantitatif extends CI_Model {
         $all['kuantitatif']=$result->row(0);
         $all['update'] = $this->get_update_by_id($id,'');
         return $all;
+    }
+
+    function get_id_different_sum_kuantitatif(){
+      $this->db->select('kuan_id');
+      $query = $this->db->get('kuantitatif_legend');
+      $result = $query->result();
+      $all=array();
+      foreach ($result as $key) {
+        array_push($all,$key->kuan_id);
+      }
+      return $all;
     }
 
     function lagging($id){

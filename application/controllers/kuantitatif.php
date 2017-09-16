@@ -26,14 +26,21 @@ class Kuantitatif extends CI_Controller {
      */
     public function test()
     {
+        //$test = $this->mkuantitatif->get_id_different_sum_kuantitatif();
+        //print_r($test);
         $data['id'] = $this->input->get('id');
         $time=strtotime(date("Y-m-d"));
-        $data['month_view']=date("F",$time);
+        //$data['month_view']=date("F",$time);
+        $data['month_view']="July";
         $data['year_view']=date("Y",$time);
         $data['month_number']=date("n",$time);
 
         $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
         $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
+
+        $data['tot_leading'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Leading');
+        $data['tot_lagging'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Lagging');
+
         $data['count_leading'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Leading');
         $data['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Lagging');
 
