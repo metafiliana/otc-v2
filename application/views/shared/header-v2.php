@@ -169,9 +169,9 @@
 			<div class="col-md-11" style="padding-left: 0px;">
 			<nav>
 					<ul>
-						<li class="menu"><a href=#>Update Progress</a></li>
-						<li class="menu"><a href="<?php echo base_url()?>program/list_programs/">Initiatives</a></li>
-						
+						<li class="menu"><a href="<?php echo base_url()?>program/list_programs/">Update Progress</a></li>
+						<li class="menu"><a href=#>Initiatives</a></li>
+
 						<li class="menu"><a href=#>Sharing Files</a></li>
 						<li class="menu"><a href=#>Agenda</a></li>
 					</ul>
