@@ -48,10 +48,10 @@
                     </tr>
                   </thead>
                     <tbody>
-                      <td style="vertical-align: middle;">
-                        Target
+                      <td class="col-sm-2" style="vertical-align: middle; padding-left: 25px;">
+                        <b>Target</b>
                       </td>
-                        <td style="vertical-align: middle;">
+                        <td class="col-sm-9" style="vertical-align: middle;">
                       <?php foreach ($arr_month as $val2) { ?>  
                       <br>
                           <label><?= $val2 ?></label>
