@@ -41,12 +41,6 @@ $user = $this->session->userdata('user');
 		<td><?php echo number_format($d['prog']->target,0,",",".");?></td>
 		<td><?php echo number_format((($d['month_kiner'])*100),0,",",".");?> %</td>
 		<td><?php echo number_format((($d['year_kiner'])*100),0,",",".");?> %</td>
-		<?php if($user['role']=='2'){?>
-			<td>
-				<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $d['prog']->init_id?>,'<?php echo $d['prog']->init_code?>',<?php echo $d['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a class="btn btn-link btn-link-delete" onclick="delete_kuantitatif(<?php echo $d['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
-			</td>
-		<?php }?>
 		<?php if($check==0){ ?>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
 				<?= number_format(($tot_leading['month']*100)/$count_leading,2,",","."); ?> %
@@ -55,6 +49,12 @@ $user = $this->session->userdata('user');
 				<?= number_format(($tot_leading['year']*100)/$count_leading,2,",","."); ?> %
 			</td>
 		<?php } ?>
+		<?php if($user['role']=='2'){?>
+			<td>
+				<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $d['prog']->init_id?>,'<?php echo $d['prog']->init_code?>',<?php echo $d['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a class="btn btn-link btn-link-delete" onclick="delete_kuantitatif(<?php echo $d['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
+			</td>
+		<?php }?>
 	</tr>
     <?php $check=1; } ?>
 		<hr>
@@ -82,12 +82,6 @@ $user = $this->session->userdata('user');
 			<td><?php echo number_format($e['prog']->target,0,",",".");?></td>
 			<td><?php echo number_format(($e['month_kiner']*100),0,",",".");?> %</td>
 			<td><?php echo number_format(($e['year_kiner']*100),0,",",".");?> %</td>
-			<?php if($user['role']=='2'){?>
-				<td>
-					<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $e['prog']->init_id?>,'<?php echo $e['prog']->init_code?>',<?php echo $e['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
-					<a class="btn btn-link btn-link-delete" onclick="delete_kuantitatif(<?php echo $e['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
-				</td>
-			<?php }?>
 			<?php if($check==0){ ?>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
 					<?= number_format(($tot_lagging['month']*100)/$count_lagging,2,",","."); ?> %
@@ -96,6 +90,12 @@ $user = $this->session->userdata('user');
 					<?= number_format(($tot_lagging['year']*100)/$count_lagging,2,",","."); ?> %
 				</td>
 			<?php } ?>
+			<?php if($user['role']=='2'){?>
+				<td>
+					<a class="btn btn-link btn-link-edit" onclick="input_kuantitatif(<?php echo $e['prog']->init_id?>,'<?php echo $e['prog']->init_code?>',<?php echo $e['prog']->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a class="btn btn-link btn-link-delete" onclick="delete_kuantitatif(<?php echo $e['prog']->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
+			<?php }?>
 		</tr>
     <?php $check=1;} ?>
 	</tbody>
