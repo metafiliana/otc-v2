@@ -10,7 +10,6 @@
 							<option value="action">Action</option>
 							<option value="user">User</option>
 							<option value="kuantitatif">Kuantitatif</option>
-							<option value="kuantitatif_update">Kuantitatif Update</option>
 						</select>
 					</div><div style="clear:both"></div>
 				</div>
@@ -90,22 +89,6 @@
 							    <a href=<?php echo base_url()?><?php echo $file5->full_url?>>
 							        <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($file5->ext)?>"></span>
 							        <span title="<?=$file5->title?>"><?php long_text_real($file5->title, 20)?><img style="height:18px; margin-left:3px;" src="<?=get_icon_url('download.png')?>"></span>
-							    </a>
-							</div>
-							    <?php } } else{  ?>
-							    <h5 class="center_text">No File</h5>
-							    <?php } ?>
-							    <div style="clear:both"></div>
-							</div>
-					</div>
-					<div class="col-md-2">
-						<h4>Kuantitatif Update</h4>
-							<div style="margin-top:10px">
-							<?php if($kuantitatif_update){ foreach($kuantitatif_update as $file6){?>
-							<div>
-							    <a href=<?php echo base_url()?><?php echo $file6->full_url?>>
-							        <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($file6->ext)?>"></span>
-							        <span title="<?=$file6->title?>"><?php long_text_real($file6->title, 20)?><img style="height:18px; margin-left:3px;" src="<?=get_icon_url('download.png')?>"></span>
 							    </a>
 							</div>
 							    <?php } } else{  ?>

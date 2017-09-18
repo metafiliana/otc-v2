@@ -173,7 +173,7 @@ class General extends CI_Controller {
         $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
         $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
         $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
-        $data['kuantitatif_update']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif_update','','1');
+        //$data['kuantitatif_update']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif_update','','1');
 
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -252,7 +252,8 @@ class General extends CI_Controller {
                 }
 
                 if($file['for']=='kuantitatif'){
-                    $this->mfiles_upload->delete_db_truncate('kuantitatif');
+                    $this->mfiles_upload->delete_db_truncate($file['for']);
+                    $this->mfiles_upload->delete_db_truncate('kuantitatif_update');
                     for ($row = 2; $row <= $exel['row']; ++$row) {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {
@@ -263,35 +264,43 @@ class General extends CI_Controller {
                         $data['init_id'] = $arrres[$row][2];
                         $data['metric'] = $arrres[$row][3];
                         $data['measurment'] = $arrres[$row][4];
-                        $data['target'] = $arrres[$row][5];
+                        $data['target'] = $arrres[$row][6];
                         $data['target_year'] = $year;
                         $i=1;
                         foreach ($arr_month as $val) {
-                          $data[$val]= (($i/12)*$arrres[$row][5]);
+                          $data[$val]= ($arrres[$row][$i+6]);
                           $i++;
                         }
-                        $data['baseline'] = $arrres[$row][6];
+                        $data['baseline'] = $arrres[$row][5];
                         $data['baseline_year'] = $year-1;
                         $this->mkuantitatif->insert_kuantitatif($data);
+
+                        $update['year'] = $year;
+                        $j=1;
+                        foreach ($arr_month as $val) {
+                          $update[$val]= $arrres[$row][$j+18];
+                          $j++;
+                        }
+                        $this->mkuantitatif->insert_kuantitatif_update($update);
                     }
                 }
 
-                if($file['for']=='kuantitatif_update'){
-                    $this->mfiles_upload->delete_db_truncate($file['for']);
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    }
-                        $data['year'] = $year;
-                        $j=1;
-                        foreach ($arr_month as $val) {
-                          $data[$val]= $arrres[$row][$j-1];
-                          $j++;
-                        }
-                        $this->mkuantitatif->insert_kuantitatif_update($data);
-                    }
-                }
+                // if($file['for']=='kuantitatif_update'){
+                //     $this->mfiles_upload->delete_db_truncate($file['for']);
+                //     for ($row = 2; $row <= $exel['row']; ++$row) {
+                //     $data = "";
+                //     for ($col = 0; $col < $exel['col']; ++$col) {
+                //     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+                //     }
+                //         $data['year'] = $year;
+                //         $j=1;
+                //         foreach ($arr_month as $val) {
+                //           $data[$val]= $arrres[$row][$j-1];
+                //           $j++;
+                //         }
+                //         $this->mkuantitatif->insert_kuantitatif_update($data);
+                //     }
+                // }
 
                 if($file['for']=='user'){
                     $array = array('id >' => '4');
