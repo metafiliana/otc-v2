@@ -2,7 +2,7 @@
 	foreach($programs as $prog){
 ?>
 <div class="row">
-	<div class="col-md-11">
+	<div class="col-md-11" style="padding-top: 12px; padding-bottom: 20px; padding-left: 15px;">
 		<a onclick="show_detail('<?php echo $prog->id?>');"><div><b><?php echo $prog->init_code?>. <?php echo $prog->title?></b></div></a>
 	</div>
 	<div class="col-md-1">

@@ -1,6 +1,11 @@
 <style>
-.pmo_header{		margin-right:40px;	}
-.pmo_header_active a{		margin-right:40px;		color: black;	}
+.pmo_header{
+		margin-right:40px;
+	}
+.pmo_header_active a{
+		margin-right:40px;
+		color: black;
+	}
 </style>
   <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
     <div class="row" style="margin-top:5px;">
@@ -9,7 +14,7 @@
           <button class="btn btn-default btn-sm btn-info-new">Update Activity</button>
         </a>
           <button class="btn btn-info-new btn-sm" disabled="disabled">Update Kpi</button>
-        </div>
+      </div>
         <div class="col-md-2 right_text">
           <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>
         </div>

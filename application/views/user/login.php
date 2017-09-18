@@ -51,7 +51,7 @@ $(document).ready(function(){
 			<button style="margin-top:30px; width: 150px;" class="btn btn-lg btn-primary btn-block submit center_text" type="submit" style="border-radius: 7px;">Log In</button>
 		</form>
 		<div style="text-align: center; margin-top: 10px;">
-			<a href="<?php echo base_url();?>user/troublelogin">>>Trouble Logging in ?</p>
+			<a href="<?php echo base_url();?>user/troublelogin">>>Trouble Logging in ?</a>
 		</div>
 		<?php if($params){?>
 		<div class="login_alert">
@@ -61,10 +61,9 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<?php }?>
-	</div>
-	<div class="col-md-2">
-	</div>
-	<div class="col-md-2">
-			
+		<div class="col-md-2">
 		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
 </div>
