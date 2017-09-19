@@ -3,9 +3,8 @@ $user = $this->session->userdata('user');
 ?>
 <div class="panel panel-default" style="margin-top: 15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 <div class="panel-body">
-			<div class="table-responsive">
-<table class="table table-hover">
-	<thead class="black_color old_grey_color_bg">
+<table class="table table-hover table-responsive">
+	<thead class="black_color">
 		<tr>
 			<th style="width: 50px; vertical-align: middle;" rowspan="2">No</th>
 			<th rowspan="2" style="vertical-align: middle;">KPI Metric</th>
@@ -13,7 +12,7 @@ $user = $this->session->userdata('user');
 			<th rowspan="2" style="vertical-align: middle;">Baseline <br> <?= $year_view-1 ?></th>
 			<th colspan="8" style="vertical-align: middle;"><?= $month_view ?> <?= $year_view?></th>
 		</tr>
-		<tr style="background-color: #20B2AA;">
+		<tr>
 			<th><?= $month_view ?></th>
 			<th>Monthly Target</th>
 			<th>Year End Target</th>
@@ -23,7 +22,7 @@ $user = $this->session->userdata('user');
 			<th>Sign Year End</th>
 			<th></th>
 		</tr>
-		<tr style="background-color: yellow;">
+		<tr class="yellow_color_bg">
 			<th>Leading</th>
 		</tr>
 	</thead>
@@ -60,14 +59,12 @@ $user = $this->session->userdata('user');
 		<?php }?>
 	</tr>
     <?php $check=1; } ?>
-		
+
 	</tbody>
 
-	<thead style="background-color: yellow;">
-		<tr>
-			<th>Lagging</th>
-		</tr>
-	</thead>
+	<tr class="yellow_color_bg">
+		<th>Lagging</th>
+	</tr>
 	<tbody class="center_text">
 	<?php $check=0; $i=1; foreach($lagging as $e) { ?>
 		<tr id='kuantitatif_<?= $e['prog']->id ?>'>
@@ -104,6 +101,5 @@ $user = $this->session->userdata('user');
 
 	</tbody>
 </table>
-</div>
 </div>
 </div>
