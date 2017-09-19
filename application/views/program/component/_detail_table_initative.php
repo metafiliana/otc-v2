@@ -7,7 +7,7 @@ $user = $this->session->userdata('user');
 			<th>No</th>
 			<th>Title</th>
 			<th>Status</th>
-			<th>Start Date</th>
+			<th>Starting Date</th>
 			<th>Completed Date</th>
 			<?php if($user['role']=='1'){?>
 				<th style="vertical-align:middle"></th>
