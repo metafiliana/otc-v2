@@ -4,7 +4,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 ?>
 
 <div id="popup_Modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 80%;">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -41,22 +41,35 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                     <table class="table">
                       <thead>
                         <tr>
-                          <th class="active">Target</th>
-                          <th class="active">Actual</th>
+                          <th></th>
+                          <th></th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
-
-                          <td style="vertical-align: middle;">
+                        <tr>
+                        <td colspan="12" style="vertical-align: middle; text-align: center; height: 40px;"><h4>Target</h4></td>
+                      </tr>
+                        <tr style="width: 100%;">
                         <?php foreach ($arr_month as $val2) { ?>
-                              <label><?= $val2 ?></label><input type="text" class="form-control" value="<?php if(isset($all_kuantitatif['kuantitatif']->$val2)){echo number_format($all_kuantitatif['kuantitatif']->$val2,0,",",".");} ?>" readonly />
-                          <?php } ?>
-
-                          <td style="vertical-align: middle;">
+                          <td style="vertical-align: middle; width: 8%;">
+                              <label><?= $val2 ?></label>
+                              <input type="text" class="form-control" value="<?php if(isset($all_kuantitatif['kuantitatif']->$val2)){echo number_format($all_kuantitatif['kuantitatif']->$val2,0,",",".");} ?>" readonly />
+                          </td>
+                        <?php } ?>
+                        </tr>
+                        
+                        <tr>
+                        <td colspan="12" style="vertical-align: middle; text-align: center; height: 40px;"><h4>Actual</h4></td>
+                      </tr>
+                        <tr style="width: 100%;">
                           <?php for ($i=0; $i <= $month_number-1 ; $i++) { ?>
+                          <td style="vertical-align: middle; width: 8%;">
                             <input type="number" class="form-control" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');} ?>" />
-                          <?php } ?>
-                        </td>
+                          </td>
+                        <?php } ?>
+                          
+                        </tr>
                         
                       </tbody>
                        

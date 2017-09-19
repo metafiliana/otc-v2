@@ -1,5 +1,5 @@
 <div id="popup_Modal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 80%;">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -44,20 +44,20 @@
                     <tr>
                       <th></th>
                       <th></th>
-                      <th></th>
                     </tr>
                   </thead>
                     <tbody>
-                      <td class="col-sm-2" style="vertical-align: middle; padding-left: 25px;">
-                        <b>Target</b>
-                      </td>
-                        <td class="col-sm-9" style="vertical-align: middle;">
-                      <?php foreach ($arr_month as $val2) { ?>  
-                      <br>
-                          <label><?= $val2 ?></label>
-                          <input type="number" class="form-control" name="target_<?= $val2 ?>" value="<?php if(isset($kuantitatif->$val2)){echo number_format($kuantitatif->$val2,0,",","");} ?>"/>
-                      <?php } ?>
-                      </td> 
+                      <tr>
+                        <td class="active" colspan="12" style="vertical-align: middle; text-align: center; height: 40px;"><h4>Target</h4></td>
+                      </tr>
+                      <tr style="width: 100%; padding-top: 20px;">
+                        <?php foreach ($arr_month as $val2) { ?>
+                          <td style="vertical-align: middle; width: 8%;">
+                              <label><?= $val2 ?></label>
+                              <input type="number" class="form-control" name="target_<?= $val2 ?>" value="<?php if(isset($kuantitatif->$val2)){echo number_format($kuantitatif->$val2,0,",","");} ?>"/>
+                          </td>
+                        <?php } ?>
+                        </tr>
                       
                     </tbody>
                     
