@@ -38,6 +38,12 @@
                 <input type="number" class="form-control" id="target" name="target" placeholder="Target" value="<?php if (isset($kuantitatif->target)){ echo number_format($kuantitatif->target,0,",",""); }?>">
                 </div>
             </div>
+            <div class="form-group" style="margin-bottom:30px;">
+                <label class="col-sm-2 control-label">Baseline</label>
+                <div class="col-sm-9">
+                <input type="number" class="form-control" id="baseline" name="baseline" placeholder="Baseline" value="<?php if (isset($kuantitatif->baseline)){ echo number_format($kuantitatif->baseline,0,",",""); }?>">
+                </div>
+            </div>
                 <table class="table">
                   <?php $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December']; if(isset($kuantitatif)){ ?>
                   <thead>

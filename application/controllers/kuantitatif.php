@@ -188,7 +188,7 @@ class Kuantitatif extends CI_Controller {
         $program['metric'] = $this->input->post('metric');
         $program['measurment'] = $this->input->post('measurment');
         $program['target'] = $this->input->post('target');
-        $program['baseline'] = 0;
+        $program['baseline'] = $this->input->post('baseline');
 
         $time=strtotime(date("Y-m-d"));
         $year=date("Y",$time);

@@ -8,7 +8,7 @@ $(document).ready(function(){
 	if($('#type_login').val()=='not_login'){
 		$('#not_login').removeClass('hide');
 	}
-        
+
     $("#formagenda").validate({
 		rules: {
 			username: {
@@ -38,7 +38,7 @@ $(document).ready(function(){
 			},
 			agree: "Please accept our policy"
 		}
-	});     
+	});
 });
 </script>
 <div class="modal fade" id="popup_Modal" tabindex="-13" role="dialog" aria-labelledby="myModalLabel">
@@ -95,11 +95,11 @@ $(document).ready(function(){
 									<?php }?>
 									</textarea>
 								</div>
-							</div>	
+							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label input-md">Attachment</label>
 								<div class="col-sm-10">
-									<input type="file" name="attachment[]" class="btn-md">
+									<input type="file" name="attachment[]" class="btn-md" multiple="">
 								    <div style="margin-top:10px">
 								        <?php if($files){ foreach($files as $file){?>
 								        <div title="<?php echo $file->title?>" id="file_<?php echo $file->id?>" style="margin-top:10px;">
@@ -107,7 +107,7 @@ $(document).ready(function(){
 								            <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($file->ext)?>"></span>
 								            <span title="<?=$file->title?>"><?php long_text_real($file->title, 20)?><img style="height:18px; margin-left:3px;" src="<?=get_icon_url('download.png')?>"></span>
 								        </a>
-								        <?php if($user['id'] == $file->user_id||$user['role']=='admin'){?>  
+								        <?php if($user['id'] == $file->user_id||$user['role']=='2'){?>
 								            <a class="pull-right" onclick="delete_file(<?php echo $file->id?>)">
 								                <span class="glyphicon glyphicon-trash" style="color:#c9302c"></span>
 								            </a><div style="clear:both"></div>
@@ -155,7 +155,7 @@ $(document).ready(function(){
         title: 'Apa anda yakin?',
         content: '',
         confirmButton: 'Ya',
-        confirm: function(){  
+        confirm: function(){
           $.ajax({
             type: "GET",
             url: config.base+"general/delete_file",

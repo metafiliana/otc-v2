@@ -154,33 +154,35 @@ class General extends CI_Controller {
 
     public function form_input_file()
     {
-        $data['title'] = "Form Input File";
-
         $user = $this->session->userdata('user');
+        if($user['role']==2){
+          $data['title'] = "Form Input File";
+          $data['user']=$user;
+          if($user['role']!='admin'){
+              $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+              $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+          }
+          else{
+              $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+              $data['notif']= $this->mremark->get_notification_by_admin('');
+          }
 
-        $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+          //$data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
+          //$data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');
+          $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
+          $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
+          $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
+          //$data['kuantitatif_update']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif_update','','1');
+
+          $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+          $data['footer'] = $this->load->view('shared/footer','',TRUE);
+          $data['content'] = $this->load->view('general/form_input_file',$data,TRUE);
+
+          $this->load->view('front',$data);
         }
         else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
+          redirect('home');
         }
-
-        //$data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
-        //$data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');
-        $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
-        $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
-        $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
-        //$data['kuantitatif_update']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif_update','','1');
-
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
-        $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['content'] = $this->load->view('general/form_input_file',$data,TRUE);
-
-        $this->load->view('front',$data);
-
     }
 
     public function submit_input_file()

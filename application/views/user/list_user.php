@@ -1,30 +1,37 @@
 <div id="" class="container no_pad">
-	<div class="no_pad" style="margin-bottom: 50px;">
+	<div class="no_pad" style="margin:15px 0 30px 0;">
 		<h2 style="">All User</h2>
 	</div>
-	<div>
+	<div class="component_part">
 		<div style="margin-bottom:10px; float:right;">
 		<a href="<?php echo base_url()?>user/input_user"  class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> User</a>
 		</div><div style="clear:both"></div>
-		
-		<table class="table table-bordered">
+
+		<table class="table display" id="table_user">
 			<thead>
-				<tr class="headertab"><th>No</th><th>Nama</th><th>Role</th><th>Initiative</th><th></th></tr>
+				<tr class="headertab"><th>No</th><th>Nama</th><th>Role</th><th>Initiative</th><th>Last Login</th><th></th></tr>
 			</thead>
 			<tbody>
 				<?php $i=1; foreach($user as $usr){?>
 				<tr id="usersu_<?php echo $usr->id?>">
 					<td><?php echo $i;?></td>
 					<td><?php echo $usr->name;?></td>
-					<td><?php echo $usr->role;?></td>
+					<td><?php echo user_role($usr->role);?></td>
 					<td><?php echo $usr->initiative;?></td>
+					<td><?php if($usr->last_login=="0000-00-00 00:00:00"){
+						echo "Null";
+					}
+					else{
+						$myDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $usr->last_login); echo date_format($myDateTime,'d/F/Y H:i:s');
+					}?>
+					</td>
 					<td>
 						<a href="<?php echo base_url()?>user/input_user/<?php echo $usr->id?>" class="btn btn-warning  btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 						<button class="btn btn-danger btn-xs" onclick="delete_user(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-trash"></span></button>
 						<button class="btn btn-primary btn-xs" onclick="reset_user(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-refresh"></span></button>
 					</td>
 				</tr>
-				
+
 				<?php $i++; }?>
 			</tbody>
 		</table>
@@ -68,4 +75,14 @@
 			}
 		});
 	}
+
+	$(document).ready(function () {
+		$('#table_user').DataTable( {
+						dom: 'Bfrtip',
+						paging: false,
+						buttons:[
+
+						]
+				} );
+	});
 </script>
