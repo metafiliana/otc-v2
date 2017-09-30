@@ -20,7 +20,7 @@ class Home extends CI_Controller {
     public function index()
     {
 
-		$data['title'] = "Home";
+		    $data['title'] = "Home";
 
         $user = $this->session->userdata('user');
         $data['user']=$user;
@@ -33,15 +33,15 @@ class Home extends CI_Controller {
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
-        $data['notif_hari'] = $this->muser->insert_notification_by_date_7();
-        $data['notif_hari'] = $this->muser->insert_notification_by_date_2();
+        //$data['notif_hari'] = $this->muser->insert_notification_by_date_7();
+        //$data['notif_hari'] = $this->muser->insert_notification_by_date_2();
         //$this->blast_email();
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('home/undermt',$data,TRUE);
+    		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+    		$data['content'] = $this->load->view('home/undermt',$data,TRUE);
 
-		$this->load->view('front',$data);
+    		$this->load->view('front',$data);
 
     }
 
@@ -65,7 +65,7 @@ class Home extends CI_Controller {
             'protocol' => 'smtp',
             'smtp_host' => 'smtp-mail.outlook.com',
             'smtp_port' => 587,
-            'smtp_user' => 'otc.mandiri@outlook.com',
+            'smtp_user' => 'otc.mandiri@outlook.com',//OTCmandiri1
             'smtp_pass' => 'QWEasd123',
             'smtp_crypto' => 'tls'
             //'mailtype' => 'html',
