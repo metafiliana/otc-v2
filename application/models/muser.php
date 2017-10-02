@@ -368,6 +368,36 @@ class Muser extends CI_Model {
     	}
     }
 
+    public function add_photo_profile($filename,$user){
+        $data = array(
+            'foto' => $filename
+        );
+        $this->db->where('username',$user);
+        return $this->db->update('user', $data);
+    }
+
+
+    public function get_photo_and_lastlogin($user){
+        $this->db->select('*');
+        $this->db->where('username',$user);
+        $result = $this->db->get('user');
+        return $result->row();
+    }
+
+    public function get_deskripsi($initid){
+        $this->db->select('deskripsi');
+        $this->db->where('init_code',$initid);
+        $result = $this->db->get('m_initiative');
+        return $result->row()->deskripsi;
+    }
+
+    public function get_aspirasi($initid){
+        $this->db->select('aspirasi');
+        $this->db->where('init_code',$initid);
+        $result = $this->db->get('m_initiative');
+        return $result->row()->aspirasi;
+    }
+
     // OTHER FUNCTION
     function config_email(){
     	$config['protocol'] = 'smtp';

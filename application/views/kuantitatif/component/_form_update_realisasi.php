@@ -17,7 +17,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                   <div style="margin-top:15px; padding-left: 30px; padding-right: 30px;">
                         <input type="hidden" id="id" name="id" value="<?php echo $id; ?>">
                         <input type="hidden" id="month_number" name="month_number" value="<?php echo $month_number; ?>">
-                        <table class="table table-hover">
+                        <table class="table table-hover" style="margin-left: 50px; margin-right: 50px;">
                           <tbody>
                             <tr>
                               <td style="border: none;"><h5>Metric</h5></td><td  style="border: none;"><h5><b><?php if (isset($all_kuantitatif['kuantitatif']->metric)){ echo $all_kuantitatif['kuantitatif']->metric ; }?></h5></td>  

@@ -212,7 +212,12 @@
 				<div class="col-md-4 dropdown pull-right">
 					<button style="margin:-40px 10px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						<div style="height:35px; width:35px; border-radius:30px; overflow:hidden; border:1px solid #e3e3e3; margin-top: 0px;">
-							<img style="height:50px; margin-left:0px;" width="100%" src="<?php echo base_url()?>assets/img/general/no-profile-img.gif">
+						<?php if(empty($foto)):?>
+							<img style="height:50px; margin-left:0px;" width="100%" src="<?php echo base_url()?>assets/img/user/<?php echo $user['username'];?>.jpg">
+						<?php else: ?>
+							<img id="foto" style="height:35px; margin-left:0px;" src="<?php echo base_url()?>assets/img/user/<?php echo $foto;?>" class="avatar" alt="">
+
+          				<?php endif; ?>
 						</div>
 					</button>
 					<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu2" style="top: 10px;">
@@ -222,6 +227,9 @@
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>logact">Log Activity</a></li>
 						<li class="divider"></li>
 					<?php }?>
+					<li role="presentation" style="padding:5px 0 5px;">
+						<a class="black_color" href="<?php echo base_url()?>user/edit_profile"><span class="glyphicon glyphicon-edit" style="height: 7px;"></span> Profile</a>
+					</li>
 					<li role="presentation" style="padding:5px 0 5px;">
 						<a class="black_color" href="<?php echo base_url()?>user/form_password"><span class="glyphicon glyphicon-lock" style="height: 7px;"></span> Change Password</a>
 					</li>

@@ -11,6 +11,7 @@ class User extends CI_Controller {
         $this->load->model('mremark');
         $this->load->library('excel');
         $this->load->library('form_validation');
+        $this->load->helper(array('form', 'url'));
     }
 
     public function index()
@@ -109,7 +110,10 @@ class User extends CI_Controller {
 			'is_logged_in' => true,
 			'role' => $user->role,
 			'jabatan' => $user->jabatan,
-			'initiative' => $user->initiative
+			'initiative' => $user->initiative,
+            'foto' => $user->foto,
+            'private_email' => $user->private_email,
+            'work_email' => $user->work_email
 		);
       $login['last_login']=date("Y-m-d H:i:s");
       $this->muser->update_user($login,$user->id);
@@ -327,7 +331,7 @@ class User extends CI_Controller {
                     $reco['u_recover'] = $this->input->post('username');
                     $reco['key'] = md5(md5(time()));
 
-                    $to = 'zand.only@gmail.com';
+                    $to = 'alfiansyah.ichsan@gmail.com';
                     //$to = 'alfiansyah.ichsan@gmail.com';
                     //array('tezza.riyanto@bankmandiri.co.id');
                     $subject = 'Permohonan ubah password pada sistem OTC';
@@ -444,6 +448,67 @@ class User extends CI_Controller {
                 }
                 $this->load->view('user/success_reset');
             }
+        }
+    }
+
+    public function edit_profile(){
+        $username = $this->session->userdata('user');
+        $user = $username['username'];
+        $initid = $username['initiative'];
+        $foto = $this->muser->get_photo_and_lastlogin($user)->foto;
+        $lastlogin = $this->muser->get_photo_and_lastlogin($user)->last_login;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin
+        );
+        $data['title'] = "Edit Profile";
+
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+        $data['sidebar'] = '';
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['content'] = $this->load->view('user/edit_profile',$data,TRUE);
+
+        $this->load->view('front',$data);
+    }
+
+    public function photo_upload(){
+        $username = $this->session->userdata('user');
+        $user = $username['username'];
+        $upload_path = "assets/img/user/";
+        if (!is_dir($upload_path)) {
+            mkdir($upload_path, 777, true);
+        }
+        $config = array(
+            'upload_path' => $upload_path,
+            'allowed_types' => "gif|jpg|png|jpeg|pdf",
+            'overwrite' => TRUE,
+            'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
+            'max_height' => "5000",
+            'max_width' => "5000"
+        );
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('userfile'))
+        {
+            $error = array('error' => $this->upload->display_errors());                        
+        }
+        else
+        {
+            $getusernamephoto = $this->muser->get_photo_and_lastlogin($user);
+            $path = $upload_path.$getusernamephoto;
+            if (file_exists($path)) {
+                unlink($path);
+                $upload_data = $this->upload->data();
+                $filename =  $upload_data['file_name'];
+                $this->muser->add_photo_profile($filename,$user);
+            }else{
+                $upload_data = $this->upload->data();
+                $filename =  $upload_data['file_name'];
+                $this->muser->add_photo_profile($filename,$user);
+            }
+            
+            redirect ('user/edit_profile');
         }
     }
 
