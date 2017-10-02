@@ -110,10 +110,7 @@ class User extends CI_Controller {
 			'is_logged_in' => true,
 			'role' => $user->role,
 			'jabatan' => $user->jabatan,
-			'initiative' => $user->initiative,
-            'foto' => $user->foto,
-            'private_email' => $user->private_email,
-            'work_email' => $user->work_email
+			'initiative' => $user->initiative
 		);
       $login['last_login']=date("Y-m-d H:i:s");
       $this->muser->update_user($login,$user->id);
@@ -455,13 +452,17 @@ class User extends CI_Controller {
         $username = $this->session->userdata('user');
         $user = $username['username'];
         $initid = $username['initiative'];
-        $foto = $this->muser->get_photo_and_lastlogin($user)->foto;
-        $lastlogin = $this->muser->get_photo_and_lastlogin($user)->last_login;
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
         $data = array(
             'username' => $user,
             'foto' => $foto,
             'initid' => $initid,
-            'last_login' => $lastlogin
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
         );
         $data['title'] = "Edit Profile";
 
@@ -495,7 +496,7 @@ class User extends CI_Controller {
         }
         else
         {
-            $getusernamephoto = $this->muser->get_photo_and_lastlogin($user);
+            $getusernamephoto = $this->muser->get_data_user($user);
             $path = $upload_path.$getusernamephoto;
             if (file_exists($path)) {
                 unlink($path);

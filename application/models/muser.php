@@ -377,7 +377,7 @@ class Muser extends CI_Model {
     }
 
 
-    public function get_photo_and_lastlogin($user){
+    public function get_data_user($user){
         $this->db->select('*');
         $this->db->where('username',$user);
         $result = $this->db->get('user');

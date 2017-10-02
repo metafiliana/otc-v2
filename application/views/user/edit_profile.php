@@ -58,14 +58,14 @@
             <label class="col-lg-1 control-label">Private Email</label>
             <div class="col-lg-1"></div>
             <div class="col-lg-9">
-              <input name="private_email" class="form-control" type="text" value="<?php echo $user['private_email'];?>" disabled>
+              <input name="private_email" class="form-control" type="text" value="<?php echo $private_email;?>" disabled>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-1 control-label">Work Email</label>
             <div class="col-lg-1"></div>
             <div class="col-lg-9">
-              <input name="work_email" class="form-control" type="text" value="<?php echo $user['work_email'];?>" disabled>
+              <input name="work_email" class="form-control" type="text" value="<?php echo $work_email;?>" disabled>
             </div>
           </div>
           <div class="form-group">
