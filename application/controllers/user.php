@@ -524,6 +524,7 @@ class User extends CI_Controller {
             $this->muser->delete_photo($user);
             redirect('user/edit_profile');
         }else{
+            $this->muser->delete_photo($user);
             redirect('user/edit_profile');
         }
     }
