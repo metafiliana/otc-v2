@@ -215,7 +215,7 @@
 						<?php if(empty($foto)):?>
 							<img style="height:50px; margin-left:0px;" width="100%" src="<?php echo base_url()?>assets/img/user/<?php echo $user['username'];?>.jpg">
 						<?php else: ?>
-							<img id="foto" style="height:35px; margin-left:0px;" src="<?php echo base_url()?>assets/img/user/<?php echo $foto;?>" class="avatar" alt="">
+							<img id="foto" style="height:35px; margin-left:0px;" src="<?php echo base_url()?>assets/img/upload/<?php echo $foto;?>" class="avatar" alt="">
 
           				<?php endif; ?>
 						</div>

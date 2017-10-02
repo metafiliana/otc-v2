@@ -384,18 +384,13 @@ class Muser extends CI_Model {
         return $result->row();
     }
 
-    public function get_deskripsi($initid){
-        $this->db->select('deskripsi');
-        $this->db->where('init_code',$initid);
-        $result = $this->db->get('m_initiative');
-        return $result->row()->deskripsi;
-    }
-
-    public function get_aspirasi($initid){
-        $this->db->select('aspirasi');
-        $this->db->where('init_code',$initid);
-        $result = $this->db->get('m_initiative');
-        return $result->row()->aspirasi;
+    public function delete_photo($user){
+        $data = array(
+            'foto' => null
+        );
+        $this->db->select('foto');
+        $this->db->where('username',$user);
+        return $this->db->update('user',$data);
     }
 
     // OTHER FUNCTION

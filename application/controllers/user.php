@@ -477,7 +477,7 @@ class User extends CI_Controller {
     public function photo_upload(){
         $username = $this->session->userdata('user');
         $user = $username['username'];
-        $upload_path = "assets/img/user/";
+        $upload_path = "assets/img/upload/";
         if (!is_dir($upload_path)) {
             mkdir($upload_path, 777, true);
         }
@@ -496,7 +496,7 @@ class User extends CI_Controller {
         }
         else
         {
-            $getusernamephoto = $this->muser->get_data_user($user);
+            $getusernamephoto = $this->muser->get_data_user($user)->foto;
             $path = $upload_path.$getusernamephoto;
             if (file_exists($path)) {
                 unlink($path);
@@ -510,6 +510,21 @@ class User extends CI_Controller {
             }
             
             redirect ('user/edit_profile');
+        }
+    }
+
+    public function delete_photo_user(){
+        $username = $this->session->userdata('user');
+        $user = $username['username'];
+        $upload_path = "assets/img/upload/";
+        $getfoto = $this->muser->get_data_user($user)->foto;
+        $path = $upload_path.$getfoto;
+        if (file_exists($path)) {
+            unlink($path);
+            $this->muser->delete_photo($user);
+            redirect('user/edit_profile');
+        }else{
+            redirect('user/edit_profile');
         }
     }
 

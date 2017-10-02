@@ -4,7 +4,7 @@
 <div class="container" style="margin-top: 50px; background-color: white; padding: 20px; width: 60%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-bottom: 100px;">
     
     <h1 style="text-align: center; margin: 0 auto !important;">Profile</h1>
-    <p style="margin-left: 75%;"><b style="padding-right: 10px;">Last Login</b> <?php echo $last_login;?></p>
+    <p style="margin-left: 75%;"><b style="padding-right: 10px;">Last Login</b><?php $datelogin = $last_login; echo date("d/F/Y H:i:s", strtotime($datelogin));?></p>
     <!-- <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a> 
           <i class="fa fa-coffee"></i>
@@ -22,7 +22,7 @@
 
           <?php else: ?>
 
-          <img id="foto" style="width: 250px; height: 250px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" src="<?php echo base_url()?>assets/img/user/<?php echo $foto;?>" class="avatar" alt="">
+          <img id="foto" style="width: 250px; height: 250px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" src="<?php echo base_url()?>assets/img/upload/<?php echo $foto;?>" class="avatar" alt="">
 
           <?php endif; ?>
           <br><br>
@@ -36,7 +36,12 @@
           </div>
           <div class="form-group">
             <div class="col-lg-12">
+              <?php if(empty($foto)): ?>
               <input id="submit" type="submit" class="btn btn-primary" value="Save Changes">
+            <?php else: ?>
+              <input id="submit" type="submit" class="btn btn-primary" value="Save Changes">
+              <a href="<?php echo base_url()?>user/delete_photo_user/<?php echo $foto?>" class="btn btn-danger"><span class="glyphicon glyphicon-trash"> Delete</span></a>
+          <?php endif;?>
             </div>
           </div>
         </form>
