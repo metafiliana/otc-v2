@@ -281,6 +281,7 @@ class Program extends CI_Controller {
     //otc v2
     public function submit_action(){
         $id = $this->uri->segment(3);
+        $user = $this->session->userdata('user');
 
         $program['title'] = $this->input->post('title');
         $program['status'] = $this->input->post('status');
@@ -297,6 +298,10 @@ class Program extends CI_Controller {
           $this->mprogram->update_action($program,$id);
         }
         else{
+          $initiative=$this->minitiative->get_detail_initiative($program['initiative_id']);
+          //print($initiative->init_code);
+          $content = "<p>".$user['name']." </b> menambahkan: ".$program['title']." pada <b><br>".$initiative->init_code.". ".$initiative->title."<br> Start: ".$start->format('d-F-Y')."<br> End: ".$end->format('d-F-Y')."</b></p>";
+          insert_notification($this,$content,0,0);
           $this->mprogram->insert_action($program);
         }
 
@@ -317,9 +322,16 @@ class Program extends CI_Controller {
 
     //otc v2
     public function delete_action(){
+        $user = $this->session->userdata('user');
         $id = $this->input->post('id');
-        if($this->mprogram->delete_action($id)){
+        if($id){
             $json['status'] = 1;
+            $action=$this->mprogram->get_action_by_init_code('',$id)[0];
+            $initiative=$this->minitiative->get_detail_initiative($action->initiative_id);
+            //print($initiative->init_code);
+            $content = "<p>".$user['name']." </b> menghapus: ".$action->title." pada <b><br>".$initiative->init_code.". ".$initiative->title."<br> Start: ".date_format(date_create($action->start_date), 'd-F-Y')."<br> End: ".date_format(date_create($action->end_date), 'd-F-Y')."</b></p>";
+            insert_notification($this,$content,0,0);
+            $this->mprogram->delete_action($id);
         }
         else{
             $json['status'] = 0;
