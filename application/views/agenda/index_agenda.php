@@ -188,7 +188,7 @@
 		padding:5px;
 	}
 	.headeras{
-		text-align:center;
+		/*text-align:center;*/
 		font-weight:bold;
 	}
 </style>

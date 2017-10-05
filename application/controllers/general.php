@@ -24,22 +24,22 @@ class General extends CI_Controller {
     /**
      * Method for page (public)
      */
-    public function index()
-    {
+     public function index()
+     {
 
-    }
-
+     }
+     
     public function overview(){
     	$data['title'] = 'Overview Tower Center';
 
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('general/overview',array(),TRUE);
+      $data['header'] = $this->load->view('shared/header-new','',TRUE);
+	    $data['footer'] = $this->load->view('shared/footer','',TRUE);
+	    $data['content'] = $this->load->view('general/overview',array(),TRUE);
 
-		$this->load->view('front',$data);
+      $this->load->view('front',$data);
     }
 
     public function files(){

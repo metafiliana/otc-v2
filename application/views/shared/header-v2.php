@@ -173,7 +173,7 @@
 						<li class="menu"><a href=#>Initiatives</a></li>
 
 						<li class="menu"><a href=#>Sharing Files</a></li>
-						<li class="menu"><a href=#>Agenda</a></li>
+						<li class="menu"><a href="<?php echo base_url()?>agenda">Agenda</a></li>
 					</ul>
 				</nav></div>
 		</div>
@@ -228,13 +228,13 @@
 						<li class="divider"></li>
 					<?php }?>
 					<li role="presentation" style="padding:5px 0 5px;">
-						<a class="black_color" href="<?php echo base_url()?>user/edit_profile"><span class="glyphicon glyphicon-edit" style="height: 7px;"></span> Profile</a>
+						<a class="black_color" href="<?php echo base_url()?>user/edit_profile"><span class="glyphicon glyphicon-edit" style="height: 7px;"></span>  Profile</a>
 					</li>
 					<li role="presentation" style="padding:5px 0 5px;">
-						<a class="black_color" href="<?php echo base_url()?>user/form_password"><span class="glyphicon glyphicon-lock" style="height: 7px;"></span> Change Password</a>
+						<a class="black_color" href="<?php echo base_url()?>user/form_password"><span class="glyphicon glyphicon-lock" style="height: 7px;"></span>  Change Password</a>
 					</li>
 					<li role="presentation" style="padding:5px 0 5px;">
-						<a class="black_color" href="<?php echo base_url()?>user/logout"><span class="btn-sm glyphicon glyphicon-off" style="height: 7px;"></span> Log Out</a>
+						<a class="black_color" href="<?php echo base_url()?>user/logout"><span class="glyphicon glyphicon-off" style="height: 7px;"></span>  Log Out</a>
 					</li>
 					</ul>
 				</div><div style="clear:both"></div>

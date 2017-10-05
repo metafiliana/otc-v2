@@ -60,6 +60,10 @@ class Mkuantitatif extends CI_Model {
               $arr[$i]['month_kiner'] = (1-(($arr[$i]['update']->$month-$arr[$i]['target']->$month)/$arr[$i]['target']->$month));
               $arr[$i]['year_kiner'] = (1-(($arr[$i]['update']->$month-$prog->target)/$prog->target));
             }
+            elseif ($arr[$i]['update']->$month==0 || $arr[$i]['target']->$month==0 || $prog->target==0) {
+              $arr[$i]['month_kiner'] = 0;
+              $arr[$i]['year_kiner'] = 0;
+            }
             else{
               $arr[$i]['month_kiner'] = ($arr[$i]['update']->$month/$arr[$i]['target']->$month);
               $arr[$i]['year_kiner'] = ($arr[$i]['update']->$month/$prog->target);
@@ -83,6 +87,10 @@ class Mkuantitatif extends CI_Model {
             if(in_array($prog->id,$legend,TRUE)){
               $tot['month'] += (1-(($arr[$i]['update']->$month-$arr[$i]['target']->$month)/$arr[$i]['target']->$month));
               $tot['year'] += (1-(($arr[$i]['update']->$month-$prog->target)/$prog->target));
+            }
+            elseif ($arr[$i]['update']->$month==0 || $arr[$i]['target']->$month==0 || $prog->target==0) {
+              $tot['month'] += 0;
+              $tot['year'] += 0;
             }
             else{
               $tot['month'] += ($arr[$i]['update']->$month/$arr[$i]['target']->$month);
