@@ -14,7 +14,7 @@ class Summary extends CI_Controller {
         $this->load->model('mfiles_upload');
         $this->load->model('mkuantitatif');
         $this->load->model('msummary');
-        $this->load->model('taction');
+        $this->load->model('mt_action');
         $this->load->library('excel');
         $this->load->helper('form');
         $this->load->helper('site_helper');
@@ -284,14 +284,14 @@ class Summary extends CI_Controller {
         // views end
 
         //process start
-        $data['init_table'] = $this->taction->getAllInitiative();
+        $data['init_table'] = $this->mt_action->getAllInitiative();
         $data['controller'] = $this;
         //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
-        $data['content'] = $this->load->view('summary/summary',$views,TRUE);
+        $data['content'] = $this->load->view('summary/milestone',$views,TRUE);
 
         $this->load->view('front',$data);
     }
@@ -308,12 +308,52 @@ class Summary extends CI_Controller {
         echo json_encode($return);
     }
 
-    public function getStatus($initiative_id, $status = false)
+    public function getStatus($initiative_id, $status = false, $future = false, $flagged = false)
     {
         $return = 0;
-        $return = $this->taction->getStatusSummaryMilestone($initiative_id, $status);
+
+        if ($future){
+            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status);
+        }elseif ($flagged){
+            $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status);
+        }else{
+            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status);
+        }
         
         return $return;
+    }
+
+    public function listKuantitatif()
+    {
+        $data['title'] = "List All Program";
+        $prog['page']="all";
+        $user = $this->session->userdata('user');
+        $prog['user'] = $user;
+        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+        // views start
+        $views = array();
+        // views end
+
+        //process start
+        $data['init_table'] = $this->mt_action->getAllInitiative();
+        $data['controller'] = $this;
+        //process end
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        $data['content'] = $this->load->view('summary/kuantitatif',$views,TRUE);
+
+        $this->load->view('front',$data);
     }
 
 }

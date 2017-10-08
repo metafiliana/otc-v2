@@ -12,7 +12,7 @@ class Initiative extends CI_Controller {
         $this->load->model('mprogram');
         $this->load->model('mfiles_upload');
         $this->load->model('muser');
-        $this->load->model('taction');
+        $this->load->model('mt_action');
         $this->load->helper('url');
 
         $session = $this->session->userdata('user');
@@ -487,13 +487,13 @@ class Initiative extends CI_Controller {
     {
     	$data_insert = array();
 
-    	$data_user = $this->taction->getUserInit();
+    	$data_user = $this->mt_action->getUserInit();
     	foreach ($data_user as $key => $value) {
     		if (is_array($value['initiative'])){
     			foreach ($value['initiative'] as $key1 => $value1) {
-    				$initiative_id = $this->taction->getInitiativeByInitCode($value1);
+    				$initiative_id = $this->mt_action->getInitiativeByInitCode($value1);
     				if ($initiative_id !== null){
-    					$data_action = $this->taction->getActionByInitId($initiative_id);
+    					$data_action = $this->mt_action->getActionByInitId($initiative_id);
     					if ($data_action !== null){
     						foreach ($data_action as $key2 => $value2) {
     							$insert = array();
@@ -512,6 +512,8 @@ class Initiative extends CI_Controller {
     							$insert['status'] = $status;
 
     							$insert['updated_date'] = date('Y-m-d');
+    							$insert['start'] = $value2['start_date'];
+    							$insert['end'] = $value2['end_date'];
 
 							    $this->db->insert('t_action', $insert);
     						}

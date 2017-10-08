@@ -42,10 +42,10 @@
             <div class="col-md-2">
                 <div class="affix col-md-2" style="padding-right: 30px;">
                     <div class="col-sm-6 form-group">
-                        <a href="<?php echo base_url()?>summary/program_list/"><button class="btn btn-default">Summary</button></a>
+                        <button class="btn btn-info" disabled="disabled">Summary</button>
                     </div>
                     <div class="col-sm-6 form-group">
-                        <button class="btn btn-info" disabled="disabled">Milestone</button>
+                        <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-default">Milestone</button></a>
                     </div>
                     <?php echo form_open('summary/searchSummary', 'id="formSearch"'); ?>
                     <div class="col-sm-12 form-group">
@@ -95,15 +95,15 @@
                             foreach ($init_table as $key => $value) {
                                 echo "<tr>";
                                     echo "<td>".$value->title."</td>";
-                                    echo "<td>".$controller->getStatus($value->id, 1)."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$controller->getStatus($value->id, 2)."</td>";
-                                    echo "<td>".$controller->getStatus($value->id, 3)."</td>";
-                                    echo "<td>".$controller->getStatus($value->id, 0)."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$controller->getStatus($value->id)."</td>";
-                                    echo "<td>".$i."</td>";
-                                    echo "<td>".$i."</td>";
+                                    echo "<td>".$controller->getStatus($value->id, 1)."</td>"; // completed
+                                    echo "<td>".$controller->getStatus($value->id, 0, true)."</td>"; // future start
+                                    echo "<td>".$controller->getStatus($value->id, 2)."</td>"; // on track
+                                    echo "<td>".$controller->getStatus($value->id, 3)."</td>"; // issues
+                                    echo "<td>".$controller->getStatus($value->id, 0)."</td>"; // not started
+                                    echo "<td>".$controller->getStatus($value->id, 3, false, true)."</td>"; // flagged
+                                    echo "<td>".$controller->getStatus($value->id)."</td>"; //total
+                                    echo "<td>".$i."</td>"; // MTD
+                                    echo "<td>".$i."</td>"; // YTD
                                     // if () {
                                     // echo "<td><i class='bullet-green'>&#8226</i></td>";
                                     // }

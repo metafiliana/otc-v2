@@ -5,7 +5,7 @@
  * @author Afil
  */
 
-class Taction extends CI_Model {
+class Mt_action extends CI_Model {
 
 	public $status = array(
 			0 => 'Not Started',
@@ -61,7 +61,7 @@ class Taction extends CI_Model {
     function getActionByInitId($init_code)
     {
     	$return = array();
-        $this->db->select('id, status');
+        $this->db->select('id, status, start_date, end_date');
         $this->db->where('initiative_id', $init_code);
         $query = $this->db->get('m_action')->result_array();
 
@@ -82,6 +82,50 @@ class Taction extends CI_Model {
         $query = $this->db->query($sql)->row();
 
         return ($query->jumlah > 0) ? $query->jumlah : 0;
+    }
+
+    function getStatusFutureMilestone($initiative_id, $status = false)
+    {
+        $where = '`updated_date` < `start` AND `initiative_id` = '.$initiative_id;
+        if ($status !== false){
+            $where .= ' AND `status` = '.$status;
+        }
+        $sql = 'select count(id) as jumlah from t_action WHERE '.$where;
+        $query = $this->db->query($sql)->row();
+
+        return ($query->jumlah > 0) ? $query->jumlah : 0;
+    }
+
+    function getStatusFlaggedMilestone($initiative_id, $status = false)
+    {
+        // before start
+        $where1 = '`updated_date` < `start` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND `status` = '.$status;
+
+        // between start and end
+        $where2 = '`updated_date` between `start` AND `end` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND `status` = '.$status;
+
+        // after end date
+        $where3 = '`updated_date` > `end` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND `status` = '.$status;
+
+        // main query
+        $sql = 'select count(id) as jumlah from t_action WHERE ';
+
+        // before start
+        $query1 = $this->db->query($sql.$where1)->row();
+
+        // between start and end
+        $query2 = $this->db->query($sql.$where2)->row();
+
+        // after end date
+        $query3 = $this->db->query($sql.$where3)->row();
+
+        $hasil1 = ($query1->jumlah > 0) ? $query1->jumlah : 0;
+        $hasil2 = ($query2->jumlah > 0) ? $query2->jumlah : 0;
+        $hasil3 = ($query3->jumlah > 0) ? $query3->jumlah : 0;
+
+        $total = $hasil1 + $hasil2 + $hasil3;
+
+        return ($total > 0) ? $total : 0;
     }
 
 }
