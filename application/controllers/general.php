@@ -24,10 +24,33 @@ class General extends CI_Controller {
     /**
      * Method for page (public)
      */
-    public function index()
-    {
+     public function index()
+     {
 
-    }
+     }
+
+
+     public function master()
+     {
+        $data['title'] = 'Master Page';
+
+        $user = $this->session->userdata('user');
+
+        //master cluster
+        $data['cluster'] = $this->minitiative->get_master('','m_cluster');
+
+        //master initiative
+        $data['initiative'] = $this->minitiative->get_master('','m_initiative');
+
+        //master kuantitatif_legend
+        $data['kuan_legend'] = $this->minitiative->get_kuantitatif_legend();
+
+        $data['header'] = $this->load->view('shared/header-v2','',TRUE);
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['content'] = $this->load->view('general/master',$data,TRUE);
+
+        $this->load->view('front',$data);
+     }
 
     public function overview(){
     	$data['title'] = 'Overview Tower Center';
@@ -35,11 +58,11 @@ class General extends CI_Controller {
     	$user = $this->session->userdata('user');
     	$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
-        $data['header'] = $this->load->view('shared/header-new','',TRUE);
-		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('general/overview',array(),TRUE);
+      $data['header'] = $this->load->view('shared/header-new','',TRUE);
+	    $data['footer'] = $this->load->view('shared/footer','',TRUE);
+	    $data['content'] = $this->load->view('general/overview',array(),TRUE);
 
-		$this->load->view('front',$data);
+      $this->load->view('front',$data);
     }
 
     public function files(){
@@ -154,32 +177,35 @@ class General extends CI_Controller {
 
     public function form_input_file()
     {
-        $data['title'] = "Form Input File";
-
         $user = $this->session->userdata('user');
+        if($user['role']==2){
+          $data['title'] = "Form Input File";
+          $data['user']=$user;
+          if($user['role']!='admin'){
+              $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+              $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+          }
+          else{
+              $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+              $data['notif']= $this->mremark->get_notification_by_admin('');
+          }
 
-        $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+          //$data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
+          //$data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');
+          $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
+          $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
+          $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
+          //$data['kuantitatif_update']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif_update','','1');
+
+          $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+          $data['footer'] = $this->load->view('shared/footer','',TRUE);
+          $data['content'] = $this->load->view('general/form_input_file',$data,TRUE);
+
+          $this->load->view('front',$data);
         }
         else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
+          redirect('home');
         }
-
-        //$data['initiative']=$this->mfiles_upload->get_files_upload_by_ownership_id('program','','1');
-        //$data['deliverable']=$this->mfiles_upload->get_files_upload_by_ownership_id('initiative','','1');
-        $data['action']=$this->mfiles_upload->get_files_upload_by_ownership_id('action','','1');
-        $data['user']=$this->mfiles_upload->get_files_upload_by_ownership_id('user','','1');
-        $data['kuantitatif']=$this->mfiles_upload->get_files_upload_by_ownership_id('kuantitatif','','1');
-
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
-        $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['content'] = $this->load->view('general/form_input_file',$data,TRUE);
-
-        $this->load->view('front',$data);
-
     }
 
     public function submit_input_file()
@@ -222,6 +248,7 @@ class General extends CI_Controller {
             foreach ($oldfiles as $oldfile) {
                 @unlink($oldfile);
             }*/
+            $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
             $file_uploaded = $this->upload->data();
             $file_address = $upload_path.$filename.$file_uploaded['file_ext'];
 
@@ -250,7 +277,8 @@ class General extends CI_Controller {
                 }
 
                 if($file['for']=='kuantitatif'){
-                    $this->mfiles_upload->delete_db_truncate('kuantitatif');
+                    $this->mfiles_upload->delete_db_truncate($file['for']);
+                    $this->mfiles_upload->delete_db_truncate('kuantitatif_update');
                     for ($row = 2; $row <= $exel['row']; ++$row) {
                     $data = "";
                     for ($col = 0; $col < $exel['col']; ++$col) {
@@ -261,38 +289,43 @@ class General extends CI_Controller {
                         $data['init_id'] = $arrres[$row][2];
                         $data['metric'] = $arrres[$row][3];
                         $data['measurment'] = $arrres[$row][4];
-                        $data['target'] = $arrres[$row][5];
+                        $data['target'] = $arrres[$row][6];
                         $data['target_year'] = $year;
-                        for ($i = 1; $i <= 12; $i++) {
-                            $data[$i]= (($i/12)*$arrres[$row][5]);
+                        $i=1;
+                        foreach ($arr_month as $val) {
+                          $data[$val]= ($arrres[$row][$i+6]);
+                          $i++;
                         }
-                        if($arrres[$row][6]){
-                          $this->mfiles_upload->delete_db_truncate('baseline');
-                          $baseline['kuantitatif_id'] = $data['init_id'];
-                          $baseline['amount_baseline'] = $arrres[$row][6];
-                          $baseline['year'] = $year-1;
-                          $this->mkuantitatif->insert_baseline($baseline);
-                        }
+                        $data['baseline'] = $arrres[$row][5];
+                        $data['baseline_year'] = $year-1;
                         $this->mkuantitatif->insert_kuantitatif($data);
+
+                        $update['year'] = $year;
+                        $j=1;
+                        foreach ($arr_month as $val) {
+                          $update[$val]= $arrres[$row][$j+18];
+                          $j++;
+                        }
+                        $this->mkuantitatif->insert_kuantitatif_update($update);
                     }
                 }
 
-                if($file['for']=='kuantitatif_update'){
-                    $this->mfiles_upload->delete_db_truncate($file['for']);
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    }
-                        //$data['init_code'] = $arrres[$row][0];
-                        //$data['init_id'] = $arrres[$row][1];
-                        $data['year'] = $year;
-                        for ($i = 1; $i <= 12; $i++) {
-                            $data[$i]= $arrres[$row][$i-1];
-                        }
-                        $this->mkuantitatif->insert_kuantitatif_update($data);
-                    }
-                }
+                // if($file['for']=='kuantitatif_update'){
+                //     $this->mfiles_upload->delete_db_truncate($file['for']);
+                //     for ($row = 2; $row <= $exel['row']; ++$row) {
+                //     $data = "";
+                //     for ($col = 0; $col < $exel['col']; ++$col) {
+                //     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+                //     }
+                //         $data['year'] = $year;
+                //         $j=1;
+                //         foreach ($arr_month as $val) {
+                //           $data[$val]= $arrres[$row][$j-1];
+                //           $j++;
+                //         }
+                //         $this->mkuantitatif->insert_kuantitatif_update($data);
+                //     }
+                // }
 
                 if($file['for']=='user'){
                     $array = array('id >' => '4');

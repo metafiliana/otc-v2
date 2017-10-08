@@ -1,15 +1,18 @@
 <link href="<?php echo base_url();?>assets/css/user.css" rel="stylesheet"/>
 <style>
 	body{
-		margin:0;padding:20px 430px 20px 430px;
-		background-size:cover;
-		background-image:url('<?php echo base_url()?>assets/img/tower.jpg');
-		opacity: 0.9;
+		margin:0;
+		background-image:url('<?php echo base_url()?>assets/img/BG.png');
+		background-size: cover;
+	    background-repeat: no-repeat;
+	    background-position: 50% 50%;
 	}
 	.container{
+		width: 25%;
+		margin-left: 20%;
 		background-color: white;
 		border-radius: 5px;
-		padding-bottom: 20px;
+		padding-bottom: 35px;
 		padding-left: 20px;
 		padding-right: 20px;
 	}
@@ -39,9 +42,6 @@ $(document).ready(function(){
 </script>
 
 <div style="height:100%;">
-	<div class="col-md-2">
-
-	</div>
 
 	<div class="col-md-8 login-form container" style="position: relative; margin-top: 5%;">
 		<a href="<?php echo base_url();?>user/login" style="text-decoration:none;"><button style="margin-top: 15px; float: left;" class="btn btn-sm btn-default center_text submit" style="border-radius: 7px;">Back</button></a>
@@ -50,15 +50,20 @@ $(document).ready(function(){
 		<h3 style="color: rgb(35,95,111); font-weight: bold;">RECOVER PASSWORD</h3>
 	</div>
 		<form class="form-signin" action="<?php echo base_url();?>user/sendMail" method="post" role="form">
-			<p class="desc_login_form center_text" style="padding-top: 10px; margin-bottom: 30px;">Please enter your username or email address, and we will email you updated login detail</p>
-			
+			<p class="desc_login_form center_text" style="padding-top: 10px; margin-bottom: 30px;">Please enter your username, and we will email to your <strong>mandiri/work email</strong> for updated login detail</p>
+
 			<?php if($this->session->flashdata('email_sent')): ?>
 			<div class="alert alert-success alert-dismissable fade in">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
 			    <p><?php echo $this->session->flashdata('email_sent'); ?></p>
 			</div>
+			<?php elseif($this->session->flashdata('error')) : ?>
+    		<div class="alert alert-danger alert-dismissable fade in">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			    <p><?php echo $this->session->flashdata('error'); ?></p>
+			</div>
 			<?php endif; ?>
-			
+
 			<input type="text" class="form-control" placeholder="" name="username" id="username" required autofocus style="border-radius: 7px;">
 			<button style="margin-top:30px; width: 150px;" class="btn btn-md btn-primary btn-block center_text submit" type="submit" style="border-radius: 7px;">Submit</button>
 		</form>
@@ -68,8 +73,12 @@ $(document).ready(function(){
 	</div>
 
 	</div>
+
 	<div class="col-md-2">
-			
+
+	</div>
+	<div class="col-md-2">
+
 	</div>
 
 	<div id="myModal" class="modal fade" role="dialog">

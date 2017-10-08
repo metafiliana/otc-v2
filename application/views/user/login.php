@@ -1,15 +1,18 @@
 <link href="<?php echo base_url();?>assets/css/user.css" rel="stylesheet"/>
 <style>
 	body{
-		margin:0;padding:20px 430px 20px 430px;
-		background-size:cover;
-		background-image:url('<?php echo base_url()?>assets/img/tower.jpg');
-		opacity: 0.9;
+		margin:0;
+		background-image:url('<?php echo base_url()?>assets/img/BG.png');
+		background-size: cover;
+	    background-repeat: no-repeat;
+	    background-position: 50% 50%;
 	}
 	.container{
+		width: 25%;
+		margin-left: 20%;
 		background-color: white;
 		border-radius: 5px;
-		padding-bottom: 20px;
+		padding-bottom: 35px;
 		padding-left: 20px;
 		padding-right: 20px;
 	}
@@ -35,8 +38,6 @@ $(document).ready(function(){
 </script>
 
 <div style="height:100%;">
-	<div class="col-md-2">
-	</div>
 	<div class="col-md-8 login-form container" style="position: relative; margin-top: 5%;">
 		<div class="center_text title">
 			<h3 style="color: rgb(228,108,10); font-weight: bold;">PMO CORPLAN</h3>
@@ -50,7 +51,7 @@ $(document).ready(function(){
 			<button style="margin-top:30px; width: 150px;" class="btn btn-lg btn-primary btn-block submit center_text" type="submit" style="border-radius: 7px;">Log In</button>
 		</form>
 		<div style="text-align: center; margin-top: 10px;">
-			<a href="<?php echo base_url();?>user/troublelogin">>>Trouble Logging in ?</p>
+			<a href="<?php echo base_url();?>user/troublelogin">>>Trouble Logging in ?</a>
 		</div>
 		<?php if($params){?>
 		<div class="login_alert">
@@ -60,8 +61,9 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<?php }?>
-	</div>
-	<div class="col-md-2">
-			
+		<div class="col-md-2">
 		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
 </div>

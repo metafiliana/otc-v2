@@ -2,7 +2,7 @@
 	<div class="each_part_cbic bg_part_one">
 		<div class="content_each_part_cbic">
 			<form class="form-horizontal" id="form_upload_file" action="<?php echo base_url()?>general/submit_input_file" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-				<h2>Form Input File OTC</h2><br>
+				<h2 class="center_text">Input File Control Tower</h2><br>
 				<div class="form-group">
 					<label class="col-sm-1 control-label input-md">For</label>
 					<div class="col-sm-3">
@@ -10,7 +10,6 @@
 							<option value="action">Action</option>
 							<option value="user">User</option>
 							<option value="kuantitatif">Kuantitatif</option>
-							<option value="kuantitatif_update">Kuantitatif Update</option>
 						</select>
 					</div><div style="clear:both"></div>
 				</div>
@@ -83,7 +82,7 @@
 							</div>
 					</div>
 					<div class="col-md-2">
-						<h4>Kuantitatif</h4>
+						<h4>Kuantitatif Target</h4>
 							<div style="margin-top:10px">
 							<?php if($kuantitatif){ foreach($kuantitatif as $file5){?>
 							<div>
