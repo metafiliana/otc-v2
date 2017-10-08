@@ -20,11 +20,12 @@ class Summary extends CI_Controller {
         $this->load->helper('site_helper');
         
         $session = $this->session->userdata('user');
-        
+
         if(!$session){
             redirect('user/login');
         }
     }
+
     /**
      * Method for page (public)
      */
@@ -354,6 +355,83 @@ class Summary extends CI_Controller {
         $data['content'] = $this->load->view('summary/kuantitatif',$views,TRUE);
 
         $this->load->view('front',$data);
+    }
+
+    public function countKuantitatif($initiative_id, $get = false)
+    {
+        // keterangan get :
+        // 1 = get milestone detail mtd
+        // 2 = get milestone detail ytd
+
+        $return = 0;
+
+        if ($get === 1){ // mtd
+            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, true, false);
+        }elseif ($get === 2){ // ytd
+            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, false, true);
+        }
+
+        $return = ($jumlah) ? $jumlah : 0;
+        
+        return $return;
+    }
+
+    public function getLeadingLagging($init_code, $type = false, $get = false, $month = false)
+    {
+        // keterangan get :
+        // 1 = monthly
+        // 2 = yearly
+
+        // keterangan type :
+        // 1 = Leading - String
+        // 2 = Lagging - String
+
+        $pembobotan = 0.25; //sementara
+        $datas = $this->mkuantitatif->getSummaryLeadingLaggingAll($init_code, $type, $get);
+        $total = 0;
+        $return = 0;
+
+        if ($datas){
+            if ($get === 2){
+                foreach ($datas as $key => $value) {
+                    $target = ($value['target']) ? $value['target'] : 0;
+                    $done = ($value[date('F')]) ? $value[date('F')] : 0;
+
+                    if ($done > 0){
+                        $hasil = $done / $target;
+                        $total = $total + ($hasil * $pembobotan);
+                    }
+                }
+            }
+
+            if ($get === 1){
+                if (!$month)
+                    $month = date('F');
+
+                foreach ($datas as $key => $value) {
+                    $target = ($value['target']) ? $value['target'] : 0;
+                    $done = ($value[$month]) ? $value[$month] : 0;
+
+                    if ($done > 0){
+                        $hasil = $done / $target;
+                        $total = $total + ($hasil * $pembobotan);
+                    }
+                }
+            }
+
+            $return = number_format($total * 100) . ' %';
+        }else{
+            $return = '-';
+        }
+
+        // if ($type === 1) // leading
+        //     $return = $this->mkuantitatif->get_leading_leading_count($initiative_id, 'Leading');
+            
+        // if ($type === 2) // lagging
+        //     $return = $this->mkuantitatif->get_leading_leading_count($initiative_id, 'Lagging');
+
+
+        return $return;
     }
 
 }

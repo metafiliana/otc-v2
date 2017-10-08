@@ -77,15 +77,15 @@
                     <thead>
                         <tr>
                             <th>Initiative Title</th>
-                            <th>Complete</th>
-                            <th>Future Start</th>
-                            <th>On-Track</th>
-                            <th>Issues</th>
-                            <th>Not Started</th>
-                            <th>Flagged</th>
-                            <th>Total Action</th>
-                            <th>Completion Rate (MTD)</th>
-                            <th>Completion Rate (YTD)</th>
+                            <th>Milestone Bulan Berjalan</th>
+                            <th>Leading (MTD)</th>
+                            <th>Lagging (MTD)</th>
+                            <th>Final Monthly Score</th>
+                            <!-- <th></th> -->
+                            <th>Milestone</th>
+                            <th>Leading (YTD)</th>
+                            <th>Lagging (YTD)</th>
+                            <th>Final Year End Score</th>
                             <!-- <th></th> -->
                         </tr>
                     </thead>
@@ -95,15 +95,17 @@
                             foreach ($init_table as $key => $value) {
                                 echo "<tr>";
                                     echo "<td>".$value->title."</td>";
-                                    echo "<td>".$controller->getStatus($value->id, 1)."</td>"; // completed
-                                    echo "<td>".$controller->getStatus($value->id, 0, true)."</td>"; // future start
-                                    echo "<td>".$controller->getStatus($value->id, 2)."</td>"; // on track
-                                    echo "<td>".$controller->getStatus($value->id, 3)."</td>"; // issues
-                                    echo "<td>".$controller->getStatus($value->id, 0)."</td>"; // not started
-                                    echo "<td>".$controller->getStatus($value->id, 3, false, true)."</td>"; // flagged
-                                    echo "<td>".$controller->getStatus($value->id)."</td>"; //total
-                                    echo "<td>".$i."</td>"; // MTD
-                                    echo "<td>".$i."</td>"; // YTD
+                                    echo "<td>".$controller->countKuantitatif($value->id, 1)." %</td>"; // mtd milestone
+                                    echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, date('F'))."</td>"; 
+                                    echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, date('F'))."</td>"; 
+                                    echo "<td>".$i."</td>"; 
+                                    // if () {
+                                    // echo "<td><i class='bullet-green'>&#8226</i></td>";
+                                    // }
+                                    echo "<td>".$controller->countKuantitatif($value->id, 2)." %</td>"; // ytd milestone
+                                    echo "<td class = 'leading-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 2)."</td>"; 
+                                    echo "<td class = 'lagging-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 2)."</td>"; 
+                                    echo "<td>".$i."</td>"; 
                                     // if () {
                                     // echo "<td><i class='bullet-green'>&#8226</i></td>";
                                     // }

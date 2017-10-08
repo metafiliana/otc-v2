@@ -77,15 +77,15 @@
                     <thead>
                         <tr>
                             <th>Initiative Title</th>
-                            <th>Milestone Bulan Berjalan</th>
-                            <th>Leading (MTD)</th>
-                            <th>Lagging (MTD)</th>
-                            <th>Final Monthly Score</th>
-                            <!-- <th></th> -->
-                            <th>Milestone</th>
-                            <th>Leading (YTD)</th>
-                            <th>Lagging (YTD)</th>
-                            <th>Final Year End Score</th>
+                            <th>Complete</th>
+                            <th>Future Start</th>
+                            <th>On-Track</th>
+                            <th>Issues</th>
+                            <th>Not Started</th>
+                            <th>Flagged</th>
+                            <th>Total Action</th>
+                            <th>Completion Rate (MTD)</th>
+                            <th>Completion Rate (YTD)</th>
                             <!-- <th></th> -->
                         </tr>
                     </thead>

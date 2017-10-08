@@ -421,4 +421,21 @@ class Mkuantitatif extends CI_Model {
         $result = $query->result();
         return $result;
     }
+
+    function getSummaryLeadingLaggingAll($init_code = false, $type = false)
+    {
+        $where = ' WHERE t.type IN ("Leading", "Lagging")';
+
+        if ($type)
+            $where = ' WHERE t.type = "'.$type.'"';
+
+        if ($init_code)
+            $where .= ' AND t.init_code = "'.$init_code.'"';
+
+        $sql = 'select t.id, t.init_code, t.type, t.init_id, t.target_year, t.target, ku.* from kuantitatif t right join kuantitatif_update ku on ku.id = t.id and ku.`year` = t.target_year'.$where;
+
+        $result = $this->db->query($sql)->result_array();
+
+        return $result;
+    }
 }
