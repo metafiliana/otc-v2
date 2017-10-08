@@ -14,14 +14,18 @@ class Summary extends CI_Controller {
         $this->load->model('mfiles_upload');
         $this->load->model('mkuantitatif');
         $this->load->model('msummary');
+        $this->load->model('mt_action');
         $this->load->library('excel');
+        $this->load->helper('form');
+        $this->load->helper('site_helper');
         
         $session = $this->session->userdata('user');
-        
+
         if(!$session){
             redirect('user/login');
         }
     }
+
     /**
      * Method for page (public)
      */
@@ -258,6 +262,176 @@ class Summary extends CI_Controller {
         $data['header'] = $this->load->view('shared/header-new','',TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/front',TRUE);
+    }
+
+    public function listMilestone()
+    {
+        $data['title'] = "List All Program";
+        $prog['page']="all";
+        $user = $this->session->userdata('user');
+        $prog['user'] = $user;
+        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+        // views start
+        $views = array();
+        // views end
+
+        //process start
+        $data['init_table'] = $this->mt_action->getAllInitiative();
+        $data['controller'] = $this;
+        //process end
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        $data['content'] = $this->load->view('summary/milestone',$views,TRUE);
+
+        $this->load->view('front',$data);
+    }
+
+    public function searchSummary()
+    {
+        $user = $this->input->post('user');
+        $bulan = $this->input->post('bulan');
+
+        $return['message'] = 'success';
+        $return['data'] = $bulan;
+
+        header('Content-Type: application/json');
+        echo json_encode($return);
+    }
+
+    public function getStatus($initiative_id, $status = false, $future = false, $flagged = false)
+    {
+        $return = 0;
+
+        if ($future){
+            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status);
+        }elseif ($flagged){
+            $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status);
+        }else{
+            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status);
+        }
+        
+        return $return;
+    }
+
+    public function listKuantitatif()
+    {
+        $data['title'] = "List All Program";
+        $prog['page']="all";
+        $user = $this->session->userdata('user');
+        $prog['user'] = $user;
+        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+        // views start
+        $views = array();
+        // views end
+
+        //process start
+        $data['init_table'] = $this->mt_action->getAllInitiative();
+        $data['controller'] = $this;
+        //process end
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        $data['content'] = $this->load->view('summary/kuantitatif',$views,TRUE);
+
+        $this->load->view('front',$data);
+    }
+
+    public function countKuantitatif($initiative_id, $get = false)
+    {
+        // keterangan get :
+        // 1 = get milestone detail mtd
+        // 2 = get milestone detail ytd
+
+        $return = 0;
+
+        if ($get === 1){ // mtd
+            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, true, false);
+        }elseif ($get === 2){ // ytd
+            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, false, true);
+        }
+
+        $return = ($jumlah) ? $jumlah : 0;
+        
+        return $return;
+    }
+
+    public function getLeadingLagging($init_code, $type = false, $get = false, $month = false)
+    {
+        // keterangan get :
+        // 1 = monthly
+        // 2 = yearly
+
+        // keterangan type :
+        // 1 = Leading - String
+        // 2 = Lagging - String
+
+        $pembobotan = 0.25; //sementara
+        $datas = $this->mkuantitatif->getSummaryLeadingLaggingAll($init_code, $type, $get);
+        $total = 0;
+        $return = 0;
+
+        if ($datas){
+            if ($get === 2){
+                foreach ($datas as $key => $value) {
+                    $target = ($value['target']) ? $value['target'] : 0;
+                    $done = ($value[date('F')]) ? $value[date('F')] : 0;
+
+                    if ($done > 0){
+                        $hasil = $done / $target;
+                        $total = $total + ($hasil * $pembobotan);
+                    }
+                }
+            }
+
+            if ($get === 1){
+                if (!$month)
+                    $month = date('F');
+
+                foreach ($datas as $key => $value) {
+                    $target = ($value['target']) ? $value['target'] : 0;
+                    $done = ($value[$month]) ? $value[$month] : 0;
+
+                    if ($done > 0){
+                        $hasil = $done / $target;
+                        $total = $total + ($hasil * $pembobotan);
+                    }
+                }
+            }
+
+            $return = number_format($total * 100) . ' %';
+        }else{
+            $return = '-';
+        }
+
+        // if ($type === 1) // leading
+        //     $return = $this->mkuantitatif->get_leading_leading_count($initiative_id, 'Leading');
+            
+        // if ($type === 2) // lagging
+        //     $return = $this->mkuantitatif->get_leading_leading_count($initiative_id, 'Lagging');
+
+
+        return $return;
     }
 
 }

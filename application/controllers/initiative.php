@@ -12,6 +12,7 @@ class Initiative extends CI_Controller {
         $this->load->model('mprogram');
         $this->load->model('mfiles_upload');
         $this->load->model('muser');
+        $this->load->model('mt_action');
         $this->load->helper('url');
 
         $session = $this->session->userdata('user');
@@ -481,4 +482,46 @@ class Initiative extends CI_Controller {
 		$this->load->view('front',$data);
     }
 
+    //generate data transaksi
+    public function generateTransaksi()
+    {
+    	$data_insert = array();
+
+    	$data_user = $this->mt_action->getUserInit();
+    	foreach ($data_user as $key => $value) {
+    		if (is_array($value['initiative'])){
+    			foreach ($value['initiative'] as $key1 => $value1) {
+    				$initiative_id = $this->mt_action->getInitiativeByInitCode($value1);
+    				if ($initiative_id !== null){
+    					$data_action = $this->mt_action->getActionByInitId($initiative_id);
+    					if ($data_action !== null){
+    						foreach ($data_action as $key2 => $value2) {
+    							$insert = array();
+    							$insert['user_id'] = $value['id_user'];
+    							$insert['action_id'] = $value2['id'];
+    							$insert['initiative_id'] = $initiative_id;
+
+    							$status = 0;
+    							if (strtolower($value2['status']) == 'completed'){
+    								$status = 1;
+    							}elseif (strtolower($value2['status']) == 'on track, no issues'){
+    								$status = 2;
+    							}elseif (strtolower($value2['status']) == 'on track, with issues'){
+    								$status = 3;
+    							}
+    							$insert['status'] = $status;
+
+    							$insert['updated_date'] = date('Y-m-d');
+    							$insert['start'] = $value2['start_date'];
+    							$insert['end'] = $value2['end_date'];
+
+							    $this->db->insert('t_action', $insert);
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
+    }
+    
 }

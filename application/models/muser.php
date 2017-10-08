@@ -558,4 +558,5 @@ class Muser extends CI_Model {
 
         return $data;
     }
+
 }
