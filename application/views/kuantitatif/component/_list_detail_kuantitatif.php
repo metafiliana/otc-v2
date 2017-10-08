@@ -43,7 +43,7 @@ $user = $this->session->userdata('user');
 		<td>
 			<?php if($d['prog']->measurment=='%'){ echo number_format($d['update']->$month_view,2,",","."); } else{echo number_format($d['update']->$month_view,0,",","."); } ?>
 		</td>
-		<?php if($user['role']=='1'){?>
+		<?php if($user['role']=='1' || $user['role']=='2'){?>
 		<td>
 			<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $d['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 		</td>
@@ -84,7 +84,7 @@ $user = $this->session->userdata('user');
 			<td>
 				<?php if($e['prog']->measurment=='%'){ echo number_format($e['update']->$month_view,2,",","."); } else{ echo number_format($e['update']->$month_view,0,",","."); }?>
 			</td>
-			<?php if($user['role']=='1'){?>
+			<?php if($user['role']=='1'|| $user['role']=='2'){?>
 			<td>
 					<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $e['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 			</td>

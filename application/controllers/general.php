@@ -28,7 +28,30 @@ class General extends CI_Controller {
      {
 
      }
-     
+
+
+     public function master()
+     {
+        $data['title'] = 'Master Page';
+
+        $user = $this->session->userdata('user');
+
+        //master cluster
+        $data['cluster'] = $this->minitiative->get_master('','m_cluster');
+
+        //master initiative
+        $data['initiative'] = $this->minitiative->get_master('','m_initiative');
+
+        //master kuantitatif_legend
+        $data['kuan_legend'] = $this->minitiative->get_kuantitatif_legend();
+
+        $data['header'] = $this->load->view('shared/header-v2','',TRUE);
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['content'] = $this->load->view('general/master',$data,TRUE);
+
+        $this->load->view('front',$data);
+     }
+
     public function overview(){
     	$data['title'] = 'Overview Tower Center';
 

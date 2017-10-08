@@ -86,6 +86,28 @@ class Minitiative extends CI_Model {
     	return $query->result();
     }
 
+    function get_master($id,$db){
+    	$this->db->order_by('id', 'asc');
+    	if($id){
+    		$this->db->where('id', $id);
+        $query = $this->db->get($db);
+      	return $query->result()->row(0);
+      }
+      else {
+        $query = $this->db->get($db);
+      	return $query->result();
+      }
+    }
+
+    function get_kuantitatif_legend(){
+      $this->db->select('kuantitatif_legend.id as klid, kuantitatif.type, m_initiative.title, kuantitatif.metric');
+      $this->db->join('kuantitatif', 'kuantitatif_legend.kuan_id = kuantitatif.id');
+      $this->db->join('m_initiative', 'kuantitatif.init_id = m_initiative.id');
+      $this->db->order_by('klid', 'asc');
+      $query = $this->db->get('kuantitatif_legend');
+      return $query->result();
+    }
+
     function get_all_initiatives($user_initiative, $segment){
     	//$this->db->where('role', 3);
     	$this->db->select('initiative.*, program.title as program, program.code as progcode');
