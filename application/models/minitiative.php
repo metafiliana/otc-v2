@@ -43,6 +43,16 @@ class Minitiative extends CI_Model {
         return $result->result();
     }
 
+    function get_code_join_initiative()
+    {
+        $this->db->distinct('init_code');
+        $this->db->select('m_initiative.title, m_initiative.init_code');
+        $this->db->join('m_initiative', 'm_initiative.init_code = kuantitatif.init_code');
+        $result = $this->db->get('kuantitatif');
+
+        return $result->result();
+    }
+
     function get_all_programs(){
     	//$this->db->where('role', 3);
     	$this->db->order_by('code', 'asc');
@@ -800,5 +810,5 @@ class Minitiative extends CI_Model {
 
         return $data;
     }
-    
+
 }

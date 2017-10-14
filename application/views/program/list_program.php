@@ -31,25 +31,25 @@ $(document).ready(function(){
 
     });
 
-    function delete_action(id, event){
-      bootbox.confirm("Apa anda yakin?",
-      function(confirmed) {
-        if(confirmed===true){
-          $.ajax({
-            url: config.base+"program/delete_action",
-            data: {id: id},
-            dataType: 'json',
-            type: "POST",
-            success: function (resp) {
-              if(resp.status == 1){
-                $('#action_'+id).animate({'opacity':'toggle'});
-                succeedMessage('Action berhasil dihapus');
-              }
-            }
-          });
+function delete_action(id, event){
+  bootbox.confirm("Apa anda yakin?",
+  function(confirmed) {
+    if(confirmed===true){
+      $.ajax({
+        url: config.base+"program/delete_action",
+        data: {id: id},
+        dataType: 'json',
+        type: "POST",
+        success: function (resp) {
+          if(resp.status == 1){
+            $('#action_'+id).animate({'opacity':'toggle'});
+            succeedMessage('Action berhasil dihapus');
+          }
         }
       });
     }
+  });
+}
 
 
 

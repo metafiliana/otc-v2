@@ -28,6 +28,14 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
+    function insert_kuantitatif_legend($program){
+        if($this->db->insert('kuantitatif_legend', $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
     function insert_kuantitatif_update($program){
         if($this->db->insert('kuantitatif_update', $program)){
             return $this->db->insert_id();
@@ -158,6 +166,13 @@ class Mkuantitatif extends CI_Model {
         }else{
             return false;
         }
+    }
+
+    function get_kuantitatif_by_init_code($init_code){
+        $this->db->select('id, metric, type');
+        $this->db->where('init_code',$init_code);
+        $result = $this->db->get('kuantitatif');
+        return $result->result();
     }
 
     function get_update_by_id($id,$month){

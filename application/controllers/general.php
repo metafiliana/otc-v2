@@ -29,7 +29,7 @@ class General extends CI_Controller {
 
      }
 
-
+     //otc v2
      public function master()
      {
         $data['title'] = 'Master Page';
@@ -52,6 +52,73 @@ class General extends CI_Controller {
         $this->load->view('front',$data);
      }
 
+     public function show_form(){
+         $type = $this->input->get('type');
+         $id = $this->input->get('id');
+         if($type=='kuan_legend'){
+           $type2 = $type;
+           $type = "kuantitatif legend";
+           //array
+           $data['arr_title'] = $this->minitiative->get_code_join_initiative();
+         }
+
+         if($id){
+           $data['title'] = "Edit ".$type;
+           $data['action'] = $this->mprogram->get_action_by_init_code('',$data['action_id'])[0];
+         }
+         else{
+           $data['title'] = "Add ".$type;
+         }
+
+         $type = $type2;
+         $json['html'] = $this->load->view('general/component/_form_'.$type,$data,TRUE);
+         $json['status'] = 1;
+         $this->output->set_content_type('application/json')
+                          ->set_output(json_encode($json));
+     }
+
+     public function change_metric(){
+      $init_code = $this->input->get('init_code');
+
+
+      if($init_code!=''){
+         $json['html'] = $this->mkuantitatif->get_kuantitatif_by_init_code($init_code);
+         $json['status'] = 1;
+      }
+      else{
+        $json['status'] = 0;
+      }
+
+      $this->output->set_content_type('application/json')
+                      ->set_output(json_encode($json));
+     }
+
+     public function submit_form(){
+         $type = $this->uri->segment(3);
+
+         if($type=='kuan_legend'){
+           $kuan_legend['kuan_id'] = $this->input->post('metrics');
+           $this->mkuantitatif->insert_kuantitatif_legend($kuan_legend);
+         }
+
+         redirect('general/master/');
+    }
+
+    public function delete_by_type(){
+        $id = $this->input->post('id');
+        $type = $this->input->post('type');
+        if($id){
+            $this->mkuantitatif->delete_db_id($type,$id);
+            $json['status'] = 1;
+        }
+        else{
+            $json['status'] = 0;
+        }
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
+
+     //old otc
     public function overview(){
     	$data['title'] = 'Overview Tower Center';
 
