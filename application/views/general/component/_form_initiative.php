@@ -28,14 +28,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-            					<label class="col-sm-2 control-label input-sm">Status</label>
+            					<label class="col-sm-2 control-label input-sm">Cluster</label>
             					<div class="col-sm-3">
             					  <select class="form-control input-sm" name="status" id="status" onchange="">
-                        <option value="Completed" <?php if(isset($action->status)){if($action->status == "Completed"){echo "selected";}}?>>Completed</option>
-                        <option value="On track, no issues" <?php if(isset($action->status)){if($action->status == "On track, no issues"){echo "selected";}}?>>On track, no issues</option>
-            						<option value="On track, with issues" <?php if(isset($action->status)){if($action->status == "On track, with issues"){echo "selected";}}?>>On track, with issues</option>
-                        <option value="Not started" <?php if(isset($action->status)){if($action->status == "Not started"){echo "selected";}}?>>Not started</option>
-            					  </select>
+                          <?php foreach ($arr_cluster as $clus) { ?>
+                            <option value="<?= $clus->id ?>" <?php if(isset($action->status)){if($action->status == "Completed"){echo "selected";}}?>><?= $clus->title ?></option>
+                          <?php } ?>
+                        </select>
             					</div><div style="clear:both"></div>
             				</div><div style="clear:both"></div>
                     <div class="form-group">

@@ -69,7 +69,7 @@ $user = $this->session->userdata('user');
 					<?php echo $init->init_code?>
 				</td>
 				<td>
-					<?php echo $init->cluster_id?>
+					<?php echo $init->mctitle?>
 				</td>
 				<td>
 					<?php echo $init->title?>
