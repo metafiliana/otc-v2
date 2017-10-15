@@ -59,7 +59,10 @@ class General extends CI_Controller {
            $type2 = $type;
            $type = "kuantitatif legend";
            //array
-           $data['arr_title'] = $this->minitiative->get_code_join_initiative();
+           $data['arr_title'] = $this->minitiative->get_code_join_initiative('init_code','m_initiative.title, m_initiative.init_code','kuantitatif','m_initiative','m_initiative.init_code = kuantitatif.init_code');
+         }
+         elseif($type=='initiative'){
+           $data['arr_cluster'] = $this->minitiative->get_code_join_initiative('','*','m_cluster','','');
          }
 
          if($id){
@@ -69,8 +72,8 @@ class General extends CI_Controller {
          else{
            $data['title'] = "Add ".$type;
          }
+         if(isset($type2)){$type = $type2;}
 
-         $type = $type2;
          $json['html'] = $this->load->view('general/component/_form_'.$type,$data,TRUE);
          $json['status'] = 1;
          $this->output->set_content_type('application/json')

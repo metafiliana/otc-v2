@@ -18,7 +18,7 @@ $user = $this->session->userdata('user');
 		</tr>
 		<tr>
 			<th><?= $month_view ?></th>
-			<?php if($user['role']=='1'){?>
+			<?php if($user['role']=='1'|| $user['role']=='2'){?>
 			<th></th>
 			<?php }?>
 			<th>Monthly Target</th>

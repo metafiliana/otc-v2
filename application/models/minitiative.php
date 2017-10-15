@@ -43,12 +43,16 @@ class Minitiative extends CI_Model {
         return $result->result();
     }
 
-    function get_code_join_initiative()
+    function get_code_join_initiative($distinct,$select,$db,$dbjoin,$refrence)
     {
-        $this->db->distinct('init_code');
-        $this->db->select('m_initiative.title, m_initiative.init_code');
-        $this->db->join('m_initiative', 'm_initiative.init_code = kuantitatif.init_code');
-        $result = $this->db->get('kuantitatif');
+        if($distinct){
+          $this->db->distinct($distinct);
+        }
+        $this->db->select($select);
+        if($dbjoin && $refrence){
+          $this->db->join($dbjoin, $refrence);
+        }
+        $result = $this->db->get($db);
 
         return $result->result();
     }
@@ -98,7 +102,11 @@ class Minitiative extends CI_Model {
 
     function get_master($id,$db){
     	$this->db->order_by('id', 'asc');
-    	if($id){
+      if($db=='m_initiative'){
+        $this->db->select('m_cluster.title as mctitle,'.$db.'.*');
+        $this->db->join('m_cluster', 'm_cluster.id = '.$db.'.cluster_id');
+      }
+      if($id){
     		$this->db->where('id', $id);
         $query = $this->db->get($db);
       	return $query->result()->row(0);
