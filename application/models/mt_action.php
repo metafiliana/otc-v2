@@ -178,6 +178,30 @@ class Mt_action extends CI_Model {
         return $return;
     }
 
+    public function getDataInKuantitatif($data = null)
+    {
+        $return_data['type_1'] = array();
+        $return_data['type_2'] = array();
+        $return_data['type_3'] = array();
+        
+        if ($data){
+            $this->db->where_in('id', $data['type_1']);
+            $this->db->where_not_in('initiative', null);
+            $return_data['type_1'] = $this->db->get('m_initiative')->result();
+
+            $this->db->where_in('id', $data['type_2']);
+            $this->db->where_not_in('initiative', null);
+            $return_data['type_2'] = $this->db->get('m_initiative')->result();
+
+            $this->db->where_in('id', $data['type_3']);
+            $this->db->where_not_in('initiative', null);
+            $return_data['type_3'] = $this->db->get('m_initiative')->result();
+        }
+
+
+        return $return_data;
+    }
+
 }
 
 ?>

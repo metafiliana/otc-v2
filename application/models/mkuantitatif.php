@@ -147,6 +147,11 @@ class Mkuantitatif extends CI_Model {
         return $query;
     }
 
+    function getAllKuantitatifUpdate(){
+        $query = $this->db->get('kuantitatif_update');
+        return $query;
+    }
+
     function get_kuantitatif_by_user($init_id){
         $this->db->select('*');
         if($init_id){
@@ -437,7 +442,7 @@ class Mkuantitatif extends CI_Model {
         return $result;
     }
 
-    function getSummaryLeadingLaggingAll($init_code = false, $type = false)
+    function getSummaryLeadingLaggingAll($init_code = false, $type = false, $get = false, $month = false)
     {
         $where = ' WHERE t.type IN ("Leading", "Lagging")';
 
@@ -447,9 +452,21 @@ class Mkuantitatif extends CI_Model {
         if ($init_code)
             $where .= ' AND t.init_code = "'.$init_code.'"';
 
-        $sql = 'select t.id, t.init_code, t.type, t.init_id, t.target_year, t.target, ku.* from kuantitatif t right join kuantitatif_update ku on ku.id = t.id and ku.`year` = t.target_year'.$where;
+        $sql = 'select t.id, t.init_code, t.type, t.init_id, t.target_year, t.target, t.'.$month.' as target_month , ku.* from kuantitatif t right join kuantitatif_update ku on ku.id = t.id and ku.`year` = t.target_year'.$where;
 
         $result = $this->db->query($sql)->result_array();
+
+        return $result;
+    }
+
+    function getSummaryKuantitatif($array_in = false)
+    {
+        $this->db->select('id, type, init_id');
+        if ($array_in){
+            $this->db->where_in('init_id', $array_in);
+        }
+        $query = $this->db->get('kuantitatif');
+        $result = $query->result_array();
 
         return $result;
     }

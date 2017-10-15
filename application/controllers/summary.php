@@ -344,10 +344,23 @@ class Summary extends CI_Controller {
         $views = array();
         // views end
 
+        // print_r($this->getDataTableKuantitatif(3));die;
+
         //process start
-        $data['init_table'] = $this->mt_action->getAllInitiative();
+        $data['init_table'] = $this->getDataTableKuantitatif();
         $data['controller'] = $this;
+        $data['bulan_search'] = null;
         //process end
+
+        if ($_POST){
+            if ($_POST['bulan']){
+                $data['bulan_search'] = $_POST['bulan'];
+            }
+
+            // if ($_POST['user']){
+            //     $data['init_table'] = $this->getDataTableKuantitatif($_POST['user']);
+            // }
+        }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
@@ -376,7 +389,7 @@ class Summary extends CI_Controller {
         return $return;
     }
 
-    public function getLeadingLagging($init_code, $type = false, $get = false, $month = false)
+    public function getLeadingLagging($init_code, $type = false, $get = false, $month = null)
     {
         // keterangan get :
         // 1 = monthly
@@ -386,30 +399,70 @@ class Summary extends CI_Controller {
         // 1 = Leading - String
         // 2 = Lagging - String
 
-        $pembobotan = 0.25; //sementara
-        $datas = $this->mkuantitatif->getSummaryLeadingLaggingAll($init_code, $type, $get);
-        $total = 0;
-        $return = 0;
+        // init bulan
+        if (!$month){
+            $data_kuantitatif = $this->mkuantitatif->getAllKuantitatifUpdate()->result_array();
+            $bulan_now = date('F');
+            $tahun_now = date('Y'); //belum pake condition tahun
 
-        if ($datas){
-            if ($get === 2){
-                foreach ($datas as $key => $value) {
-                    $target = ($value['target']) ? $value['target'] : 0;
-                    $done = ($value[date('F')]) ? $value[date('F')] : 0;
-
-                    if ($done > 0){
-                        $hasil = $done / $target;
-                        $total = $total + ($hasil * $pembobotan);
+            foreach ($data_kuantitatif as $key => $value) {
+                if ($value[$bulan_now] > 0){
+                    $month = $bulan_now;
+                    break;
+                }else{
+                    if ($value['December'] > 0){
+                        $month = 'December';
+                        break;
+                    }elseif ($value['November'] > 0){
+                        $month = 'November';
+                        break;
+                    }elseif ($value['October'] > 0){
+                        $month = 'October';
+                        break;
+                    }elseif ($value['September'] > 0){
+                        $month = 'September';
+                        break;
+                    }elseif ($value['August'] > 0){
+                        $month = 'August';
+                        break;
+                    }elseif ($value['July'] > 0){
+                        $month = 'July';
+                        break;
+                    }elseif ($value['June'] > 0){
+                        $month = 'June';
+                        break;
+                    }elseif ($value['May'] > 0){
+                        $month = 'May';
+                        break;
+                    }elseif ($value['April'] > 0){
+                        $month = 'April';
+                        break;
+                    }elseif ($value['March'] > 0){
+                        $month = 'March';
+                        break;
+                    }elseif ($value['February'] > 0){
+                        $month = 'February';
+                        break;
+                    }elseif ($value['January'] > 0){
+                        $month = 'January';
+                        break;
                     }
                 }
             }
+        }
 
-            if ($get === 1){
-                if (!$month)
-                    $month = date('F');
+        $datas = $this->mkuantitatif->getSummaryLeadingLaggingAll($init_code, $type, $get, $month);
+        $count_data = $datas ? count($datas) : 1;
+        $pembobotan = (1 / $count_data);
+        $total = 0;
+        $return = 0;
+        $cap_leading = 1;
+        $cap_lagging = 1.3;
 
+        if ($datas){
+            if ($get === 2){ //yearly
                 foreach ($datas as $key => $value) {
-                    $target = ($value['target']) ? $value['target'] : 0;
+                    $target = ($value['target']) ? $value['target'] : 1;
                     $done = ($value[$month]) ? $value[$month] : 0;
 
                     if ($done > 0){
@@ -419,19 +472,91 @@ class Summary extends CI_Controller {
                 }
             }
 
+            if ($get === 1){ //monthly
+                foreach ($datas as $key => $value) {
+                    $target = ($value['target_month']) ? $value['target_month'] : 1;
+                    $done = ($value[$month]) ? $value[$month] : 0;
+
+                    if ($done > 0){
+                        $hasil = $done / $target;
+                        $total = $total + ($hasil * $pembobotan);
+                    }
+                }
+            }
+
+            if ($type == 'Leading'){
+                $total = (($total) > $cap_leading) ? $cap_leading : $total;
+            }else{
+                $total = (($total) > $cap_lagging) ? $cap_lagging : $total;
+            }
             $return = number_format($total * 100) . ' %';
         }else{
             $return = '-';
         }
 
-        // if ($type === 1) // leading
-        //     $return = $this->mkuantitatif->get_leading_leading_count($initiative_id, 'Leading');
-            
-        // if ($type === 2) // lagging
-        //     $return = $this->mkuantitatif->get_leading_leading_count($initiative_id, 'Lagging');
-
 
         return $return;
+    }
+
+    function getDataTableKuantitatif($user = false)
+    {
+        if (!$user){
+            $get_kuantitatif = $this->mkuantitatif->getSummaryKuantitatif();
+        }else{
+            $data_user = $this->muser->getInitiativeOnlyByRole($user);
+
+            $data_initiative_user = array();
+            foreach ($data_user as $key => $value) {
+                $initiative_explode = explode(';', $value['initiative']);
+
+                if (is_array($initiative_explode)){
+                    foreach ($initiative_explode as $key1 => $value1) {
+                        $data_initiative_user_code = $this->minitiative->getInitiativeByCode($value1);
+                        array_push($data_initiative_user, $data_initiative_user_code->id);
+                    }
+                }
+            }
+            $get_kuantitatif = $this->mkuantitatif->getSummaryKuantitatif($data_initiative_user);
+            print_r($get_kuantitatif);die;
+        }
+
+        // insert array dummy for batas compare
+        array_push($get_kuantitatif, ['id' => 'xxx', 'type' => 'xxx', 'init_id' => 'xxx']);
+
+        $data['type_1'] = array();
+        $data['type_2'] = array();
+        $data['type_3'] = array();
+
+        $init_id = $get_kuantitatif[0]['init_id'];
+        $leading = false;
+        $lagging = false;
+        foreach ($get_kuantitatif as $key => $value) {
+            if ($value['init_id'] != $init_id){
+                if ($lagging === true){
+                    array_push($data['type_1'], $init_id);
+                }elseif (($leading === true) && ($lagging === false)){
+                    array_push($data['type_2'], $init_id);
+                }else{
+                    array_push($data['type_3'], $init_id);
+                }
+
+                $init_id = $value['init_id'];
+                $leading = false;
+                $lagging = false;
+            }else{
+                if ($value['type'] == 'Leading'){
+                    $leading = true;
+                    continue;
+                }elseif ($value['type'] == 'Lagging'){
+                    $lagging = true;
+                    continue;
+                }
+            }
+        }
+
+        $get_table_inititative = $this->mt_action->getDataInKuantitatif($data);
+
+        return $get_table_inititative;
     }
 
 }

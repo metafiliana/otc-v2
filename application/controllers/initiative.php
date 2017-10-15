@@ -487,6 +487,10 @@ class Initiative extends CI_Controller {
     {
     	$data_insert = array();
 
+    	// truncate table
+    	$this->db->truncate('t_action');
+
+    	// proses get data -> insert table
     	$data_user = $this->mt_action->getUserInit();
     	foreach ($data_user as $key => $value) {
     		if (is_array($value['initiative'])){
