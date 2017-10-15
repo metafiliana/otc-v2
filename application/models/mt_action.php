@@ -160,6 +160,24 @@ class Mt_action extends CI_Model {
         return number_format($hasil);
     }
 
+    public function generateStatusTransaksi($status_source = false)
+    {
+        $return = 0;
+        if ($status_source){
+            if ($status_source == 'Completed'){
+                $return = 1;
+            }elseif ($status_source == 'On track, no issues'){
+                $return = 2;
+            }elseif ($status_source == 'On track, with issues'){
+                $return = 3;
+            }else{
+                $return = 0;
+            }
+        }
+
+        return $return;
+    }
+
 }
 
 ?>
