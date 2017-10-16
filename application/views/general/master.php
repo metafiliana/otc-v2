@@ -81,7 +81,7 @@ $user = $this->session->userdata('user');
 					<?php echo $init->aspirasi?>
 				</td>
 				<td class="center_text">
-					edit
+					<a class="btn btn-link btn-link-edit" onclick="show_form('initiative','<?php echo $init->id?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 				</td>
 			</tr>
 			<?php } ?>

@@ -102,14 +102,14 @@ class Minitiative extends CI_Model {
 
     function get_master($id,$db){
     	$this->db->order_by('id', 'asc');
-      if($db=='m_initiative'){
+      if($db=='m_initiative' && $id==''){
         $this->db->select('m_cluster.title as mctitle,'.$db.'.*');
         $this->db->join('m_cluster', 'm_cluster.id = '.$db.'.cluster_id');
       }
       if($id){
     		$this->db->where('id', $id);
         $query = $this->db->get($db);
-      	return $query->result()->row(0);
+      	return $query->row(0);
       }
       else {
         $query = $this->db->get($db);
