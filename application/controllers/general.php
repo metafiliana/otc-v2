@@ -70,7 +70,7 @@ class General extends CI_Controller {
            //array
            $data['arr_title'] = $this->minitiative->get_code_join_initiative('init_code','m_initiative.title, m_initiative.init_code','kuantitatif','m_initiative','m_initiative.init_code = kuantitatif.init_code');
          }
-         elseif($type=='initiative'){
+         else if($type=='initiative'){
            $data['arr_cluster'] = $this->minitiative->get_code_join_initiative('','*','m_cluster','','');
            if($id){
              $data['initiative'] = $this->minitiative->get_master($id,'m_initiative');
@@ -111,12 +111,22 @@ class General extends CI_Controller {
            $kuan_legend['kuan_id'] = $this->input->post('metrics');
            $this->mkuantitatif->insert_kuantitatif_legend($kuan_legend);
          }
-         if($type=='initiative'){
+         else if($type=='initiative'){
            $initiative['title'] = $this->input->post('title');
            $initiative['init_code'] = $this->input->post('code');
            $initiative['cluster_id'] = $this->input->post('cluster_id');
-           $initiative['cluster_id'] = $this->input->post('cluster_id');
-           $this->mkuantitatif->insert_kuantitatif_legend($initiative);
+           $initiative['deskripsi'] = $this->input->post('deskripsi');
+           $initiative['aspirasi'] = $this->input->post('aspirasi');
+           if($id){
+             $this->mkuantitatif->update_db($initiative,$id,'m_initiative');
+           }
+           else{
+             $this->mkuantitatif->insert_db($initiative,'m_initiative');
+           }
+         }
+         else{
+           $cluster['title'] = $this->input->post('title');
+           $this->mkuantitatif->insert_db($cluster,'m_cluster');
          }
 
          redirect('general/master/');

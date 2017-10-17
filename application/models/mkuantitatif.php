@@ -44,6 +44,14 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
+    function insert_db($program,$db){
+        if($this->db->insert($db, $program)){
+            return $this->db->insert_id();
+        }else{
+            return false;
+        }
+    }
+
     function insert_baseline($program){
         if($this->db->insert('baseline', $program)){
             return $this->db->insert_id();
@@ -353,6 +361,11 @@ class Mkuantitatif extends CI_Model {
     function update_kuantitatif_update($program,$id){
         $this->db->where('id',$id);
         return $this->db->update('kuantitatif_update', $program);
+    }
+
+    function update_db($program,$id,$db){
+        $this->db->where('id',$id);
+        return $this->db->update($db , $program);
     }
 
     //DELETE FUNCTION
