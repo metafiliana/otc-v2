@@ -167,3 +167,24 @@
 
         return $data;
     }
+
+    function indikatorWarna($score = 0)
+    {
+        $score = (int)$score;
+        $warna = 'yellow';
+
+        if ($score > 100){
+            $warna = 'green';
+        }
+
+        if ($score < 95){
+            $warna = 'red';
+        }
+
+        $html = "<i class='bullet-".$warna."'>&#8226</i>";
+
+        return $html;
+    }
+
+
+?>

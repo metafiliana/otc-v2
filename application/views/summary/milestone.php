@@ -47,27 +47,27 @@
                     <div class="col-sm-6 form-group">
                         <button class="btn btn-info" disabled="disabled">Milestone</button>
                     </div>
-                    <?php echo form_open('summary/searchSummary', 'id="formSearch"'); ?>
+                    <?php echo form_open('summary/listMilestone', 'id="formSearch"'); ?>
                     <div class="col-sm-12 form-group">
                         <label>User</label>
-                        <?php 
-                            echo form_dropdown('user', array(1 => 'CO-PMO', 2 => 'PMO'), array(), 'class = "form-control"');
+                        <?php
+                            echo form_dropdown('user', array(0 => '- All -', 1 => 'CO-PMO', 2 => 'PMO'), array(), 'class = "form-control"');
                         ?>
                     </div>
                     <div class="col-sm-12 form-group">
                         <label>Tanggal Tarik Data</label>
-                        <?php 
-                            echo form_dropdown('bulan', getMonth(), date('m'), 'class = "form-control"');
+                        <?php
+                            echo form_dropdown('bulan', getMonth(), !empty($bulan_search) ? $bulan_search : date('m'), 'class = "form-control"');
                         ?>
                     </div>
                     <div class="col-sm-6 form-group">
-                        <?php 
+                        <?php
                             echo form_submit('', 'Cari', 'class = "form-control btn btn-success"');
                         ?>
                     </div>
                     <?php echo form_close(); ?>
                     <div class="col-sm-6 form-group">
-                        <button type="button" class="btn btn-danger">Print</button>
+                        <!-- <button type="button" class="btn btn-danger">Print</button> -->
                     </div>
                 </div>
             </div>
@@ -93,17 +93,22 @@
                         <?php
                             $i = '-';
                             foreach ($init_table as $key => $value) {
+                                $completed = $controller->getStatus($value->id, 1, false, false, $bulan_search, $user);
+                                $overdue = $controller->getStatus($value->id, 3, false, true, $bulan_search, $user);
+                                $total = $controller->getStatus($value->id, false, false, false, $bulan_search, $user);
+                                $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                                $ytd = $controller->getYtdMilestone($value->id, $user);
                                 echo "<tr>";
                                     echo "<td>".$value->title."</td>";
-                                    echo "<td>".$controller->getStatus($value->id, 1)."</td>"; // completed
-                                    echo "<td>".$controller->getStatus($value->id, 0, true)."</td>"; // future start
-                                    echo "<td>".$controller->getStatus($value->id, 2)."</td>"; // on track
-                                    echo "<td>".$controller->getStatus($value->id, 3)."</td>"; // issues
-                                    echo "<td>".$controller->getStatus($value->id, 0)."</td>"; // not started
-                                    echo "<td>".$controller->getStatus($value->id, 3, false, true)."</td>"; // flagged
-                                    echo "<td>".$controller->getStatus($value->id)."</td>"; //total
-                                    echo "<td>".$i."</td>"; // MTD
-                                    echo "<td>".$i."</td>"; // YTD
+                                    echo "<td>".$completed."</td>"; // completed
+                                    echo "<td>".$controller->getStatus($value->id, 0, true, false, $bulan_search, $user)."</td>"; // future start
+                                    echo "<td>".$controller->getStatus($value->id, 2, false, false, $bulan_search, $user)."</td>"; // on track
+                                    echo "<td>".$controller->getStatus($value->id, 3, false, false, $bulan_search, $user)."</td>"; // issues
+                                    echo "<td>".$controller->getStatus($value->id, 0, false, false, $bulan_search, $user)."</td>"; // not started
+                                    echo "<td>".$overdue."</td>"; // flagged
+                                    echo "<td>".$total."</td>"; //total
+                                    echo "<td>".number_format($mtd)." %</td>"; // MTD
+                                    echo "<td>".number_format($ytd)." %</td>"; // YTD
                                     // if () {
                                     // echo "<td><i class='bullet-green'>&#8226</i></td>";
                                     // }
@@ -117,32 +122,53 @@
     </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php base_url() ?>assets/datatables/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="<?php base_url() ?>assets/datatables/css/buttons.dataTables.min.css">
+<script src="<?php base_url() ?>assets/datatables/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#example').DataTable( {
             paging: false,
             searching: false,
             scrollX: true,
+            dom: 'Bfrtip',
+            buttons: {
+                buttons: [{
+                  extend: 'pdf',
+                  text: '<i class="fa fa-file-pdf-o"></i> Print',
+                  title: 'export-milestone',
+                  exportOptions: {
+                    columns: ':not(.no-print)'
+                  },
+                  footer: true
+                }],
+                dom: {
+                  container: {
+                    className: 'dt-buttons'
+                  },
+                  button: {
+                    className: 'btn btn-default'
+                  }
+                }
+              }
             // "ajax": '../ajax/data/arrays.txt'
         } );
 
-        $('#formSearch').submit(function(e){
-            e.preventDefault();
-            var url = $(this).attr("action"); // the script where you handle the form input.
-
-            $.ajax({
-                   type: "POST",
-                   url: url,
-                   data: $("#formSearch").serialize(), // serializes the form's elements.
-                   success: function(data)
-                   {
-                        if (data.message == 'success') {
-                            alert(data.data); // show response from the php script.
-                        }
-                   }
-                });
-        });
+        // $('#formSearch').submit(function(e){
+        //     e.preventDefault();
+        //     var url = $(this).attr("action"); // the script where you handle the form input.
+        //
+        //     $.ajax({
+        //            type: "POST",
+        //            url: url,
+        //            data: $("#formSearch").serialize(), // serializes the form's elements.
+        //            success: function(data)
+        //            {
+        //                 if (data.message == 'success') {
+        //                     alert(data.data); // show response from the php script.
+        //                 }
+        //            }
+        //         });
+        // });
     } );
 </script>

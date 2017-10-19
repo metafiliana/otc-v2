@@ -2,7 +2,7 @@
 
 
 class Summary extends CI_Controller {
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->model('minitiative');
@@ -18,7 +18,7 @@ class Summary extends CI_Controller {
         $this->load->library('excel');
         $this->load->helper('form');
         $this->load->helper('site_helper');
-        
+
         $session = $this->session->userdata('user');
 
         if(!$session){
@@ -43,7 +43,7 @@ class Summary extends CI_Controller {
     {
         // $this->initSummary(); //insert automatically summary base on data
         $data['title'] = "List All Program";
-        
+
         $prog['page']="all";
 
         $user = $this->session->userdata('user');
@@ -51,9 +51,9 @@ class Summary extends CI_Controller {
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
         $init_id = null; //init
-        
+
         $views['init'] = $this->minitiative->get_initiative_by_id($init_id);
-        
+
         $views['summary_not_started'] = $this->mworkblock->get_summary_all('Not Started Yet');
         $views['summary_delay'] = $this->mworkblock->get_summary_all('Delay');
         $views['summary_progress'] = $this->mworkblock->get_summary_all('In Progress');
@@ -71,7 +71,7 @@ class Summary extends CI_Controller {
         $views['total_summary_action'] = $this->mworkblock->get_count_workblock();
         $views['chart_data_action'] = $this->mworkblock->getDataChartAction();
         $views['persen_action'] = 100/($this->mworkblock->getCountDataChartAction());
-        
+
         $views['summary_deliverable_not_started'] = $this->mworkblock->get_summary_deliverable_all('Not Started Yet');
         $views['summary_deliverable_delay'] = $this->mworkblock->get_summary_deliverable_all('Delay');
         $views['summary_deliverable_progress'] = $this->mworkblock->get_summary_deliverable_all('In Progress');
@@ -113,7 +113,7 @@ class Summary extends CI_Controller {
     public function program_list()
     {
         $data['title'] = "Summary List";
-        
+
         $prog['page']="all";
 
         $user = $this->session->userdata('user');
@@ -152,7 +152,7 @@ class Summary extends CI_Controller {
     {
         $nama = $this->input->get('nama');
         $role = $this->input->get('role');
-        
+
         $data['programs'] = $this->mprogram->getInitCode($nama, $role);
 
         $json['html'] = $this->load->view('summary/_program',$data,TRUE);
@@ -177,7 +177,7 @@ class Summary extends CI_Controller {
     public function listDetailWorkblock()
     {
         $id = $this->input->get('id');
-        
+
         $data = $this->mworkblock->getWorkblocksByInitiativeId($id);
 
         $string = "<ul class='list-group'>";
@@ -287,7 +287,27 @@ class Summary extends CI_Controller {
         //process start
         $data['init_table'] = $this->mt_action->getAllInitiative();
         $data['controller'] = $this;
+        $data['bulan_search'] = null;
+        $data['user'] = null;
         //process end
+
+        if ($_POST){
+            if ($_POST['bulan']){
+                $data['bulan_search'] = $_POST['bulan'];
+            }
+
+            if ($_POST['user'] == '1' || $_POST['user'] == '2'){
+                $data_user = $this->muser->get_user_by_role($_POST['user']);
+                
+                $string_in_user = '(';
+                foreach ($data_user as $key => $value) {
+                    $string_in_user .= $value->id.',';
+                }
+                $string_in_user .= '0)';
+
+                $data['user'] = $string_in_user;
+            }
+        }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
@@ -309,18 +329,18 @@ class Summary extends CI_Controller {
         echo json_encode($return);
     }
 
-    public function getStatus($initiative_id, $status = false, $future = false, $flagged = false)
+    public function getStatus($initiative_id, $status = false, $future = false, $flagged = false, $bulan = false, $user = false)
     {
         $return = 0;
 
         if ($future){
-            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status);
+            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user);
         }elseif ($flagged){
-            $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status);
+            $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
         }else{
-            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status);
+            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user);
         }
-        
+
         return $return;
     }
 
@@ -350,6 +370,7 @@ class Summary extends CI_Controller {
         $data['init_table'] = $this->getDataTableKuantitatif();
         $data['controller'] = $this;
         $data['bulan_search'] = null;
+        $data['user'] = null;
         //process end
 
         if ($_POST){
@@ -357,9 +378,17 @@ class Summary extends CI_Controller {
                 $data['bulan_search'] = $_POST['bulan'];
             }
 
-            // if ($_POST['user']){
-            //     $data['init_table'] = $this->getDataTableKuantitatif($_POST['user']);
-            // }
+            if ($_POST['user'] == '1' || $_POST['user'] == '2'){
+                $data_user = $this->muser->get_user_by_role($_POST['user']);
+                
+                $string_in_user = '(';
+                foreach ($data_user as $key => $value) {
+                    $string_in_user .= $value->id.',';
+                }
+                $string_in_user .= '0)';
+
+                $data['user'] = $string_in_user;
+            }
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -370,7 +399,7 @@ class Summary extends CI_Controller {
         $this->load->view('front',$data);
     }
 
-    public function countKuantitatif($initiative_id, $get = false)
+    public function countKuantitatif($initiative_id, $get = false, $user = false)
     {
         // keterangan get :
         // 1 = get milestone detail mtd
@@ -379,13 +408,13 @@ class Summary extends CI_Controller {
         $return = 0;
 
         if ($get === 1){ // mtd
-            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, true, false);
+            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, true, false, $user);
         }elseif ($get === 2){ // ytd
-            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, false, true);
+            $jumlah = $this->mt_action->getMilestoneDetail($initiative_id, false, true, $user);
         }
 
         $return = ($jumlah) ? $jumlah : 0;
-        
+
         return $return;
     }
 
@@ -489,9 +518,7 @@ class Summary extends CI_Controller {
             }else{
                 $total = (($total) > $cap_lagging) ? $cap_lagging : $total;
             }
-            $return = number_format($total * 100) . ' %';
-        }else{
-            $return = '-';
+            $return = number_format($total * 100);
         }
 
 
@@ -517,7 +544,6 @@ class Summary extends CI_Controller {
                 }
             }
             $get_kuantitatif = $this->mkuantitatif->getSummaryKuantitatif($data_initiative_user);
-            print_r($get_kuantitatif);die;
         }
 
         // insert array dummy for batas compare
@@ -557,6 +583,18 @@ class Summary extends CI_Controller {
         $get_table_inititative = $this->mt_action->getDataInKuantitatif($data);
 
         return $get_table_inititative;
+    }
+
+    public function getYtdMilestone($kuantitatif_id = false, $user = false)
+    {
+        $ytd = 0;
+        if ($kuantitatif_id){
+            $completed = $this->getStatus($kuantitatif_id, 1, false, false, false, $user);
+            $total = $this->getStatus($kuantitatif_id, false, false, false, false, $user);
+            $ytd = ($total > 0) ? (($completed / $total) * 100) : 0;
+        }
+
+        return $ytd;
     }
 
 }
