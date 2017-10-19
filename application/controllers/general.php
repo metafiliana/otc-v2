@@ -55,23 +55,28 @@ class General extends CI_Controller {
      public function show_form(){
          $type = $this->input->get('type');
          $id = $this->input->get('id');
+
+         if($id){
+           $data['title'] = "Edit ".$type;
+           //$data['action'] = $this->mprogram->get_action_by_init_code('',$data['action_id'])[0];
+         }
+         else{
+           $data['title'] = "Add ".$type;
+         }
+
          if($type=='kuan_legend'){
            $type2 = $type;
            $type = "kuantitatif legend";
            //array
            $data['arr_title'] = $this->minitiative->get_code_join_initiative('init_code','m_initiative.title, m_initiative.init_code','kuantitatif','m_initiative','m_initiative.init_code = kuantitatif.init_code');
          }
-         elseif($type=='initiative'){
+         else if($type=='initiative'){
            $data['arr_cluster'] = $this->minitiative->get_code_join_initiative('','*','m_cluster','','');
+           if($id){
+             $data['initiative'] = $this->minitiative->get_master($id,'m_initiative');
+           }
          }
 
-         if($id){
-           $data['title'] = "Edit ".$type;
-           $data['action'] = $this->mprogram->get_action_by_init_code('',$data['action_id'])[0];
-         }
-         else{
-           $data['title'] = "Add ".$type;
-         }
          if(isset($type2)){$type = $type2;}
 
          $json['html'] = $this->load->view('general/component/_form_'.$type,$data,TRUE);
@@ -98,10 +103,30 @@ class General extends CI_Controller {
 
      public function submit_form(){
          $type = $this->uri->segment(3);
+         if($this->uri->segment(4)){
+           $id = $this->uri->segment(4);
+         }
 
          if($type=='kuan_legend'){
            $kuan_legend['kuan_id'] = $this->input->post('metrics');
            $this->mkuantitatif->insert_kuantitatif_legend($kuan_legend);
+         }
+         else if($type=='initiative'){
+           $initiative['title'] = $this->input->post('title');
+           $initiative['init_code'] = $this->input->post('code');
+           $initiative['cluster_id'] = $this->input->post('cluster_id');
+           $initiative['deskripsi'] = $this->input->post('deskripsi');
+           $initiative['aspirasi'] = $this->input->post('aspirasi');
+           if($id){
+             $this->mkuantitatif->update_db($initiative,$id,'m_initiative');
+           }
+           else{
+             $this->mkuantitatif->insert_db($initiative,'m_initiative');
+           }
+         }
+         else{
+           $cluster['title'] = $this->input->post('title');
+           $this->mkuantitatif->insert_db($cluster,'m_cluster');
          }
 
          redirect('general/master/');

@@ -22,7 +22,7 @@ $user = $this->session->userdata('user');
 		</thead>
 		<tbody>
 			<?php foreach($cluster as $clus){  ?>
-			<tr id="">
+			<tr id="m_cluster_<?= $clus->id?>">
 				<td>
 					<?php echo $clus->id?>
 				</td>
@@ -30,7 +30,7 @@ $user = $this->session->userdata('user');
 					<?php echo $clus->title?>
 				</td>
 				<td class="center_text">
-					test
+					<a class="btn btn-link btn-link-delete" onclick="delete_by_type(<?= $clus->id?>,'m_cluster')"><span class="glyphicon glyphicon-trash"></span></a>
 				</td>
 			</tr>
 		<?php } ?>
@@ -61,7 +61,7 @@ $user = $this->session->userdata('user');
 		</thead>
 		<tbody>
 			<?php foreach($initiative as $init){  ?>
-			<tr id="">
+			<tr id="m_initiative_<?php echo $init->id?>">
 				<td>
 					<?php echo $init->id?>
 				</td>
@@ -81,7 +81,8 @@ $user = $this->session->userdata('user');
 					<?php echo $init->aspirasi?>
 				</td>
 				<td class="center_text">
-					edit
+					<a class="btn btn-link btn-link-edit" onclick="show_form('initiative','<?php echo $init->id?>');"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a class="btn btn-link btn-link-delete" onclick="delete_by_type(<?= $init->id?>,'m_initiative')"><span class="glyphicon glyphicon-trash"></span></a>
 				</td>
 			</tr>
 			<?php } ?>
