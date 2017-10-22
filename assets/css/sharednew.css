@@ -319,6 +319,18 @@ hr{
 	border:0px solid transparent; /* this was 1px earlier */
 }
 
+.btn-info-new-submit{
+	color:black;
+	background-color:#87ed92;
+	border-radius: 256px;}
+.btn-info-new-submit:hover{
+	color:white !important;
+	background-color:black;
+}
+.btns-submit{
+	border:0px solid transparent; /* this was 1px earlier */
+}
+
 /********** Button Section ************/
 .btn-brobot{
 	padding:5px 15px 3px 15px;
@@ -1011,6 +1023,26 @@ input.valid{
 .error{
 	color:#FF0000;
 	font-size:12px;
+}
+
+/* bullet */
+.bullet-red {
+		color: red;
+		border-radius: 50%;
+		width: 2px;
+		height: 2px;
+}
+.bullet-yellow {
+		color: yellow;
+		border-radius: 50%;
+		width: 2px;
+		height: 2px;
+}
+.bullet-green {
+		color: green;
+		border-radius: 50%;
+		width: 2px;
+		height: 2px;
 }
 
 /* navbar transparant */

@@ -55,9 +55,11 @@ $user = $this->session->userdata('user');
 		<?php if($check==0){ ?>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
 				<?= number_format(($tot_leading['month']*100)/$count_leading,2,",","."); ?> %
+				<?= indikatorWarna(($tot_leading['month']*100)/$count_leading); ?>
 			</td>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
 				<?= number_format(($tot_leading['year']*100)/$count_leading,2,",","."); ?> %
+				<?= indikatorWarna(($tot_leading['year']*100)/$count_leading); ?>
 			</td>
 		<?php } ?>
 		<?php if($user['role']=='2'){?>
@@ -96,9 +98,11 @@ $user = $this->session->userdata('user');
 			<?php if($check==0){ ?>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
 					<?= number_format(($tot_lagging['month']*100)/$count_lagging,2,",","."); ?> %
+					<?= indikatorWarna(($tot_lagging['month']*100)/$count_lagging); ?>
 				</td>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
 					<?= number_format(($tot_lagging['year']*100)/$count_lagging,2,",","."); ?> %
+					<?= indikatorWarna(($tot_lagging['year']*100)/$count_lagging); ?>
 				</td>
 			<?php } ?>
 			<?php if($user['role']=='2'){?>

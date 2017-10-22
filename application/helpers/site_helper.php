@@ -173,11 +173,11 @@
         $score = (int)$score;
         $warna = 'yellow';
 
-        if ($score > 100){
+        if ($score >= 100){
             $warna = 'green';
         }
 
-        if ($score < 95){
+        if ($score <= 95){
             $warna = 'red';
         }
 
