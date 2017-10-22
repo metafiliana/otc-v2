@@ -52,11 +52,27 @@ class Kuantitatif extends CI_Controller {
     }
     public function index()
     {
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+        );
+
         $data['title'] = "All Kuantitatif";
 
         $prog['page']="all";
 
-        $user = $this->session->userdata('user');
+        $user = $users;
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
@@ -87,9 +103,25 @@ class Kuantitatif extends CI_Controller {
 
     public function list_kuantitatif()
     {
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+        );
+
         $data['title'] = "List All Initiative";
 
-        $user = $this->session->userdata('user');
+        $user = $users;
         $prog['user'] = $user;
         $data['user'] = $user;
 
@@ -123,11 +155,27 @@ class Kuantitatif extends CI_Controller {
 
     public function my_kuantitatif()
     {
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+        );
+
         $data['title'] = "My List Kuantitatif";
 
         $prog['page']="my";
 
-        $user = $this->session->userdata('user');
+        $user = $users;
         $prog['user'] = $user;
         $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
         $init_id= explode(";",$this->muser->get_user_by_id($user['id'])->initiative);

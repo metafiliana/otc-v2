@@ -31,9 +31,25 @@ class Program extends CI_Controller {
 
     /*Program*/
     public function list_programs(){
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+        'username' => $user,
+        'foto' => $foto,
+        'initid' => $initid,
+        'last_login' => $lastlogin,
+        'private_email' => $privateemail,
+        'work_email' => $workemail
+      );
+
       $data['title'] = "List All Initiative";
 
-  		$user = $this->session->userdata('user');
+  		$user = $users;
   		$prog['user'] = $user;
       $data['user'] = $user;
 

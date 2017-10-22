@@ -16,7 +16,23 @@ class User extends CI_Controller {
 
     public function index()
     {
-    	$user = $this->session->userdata('user');
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
+
+    	$user = $users;
 
 		if($user['role']==2){
 			$users = $this->muser->get_all_user();
@@ -62,18 +78,35 @@ class User extends CI_Controller {
 
     public function input_user()
     {
-      $user = $this->session->userdata('user');
-      if($user && $user['role']=='2'){
-    	$user_id = $this->uri->segment(3);
-      $data_user="";
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
 
-    	if($user_id){$data_user = $this->muser->get_user_by_id($user_id);}
+        $user = $users;
+        if($user && $user['role']=='2'){
+        $user_id = $this->uri->segment(3);
+        $data_user="";
 
-    	//$user = $this->session->userdata('user');
-    	$data['title'] = "Input User";
+        if($user_id){$data_user = $this->muser->get_user_by_id($user_id);}
+
+        //$user = $this->session->userdata('user');
+        $data['title'] = "Input User";
         // $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
         // $data['header'] = $this->load->view('shared/header',array('user' => $user,'pending'=>$pending_aprv),TRUE);
-      $data['user']=$user;
+        $data['user']=$user;
+
         if($user['role']!='2'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
             $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
@@ -83,16 +116,16 @@ class User extends CI_Controller {
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
-        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
-        $data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
-	      $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['content'] = $this->load->view('user/input',array('info' => $data_user),TRUE);
+            $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+            $data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+            $data['footer'] = $this->load->view('shared/footer','',TRUE);
+            $data['content'] = $this->load->view('user/input',array('info' => $data_user),TRUE);
 
-        $this->load->view('front',$data);
-      }
-      else{
-        redirect('user/login');
-      }
+            $this->load->view('front',$data);
+        }
+        else{
+            redirect('user/login');
+        }
     }
 
 	public function userEnter()
@@ -204,11 +237,29 @@ class User extends CI_Controller {
                      ->set_output(json_encode($json));
     }
 
-	public function form_password(){
-    	$user = $this->session->userdata('user');
-      if($user){
-        $data['title'] = 'Change Password';
-  	    $data_content['segment_status'] = $this->minitiative->get_all_segments_status();
+	public function form_password()
+    {
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
+
+        $user = $users;
+
+        if($user){
+            $data['title'] = 'Change Password';
+            $data_content['segment_status'] = $this->minitiative->get_all_segments_status();
 
         $data['user']=$user;
         if($user['role']!='2'){
@@ -220,15 +271,16 @@ class User extends CI_Controller {
             $data['notif']= $this->mremark->get_notification_by_admin(5);
         }
 
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
-    		$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
-    		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-    		$data['content'] = $this->load->view('user/form_password',$data_content,TRUE);
-    		$this->load->view('front',$data);
-      }
-      else{
-        redirect('user/login');
-      }
+            // $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+            $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+        	$data['sidebar'] = $this->load->view('shared/sidebar','',TRUE);
+        	$data['footer'] = $this->load->view('shared/footer','',TRUE);
+        	$data['content'] = $this->load->view('user/form_password',$data_content,TRUE);
+        	$this->load->view('front',$data);
+        }
+        else{
+            redirect('user/login');
+        }
 
     }
 
@@ -305,7 +357,7 @@ class User extends CI_Controller {
 
             if($this->form_validation->run() == TRUE)
             {
-                $get = $this->db->get_where('user', array('username' => $this->input->post('username', TRUE)));
+                $get = $this->db->get_where('user', array('username' => $a));
 
                 if($get->num_rows() > 0 )
                 {
@@ -328,7 +380,7 @@ class User extends CI_Controller {
                     $reco['u_recover'] = $this->input->post('username');
                     $reco['key'] = md5(md5(time()));
 
-                    $to = 'alfiansyah.ichsan@gmail.com';
+                    $to = 'otc.mandiri@outlook.com';
                     //$to = 'alfiansyah.ichsan@gmail.com';
                     //array('tezza.riyanto@bankmandiri.co.id');
                     $subject = 'Permohonan ubah password pada sistem OTC';
@@ -409,17 +461,17 @@ class User extends CI_Controller {
 
                 $emailConfig = [
                     'protocol' => 'smtp',
-                    'smtp_host' => 'smtp.gmail.com',
+                    'smtp_host' => 'smtp-mail.outlook.com',
                     'smtp_port' => 587,
-                    'smtp_user' => 'sundfor0@gmail.com',
-                    'smtp_pass' => 'legalizer14',
+                    'smtp_user' => 'otc.mandiri@outlook.com',
+                    'smtp_pass' => 'QWEasd123',
                     'smtp_crypto' => 'tls',
                     'mailtype' => 'html'
                     //'charset' => 'iso-8859-1'
                 ];
                 // Set your email information
                 $from = [
-                    'email' => 'sundfor0@gmail.com',
+                    'email' => 'otc.mandiri@outlook.com',
                     'name' => 'OTC Mandiri'
                 ];
 
