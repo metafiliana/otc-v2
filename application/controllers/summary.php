@@ -298,7 +298,7 @@ class Summary extends CI_Controller {
 
             if ($_POST['user'] == '1' || $_POST['user'] == '2'){
                 $data_user = $this->muser->get_user_by_role($_POST['user']);
-                
+
                 $string_in_user = '(';
                 foreach ($data_user as $key => $value) {
                     $string_in_user .= $value->id.',';
@@ -310,7 +310,7 @@ class Summary extends CI_Controller {
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/milestone',$views,TRUE);
 
@@ -380,7 +380,7 @@ class Summary extends CI_Controller {
 
             if ($_POST['user'] == '1' || $_POST['user'] == '2'){
                 $data_user = $this->muser->get_user_by_role($_POST['user']);
-                
+
                 $string_in_user = '(';
                 foreach ($data_user as $key => $value) {
                     $string_in_user .= $value->id.',';
@@ -392,7 +392,7 @@ class Summary extends CI_Controller {
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
         //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
         $data['content'] = $this->load->view('summary/kuantitatif',$views,TRUE);
 

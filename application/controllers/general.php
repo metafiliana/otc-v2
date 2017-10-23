@@ -174,11 +174,11 @@ class General extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
-        $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment('init_code','asc','program');
+        $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment('init_code','asc','m_initiative');
 
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('general/_all_files',$prog,TRUE);
+		    $data['content'] = $this->load->view('general/_all_files',$prog,TRUE);
 
 		$this->load->view('front',$data);
     }

@@ -497,9 +497,9 @@ class Mfiles_upload extends CI_Model {
     }
 
     function get_distinct_col_segment($col,$order,$db){
-        $this->db->select("$col as val,segment");
-        $this->db->distinct();
-        $this->db->order_by($col,$order);
+        $this->db->select("$col as val,title");
+        //$this->db->distinct();
+        $this->db->order_by('id',$order);
         $this->db->where("$col !=",'');
         $query = $this->db->get($db);
         return $query->result();

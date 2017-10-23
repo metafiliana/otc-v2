@@ -39,19 +39,19 @@ function get_file(init_code){
 <?php $user = $this->session->userdata('user');
 $init = explode(';', $user['initiative']);
 ?>
-<div class="row" style="padding:0 10px 0 10px;">
+<div class="row" style="padding:0 10px 0 10px; margin-top:10px;">
 	<?php foreach ($init_code as $code) {?>
 	<div class="col-md-3" style="margin-top:10px;">
 		<div class="component_part">
 			<div style="margin-bottom:0px;" id="">
 				<div style="padding-top:10px;">
-					<?php foreach($init as $inits){ if($inits==$code->val || $user['role']=="admin"){?>
+					<?php foreach($init as $inits){ if($inits==$code->val || $user['role']=="2"){?>
 					<div style="text-align:right; margin-top:-15px">
 						<a onclick="add_files('','<?php echo $code->val;?>')" class="btn btns btn-default  btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
 					</div>
 					<?php } }?>
 					<div class="helper_text">
-						<?php echo $code->val;?>. <?php echo long_text_real($code->segment,35);?>
+						<?php echo $code->val;?>. <?php echo long_text_real($code->title,35);?>
 					</div>
 	                	<div style="text-align:center">
 	                		<a class="btn btn-link btn-link-primary-cbic" onclick="get_file('<?php echo $code->val;?>');">
@@ -65,5 +65,27 @@ $init = explode(';', $user['initiative']);
 		</div>
 	</div>
 	<?php } ?>
+	<div class="col-md-3" style="margin-top:10px;">
+		<div class="component_part">
+			<div style="margin-bottom:0px;" id="">
+				<div style="padding-top:10px;">
+					<?php if($user['role']=="2"){?>
+					<div style="text-align:right; margin-top:-15px">
+						<a onclick="add_files('','ctf')" class="btn btns btn-default  btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
+					</div>
+					<?php }?>
+					<div class="helper_text">
+						CTF Tower
+					</div>
+	                	<div style="text-align:center">
+	                		<a class="btn btn-link btn-link-primary-cbic" onclick="get_file('ctf');">
+	                			<span style="font-size:10px;" class="glyphicon glyphicon-menu-down"></span>
+	                		</a>
+	                	</div>
+	                	<div style="display:none;" id="file_ctf">
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-                    

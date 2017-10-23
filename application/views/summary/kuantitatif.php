@@ -43,9 +43,13 @@
     margin-bottom: 10px;
     overflow: auto;
     }
+
+    .btn-danger{
+      border-color:unset;
+    }
 </style>
 <div class="panel-body">
-      <div class="component_part_summary">
+      <div class="component_part_summary" style="margin-top:10px;">
         <!-- search area -->
         <div class="row">
             <div class="col-md-2">
@@ -64,8 +68,8 @@
                     </div>
                   </div>
                   <div class="col-sm">
-                    <label class="control-label col-sm-1">Bulan</label>
-                    <div class="col-sm-3">
+                    <label class="control-label col-sm-1">Month</label>
+                    <div class="col-sm-3" style="margin-left:12px;">
                       <?php
                           echo form_dropdown('bulan', getMonth(true), date('F'), 'class = "form-control"');
                       ?>
@@ -73,7 +77,7 @@
                   </div>
                   <div class="col-sm-2">
                     <?php
-                        echo form_submit('', 'Cari', 'class = "form-control btn btn-info-new-submit"');
+                        echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
                     ?>
                   </div>
               </div>
@@ -81,7 +85,7 @@
             </div>
             <div class="col-md-2">
               <div class="right_text">
-                  <h3 style="color:#6e91ec;">Summary Kuantitatif</h3>
+                  <h3 style="color:#91aef9;">Summary Kuantitatif</h3>
               </div>
                 <!-- <button type="button" class="btn btn-danger">Print</button> -->
             </div>
@@ -304,9 +308,10 @@
                 }],
                 dom: {
                   container: {
-                    className: 'dt-buttons'
+                    className: ''
                   },
                   button: {
+                    className: 'btn btn-info-new btn-sm'
                   }
                 }
               }
