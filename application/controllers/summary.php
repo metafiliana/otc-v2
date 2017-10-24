@@ -329,7 +329,7 @@ class Summary extends CI_Controller {
         echo json_encode($return);
     }
 
-    public function getStatus($initiative_id, $status = false, $future = false, $flagged = false, $bulan = false, $user = false)
+    public function getStatus($initiative_id, $status = false, $future = false, $flagged = false, $bulan = false, $user = false, $overdue = false)
     {
         $return = 0;
 
@@ -337,6 +337,8 @@ class Summary extends CI_Controller {
             $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user);
         }elseif ($flagged){
             $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
+        }elseif ($overdue){
+            $return = $this->mt_action->getStatusOverdueMilestone($initiative_id, $bulan, $user);
         }else{
             $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user);
         }

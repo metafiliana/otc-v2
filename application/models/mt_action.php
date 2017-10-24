@@ -154,6 +154,35 @@ class Mt_action extends CI_Model {
         return ($total > 0) ? $total : 0;
     }
 
+    function getStatusOverdueMilestone($initiative_id, $month = false, $user = false)
+    {
+        // after end date, status == flagged no issue or not started
+        $where = '`updated_date` > `end` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND (`status` = 0 OR `status` = 2)';
+
+        // query month
+        $where_month = '';
+        $where_user = '';
+        if ($month){
+            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+            $where_month = ' AND `end` <= "'.$date.'"';
+        }
+
+        // query user
+        if ($user){
+            $where_user = ' AND user_id IN '.$user;
+        }
+
+        // main query
+        $sql = 'select count(id) as jumlah from t_action WHERE ';
+
+        // query execute
+        $query = $this->db->query($sql.$where.$where_month.$where_user)->row();
+
+        return ($query->jumlah > 0) ? $query->jumlah : 0;
+    }
+
+    
+
     function getMilestoneDetail($initiative_id, $mtd = false, $ytd = false, $user = false)
     {
         $divider = 1;
