@@ -170,7 +170,7 @@
 			<nav>
 					<ul>
 						<li class="menu"><a href="<?php echo base_url()?>program/list_programs/">Update Progress</a></li>
-						<li class="menu"><a href=#>Initiatives</a></li>
+						<li class="menu"><a href="<?php echo base_url()?>program/initiative_card/">Initiatives</a></li>
 
 						<li class="menu"><a href=#>Sharing Files</a></li>
 						<li class="menu"><a href="<?php echo base_url()?>agenda">Agenda</a></li>

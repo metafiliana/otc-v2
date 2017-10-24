@@ -690,4 +690,104 @@ class Mprogram extends CI_Model {
 
         return $result;
     }
+    //amir--
+     function get_m_cluster(){
+        $this->db->select('id, title');
+        
+        $query = $this->db->get('m_cluster');
+        return $query->result();
+    }
+    function get_initiative($init_code){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',1);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+        $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function get_initiative2($init_code){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',2);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+       $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function get_initiative3($init_code){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',3);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+       $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function get_initiative4($init_code){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',4);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+       $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function get_initiative5($init_code){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',5);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+       $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function get_initiative6($init_code){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',6);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+       $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function count_action($id){
+        $this->db->where('initiative_id', $id);
+        $query = $this->db->get('m_action');
+        return count($query->result());
+    }
+    function get_CoPMO($init_code,$role){
+        $this->db->select('name, initiative, role');
+        $this->db->where('role != 2');
+        // $this->db->where('initiative',$init_code);
+        $query = $this->db->get('user')->result();
+        $data = array();
+        foreach ($query as $key => $value) {
+            $data_raw['name'] = $value->name;
+            $data_raw['role'] = $value->role;
+            $data_raw['initiative'] = explode(";", $value->initiative);
+            array_push($data, $data_raw);
+        }
+        foreach ($data as $key => $value) {
+           if($value['role'] == $role && in_array($init_code, $value['initiative'])){
+            return $value['name'];
+           }
+        }
+          
+    }
+    function count_action_complete($id,$status){
+        $this->db->where('initiative_id',$id);
+        $this->db->where('status', $status);
+        $query = $this->db->get('m_action');
+        return count($query->result());
+    }
+    function count_action_overdue($id,$status,$tanggal){
+        $this->db->where('initiative_id',$id);
+        $this->db->where('status !=', $status);
+        $this->db->where('start_date <=', $tanggal);
+        $query = $this->db->get('m_action');
+        return count($query->result());
+    }
+
+    //end amir
 }
