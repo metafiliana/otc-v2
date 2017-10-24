@@ -188,5 +188,21 @@
         return $html;
     }
 
+    function getListUser($initiative = false)
+    {
+        $list = array(
+            0 => '- All -', 
+            1 => 'CO-PMO', 
+            3 => 'PMO',
+            4 => 'Direktur Sponsor', 
+        );
+
+        if ($initiative){
+            array_push($list, 'Initiative');
+        }
+
+        return $list;
+    }
+
 
 ?>

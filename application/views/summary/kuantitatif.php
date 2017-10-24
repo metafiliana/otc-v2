@@ -63,7 +63,7 @@
                     <label class="control-label col-sm-1">User</label>
                     <div class="col-sm-3">
                       <?php
-                          echo form_dropdown('user', array(0 => '- All -', 1 => 'CO-PMO', 3 => 'PMO'), array(), 'class = "form-control"');
+                          echo form_dropdown('user', getListUser(true), array(), 'class = "form-control"');
                       ?>
                     </div>
                   </div>

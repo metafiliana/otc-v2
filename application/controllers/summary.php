@@ -296,7 +296,7 @@ class Summary extends CI_Controller {
                 $data['bulan_search'] = $_POST['bulan'];
             }
 
-            if ($_POST['user'] == '1' || $_POST['user'] == '2'){
+            if ($_POST['user'] == '1' || $_POST['user'] == '3' || $_POST['user'] == '4'){
                 $data_user = $this->muser->get_user_by_role($_POST['user']);
 
                 $string_in_user = '(';
@@ -306,6 +306,8 @@ class Summary extends CI_Controller {
                 $string_in_user .= '0)';
 
                 $data['user'] = $string_in_user;
+            }elseif ($_POST['user'] == '5'){
+                //code
             }
         }
 
@@ -380,7 +382,7 @@ class Summary extends CI_Controller {
                 $data['bulan_search'] = $_POST['bulan'];
             }
 
-            if ($_POST['user'] == '1' || $_POST['user'] == '2'){
+            if ($_POST['user'] == '1' || $_POST['user'] == '3' || $_POST['user'] == '4'){
                 $data_user = $this->muser->get_user_by_role($_POST['user']);
 
                 $string_in_user = '(';
@@ -390,6 +392,8 @@ class Summary extends CI_Controller {
                 $string_in_user .= '0)';
 
                 $data['user'] = $string_in_user;
+            }elseif ($_POST['user'] == '5'){
+                //code
             }
         }
 
