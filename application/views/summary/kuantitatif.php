@@ -71,7 +71,7 @@
                     <label class="control-label col-sm-1">Month</label>
                     <div class="col-sm-3" style="margin-left:12px;">
                       <?php
-                          echo form_dropdown('bulan', getMonth(true), date('F'), 'class = "form-control"');
+                          echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
                       ?>
                     </div>
                   </div>
