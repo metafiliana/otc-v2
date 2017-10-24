@@ -603,4 +603,42 @@ class Summary extends CI_Controller {
         return $ytd;
     }
 
+    public function home()
+    {
+        $data['title'] = "Home";
+        $prog['page']="all";
+        $user = $this->session->userdata('user');
+        $prog['user'] = $user;
+        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
+        $data['user']=$user;
+        if($user['role']!='admin'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+        // views start
+        $views = array();
+        $views['user'] = $user;
+        // views end
+
+        // print_r($this->getDataTableKuantitatif(3));die;
+
+        //process start
+        // $data['init_table'] = $this->getDataTableKuantitatif();
+        $data['controller'] = $this;
+        // $data['bulan_search'] = null;
+        // $data['user'] = null;
+        //process end
+
+        $data['footer'] = $this->load->view('shared/footer','',TRUE);
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+        //$data['sidebar'] = $this->load->view('shared/sidebar_2',$prog,TRUE);
+        $data['content'] = $this->load->view('summary/home',$views,TRUE);
+
+        $this->load->view('front',$data);
+    }
+
 }
