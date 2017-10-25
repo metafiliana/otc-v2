@@ -399,14 +399,13 @@ class Summary extends CI_Controller {
         $data['bulan_search'] = null;
         $data['user'] = null;
         //process end
-
         if ($_POST){
             if ($_POST['bulan']){
                 $data['bulan_search'] = $_POST['bulan'];
             }
 
             if ($_POST['user']){
-                $data['init_table'] = $this->getDataTableKuantitatif($_POST['user']);
+                $data['init_table'] = $this->getDataTableKuantitatifUser($_POST['user']);
                 $data['user'] = $_POST['user'];
             }
         }
@@ -605,6 +604,125 @@ class Summary extends CI_Controller {
         }
 
         $get_table_inititative = $this->mt_action->getDataInKuantitatif($data);
+
+        return $get_table_inititative;
+    }
+
+    function getDataTableKuantitatifUser($role = false)
+    {
+        $data_user = $this->muser->get_user_by_role($role);
+        $array_user = array();
+        foreach ($data_user as $key => $value) {
+            $name = $value->name;                    
+            $id = $value->id;                    
+
+            if (strpos($value->initiative, ';')){
+                $array_initiative = explode(';', $value->initiative);
+                foreach ($array_initiative as $key1 => $value1) {
+                    $object_table_raw = new StdClass();
+                    $object_table_raw->name = $name;
+                    $object_table_raw->id = $id;
+                    $initiative = $this->minitiative->getInitiativeByCode($value1);
+                    $object_table_raw->init_id = $initiative->id;
+                    $object_table_raw->init_code = $value1;
+                    array_push($array_user, $object_table_raw);
+                }
+            }else{
+                $object_table_raw = new StdClass();
+                $object_table_raw->name = $name;
+                $object_table_raw->id = $id;
+                if (!empty($value->initiative)){
+                    $initiative = $this->minitiative->getInitiativeByCode($value->initiative);
+                    if (!empty($initiative)){
+                        $object_table_raw->init_id = $initiative->id;
+                        $object_table_raw->init_code = $value->initiative;
+                        array_push($array_user, $object_table_raw);
+                    }
+                }
+            }
+        }
+
+        $get_kuantitatif = $this->mkuantitatif->getSummaryKuantitatif();
+
+        $get_kuantitatif_new = array();
+        foreach ($array_user as $key => $value) {
+            foreach ($get_kuantitatif as $key1 => $value1) {
+                if ($value->init_id == $value1['init_id']){
+                    array_push($get_kuantitatif_new, $get_kuantitatif[$key1]);
+                }
+            }
+        }
+
+        // insert array dummy for batas compare
+        array_push($get_kuantitatif, ['id' => 'xxx', 'type' => 'xxx', 'init_id' => 'xxx']);
+
+        $data['type_1'] = array();
+        $data['type_2'] = array();
+        $data['type_3'] = array();
+
+        $init_id = $get_kuantitatif[0]['init_id'];
+        $leading = false;
+        $lagging = false;
+        foreach ($get_kuantitatif as $key => $value) {
+            if ($value['init_id'] != $init_id){
+                if ($lagging === true){
+                    foreach ($array_user as $key1 => $value1) {
+                        if ($value['init_id'] == $value1->init_id){
+                            array_push($data['type_1'], $init_id);
+                        }
+                    }
+                }elseif (($leading === true) && ($lagging === false)){
+                    foreach ($array_user as $key1 => $value1) {
+                        if ($value['init_id'] == $value1->init_id){
+                            array_push($data['type_2'], $init_id);
+                        }
+                    }
+                }else{
+                    foreach ($array_user as $key1 => $value1) {
+                        if ($value['init_id'] == $value1->init_id){
+                            array_push($data['type_3'], $init_id);
+                        }
+                    }
+                }
+
+                $init_id = $value['init_id'];
+                $leading = false;
+                $lagging = false;
+            }else{
+                if ($value['type'] == 'Leading'){
+                    $leading = true;
+                    continue;
+                }elseif ($value['type'] == 'Lagging'){
+                    $lagging = true;
+                    continue;
+                }
+            }
+        }
+        $get_table_inititative = $this->mt_action->getDataInKuantitatif($data);
+
+        foreach ($get_table_inititative['type_1'] as $key => $value) {
+            foreach ($array_user as $key1 => $value1) {
+                if ($value->id == $value1->init_id){
+                    $get_table_inititative['type_1'][$key]->title = $value1->name;
+                }
+            }
+        }
+
+        foreach ($get_table_inititative['type_2'] as $key => $value) {
+            foreach ($array_user as $key1 => $value1) {
+                if ($value->id == $value1->init_id){
+                    $get_table_inititative['type_2'][$key]->title = $value1->name;
+                }
+            }
+        }
+
+        foreach ($get_table_inititative['type_3'] as $key => $value) {
+            foreach ($array_user as $key1 => $value1) {
+                if ($value->id == $value1->init_id){
+                    $get_table_inititative['type_3'][$key]->title = $value1->name;
+                }
+            }
+        }
 
         return $get_table_inititative;
     }
