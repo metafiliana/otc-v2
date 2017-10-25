@@ -88,6 +88,7 @@ class Muser extends CI_Model {
     function get_user_by_role($role){
         $this->db->select('*');
         $this->db->where('role',$role);
+        $this->db->order_by('name', 'ASC');
         $result = $this->db->get('user');
         return $result->result();
     }

@@ -24,6 +24,7 @@ class Mt_action extends CI_Model {
     {
         if ($distinct)
             $this->db->distinct();
+        $this->db->order_by('id', 'ASC');
         $result = $this->db->get('m_initiative');
 
         return $result->result();
@@ -83,7 +84,7 @@ class Mt_action extends CI_Model {
     		$where .= ' AND `end` <= "'.$date.'"';
         }
         if ($user){
-            $where .= ' AND user_id IN '.$user;
+            $where .= ' AND user_id = '.$user;
         }
     	$sql = 'select count(id) as jumlah from t_action WHERE '.$where;
         $query = $this->db->query($sql)->row();
@@ -102,7 +103,7 @@ class Mt_action extends CI_Model {
             $where .= ' AND `end` <= "'.$date.'"';
         }
         if ($user){
-            $where .= ' AND user_id IN '.$user;
+            $where .= ' AND user_id = '.$user;
         }
         $sql = 'select count(id) as jumlah from t_action WHERE '.$where;
         $query = $this->db->query($sql)->row();
@@ -130,7 +131,7 @@ class Mt_action extends CI_Model {
         }
 
         if ($user){
-            $where_user = ' AND user_id IN '.$user;
+            $where_user = ' AND user_id = '.$user;
         }
 
         // main query
@@ -154,34 +155,44 @@ class Mt_action extends CI_Model {
         return ($total > 0) ? $total : 0;
     }
 
-    function getStatusOverdueMilestone($initiative_id, $month = false, $user = false)
+    function getStatusIssueMilestone($initiative_id, $month = false, $user = false, $type = null)
     {
-        // after end date, status == flagged no issue or not started
-        $where = '`updated_date` > `end` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND (`status` = 0 OR `status` = 2)';
+        // $type : 
+        // 1 = not started
+        // 2 = overdue
 
-        // query month
-        $where_month = '';
-        $where_user = '';
-        if ($month){
-            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-            $where_month = ' AND `end` <= "'.$date.'"';
+        if ($type == 1){ // not started
+            // between start and end date
+            $where = '`updated_date` between `start` AND `end` AND `initiative_id` = '.$initiative_id.' AND `status` = 3';
+
+            if ($month){
+                $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+                $where = '`updated_date` between `start` AND "'.$date.'" AND `initiative_id` = '.$initiative_id.' AND `status` = 3';
+            }
+        }elseif ($type == 2){ // overdue
+            // after end date
+            $where = '`end` <= NOW() AND `initiative_id` = '.$initiative_id.' AND `status` = 3';
+
+            if ($month){
+                $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+                $where = '`end` <= "'.$date.'" AND `initiative_id` = '.$initiative_id.' AND `status` = 3';
+            }
         }
 
+        $where_user = '';
         // query user
         if ($user){
-            $where_user = ' AND user_id IN '.$user;
+            $where_user = ' AND user_id = '.$user;
         }
 
         // main query
         $sql = 'select count(id) as jumlah from t_action WHERE ';
 
         // query execute
-        $query = $this->db->query($sql.$where.$where_month.$where_user)->row();
+        $query = $this->db->query($sql.$where.$where_user)->row();
 
         return ($query->jumlah > 0) ? $query->jumlah : 0;
     }
-
-    
 
     function getMilestoneDetail($initiative_id, $mtd = false, $ytd = false, $user = false)
     {

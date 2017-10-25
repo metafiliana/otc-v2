@@ -819,7 +819,7 @@ class Minitiative extends CI_Model {
         return $data;
     }
 
-    public function getInitiativeByCode($code)
+    public function getInitiativeByCode($code = null)
     {
         $this->db->where('init_code', $code);
         $data = $this->db->get('m_initiative')->row(0);

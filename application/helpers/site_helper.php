@@ -198,11 +198,30 @@
         );
 
         if ($initiative){
-            array_push($list, 'Initiative');
+            // array_push($list, 'Initiative');
         }
 
         return $list;
     }
 
+    function getUserRole($role = 0)
+    {
+        $return = 'Initiative';
+
+        $list = array(
+            1 => 'CO-PMO', 
+            3 => 'PMO',
+            4 => 'Direktur Sponsor', 
+        );
+
+        foreach ($list as $key => $value) {
+            if ($key == $role){
+                $return = $value;
+                break;
+            }
+        }
+
+        return $return;
+    }
 
 ?>

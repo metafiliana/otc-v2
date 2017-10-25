@@ -296,20 +296,42 @@ class Summary extends CI_Controller {
                 $data['bulan_search'] = $_POST['bulan'];
             }
 
-            if ($_POST['user'] == '1' || $_POST['user'] == '3' || $_POST['user'] == '4'){
+            if ($_POST['user']){
                 $data_user = $this->muser->get_user_by_role($_POST['user']);
-
-                $string_in_user = '(';
+                $array_table = array();
                 foreach ($data_user as $key => $value) {
-                    $string_in_user .= $value->id.',';
-                }
-                $string_in_user .= '0)';
+                    $name = $value->name;                    
+                    $id = $value->id;                    
 
-                $data['user'] = $string_in_user;
-            }elseif ($_POST['user'] == '5'){
-                //code
+                    if (strpos($value->initiative, ';')){
+                        $array_initiative = explode(';', $value->initiative);
+                        foreach ($array_initiative as $key1 => $value1) {
+                            $object_table_raw = new StdClass();
+                            $object_table_raw->name = $name;
+                            $object_table_raw->id = $id;
+                            $initiative = $this->minitiative->getInitiativeByCode($value1);
+                            $object_table_raw->initiative = $initiative->id;
+                            $object_table_raw->init_code = $value1;
+                            array_push($array_table, $object_table_raw);
+                        }
+                    }else{
+                        $object_table_raw = new StdClass();
+                        $object_table_raw->name = $name;
+                        $object_table_raw->id = $id;
+                        if (!empty($value->initiative)){
+                            $initiative = $this->minitiative->getInitiativeByCode($value->initiative);
+                            $object_table_raw->initiative = $initiative->id;
+                            $object_table_raw->init_code = $value->initiative;
+                            array_push($array_table, $object_table_raw);
+                        }
+                    }
+                }
+                $data['init_table'] = $array_table;
+                $data['user'] = $_POST['user'];
             }
         }
+        
+        $data['table_title'] = empty($_POST['user']) ? 0 : $_POST['user'];
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
@@ -338,7 +360,8 @@ class Summary extends CI_Controller {
         if ($future){
             $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user);
         }elseif ($flagged){
-            $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
+            // $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
+            $return = $this->mt_action->getStatusIssueMilestone($initiative_id, $bulan, $user, $flagged);
         }elseif ($overdue){
             $return = $this->mt_action->getStatusOverdueMilestone($initiative_id, $bulan, $user);
         }else{
@@ -382,20 +405,13 @@ class Summary extends CI_Controller {
                 $data['bulan_search'] = $_POST['bulan'];
             }
 
-            if ($_POST['user'] == '1' || $_POST['user'] == '3' || $_POST['user'] == '4'){
-                $data_user = $this->muser->get_user_by_role($_POST['user']);
-
-                $string_in_user = '(';
-                foreach ($data_user as $key => $value) {
-                    $string_in_user .= $value->id.',';
-                }
-                $string_in_user .= '0)';
-
-                $data['user'] = $string_in_user;
-            }elseif ($_POST['user'] == '5'){
-                //code
+            if ($_POST['user']){
+                $data['init_table'] = $this->getDataTableKuantitatif($_POST['user']);
+                $data['user'] = $_POST['user'];
             }
         }
+
+        $data['table_title'] = empty($_POST['user']) ? 0 : $_POST['user'];
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
@@ -545,7 +561,9 @@ class Summary extends CI_Controller {
                 if (is_array($initiative_explode)){
                     foreach ($initiative_explode as $key1 => $value1) {
                         $data_initiative_user_code = $this->minitiative->getInitiativeByCode($value1);
-                        array_push($data_initiative_user, $data_initiative_user_code->id);
+                        if (!empty($data_initiative_user_code)){
+                            array_push($data_initiative_user, $data_initiative_user_code->id);
+                        }
                     }
                 }
             }
