@@ -320,9 +320,11 @@ class Summary extends CI_Controller {
                         $object_table_raw->id = $id;
                         if (!empty($value->initiative)){
                             $initiative = $this->minitiative->getInitiativeByCode($value->initiative);
-                            $object_table_raw->initiative = $initiative->id;
-                            $object_table_raw->init_code = $value->initiative;
-                            array_push($array_table, $object_table_raw);
+                            if (!empty($initiative)){
+                                $object_table_raw->initiative = $initiative->id;
+                                $object_table_raw->init_code = $value->initiative;
+                                array_push($array_table, $object_table_raw);
+                            }
                         }
                     }
                 }
@@ -701,26 +703,47 @@ class Summary extends CI_Controller {
         $get_table_inititative = $this->mt_action->getDataInKuantitatif($data);
 
         foreach ($get_table_inititative['type_1'] as $key => $value) {
+            $status = 0;
             foreach ($array_user as $key1 => $value1) {
                 if ($value->id == $value1->init_id){
                     $get_table_inititative['type_1'][$key]->title = $value1->name;
+
+                    $status = 1;
                 }
+            }
+
+            if ($status == 0){
+                unset($get_table_inititative['type_1'][$key]);
             }
         }
 
         foreach ($get_table_inititative['type_2'] as $key => $value) {
+            $status = 0;
             foreach ($array_user as $key1 => $value1) {
                 if ($value->id == $value1->init_id){
                     $get_table_inititative['type_2'][$key]->title = $value1->name;
+                    
+                    $status = 1;
                 }
+            }
+
+            if ($status == 0){
+                unset($get_table_inititative['type_2'][$key]);
             }
         }
 
         foreach ($get_table_inititative['type_3'] as $key => $value) {
+            $status = 0;
             foreach ($array_user as $key1 => $value1) {
                 if ($value->id == $value1->init_id){
                     $get_table_inititative['type_3'][$key]->title = $value1->name;
+                    
+                    $status = 1;
                 }
+            }
+
+            if ($status == 0){
+                unset($get_table_inititative['type_3'][$key]);
             }
         }
 
