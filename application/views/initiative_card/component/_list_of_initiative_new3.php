@@ -1,10 +1,14 @@
-<table style="margin-left: 50px;width: 90%; margin-top: 50px;">
+<table class="init-table" style="margin-left: 50px;width: 90%; margin-top: 50px;">
+  <tr class="head">
+    <td><center>Initiative Code</center></td>
+    <td><center>Judul Initiative</center></td>
+  </tr>
 <?php
   foreach($initiative3 as $init){
 ?>
   <tr>
-    <td style="width:5%"><?php echo $init->init_code?></td>
-    <td style="width: 95%"><a href="#openModal<?php echo $init->id?>"><?php echo $init->title?></a></td>
+    <td style="width:20%; vertical-align: middle;"><center><?php echo $init->init_code?></center></td>
+    <td style="width: 80%"><a href="#openModal<?php echo $init->id?>"><?php echo $init->title?></a></td>
   </tr>
 <?php }?>
 
@@ -57,21 +61,60 @@
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
-          <td>: <?= number_format(($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)),2,",","."); ?>%</td>
+          <td>: <?php if ($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)==0){
+            echo 0;
+          }
+          else{
+            echo number_format(($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)),2,",",".");
+          }
+          ?>%</td>
         </tr>
           <tr>
           <td>Leading&nbsp;&nbsp;</td>
-          <td>: <?= number_format(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'),2,",","."); ?>%</td>
+          <td>: <?php if ($controller->get_count_leading($init->id, 'Leading')==0){
+               echo 0;
+            }
+            else{
+              echo number_format(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'),2,",",".");
+            }
+              ?>%</td>
 
         </tr>
           <tr>
           <td>Lagging&nbsp;&nbsp;</td>
-          <td>: <?= number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",","."); ?>%</td>
+          <td>: <?php if($controller->get_count_leading($init->id, 'Lagging')==0){
+            echo 0;
+          }
+          else{
+            echo number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",",".");
+          }
+          ?>%</td>
         </tr>
         <tr>
           <td>Final Score&nbsp;&nbsp;:</td>
-          <td><h2>&nbsp;<?= number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",","."); ?>%</h2></td>
-          <td><div id="circle" style="background: red;"></div></td>
+          <td><h2>&nbsp;
+          <?php if ($controller->get_count_leading($init->id, 'Lagging')==0){
+            if ($controller->get_count_leading($init->id, 'Leading')==0){
+              if($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)==0){
+                $final_m = 0;
+                echo $final_m;
+              }
+              else{
+                $final_m=round(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id));
+                echo $final_m;
+              }
+            }
+            else{
+              $final_m=round(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'));
+              echo $final_m;
+            }
+          }
+          else{
+            $final_m = round(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'));
+            echo $final_m;
+          }
+          ?>%</h2></td>
+          <td><div id="circle" style="background: <?php echo warna($final_m);?>;"></div></td>
         </tr>
       </table><br>
     </div>
@@ -80,20 +123,59 @@
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
-          <td>: <?= number_format(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id),2,",","."); ?>%</td>
+          <td>: <?php if($controller->get_count_action($init->id)==0){
+            echo 0;
+          }
+          else{
+            echo number_format(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id),2,",",".");
+          }
+          ?>%</td>
         </tr>
         <tr>
           <td>Leading&nbsp;&nbsp;</td>
-          <td>: <?= number_format(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'),2,",","."); ?>%</td>
+          <td>: <?php if($controller->get_count_leading($init->id, 'Leading')==0){
+            echo 0;
+          }
+          else{
+            echo number_format(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'),2,",",".");
+          }
+          ?>%</td>
         </tr>
         <tr>
           <td>Lagging&nbsp;&nbsp;</td>
-          <td>: <?= number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",","."); ?>%</td>
+          <td>: <?php if($controller->get_count_leading($init->id, 'Lagging')==0){
+            echo 0;
+          }
+          else{
+            echo number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",",".");
+          }
+          ?>%</td>
         </tr>
         <tr>
           <td>Final Score&nbsp;&nbsp;:</td>
-          <td><h2>&nbsp;<?= number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",","."); ?>%</h2></td>
-          <td><div id="circle" style="background: red;"></div></td>
+          <td><h2>&nbsp;
+          <?php if ($controller->get_count_leading($init->id, 'Lagging')==0){
+            if ($controller->get_count_leading($init->id, 'Leading')==0){
+              if($controller->get_count_action($init->id)==0){
+                $final_y=0;
+                echo $final_y;
+              }
+              else{
+                $final_y= round(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id));
+                echo $final_y;
+              }
+            }
+            else{
+              $final_y= round(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'));
+              echo $final_y;
+            }
+          }
+          else{
+            $final_y= round(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'));
+            echo $final_y;
+          }
+          ?>%</h2></td>
+          <td><div id="circle" style="background: <?php echo warna($final_y);?>"></div></td>
         </tr>
       </table><br>
     </div>                          

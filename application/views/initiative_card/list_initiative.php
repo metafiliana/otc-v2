@@ -93,7 +93,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 
 .modalDialog > div {
   width: 800px;
-  height: 70%;
+  height: 55%;
   position: relative;
   margin: 100px auto;
   padding: 5px 20px 13px 20px;
@@ -131,6 +131,20 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 }
 
 .close:hover { background: #00d9ff; }
+table.init-table tr{
+  height: 45px;
+  
+}
+table.init-table tr.head{
+  background-color: rgb(15,43,91);
+  vertical-align: middle;
+  color: #fff;
+  text-transform: uppercase;
+}
+table.init-table td{
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 10px;
+  }
 </style>
         <div class="col-lg-11 col-md-12 col-sm-12 col-xs-9 bhoechie-tab-container" style="height: auto;">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">

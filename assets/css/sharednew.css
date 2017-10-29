@@ -35,10 +35,10 @@
 	background-color: #A8D8F0;
 }
 .red_color_bg{
-	background-color: #E73F3F;
+	background-color: #EBF34C;
 }
 .yellow_color_bg{
-	background-color: #EBF34C;
+	background-color: #E73F3F;
 }
 .green_color_bg{
 	background-color: #2BD621;
@@ -316,18 +316,6 @@ hr{
 	color:white !important;
 }
 .btns{
-	border:0px solid transparent; /* this was 1px earlier */
-}
-
-.btn-info-new-submit{
-	color:black;
-	background-color:#a9faa9;
-	border-radius: 256px;}
-.btn-info-new-submit:hover{
-	color:white !important;
-	background-color:black;
-}
-.btns-submit{
 	border:0px solid transparent; /* this was 1px earlier */
 }
 
@@ -1023,26 +1011,6 @@ input.valid{
 .error{
 	color:#FF0000;
 	font-size:12px;
-}
-
-/* bullet */
-.bullet-red {
-		color: red;
-		border-radius: 50%;
-		width: 2px;
-		height: 2px;
-}
-.bullet-yellow {
-		color: yellow;
-		border-radius: 50%;
-		width: 2px;
-		height: 2px;
-}
-.bullet-green {
-		color: green;
-		border-radius: 50%;
-		width: 2px;
-		height: 2px;
 }
 
 /* navbar transparant */

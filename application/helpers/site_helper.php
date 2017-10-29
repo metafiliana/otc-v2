@@ -187,6 +187,21 @@
 
         return $html;
     }
+    function warna($score = 0)
+    {
+        $score = (int)$score;
+        if ($score >= 100){
+            $warna = 'green';
+        }
+
+        else if ($score <= 95){
+            $warna = 'red';
+        }
+        else {
+          $warna = 'yellow';
+        }
+        return $warna;
+    }
 
     function getListUser($initiative = false)
     {
