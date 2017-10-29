@@ -49,17 +49,20 @@
     }
 </style>
 <div class="panel-body">
-      <div class="component_part_summary" style="margin-top:10px;">
-      <!-- search area -->
-      <div class="row">
-        <h2 class="text-center">Welcome, <?php echo $user['name']; ?></h2>
-      </div>
+
+      <!-- header area start -->
+      <div class="component_part" style="margin-top:10px;">
+        <div class="row">
+          <h2 class="text-center">Welcome, <?php echo $user['name']; ?></h2>
+        </div>
       </div><div style="clear:both;"></div>
+      <!-- header area ends -->
+
+      <!-- data area top 21 bod start -->
       <div class="component_part">
         <div class="row">
           <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
           <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-          <!-- data area -->
           <div class="col-md-12 table-content">
             <div class="col-md-6">
               <div id="mtdGauge"></div>
@@ -70,39 +73,61 @@
           </div>
         </div>
       </div>
+      <!-- data area top 21 bod ends -->
+
+      <!-- data area inititatives start -->
+      <?php foreach ($initiatives_detail as $key => $value) { ?>
       <div class="component_part">
         <div class="row">
-          <!-- data area -->
           <div class="col-md-12 table-content">
+            
+            <!-- data area inititatives-kuantitatif start -->
             <div class="col-md-7">
-              <h3 class="text-center">Realisasi Pencapaian Initiatives 1A</h3>
+              <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
               <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
               <div class="col-md-6">
-                <div class="mtdGaugeInit"></div>
+                <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
               </div>
               <div class="col-md-6">
-                <div class="ytdGaugeInit"></div>
+                <div class="ytd-gauge-init-<?php echo $value['id'];?>"></div>
               </div>
+              <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>">Details</button>
             </div>
+            <!-- data area inititatives-kuantitatif ends -->
+            
+            <!-- data area milestone start -->
             <div class="col-md-5">
-              <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives 1A</h3>
+              <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
               <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
               <div class="col-md-6 text-center">
-                <p>Complete: 44</p>
-                <p>On Track: 44</p>
-                <p>Future Start: 44</p>
-                <p style="color: red">Flagged: 44</p>
-                <p style="color: red">Overdue: 44</p>
-                <p style="color: red">Delay: 44</p>
+                <p>Complete: <?php echo $value['completed']; ?></p>
+                <p>On Track: <?php echo $value['on_track']; ?></p>
+                <p>Future Start: <?php echo $value['future_start']; ?></p>
+                <p style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                <p style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
+                <p style="color: red">Delay: <?php echo $value['delay']; ?></p>
               </div>
               <div class="col-md-6 text-center">
-                <button>MTD</button>
-                <button>YTD</button>
+                <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
+                <br>
+                <span>YTD : <?php echo $value['milestone_ytd']; ?>%</span>
               </div>
             </div>
+            <!-- data area milestone start -->
+
           </div>
         </div>
       </div>
+      <?php } ?>
+      <!-- data area ends -->
+
+      <!-- activities area start -->
+      <div class="component_part" style="margin-top:10px;">
+        <div class="row">
+          <h2 class="text-center">Next Activities</h2>
+        </div>
+      </div><div style="clear:both;"></div>
+      <!-- activities area ends -->
 </div>
 
 <!-- <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script> -->
@@ -149,8 +174,8 @@
           }
         }  
       },
-      value: 96,
-      subvalues: [96]
+      value: <?php echo $top_bod['mtd']; ?>,
+      subvalues: [<?php echo $top_bod['mtd']; ?>]
     });
 
     $("#ytdGauge").dxCircularGauge({
@@ -191,73 +216,79 @@
           }
         }  
       },
-      value: 65,
-      subvalues: [65]
+      value: <?php echo $top_bod['ytd']; ?>,
+      subvalues: [<?php echo $top_bod['ytd']; ?>]
     });
 
-    $(".mtdGaugeInit").dxCircularGauge({
-      rangeContainer: { 
-        offset: 10,
-        ranges: [
-          { startValue: 0, endValue: 95, color: 'red' },
-          { startValue: 95, endValue: 100, color: 'yellow' },
-          { startValue: 100, endValue: 200, color: '#2DD700' }
-        ]
-      },
-      scale: {
-        startValue: 0,  endValue: 200,
-        majorTick: { tickInterval: 20 },
-        label: {
-        }
-      },
-      tooltip: {
-        enabled: true,
-        customizeText: function (arg) {
-          return 'Current ' + arg.valueText;
-        }
-      },
-      subvalueIndicator: {
-        type: 'textCloud',
-        text: {
-          customizeText: function (arg) {
-            return arg.valueText + '% MTD';
-          }
-        }  
-      },
-      value: 55,
-      subvalues: [55]
-    });
+    $(".detail-initiatives").on("click", function(data){
+      var id = $(this).data("id");
+      var mtd = $(this).data("mtd");
+      var ytd = $(this).data("ytd");
 
-    $(".ytdGaugeInit").dxCircularGauge({
-      rangeContainer: { 
-        offset: 10,
-        ranges: [
-          { startValue: 0, endValue: 95, color: 'red' },
-          { startValue: 95, endValue: 100, color: 'yellow' },
-          { startValue: 100, endValue: 200, color: '#2DD700' }
-        ]
-      },
-      scale: {
-        startValue: 0,  endValue: 200,
-        majorTick: { tickInterval: 20 },
-        label: {
-        }
-      },
-      tooltip: {
-        enabled: true,
-        customizeText: function (arg) {
-          return 'Current ' + arg.valueText;
-        }
-      },
-      subvalueIndicator: {
-        type: 'textCloud',
-        text: {
-          customizeText: function (arg) {
-            return arg.valueText + '% YTD';
+      $(".mtd-gauge-init-"+id).dxCircularGauge({
+        rangeContainer: { 
+          offset: 10,
+          ranges: [
+            { startValue: 0, endValue: 95, color: 'red' },
+            { startValue: 95, endValue: 100, color: 'yellow' },
+            { startValue: 100, endValue: 200, color: '#2DD700' }
+          ]
+        },
+        scale: {
+          startValue: 0,  endValue: 200,
+          majorTick: { tickInterval: 50 },
+          label: {
           }
-        }  
-      },
-      value: 65,
-      subvalues: [65]
+        },
+        tooltip: {
+          enabled: true,
+          customizeText: function (arg) {
+            return 'Current ' + arg.valueText;
+          }
+        },
+        subvalueIndicator: {
+          type: 'textCloud',
+          text: {
+            customizeText: function (arg) {
+              return arg.valueText + '% MTD';
+            }
+          }  
+        },
+        value: mtd,
+        subvalues: [mtd]
+      });
+
+      $(".ytd-gauge-init-"+id).dxCircularGauge({
+        rangeContainer: { 
+          offset: 10,
+          ranges: [
+            { startValue: 0, endValue: 95, color: 'red' },
+            { startValue: 95, endValue: 100, color: 'yellow' },
+            { startValue: 100, endValue: 200, color: '#2DD700' }
+          ]
+        },
+        scale: {
+          startValue: 0,  endValue: 200,
+          majorTick: { tickInterval: 50 },
+          label: {
+          }
+        },
+        tooltip: {
+          enabled: true,
+          customizeText: function (arg) {
+            return 'Current ' + arg.valueText;
+          }
+        },
+        subvalueIndicator: {
+          type: 'textCloud',
+          text: {
+            customizeText: function (arg) {
+              return arg.valueText + '% YTD';
+            }
+          }  
+        },
+        value: ytd,
+        subvalues: [ytd]
+      });
     });
 </script>

@@ -128,6 +128,7 @@
                       </tr>
                       <?php
                             $i = 1;
+                            $j = 1;
                             $total_monthly = 0;
                             $total_yearly = 0;
                             $total_milestone_monthly = 0;
@@ -260,13 +261,13 @@
                                   echo "</td>";
                               echo "</tr>";
 
-                              $i++;
+                              $j++;
                           }
 
                           $total_milestone_monthly = number_format($total_milestone_monthly / $i);
                           $total_monthly = number_format($total_monthly / $i);
-                          $total_milestone_yearly = number_format($total_milestone_yearly / $i);
-                          $total_yearly = number_format($total_yearly / $i);
+                          $total_milestone_yearly = number_format($total_milestone_yearly / ($i + $j));
+                          $total_yearly = number_format($total_yearly / ($i + $j));
                           echo '<tr>';
                               echo '<td class=""><strong>Overall ' . date('F Y') . ' (Actual vs Target)</strong></td>';
                               echo '<td>' . $total_milestone_monthly . ' %</td>';
@@ -284,8 +285,9 @@
                   </tbody>
               </table>
           </div>
+          <?php }else{ ?>
+            <h3 class="text-center">Data Kosong</h3>
           <?php } ?>
-          <h3 class="text-center">Data Kosong</h3>
         </div>
       </div>
 </div>
