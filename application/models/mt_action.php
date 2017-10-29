@@ -19,6 +19,15 @@ class Mt_action extends CI_Model {
         $this->load->database();
     }
 
+    function truncateTable()
+    {
+        if ($this->db->truncate('t_action')){
+            return true;
+        }
+
+        return false;
+    }
+
     // new master initiatives table
     function getAllInitiative($distinct = false)
     {

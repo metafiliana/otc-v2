@@ -15,6 +15,7 @@ class Summary extends CI_Controller {
         $this->load->model('mkuantitatif');
         $this->load->model('msummary');
         $this->load->model('mt_action');
+        $this->load->model('minfo');
         $this->load->library('excel');
         $this->load->helper('form');
         $this->load->helper('site_helper');
@@ -289,6 +290,7 @@ class Summary extends CI_Controller {
         $data['controller'] = $this;
         $data['bulan_search'] = null;
         $data['user'] = null;
+        $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
 
         if ($_POST){
@@ -400,6 +402,7 @@ class Summary extends CI_Controller {
         $data['controller'] = $this;
         $data['bulan_search'] = null;
         $data['user'] = null;
+        $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
         if ($_POST){
             if ($_POST['bulan']){

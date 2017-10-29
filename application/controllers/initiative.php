@@ -2,7 +2,6 @@
 
 
 class Initiative extends CI_Controller {
-
     public function __construct() {
         parent::__construct();
         $this->load->model('minitiative');
@@ -13,6 +12,7 @@ class Initiative extends CI_Controller {
         $this->load->model('mfiles_upload');
         $this->load->model('muser');
         $this->load->model('mt_action');
+        $this->load->model('minfo');
         $this->load->helper('url');
 
         $session = $this->session->userdata('user');
@@ -488,7 +488,7 @@ class Initiative extends CI_Controller {
     	$data_insert = array();
 
     	// truncate table
-    	$this->db->truncate('t_action');
+    	$this->mt_action->truncateTable();
 
     	// proses get data -> insert table
     	$data_user = $this->mt_action->getUserInit();
@@ -526,6 +526,11 @@ class Initiative extends CI_Controller {
     			}
     		}
     	}
+
+    	// update info last update summary
+    	$this->minfo->updateLastUpdatedSummary();
+
+    	redirect($_SERVER['HTTP_REFERER']);
     }
     
 }

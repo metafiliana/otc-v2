@@ -49,12 +49,14 @@
     }
 </style>
 <div class="panel-body">
+<h5 class="text-right">last updated, <?php echo $summary_info->date; ?>, <?php echo $summary_info->modified; ?> times updated.</h5>
       <div class="component_part_summary" style="margin-top:10px;">
         <!-- search area -->
         <div class="row">
             <div class="col-md-2">
                 <button class="btn btn-info-new btn-sm" disabled="disabled">Kuantitatif</button>
                 <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-default btn-sm btn-info-new">Milestone</button></a>
+                <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
             </div>
             <div class="col-md-8">
               <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
