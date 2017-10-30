@@ -106,12 +106,10 @@
                           <th>Leading (MTD)</th>
                           <th>Lagging (MTD)</th>
                           <th>Final Monthly</th>
-                          <th></th>
                           <th>Milestone</th>
                           <th>Leading (YTD)</th>
                           <th>Lagging (YTD)</th>
                           <th>Final Year End</th>
-                          <th></th>
                       </tr>
                   </thead>
                   <tbody>
@@ -153,17 +151,11 @@
                                     echo "<td>".$milestone_monthly." %</td>"; // mtd milestone
                                     echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)." %</td>";
                                     echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)." %</td>";
-                                    echo "<td class = 'lagging-month-".$key."'>".$final_monthly_score." %</td>";
-                                    echo "<td>";
-                                    echo indikatorWarna($final_monthly_score);
-                                    echo "</td>";
+                                    echo "<td class = 'lagging-month-".$key."'><div class=circle style='background:".warna($final_monthly_score)."'></div>".$final_monthly_score." %</td>";
                                     echo "<td>".$milestone_yearly." %</td>"; // ytd milestone
                                     echo "<td class = 'leading-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 2)." %</td>";
                                     echo "<td class = 'lagging-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 2)." %</td>";
-                                    echo "<td class = 'lagging-year-".$key."'>".$final_yearly_score." %</td>";
-                                    echo "<td>";
-                                    echo indikatorWarna($final_yearly_score);
-                                    echo "</td>";
+                                    echo "<td class = 'lagging-year-".$key."'><div class=circle style='background:".warna($final_yearly_score)."'></div>".$final_yearly_score." %</td>";
                                 echo "</tr>";
 
                                 $i++;
@@ -202,17 +194,11 @@
                                   echo "<td>".$controller->countKuantitatif($value->id, 1)." %</td>"; // mtd milestone
                                   echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)." %</td>";
                                   echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)." %</td>";
-                                  echo "<td class = 'leading-month-".$key."'>".$final_monthly_score." %</td>";
-                                  echo "<td>";
-                                  echo indikatorWarna($final_monthly_score);
-                                  echo "</td>";
+                                  echo "<td class = 'leading-month-".$key."'><div class=circle style='background:".warna($final_monthly_score)."'></div>".$final_monthly_score." %</td>";
                                   echo "<td>".$controller->countKuantitatif($value->id, 2)." %</td>"; // ytd milestone
                                   echo "<td class = 'leading-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 2, false, $user)." %</td>";
                                   echo "<td class = 'lagging-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 2, false, $user)." %</td>";
-                                  echo "<td class = 'leading-year-".$key."'>".$final_yearly_score." %</td>";
-                                  echo "<td>";
-                                  echo indikatorWarna($final_yearly_score);
-                                  echo "</td>";
+                                  echo "<td class = 'leading-year-".$key."'><div class=circle style='background:".warna($final_yearly_score)."'></div>".$final_yearly_score." %</td>";
                               echo "</tr>";
 
                               $i++;
@@ -250,17 +236,11 @@
                                   echo "<td>".$controller->countKuantitatif($value->id, 1)." %</td>"; // mtd milestone
                                   echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)."</td>";
                                   echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)."</td>";
-                                  echo "<td>".$final_monthly_score." %</td>";
-                                  echo "<td>";
-                                  echo indikatorWarna($final_monthly_score);
-                                  echo "</td>";
+                                  echo "<td><div class=circle style='background:".warna($final_monthly_score)."'></div>".$final_monthly_score." %</td>";
                                   echo "<td>".$controller->countKuantitatif($value->id, 2)." %</td>"; // ytd milestone
                                   echo "<td class = 'leading-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 2, false, $user)."</td>";
                                   echo "<td class = 'lagging-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 2, false, $user)."</td>";
-                                  echo "<td>".$final_yearly_score." %</td>";
-                                  echo "<td>";
-                                  echo indikatorWarna($final_yearly_score);
-                                  echo "</td>";
+                                  echo "<td><div class=circle style='background:".warna($final_yearly_score)."'></div>".$final_yearly_score." %</td>";
                               echo "</tr>";
 
                               $j++;
@@ -275,13 +255,11 @@
                               echo '<td>' . $total_milestone_monthly . ' %</td>';
                               echo '<td></td>';
                               echo '<td></td>';
-                              echo '<td>' . $total_monthly . ' %</td>';
-                              echo '<td>' . indikatorWarna($total_monthly) . '</td>';
+                              echo '<td><div class=circle style="background:'.warna($total_monthly).'"></div>' .$total_monthly. ' %</td>';
                               echo '<td>' . $total_milestone_yearly . ' %</td>';
                               echo '<td></td>';
                               echo '<td></td>';
-                              echo '<td>' . $total_yearly . ' %</td>';
-                              echo '<td>' . indikatorWarna($total_yearly) . '</td>';
+                              echo '<td><div class=circle style="background:'.warna($total_yearly).'"></div>' . $total_yearly . ' %</td>';
                           echo '</tr>';
                       ?>
                   </tbody>
@@ -291,7 +269,7 @@
             <h3 class="text-center">Data Kosong</h3>
           <?php } ?>
         </div>
-      </div>
+      </div><div style="clear:both;"></div>
 </div>
 
 
