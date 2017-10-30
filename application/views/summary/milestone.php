@@ -111,8 +111,8 @@
                         <th>Overdue</th>
                         <th>Flagged</th>
                         <th>Total Action</th>
-                        <th>Completion Rate (MTD)</th>
                         <th>Completion Rate (YTD)</th>
+                        <th>Completion Rate (FL)</th>
                         <!-- <th></th> -->
                     </tr>
                 </thead>

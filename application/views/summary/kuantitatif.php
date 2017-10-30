@@ -93,7 +93,7 @@
             </div>
         </div>
       </div><div style="clear:both;"></div>
-      <div class="component_part">
+      <div class="component_part_summary text-center">
           <div class="row">
           <!-- data area -->
           <?php if (!empty($init_table)){ ?>
@@ -103,12 +103,12 @@
                       <tr>
                           <th><?php echo getUserRole($table_title); ?></th>
                           <th>Milestone Bulan</th>
-                          <th>Leading (MTD)</th>
-                          <th>Lagging (MTD)</th>
-                          <th>Final Monthly</th>
-                          <th>Milestone</th>
                           <th>Leading (YTD)</th>
                           <th>Lagging (YTD)</th>
+                          <th>Final Monthly</th>
+                          <th>Milestone</th>
+                          <th>Leading (FL)</th>
+                          <th>Lagging (FL)</th>
                           <th>Final Year End</th>
                       </tr>
                   </thead>
