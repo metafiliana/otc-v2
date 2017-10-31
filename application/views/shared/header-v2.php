@@ -96,7 +96,7 @@
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 5px;
     text-decoration: none;
 		font-size: 15px;
 		/*text-transform: uppercase;*/
@@ -153,7 +153,7 @@
 	border-bottom:3px solid rgba(252, 209, 22, .8);">
 		<div class="col-md-3">
 			<div class="col-md-4" style="padding-right: 0;">
-				<img style="height:45px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/logo.png">
+				<img style="height:40px; margin-left:0px; padding-bottom: 5px; padding-top: 5px;" src="<?php echo base_url()?>assets/img/logo.png">
 			</div>
 			<div class="col-md-8" style="padding-top: 10px;padding-left: 0;">
 				<h3 style="color: rgb(15,43,91); font-weight: bold; font-size: 14px;">PMO CORPLAN</h3>
