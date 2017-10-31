@@ -7,8 +7,8 @@
   foreach($initiative as $init){
 ?>
   <tr>
-    <td style="width:20%; vertical-align: middle;"><center><?php echo $init->init_code?></center></td>
-    <td style="width: 80%"><a href="#openModal<?php echo $init->id?>"><?php echo $init->title?></a></td>
+    <td style="width:20%; vertical-align: middle;font-size: 16px"><center><?php echo $init->init_code?></center></td>
+    <td style="width: 80%; font-size: 16px;"><a href="#openModal<?php echo $init->id?>"><?php echo $init->title?></a></td>
   </tr>
 <?php }?>
 
@@ -57,7 +57,7 @@
 
     </div>
     <div class="col-sm-6" style="margin-bottom: 20px;">
-      <h5><strong>Realisasi per Juni 2017 (MTD)</strong></h5><br>
+      <h5><strong>Realisasi per <?php echo date('F Y', mktime(0, 0, 0, date('m'), 1, date('Y')));?> (YTD)</strong></h5><br>
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
@@ -119,7 +119,7 @@
       </table><br>
     </div>
     <div class="col-sm-6" style="margin-bottom: 20px;">
-      <h5><strong>Realisasi per Juni 2017 (YTD)</strong></h5><br>
+      <h5><strong>Realisasi per <?php echo date('F Y', mktime(0, 0, 0, date('m'), 1, date('Y')));?> (FL)</strong></h5><br>
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>

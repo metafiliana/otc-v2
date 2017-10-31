@@ -319,25 +319,6 @@ hr{
 	border:0px solid transparent; /* this was 1px earlier */
 }
 
-.btn-info-new-submit{
-	color:black;
-	background-color:#a9faa9;
-	border-radius: 256px;
-}
-.btn-info-new-submit:hover{
- 	color:white !important;
-	background-color:#424242;
-}
-/*** Circle ***/
-.circle {
-    width: 15px;
-    height: 15px;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50px;
-    margin-left: 15px;
-}
-
 /********** Button Section ************/
 .btn-brobot{
 	padding:5px 15px 3px 15px;

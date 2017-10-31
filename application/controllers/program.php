@@ -407,7 +407,11 @@ class Program extends CI_Controller {
         $phpexcepDate = $readDate-25569; //to offset to Unix epoch
         return strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
     }
-    //amir
+    public $result;
+
+    public function oi($oit){
+     $this->result = $oit;
+    }
     public function initiative_card(){
        $users = $this->session->userdata('user');
       $user = $users['username'];
@@ -441,56 +445,19 @@ class Program extends CI_Controller {
       $prog['cluster'] = $this->mprogram->get_m_cluster();
       if($user['role']=='1'){
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code);
+        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
       }
       else{
-        $prog['initiative'] = $this->mprogram->get_initiative('');
+        $id= $this->result;
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
+
       }
-      if($user['role']=='1'){
-        $init_code= explode(";",$user['initiative']);
-        $prog['initiative2'] = $this->mprogram->get_initiative2($init_code);
-      }
-      else{
-        $prog['initiative2'] = $this->mprogram->get_initiative2('');
-      }
-      if($user['role']=='1'){
-        $init_code= explode(";",$user['initiative']);
-        $prog['initiative3'] = $this->mprogram->get_initiative3($init_code);
-      }
-      else{
-        $prog['initiative3'] = $this->mprogram->get_initiative3('');
-      }
-      if($user['role']=='1'){
-        $init_code= explode(";",$user['initiative']);
-        $prog['initiative4'] = $this->mprogram->get_initiative4($init_code);
-      }
-      else{
-        $prog['initiative4'] = $this->mprogram->get_initiative4('');
-      }
-      if($user['role']=='1'){
-        $init_code= explode(";",$user['initiative']);
-        $prog['initiative5'] = $this->mprogram->get_initiative5($init_code);
-      }
-      else{
-        $prog['initiative5'] = $this->mprogram->get_initiative5('');
-      }
-      if($user['role']=='1'){
-        $init_code= explode(";",$user['initiative']);
-        $prog['initiative6'] = $this->mprogram->get_initiative6($init_code);
-      }
-      else{
-        $prog['initiative6'] = $this->mprogram->get_initiative6('');
-      }
+
       $prog['controller'] = $this;
 
 
-      $prog['list_cluster'] = $this->load->view('initiative_card/component/_list_of_cluster_v2',$prog,TRUE);
       $prog['list_initiative'] = $this->load->view('initiative_card/component/_list_of_initiative_new',$prog,TRUE);
-      $prog['list_initiative2'] = $this->load->view('initiative_card/component/_list_of_initiative_new2',$prog,TRUE);
-      $prog['list_initiative3'] = $this->load->view('initiative_card/component/_list_of_initiative_new3',$prog,TRUE);
-      $prog['list_initiative4'] = $this->load->view('initiative_card/component/_list_of_initiative_new4',$prog,TRUE);
-      $prog['list_initiative5'] = $this->load->view('initiative_card/component/_list_of_initiative_new5',$prog,TRUE);
-      $prog['list_initiative6'] = $this->load->view('initiative_card/component/_list_of_initiative_new6',$prog,TRUE);
+
 
       $data['footer'] = $this->load->view('shared/footer','',TRUE);
       $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
@@ -532,5 +499,53 @@ class Program extends CI_Controller {
       return $return;
 
     }
+    public function input_cluster_id(){
+      $id = $_POST['id'];
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+        'username' => $user,
+        'foto' => $foto,
+        'initid' => $initid,
+        'last_login' => $lastlogin,
+        'private_email' => $privateemail,
+        'work_email' => $workemail
+      );
+
+      $data['title'] = "List All Initiative";
+
+      $user = $users;
+      $prog['user'] = $user;
+      $data['user'] = $user;
+
+
+      $time=strtotime(date("Y-m-d"));
+      $prog['month_view']="July";
+      $prog['year_view']=date("Y",$time);
+      $prog['month_number']=date("n",$time);
+
+
+      $prog['cluster'] = $this->mprogram->get_m_cluster();
+      if($user['role']=='1'){
+        $init_code= explode(";",$user['initiative']);
+        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+      }
+      else{
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
+      }
+      $prog['controller'] = $this;
+
+      $view_list['list_initiative'] = $this->load->view('initiative_card/component/_list_of_initiative_new',$prog,TRUE);
+      $view_list['id'] = $id;
+      $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($view_list));
+    }
+    
+    
     //end amir
 }

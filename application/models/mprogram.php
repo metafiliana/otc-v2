@@ -697,58 +697,13 @@ class Mprogram extends CI_Model {
         $query = $this->db->get('m_cluster');
         return $query->result();
     }
-    function get_initiative($init_code){
+    function get_initiative($init_code,$id){
         $this->db->select('cluster_id, init_code, title, id, deskripsi');
-        $this->db->where('cluster_id',1);
+        $this->db->where('cluster_id',$id);
         if($init_code){
          $this->db->where_in('init_code',$init_code);
         }
         $query = $this->db->get('m_initiative');
-        return $query->result();
-    }
-    function get_initiative2($init_code){
-        $this->db->select('cluster_id, init_code, title, id, deskripsi');
-        $this->db->where('cluster_id',2);
-        if($init_code){
-         $this->db->where_in('init_code',$init_code);
-        }
-       $query = $this->db->get('m_initiative');
-        return $query->result();
-    }
-    function get_initiative3($init_code){
-        $this->db->select('cluster_id, init_code, title, id, deskripsi');
-        $this->db->where('cluster_id',3);
-        if($init_code){
-         $this->db->where_in('init_code',$init_code);
-        }
-       $query = $this->db->get('m_initiative');
-        return $query->result();
-    }
-    function get_initiative4($init_code){
-        $this->db->select('cluster_id, init_code, title, id, deskripsi');
-        $this->db->where('cluster_id',4);
-        if($init_code){
-         $this->db->where_in('init_code',$init_code);
-        }
-       $query = $this->db->get('m_initiative');
-        return $query->result();
-    }
-    function get_initiative5($init_code){
-        $this->db->select('cluster_id, init_code, title, id, deskripsi');
-        $this->db->where('cluster_id',5);
-        if($init_code){
-         $this->db->where_in('init_code',$init_code);
-        }
-       $query = $this->db->get('m_initiative');
-        return $query->result();
-    }
-    function get_initiative6($init_code){
-        $this->db->select('cluster_id, init_code, title, id, deskripsi');
-        $this->db->where('cluster_id',6);
-        if($init_code){
-         $this->db->where_in('init_code',$init_code);
-        }
-       $query = $this->db->get('m_initiative');
         return $query->result();
     }
     function count_action($id){
