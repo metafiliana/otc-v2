@@ -30,8 +30,8 @@ class Kuantitatif extends CI_Controller {
         //print_r($test);
         $data['id'] = $this->input->get('id');
         $time=strtotime(date("Y-m-d"));
-        //$data['month_view']=date("F",$time);
-        $data['month_view']="July";
+        $data['month_view']=date("F",$time);
+        //$data['month_view']="July";
         $data['year_view']=date("Y",$time);
         $data['month_number']=date("n",$time);
 

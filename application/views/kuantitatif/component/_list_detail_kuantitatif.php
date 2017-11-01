@@ -25,11 +25,11 @@ $user = $this->session->userdata('user');
 			<th>Year End Target</th>
 			<th>Monthly Kinerja</th>
 			<th>Year End Kinerja</th>
-			<th>Sign Monthly</th>
-			<th>Sign Year End</th>
+			<th>YTD</th>
+			<th>Full Year(FL)</th>
 			<th></th>
 		</tr>
-		<tr class="yellow_color_bg">
+		<tr class="orange_color_bg">
 			<th>Leading</th>
 		</tr>
 	</thead>
@@ -54,12 +54,12 @@ $user = $this->session->userdata('user');
 		<td><?php echo number_format((($d['year_kiner'])*100),0,",",".");?> %</td>
 		<?php if($check==0){ ?>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
+				<div class=circle style='background:<?= warna(($tot_leading['month']*100)/$count_leading)?>'></div>
 				<?= number_format(($tot_leading['month']*100)/$count_leading,2,",","."); ?> %
-				<?= indikatorWarna(($tot_leading['month']*100)/$count_leading); ?>
 			</td>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
+				<div class=circle style='background:<?= warna(($tot_leading['year']*100)/$count_leading)?>'></div>
 				<?= number_format(($tot_leading['year']*100)/$count_leading,2,",","."); ?> %
-				<?= indikatorWarna(($tot_leading['year']*100)/$count_leading); ?>
 			</td>
 		<?php } ?>
 		<?php if($user['role']=='2'){?>
@@ -73,7 +73,7 @@ $user = $this->session->userdata('user');
 
 	</tbody>
 
-	<tr class="yellow_color_bg">
+	<tr class="orange_color_bg">
 		<th>Lagging</th>
 	</tr>
 	<tbody class="center_text">
@@ -97,12 +97,12 @@ $user = $this->session->userdata('user');
 			<td><?php echo number_format(($e['year_kiner']*100),0,",",".");?> %</td>
 			<?php if($check==0){ ?>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
+					<div class=circle style='background:<?= warna(($tot_lagging['month']*100)/$count_lagging)?>'></div>
 					<?= number_format(($tot_lagging['month']*100)/$count_lagging,2,",","."); ?> %
-					<?= indikatorWarna(($tot_lagging['month']*100)/$count_lagging); ?>
 				</td>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
+					<div class=circle style='background:<?= warna(($tot_lagging['year']*100)/$count_lagging)?>'></div>
 					<?= number_format(($tot_lagging['year']*100)/$count_lagging,2,",","."); ?> %
-					<?= indikatorWarna(($tot_lagging['year']*100)/$count_lagging); ?>
 				</td>
 			<?php } ?>
 			<?php if($user['role']=='2'){?>

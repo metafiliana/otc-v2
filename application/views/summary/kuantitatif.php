@@ -49,16 +49,17 @@
     }
 </style>
 <div class="panel-body">
-<h5 class="text-right">last updated, <?php echo $summary_info->date; ?>, <?php echo $summary_info->modified; ?> times updated.</h5>
       <div class="component_part_summary" style="margin-top:10px;">
         <!-- search area -->
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-2" style="margin-right:-50px;">
                 <button class="btn btn-info-new btn-sm" disabled="disabled">Kuantitatif</button>
                 <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-default btn-sm btn-info-new">Milestone</button></a>
-                <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-7">
+              <div class="col-sm-2">
+                  <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
+              </div>
               <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
               <div class="col-sm-6 form-group row">
                   <div class="col-sm">
@@ -71,7 +72,7 @@
                   </div>
                   <div class="col-sm">
                     <label class="control-label col-sm-1">Month</label>
-                    <div class="col-sm-3" style="margin-left:12px;">
+                    <div class="col-sm-4" style="margin-left:12px;">
                       <?php
                           echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
                       ?>
@@ -85,12 +86,15 @@
               </div>
               <?php echo form_close(); ?>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3" style="margin-left:50px;">
               <div class="right_text">
                   <h3 style="color:#91aef9;">Summary Kuantitatif</h3>
               </div>
+              <div>
+                <h5 class="text-right">Updated: <?php echo $summary_info->date; ?>, <?php echo $summary_info->modified; ?> times modified.</h5>
+              </div>
                 <!-- <button type="button" class="btn btn-danger">Print</button> -->
-            </div>
+            </div><div style="clear:both;"></div>
         </div>
       </div><div style="clear:both;"></div>
       <div class="component_part_summary text-center">

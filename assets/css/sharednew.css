@@ -35,13 +35,17 @@
 	background-color: #A8D8F0;
 }
 .red_color_bg{
-	background-color: #EBF34C;
+	background-color: #E73F3F;
 }
 .yellow_color_bg{
-	background-color: #E73F3F;
+	background-color: #EBF34C;
 }
 .green_color_bg{
 	background-color: #2BD621;
+}
+
+.orange_color_bg{
+	background-color: #f7ab74;
 }
 
 .circle.text-left{margin-left:0;}
@@ -317,6 +321,25 @@ hr{
 }
 .btns{
 	border:0px solid transparent; /* this was 1px earlier */
+}
+
+.btn-info-new-submit{
+	color:black;
+	background-color:#a9faa9;
+	border-radius: 256px;
+}
+.btn-info-new-submit:hover{
+ 	color:white !important;
+	background-color:#424242;
+}
+/*** Circle ***/
+.circle {
+    width: 15px;
+    height: 15px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50px;
+    margin-left: 15px;
 }
 
 /********** Button Section ************/

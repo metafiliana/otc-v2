@@ -4,7 +4,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 ?>
 
 <div id="popup_Modal" class="modal fade" role="dialog">
-  <div class="modal-dialog" style="width: 80%;">
+  <div class="modal-dialog" style="width: 95%;">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -20,10 +20,10 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                         <table class="table table-hover" style="margin-left: 50px; margin-right: 50px;">
                           <tbody>
                             <tr>
-                              <td style="border: none;"><h5>Metric</h5></td><td  style="border: none;"><h5><b><?php if (isset($all_kuantitatif['kuantitatif']->metric)){ echo $all_kuantitatif['kuantitatif']->metric ; }?></h5></td>  
+                              <td style="border: none;"><h5>Metric</h5></td><td  style="border: none;"><h5><b><?php if (isset($all_kuantitatif['kuantitatif']->metric)){ echo $all_kuantitatif['kuantitatif']->metric ; }?></h5></td>
                             </tr>
                             <tr>
-                              <td style="border: none;"><h5>Measurment</h5></td><td style="border: none;"><h5><b><?php if (isset($all_kuantitatif['kuantitatif']->measurment)){ echo $all_kuantitatif['kuantitatif']->measurment ; }?></h5></td>  
+                              <td style="border: none;"><h5>Measurment</h5></td><td style="border: none;"><h5><b><?php if (isset($all_kuantitatif['kuantitatif']->measurment)){ echo $all_kuantitatif['kuantitatif']->measurment ; }?></h5></td>
                             </tr>
                             <tr>
                             <td style="border: none;">
@@ -31,9 +31,9 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                             </td>
                             </tr>
                             <tr>
-                              <td style="border: none;"><h5>Oleh</h5></td><td style="border: none;"><h5><b><?php echo $user['name'] ?></h5></td>  
+                              <td style="border: none;"><h5>Oleh</h5></td><td style="border: none;"><h5><b><?php echo $user['name'] ?></h5></td>
                             </tr>
-                            
+
                           </tbody>
                         </table>
                   </div>
@@ -58,7 +58,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                           </td>
                         <?php } ?>
                         </tr>
-                        
+
                         <tr>
                         <td colspan="12" style="vertical-align: middle; text-align: center; height: 40px;"><h4>Actual</h4></td>
                       </tr>
@@ -68,11 +68,11 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                             <input type="number" class="form-control" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');} ?>" />
                           </td>
                         <?php } ?>
-                          
+
                         </tr>
-                        
+
                       </tbody>
-                       
+
                     </table>
                   </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
