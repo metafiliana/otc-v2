@@ -1,10 +1,10 @@
 <style>
 	.glyphicon-home:hover  {
- 	 border-bottom: 4px solid #A8D8F0;
+ 	 border-bottom: 1px solid #A8D8F0;
 	}
 
 	.sw-open:hover  {
- 	 border-bottom: 4px solid #A8D8F0;
+ 	 border-bottom: 1px solid #A8D8F0;
 	}
 
 	body a.notif{
@@ -136,7 +136,7 @@
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height: 34px;
+    height: 28px;
     width: 45px;
     padding-top: 3px;
 }
@@ -160,18 +160,15 @@
 				<h4 style="color: rgb(247,127,0);font-size: 12px;font-weight: bold;">TOP BOD LEVEL INITIATIVES</h4>
 			</div>
 		</div>
-		<div class="col-md-7 center_text" style="left: 45px;">
-			<div class="col-md-1" style="padding-right: 0px;">
-			<div class="btn-group" style="margin-top: 2px;">
-				<a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:23px;"></a>
-			</div>
-			</div>
-			<div class="col-md-11" style="padding-left: 0px;">
+		<div class="col-md-7 center_text" style="right: 40px">
+			
+			<div class="col-md-12" style="padding-left: 0px;">
 			<nav>
 					<ul>
+						<li class="menu"><a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:14px;"></a></li>
 						<li class="menu"><a href="<?php echo base_url()?>program/list_programs/">Update Progress</a></li>
 						<li class="menu"><a href="<?php echo base_url()?>program/initiative_card/">Initiatives</a></li>
-
+						
 						<li class="menu"><a href="<?php echo base_url()?>general/files">Sharing Files</a></li>
 						<li class="menu"><a href="<?php echo base_url()?>agenda">Agenda</a></li>
 					</ul>
