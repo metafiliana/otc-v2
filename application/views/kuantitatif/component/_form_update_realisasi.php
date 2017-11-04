@@ -65,7 +65,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                         <tr style="width: 100%;">
                           <?php for ($i=0; $i <= $month_number-1 ; $i++) { ?>
                           <td style="vertical-align: middle; width: 8%;">
-                            <input type="number" class="form-control" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');} ?>" />
+                            <input type="text" class="form-control numberOnly" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');} ?>" />
                           </td>
                         <?php } ?>
 
@@ -86,3 +86,23 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".numberOnly").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+});
+</script>

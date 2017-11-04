@@ -551,12 +551,16 @@ class Summary extends CI_Controller {
         return $return;
     }
 
-    function getDataTableKuantitatif($user = false)
+    function getDataTableKuantitatif($user = false, $user_id = false)
     {
         if (!$user){
             $get_kuantitatif = $this->mkuantitatif->getSummaryKuantitatif();
         }else{
-            $data_user = $this->muser->getInitiativeOnlyByRole($user);
+            if (!$user_id){
+                $data_user = $this->muser->getInitiativeOnlyByRole($user);
+            }else{
+                $data_user = $this->muser->getInitiativeOnlyByUserId($user);
+            }
 
             $data_initiative_user = array();
             foreach ($data_user as $key => $value) {
@@ -767,7 +771,6 @@ class Summary extends CI_Controller {
 
     public function home()
     {
-        $this->getInitiativesDetail();
         $data['title'] = "Home";
         $prog['page']="all";
         $user = $this->session->userdata('user');
@@ -782,20 +785,26 @@ class Summary extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
+
         // views start
         $views = array();
         $views['user'] = $user;
         // views end
 
-        // print_r($this->getDataTableKuantitatif(3));die;
 
         //process start
-        // $data['init_table'] = $this->getDataTableKuantitatif();
         $data['top_bod'] = $this->getTopBod();
-        $data['initiatives_detail'] = $this->getInitiativesDetail();
+
+        $is_admin = false;
+        if ($user['role'] == 2){
+            $is_admin = true;
+            $data['initiatives_detail'] = $this->getInitiativesDetail();
+        }else{
+            $data['initiatives_detail'] = $this->getInitiativesDetail($user['id']);
+        }
+
         $data['controller'] = $this;
-        // $data['bulan_search'] = null;
-        // $data['user'] = null;
+        $data['is_admin'] = $is_admin;
         //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -850,9 +859,9 @@ class Summary extends CI_Controller {
         return $return;
     }
 
-    public function getInitiativesDetail()
+    public function getInitiativesDetail($user = false)
     {
-        $data_summary_kuantitatif = $this->getDataTableKuantitatif();
+        $data_summary_kuantitatif = $this->getDataTableKuantitatif($user, true);
 
         // array data initiatives detail
         $data_initiative_detail = array();
@@ -860,118 +869,125 @@ class Summary extends CI_Controller {
         $total_monthly = 0;
         $total_yearly = 0;
         $i = 1;
-        foreach ($data_summary_kuantitatif['type_1'] as $key => $value) {
-            $data_initiative_detail_raw = array();
-            if (!empty($value->init_code)){
-                // kuantitatif details
-                $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1);
-                $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2);
 
-                // milestone details
-                $issues = $this->getStatus($value->id, 3, false, false);
-                $completed = $this->getStatus($value->id, 1, false, false);
-                $on_track = $this->getStatus($value->id, 2, false, false);
-                $future_start = $this->getStatus($value->id, 0, false, false);
-                $overdue = $this->getStatus($value->id, 3, false, 2);
-                $delay = $this->getStatus($value->id, 3, false, 1);
-                $flagged = $issues - ($overdue + $delay);
-                $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
-                $milestone_ytd = $this->getYtdMilestone($value->id);
+        if (!empty($data_summary_kuantitatif['type_1'])){
+            foreach ($data_summary_kuantitatif['type_1'] as $key => $value) {
+                $data_initiative_detail_raw = array();
+                if (!empty($value->init_code)){
+                    // kuantitatif details
+                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1);
+                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2);
 
-                // raw data bind
-                    // kuantitatif
-                $data_initiative_detail_raw['id'] = $i;
-                $data_initiative_detail_raw['init_code'] = $value->init_code;
-                $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
-                $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
-                    // milestone
-                $data_initiative_detail_raw['completed'] = $completed;
-                $data_initiative_detail_raw['on_track'] = $on_track;
-                $data_initiative_detail_raw['future_start'] = $future_start;
-                $data_initiative_detail_raw['flagged'] = $flagged;
-                $data_initiative_detail_raw['overdue'] = $overdue;
-                $data_initiative_detail_raw['delay'] = $delay;
-                $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
-                $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
-                
-                array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
-                $i++;
+                    // milestone details
+                    $issues = $this->getStatus($value->id, 3, false, false);
+                    $completed = $this->getStatus($value->id, 1, false, false);
+                    $on_track = $this->getStatus($value->id, 2, false, false);
+                    $future_start = $this->getStatus($value->id, 0, false, false);
+                    $overdue = $this->getStatus($value->id, 3, false, 2);
+                    $delay = $this->getStatus($value->id, 3, false, 1);
+                    $flagged = $issues - ($overdue + $delay);
+                    $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                    $milestone_ytd = $this->getYtdMilestone($value->id);
+
+                    // raw data bind
+                        // kuantitatif
+                    $data_initiative_detail_raw['id'] = $i;
+                    $data_initiative_detail_raw['init_code'] = $value->init_code;
+                    $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
+                    $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
+                        // milestone
+                    $data_initiative_detail_raw['completed'] = $completed;
+                    $data_initiative_detail_raw['on_track'] = $on_track;
+                    $data_initiative_detail_raw['future_start'] = $future_start;
+                    $data_initiative_detail_raw['flagged'] = $flagged;
+                    $data_initiative_detail_raw['overdue'] = $overdue;
+                    $data_initiative_detail_raw['delay'] = $delay;
+                    $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
+                    $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
+                    
+                    array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
+                    $i++;
+                }
             }
         }
 
-        foreach ($data_summary_kuantitatif['type_2'] as $key => $value) {
-            $data_initiative_detail_raw = array();
-            if (!empty($value->init_code)){
-                $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1);
-                $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, false);
+        if (!empty($data_summary_kuantitatif['type_2'])){
+            foreach ($data_summary_kuantitatif['type_2'] as $key => $value) {
+                $data_initiative_detail_raw = array();
+                if (!empty($value->init_code)){
+                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1);
+                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, false);
 
-                // milestone details
-                $issues = $this->getStatus($value->id, 3, false, false);
-                $completed = $this->getStatus($value->id, 1, false, false);
-                $on_track = $this->getStatus($value->id, 2, false, false);
-                $future_start = $this->getStatus($value->id, 0, false, false);
-                $overdue = $this->getStatus($value->id, 3, false, 2);
-                $delay = $this->getStatus($value->id, 3, false, 1);
-                $flagged = $issues - ($overdue + $delay);
-                $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
-                $milestone_ytd = $this->getYtdMilestone($value->id);
+                    // milestone details
+                    $issues = $this->getStatus($value->id, 3, false, false);
+                    $completed = $this->getStatus($value->id, 1, false, false);
+                    $on_track = $this->getStatus($value->id, 2, false, false);
+                    $future_start = $this->getStatus($value->id, 0, false, false);
+                    $overdue = $this->getStatus($value->id, 3, false, 2);
+                    $delay = $this->getStatus($value->id, 3, false, 1);
+                    $flagged = $issues - ($overdue + $delay);
+                    $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                    $milestone_ytd = $this->getYtdMilestone($value->id);
 
-                // raw data bind
-                    // kuantitatif
-                $data_initiative_detail_raw['id'] = $i;
-                $data_initiative_detail_raw['init_code'] = $value->init_code;
-                $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
-                $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
-                    // milestone
-                $data_initiative_detail_raw['completed'] = $completed;
-                $data_initiative_detail_raw['on_track'] = $on_track;
-                $data_initiative_detail_raw['future_start'] = $future_start;
-                $data_initiative_detail_raw['flagged'] = $flagged;
-                $data_initiative_detail_raw['overdue'] = $overdue;
-                $data_initiative_detail_raw['delay'] = $delay;
-                $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
-                $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
-                
-                array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
-                $i++;
+                    // raw data bind
+                        // kuantitatif
+                    $data_initiative_detail_raw['id'] = $i;
+                    $data_initiative_detail_raw['init_code'] = $value->init_code;
+                    $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
+                    $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
+                        // milestone
+                    $data_initiative_detail_raw['completed'] = $completed;
+                    $data_initiative_detail_raw['on_track'] = $on_track;
+                    $data_initiative_detail_raw['future_start'] = $future_start;
+                    $data_initiative_detail_raw['flagged'] = $flagged;
+                    $data_initiative_detail_raw['overdue'] = $overdue;
+                    $data_initiative_detail_raw['delay'] = $delay;
+                    $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
+                    $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
+                    
+                    array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
+                    $i++;
+                }
             }
         }
 
-        foreach ($data_summary_kuantitatif['type_3'] as $key => $value) {
-            $data_initiative_detail_raw = array();
-            if (!empty($value->init_code)){
-                $final_monthly_score = $this->countKuantitatif($value->id, 1);
-                $final_yearly_score = $this->countKuantitatif($value->id, 1);
+        if (!empty($data_summary_kuantitatif['type_3'])){
+            foreach ($data_summary_kuantitatif['type_3'] as $key => $value) {
+                $data_initiative_detail_raw = array();
+                if (!empty($value->init_code)){
+                    $final_monthly_score = $this->countKuantitatif($value->id, 1);
+                    $final_yearly_score = $this->countKuantitatif($value->id, 1);
 
-                // milestone details
-                $issues = $this->getStatus($value->id, 3, false, false);
-                $completed = $this->getStatus($value->id, 1, false, false);
-                $on_track = $this->getStatus($value->id, 2, false, false);
-                $future_start = $this->getStatus($value->id, 0, false, false);
-                $overdue = $this->getStatus($value->id, 3, false, 2);
-                $delay = $this->getStatus($value->id, 3, false, 1);
-                $flagged = $issues - ($overdue + $delay);
-                $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
-                $milestone_ytd = $this->getYtdMilestone($value->id);
+                    // milestone details
+                    $issues = $this->getStatus($value->id, 3, false, false);
+                    $completed = $this->getStatus($value->id, 1, false, false);
+                    $on_track = $this->getStatus($value->id, 2, false, false);
+                    $future_start = $this->getStatus($value->id, 0, false, false);
+                    $overdue = $this->getStatus($value->id, 3, false, 2);
+                    $delay = $this->getStatus($value->id, 3, false, 1);
+                    $flagged = $issues - ($overdue + $delay);
+                    $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                    $milestone_ytd = $this->getYtdMilestone($value->id);
 
-                // raw data bind
-                    // kuantitatif
-                $data_initiative_detail_raw['id'] = $i;
-                $data_initiative_detail_raw['init_code'] = $value->init_code;
-                $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
-                $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
-                    // milestone
-                $data_initiative_detail_raw['completed'] = $completed;
-                $data_initiative_detail_raw['on_track'] = $on_track;
-                $data_initiative_detail_raw['future_start'] = $future_start;
-                $data_initiative_detail_raw['flagged'] = $flagged;
-                $data_initiative_detail_raw['overdue'] = $overdue;
-                $data_initiative_detail_raw['delay'] = $delay;
-                $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
-                $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
-                
-                array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
-                $i++;
+                    // raw data bind
+                        // kuantitatif
+                    $data_initiative_detail_raw['id'] = $i;
+                    $data_initiative_detail_raw['init_code'] = $value->init_code;
+                    $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
+                    $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
+                        // milestone
+                    $data_initiative_detail_raw['completed'] = $completed;
+                    $data_initiative_detail_raw['on_track'] = $on_track;
+                    $data_initiative_detail_raw['future_start'] = $future_start;
+                    $data_initiative_detail_raw['flagged'] = $flagged;
+                    $data_initiative_detail_raw['overdue'] = $overdue;
+                    $data_initiative_detail_raw['delay'] = $delay;
+                    $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
+                    $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
+                    
+                    array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
+                    $i++;
+                }
             }
         }
 

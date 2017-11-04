@@ -571,4 +571,15 @@ class Muser extends CI_Model {
         return $data;
     }
 
+    public function getInitiativeOnlyByUserId($id = null)
+    {
+        $this->db->select('user.*, mi.id as init_id, user.initiative as initiative');
+        if ($id)
+            $this->db->where('user.id', $id);
+        $this->db->join('m_initiative mi','mi.init_code = user.initiative', 'LEFT');
+        $data = $this->db->get('user')->result_array();
+
+        return $data;
+    }
+
 }

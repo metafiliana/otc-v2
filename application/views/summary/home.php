@@ -58,68 +58,72 @@
       </div><div style="clear:both;"></div>
       <!-- header area ends -->
 
-      <!-- data area top 21 bod start -->
-      <div class="component_part">
-        <div class="row">
-          <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
-          <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-          <div class="col-md-12 table-content">
-            <div class="col-md-6">
-              <div id="mtdGauge"></div>
-            </div>
-            <div class="col-md-6">
-              <div id="ytdGauge"></div>
+      <?php if ($is_admin){ ?>
+        <!-- data area top 21 bod start -->
+        <div class="component_part">
+          <div class="row">
+            <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
+            <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+            <div class="col-md-12 table-content">
+              <div class="col-md-6">
+                <div id="mtdGauge"></div>
+              </div>
+              <div class="col-md-6">
+                <div id="ytdGauge"></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- data area top 21 bod ends -->
+        <!-- data area top 21 bod ends -->
+        <?php } ?>
 
-      <!-- data area inititatives start -->
-      <?php foreach ($initiatives_detail as $key => $value) { ?>
-      <div class="component_part">
-        <div class="row">
-          <div class="col-md-12 table-content">
-            
-            <!-- data area inititatives-kuantitatif start -->
-            <div class="col-md-7">
-              <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
-              <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-              <div class="col-md-6">
-                <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
+      <?php if (!$is_admin){ ?>
+        <!-- data area inititatives start -->
+        <?php foreach ($initiatives_detail as $key => $value) { ?>
+        <div class="component_part">
+          <div class="row">
+            <div class="col-md-12 table-content">
+              
+              <!-- data area inititatives-kuantitatif start -->
+              <div class="col-md-7">
+                <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
+                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+                <div class="col-md-6">
+                  <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
+                </div>
+                <div class="col-md-6">
+                  <div class="ytd-gauge-init-<?php echo $value['id'];?>"></div>
+                </div>
+                <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>">Details</button>
               </div>
-              <div class="col-md-6">
-                <div class="ytd-gauge-init-<?php echo $value['id'];?>"></div>
+              <!-- data area inititatives-kuantitatif ends -->
+              
+              <!-- data area milestone start -->
+              <div class="col-md-5">
+                <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
+                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+                <div class="col-md-6 text-center">
+                  <p>Complete: <?php echo $value['completed']; ?></p>
+                  <p>On Track: <?php echo $value['on_track']; ?></p>
+                  <p>Future Start: <?php echo $value['future_start']; ?></p>
+                  <p style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                  <p style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
+                  <p style="color: red">Delay: <?php echo $value['delay']; ?></p>
+                </div>
+                <div class="col-md-6 text-center">
+                  <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
+                  <br>
+                  <span>FL : <?php echo $value['milestone_ytd']; ?>%</span>
+                </div>
               </div>
-              <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>">Details</button>
-            </div>
-            <!-- data area inititatives-kuantitatif ends -->
-            
-            <!-- data area milestone start -->
-            <div class="col-md-5">
-              <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
-              <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-              <div class="col-md-6 text-center">
-                <p>Complete: <?php echo $value['completed']; ?></p>
-                <p>On Track: <?php echo $value['on_track']; ?></p>
-                <p>Future Start: <?php echo $value['future_start']; ?></p>
-                <p style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
-                <p style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
-                <p style="color: red">Delay: <?php echo $value['delay']; ?></p>
-              </div>
-              <div class="col-md-6 text-center">
-                <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
-                <br>
-                <span>YTD : <?php echo $value['milestone_ytd']; ?>%</span>
-              </div>
-            </div>
-            <!-- data area milestone start -->
+              <!-- data area milestone start -->
 
+            </div>
           </div>
         </div>
-      </div>
+        <?php } ?>
+        <!-- data area initiatives ends -->
       <?php } ?>
-      <!-- data area ends -->
 
       <!-- activities area start -->
       <div class="component_part" style="margin-top:10px;">
@@ -212,7 +216,7 @@
         text: {
           // format: 'currency',
           customizeText: function (arg) {
-            return arg.valueText + '% YTD';
+            return arg.valueText + '% FL';
           }
         }  
       },
@@ -283,7 +287,7 @@
           type: 'textCloud',
           text: {
             customizeText: function (arg) {
-              return arg.valueText + '% YTD';
+              return arg.valueText + '% FL';
             }
           }  
         },

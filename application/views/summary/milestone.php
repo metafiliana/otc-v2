@@ -105,7 +105,8 @@
             <table id="example" class="display nowrap">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>No.</th>
+                        <th>Initiative Code</th>
                         <th><?php echo getUserRole($table_title); ?></th>
                         <th>Complete</th>
                         <th>Future Start</th>
@@ -123,6 +124,7 @@
                 <tbody class="text-center">
                     <?php
                         if ($user === null){
+                            $i = 1;
                             foreach ($init_table as $key => $value) {
                                 $completed = $controller->getStatus($value->id, 1, false, false, $bulan_search);
                                 $issues = $controller->getStatus($value->id, 3, false, false, $bulan_search);
@@ -132,6 +134,7 @@
                                 $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                                 $ytd = $controller->getYtdMilestone($value->id);
                                 echo "<tr>";
+                                    echo "<td>".$i."</td>";
                                     echo "<td>".$value->init_code."</td>";
                                     echo "<td>".$value->title."</td>";
                                     echo "<td>".$completed."</td>"; // completed
@@ -146,8 +149,11 @@
                                     echo "<td>".number_format($mtd)." %</td>"; // MTD
                                     echo "<td>".number_format($ytd)." %</td>"; // YTD
                                 echo "</tr>";
+
+                                $i++;
                             }
                         }else{
+                            $i = 1;
                             foreach ($init_table as $key => $value) {
                                 $completed = $controller->getStatus($value->initiative, 1, false, false, $bulan_search, $value->id);
                                 $issues = $controller->getStatus($value->initiative, 3, false, false, $bulan_search, $value->id);
@@ -157,6 +163,7 @@
                                 $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                                 $ytd = $controller->getYtdMilestone($value->initiative, $value->id);
                                 echo "<tr>";
+                                    echo "<td>".$i."</td>";
                                     echo "<td>".$value->init_code."</td>";
                                     echo "<td>".$value->name."</td>";
                                     echo "<td>".$completed."</td>"; // completed
@@ -172,6 +179,8 @@
                                     echo "<td>".number_format($mtd)." %</td>"; // MTD
                                     echo "<td>".number_format($ytd)." %</td>"; // YTD
                                 echo "</tr>";
+
+                                $i++;
                             }
                         }
                     ?>
@@ -186,7 +195,7 @@
     $(document).ready(function() {
         $('#example').DataTable( {
             paging: false,
-            ordering: false,
+            ordering: true,
             searching: false,
             scrollX: true,
             dom: 'Bfrtip',
