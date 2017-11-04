@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="col-md-11" style="padding-top: 12px; padding-bottom: 20px; padding-left: 15px;">
 		<a onclick="show_detail('<?php echo $prog->id?>')"><b><?php echo $prog->init_code?>. <?php echo $prog->title?></b></a>
-		
+
 	</div>
 	<div class="col-md-1" style="padding-top: 8px; position: relative;">
 		<?php if($user['role']=='2'){?>
@@ -22,7 +22,7 @@ function show_detail(id){
     	$.ajax({
 			type: "GET",
 			url: config.base+"kuantitatif/test",
-			data: {id:id},
+			data: {id:id, month:$("#month").val()},
 			dataType: 'json',
 			cache: false,
 			success: function(resp){

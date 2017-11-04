@@ -26,7 +26,7 @@ $user = $this->session->userdata('user');
 			<th>Monthly Kinerja</th>
 			<th>Year End Kinerja</th>
 			<th>YTD</th>
-			<th>Full Year(FL)</th>
+			<th>Full Year(FY)</th>
 			<th></th>
 		</tr>
 		<tr class="orange_color_bg">

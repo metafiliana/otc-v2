@@ -1,3 +1,6 @@
+<?php
+$arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
+?>
 <style>
 .pmo_header{
 		margin-right:40px;
@@ -5,15 +8,37 @@
 .pmo_header_active a{
 		margin-right:40px;
 		color: black;
-	}
+}
+.form-control-this {
+ width:auto;
+ height:30px;
+ font-size:14px;
+ line-height:1.42857143;
+ color:#555;
+ background-color:#fff;
+ background-image:none;
+ border:1px solid #ccc;
+ border-radius:4px;
+ -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+ box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+ -webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+ -o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+ transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s
+}
 </style>
   <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
-    <div class="row" style="margin-top:5px;">
+    <div class="row" style="margin:5px 0 5px -5px;">
       <div class="col-md-10">
         <a href="<?php echo base_url()?>program/list_programs/">
           <button class="btn btn-default btn-sm btn-info-new">Update Activity</button>
         </a>
           <button class="btn btn-info-new btn-sm" disabled="disabled">Update Kpi</button>
+					<label class="control-label col-sm" style="margin:0 10px 0 10px;">Month</label>
+					<select class="input-sm form-control-this" name="month" id="month">
+					<?php foreach ($arr_month as $arr) { ?>
+						<option value="<?= $arr ?>" <?php if($arr == date('F')){echo "selected";} ?>><?= $arr ?></option>
+					<?php } ?>
+ 					</select>
       </div>
         <div class="col-md-2 right_text">
           <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>

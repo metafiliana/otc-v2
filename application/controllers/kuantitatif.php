@@ -29,9 +29,9 @@ class Kuantitatif extends CI_Controller {
         //$test = $this->mkuantitatif->get_id_different_sum_kuantitatif();
         //print_r($test);
         $data['id'] = $this->input->get('id');
+        $data['month_view'] = $this->input->get('month');
         $time=strtotime(date("Y-m-d"));
-        $data['month_view']=date("F",$time);
-        //$data['month_view']="July";
+        //$data['month_view']=date("F",$time);
         $data['year_view']=date("Y",$time);
         $data['month_number']=date("n",$time);
 
