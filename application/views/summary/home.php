@@ -82,7 +82,7 @@
         <?php foreach ($initiatives_detail as $key => $value) { ?>
         <div class="component_part">
           <div class="row">
-            <div class="col-md-12 table-content">
+            <div class="col-md-12 table-content" id="print-<?php echo $key; ?>">
               
               <!-- data area inititatives-kuantitatif start -->
               <div class="col-md-7">
@@ -114,6 +114,8 @@
                   <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
                   <br>
                   <span>FL : <?php echo $value['milestone_ytd']; ?>%</span>
+                  <br>
+                  <button onclick="take('print-<?php echo $key; ?>')" class="btn btn-info-new">Print</button>
                 </div>
               </div>
               <!-- data area milestone start -->
@@ -295,4 +297,42 @@
         subvalues: [ytd]
       });
     });
+
+    //jstopdf
+    function take(div) {
+      // First render all SVGs to canvases
+      var svgElements= $("#"+div).find('svg');
+
+      //replace all svgs with a temp canvas
+      svgElements.each(function () {
+       var canvas, xml;
+
+       canvas = document.createElement("canvas");
+       canvas.className = "screenShotTempCanvas";
+       //convert SVG into a XML string
+       xml = (new XMLSerializer()).serializeToString(this);
+
+       // Removing the name space as IE throws an error
+       xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+
+       //draw the SVG onto a canvas
+       canvg(canvas, xml);
+       $(canvas).insertAfter(this);
+       //hide the SVG element
+       this.className = "tempHide";
+       $(this).hide();
+      });
+
+      html2canvas($("#"+div), {
+           allowTaint: true,
+           onrendered: function (canvas) {
+               var myImage = canvas.toDataURL("image/pdf");
+               var tWindow = window.open("");
+               $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
+                   tWindow.focus();
+                   tWindow.print();
+               });
+           }
+      });
+    }
 </script>
