@@ -55,7 +55,7 @@ class User extends CI_Controller {
 
 			$this->load->view('front',$data);
         }else{
-        	redirect('home');
+        	redirect('summary');
         }
 
     }
@@ -157,7 +157,7 @@ class User extends CI_Controller {
       		$this->load->view('front',$data);
           }
           else{
-      		    redirect('home');
+      		    redirect('summary');
         }
       }
       else{
@@ -544,7 +544,7 @@ class User extends CI_Controller {
         $this->load->library('upload', $config);
         if ( ! $this->upload->do_upload('userfile'))
         {
-            $error = array('error' => $this->upload->display_errors());                        
+            $error = array('error' => $this->upload->display_errors());
         }
         else
         {
@@ -560,7 +560,7 @@ class User extends CI_Controller {
                 $filename =  $upload_data['file_name'];
                 $this->muser->add_photo_profile($filename,$user);
             }
-            
+
             redirect ('user/edit_profile');
         }
     }

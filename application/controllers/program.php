@@ -189,15 +189,11 @@ class Program extends CI_Controller {
 
     //otc v2
     public function input_action(){
-        $data['init_id'] = $this->input->get('init_id');
-        $data['action_id'] = $this->input->get('action_id');
+        $data['kuan_id'] = $this->input->get('kuan_id');
 
-        if($data['action_id']){
-          $data['title'] = "Edit Action";
+        if($data['kuan_id']){
+          $data['title'] = "Update Realisasi";
           $data['action'] = $this->mprogram->get_action_by_init_code('',$data['action_id'])[0];
-        }
-        else{
-          $data['title'] = "Add Action";
         }
 
         $json['html'] = $this->load->view('program/component/_form_action',$data,TRUE);
