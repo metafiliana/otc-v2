@@ -31,8 +31,11 @@ function get_file(init_code){
     }
 </script>
 <style type="text/css">
-	.ds_folder{
-		border-bottom:3px solid #189cb8;
+	.btn-xs{
+    padding: 0px 5px;
+    font-size: 12px;
+    line-height: 0;
+    border-radius: 3px;
 	}
 </style>
 
@@ -45,21 +48,23 @@ $init = explode(';', $user['initiative']);
 		<div class="component_part">
 			<div style="margin-bottom:0px;" id="">
 				<div style="padding-top:10px;">
-					<?php foreach($init as $inits){ if($inits==$code->val || $user['role']=="2"){?>
-					<div style="text-align:right; margin-top:-15px">
-						<a onclick="add_files('','<?php echo $code->val;?>')" class="btn btns btn-default  btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
+					<div class="helper_text row">
+            <div class="col-sm-10">
+              <?php echo $code->val;?>. <?php echo long_text_real($code->title,35);?>
+            </div>
+            <div class="col-sm-2 right_text" style="margin-top:-10px;">
+              <?php foreach($init as $inits){ if($inits==$code->val || $user['role']=="2"){?>
+                <a onclick="add_files('','<?php echo $code->val;?>')" class="btn btns btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
+              <?php } }?>
+            </div>
 					</div>
-					<?php } }?>
-					<div class="helper_text">
-						<?php echo $code->val;?>. <?php echo long_text_real($code->title,35);?>
+        	<div style="text-align:center">
+        		<a class="btn btn-link btn-link-primary-cbic" onclick="get_file('<?php echo $code->val;?>');">
+        			<span style="font-size:10px;" class="glyphicon glyphicon-menu-down"></span>
+        		</a>
+        	</div>
+        	<div style="display:none;" id="file_<?php echo $code->val?>">
 					</div>
-	                	<div style="text-align:center">
-	                		<a class="btn btn-link btn-link-primary-cbic" onclick="get_file('<?php echo $code->val;?>');">
-	                			<span style="font-size:10px;" class="glyphicon glyphicon-menu-down"></span>
-	                		</a>
-	                	</div>
-	                	<div style="display:none;" id="file_<?php echo $code->val?>">
-						</div>
 				</div>
 			</div>
 		</div>
@@ -69,21 +74,23 @@ $init = explode(';', $user['initiative']);
 		<div class="component_part">
 			<div style="margin-bottom:0px;" id="">
 				<div style="padding-top:10px;">
-					<?php if($user['role']=="2"){?>
-					<div style="text-align:right; margin-top:-15px">
-						<a onclick="add_files('','ctf')" class="btn btns btn-default  btn-xs"><span class="glyphicon glyphicon-plus"></span></a>
+          <div class="helper_text row">
+            <div class="col-sm-10">
+              CTF Tower
+            </div>
+            <div class="col-sm-2 right_text" style="margin-top:-10px;">
+              <?php if($user['role']=="2"){?>
+              <a onclick="add_files('','ctf')" class="btn btns btn-default btn-xs right_text"><span class="glyphicon glyphicon-plus"></span></a>
+              <?php }?>
+            </div>
 					</div>
-					<?php }?>
-					<div class="helper_text">
-						CTF Tower
+        	<div style="text-align:center">
+        		<a class="btn btn-link btn-link-primary-cbic" onclick="get_file('ctf');">
+        			<span style="font-size:10px;" class="glyphicon glyphicon-menu-down"></span>
+        		</a>
+        	</div>
+        	<div style="display:none;" id="file_ctf">
 					</div>
-	                	<div style="text-align:center">
-	                		<a class="btn btn-link btn-link-primary-cbic" onclick="get_file('ctf');">
-	                			<span style="font-size:10px;" class="glyphicon glyphicon-menu-down"></span>
-	                		</a>
-	                	</div>
-	                	<div style="display:none;" id="file_ctf">
-						</div>
 				</div>
 			</div>
 		</div>
