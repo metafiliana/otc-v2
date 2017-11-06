@@ -47,6 +47,10 @@
     .btn-danger{
       border-color:unset;
     }
+
+    .buttons-pdf{
+      float: left;
+    }
 </style>
 <div class="panel-body">
       <div class="component_part_summary" style="margin-top:10px;">
@@ -127,8 +131,6 @@
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
                       </tr>
                       <?php
                             $i = 1;
@@ -176,8 +178,6 @@
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
                       </tr>
                       <?php
                           foreach ($init_table['type_2'] as $key => $value) {
@@ -211,8 +211,6 @@
 
                       <tr>
                           <td colspan="11" class=""><strong>Final score menggunakan indikator milestones</strong></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
@@ -281,9 +279,9 @@
     $(document).ready(function() {
         $('#example').DataTable( {
             paging: false,
+            ordering: false,
             searching: false,
             scrollX: true,
-            ordering: false,
             dom: 'Bfrtip',
             buttons: {
                 buttons: [{
