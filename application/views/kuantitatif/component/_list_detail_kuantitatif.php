@@ -39,17 +39,17 @@ $user = $this->session->userdata('user');
 		<td><?php echo $i++?></td>
     <td><?php echo $d['prog']->metric;?></td>
     <td><?php echo $d['prog']->measurment;?></td>
-		<td><?php if($d['prog']->measurment=='%'){ echo number_format($d['prog']->baseline,2,",","."); } else{ echo number_format($d['prog']->baseline,0,",","."); }?></td>
+		<td><?php if($d['prog']->measurment=='%' || $d['prog']->measurment=="Index" || $d['prog']->measurment=="product/customer"){ echo number_format($d['prog']->baseline,2,",","."); } else{ echo number_format($d['prog']->baseline,0,",","."); }?></td>
 		<td>
-			<?php if($d['prog']->measurment=='%'){ echo number_format($d['update']->$month_view,2,",","."); } else{echo number_format($d['update']->$month_view,0,",","."); } ?>
+			<?php if($d['prog']->measurment=='%' || $d['prog']->measurment=="Index" || $d['prog']->measurment=="product/customer"){ echo number_format($d['update']->$month_view,2,",","."); } else{echo number_format($d['update']->$month_view,0,",","."); } ?>
 		</td>
 		<?php if($user['role']=='1' || $user['role']=='2'){?>
 		<td>
 			<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $d['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 		</td>
 		<?php }?>
-		<td><?php if($d['prog']->measurment=='%'){ echo number_format($d['target']->$month_view,2,",","."); } else{ echo number_format($d['target']->$month_view,0,",",".");}?></td>
-		<td><?php if($d['prog']->measurment=='%'){ echo number_format($d['prog']->target,2,",","."); } else { echo number_format($d['prog']->target,0,",","."); }?></td>
+		<td><?php if($d['prog']->measurment=='%' || $d['prog']->measurment=="Index" || $d['prog']->measurment=="product/customer"){ echo number_format($d['target']->$month_view,2,",","."); } else{ echo number_format($d['target']->$month_view,0,",",".");}?></td>
+		<td><?php if($d['prog']->measurment=='%' || $d['prog']->measurment=="Index" || $d['prog']->measurment=="product/customer"){ echo number_format($d['prog']->target,2,",","."); } else { echo number_format($d['prog']->target,0,",","."); }?></td>
 		<td><?php echo number_format((($d['month_kiner'])*100),0,",",".");?> %</td>
 		<td><?php echo number_format((($d['year_kiner'])*100),0,",",".");?> %</td>
 		<?php if($check==0){ ?>
@@ -82,17 +82,17 @@ $user = $this->session->userdata('user');
 			<td><?php echo $i++?></td>
 	    <td><?php echo $e['prog']->metric;?></td>
 	    <td><?php echo $e['prog']->measurment;?></td>
-			<td><?php if($e['prog']->measurment=='%'){ echo number_format($e['prog']->baseline,2,",","."); } else { echo number_format($e['prog']->baseline,0,",","."); }?></td>
+			<td><?php if($e['prog']->measurment=='%'|| $e['prog']->measurment=="Index" || $e['prog']->measurment=="product/customer"){ echo number_format($e['prog']->baseline,2,",","."); } else { echo number_format($e['prog']->baseline,0,",","."); }?></td>
 			<td>
-				<?php if($e['prog']->measurment=='%'){ echo number_format($e['update']->$month_view,2,",","."); } else{ echo number_format($e['update']->$month_view,0,",","."); }?>
+				<?php if($e['prog']->measurment=='%'|| $e['prog']->measurment=="Index" || $e['prog']->measurment=="product/customer"){ echo number_format($e['update']->$month_view,2,",","."); } else{ echo number_format($e['update']->$month_view,0,",","."); }?>
 			</td>
 			<?php if($user['role']=='1'|| $user['role']=='2'){?>
 			<td>
 					<a class="btn btn-link btn-link-edit" onclick="update_realisasi(<?php echo $e['prog']->id?>,'<?= $month_view ?>','<?= $month_number?>');"><span class="glyphicon glyphicon-pencil"></span></a>
 			</td>
 			<?php }?>
-			<td><?php if($e['prog']->measurment=='%'){ echo number_format($e['target']->$month_view,2,",","."); } else{ echo number_format($e['target']->$month_view,0,",","."); }?></td>
-			<td><?php if($e['prog']->measurment=='%'){ echo number_format($e['prog']->target,2,",","."); } else{ echo number_format($e['prog']->target,0,",","."); }?></td>
+			<td><?php if($e['prog']->measurment=='%' || $e['prog']->measurment=="Index" || $e['prog']->measurment=="product/customer"){ echo number_format($e['target']->$month_view,2,",","."); } else{ echo number_format($e['target']->$month_view,0,",","."); }?></td>
+			<td><?php if($e['prog']->measurment=='%'|| $e['prog']->measurment=="Index" || $e['prog']->measurment=="product/customer"){ echo number_format($e['prog']->target,2,",","."); } else{ echo number_format($e['prog']->target,0,",","."); }?></td>
 			<td><?php echo number_format(($e['month_kiner']*100),0,",",".");?> %</td>
 			<td><?php echo number_format(($e['year_kiner']*100),0,",",".");?> %</td>
 			<?php if($check==0){ ?>

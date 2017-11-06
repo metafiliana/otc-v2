@@ -54,7 +54,15 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                         <?php foreach ($arr_month as $val2) { ?>
                           <td style="vertical-align: middle; width: 8%;">
                               <label><?= $val2 ?></label>
-                              <input type="text" class="form-control" value="<?php if(isset($all_kuantitatif['kuantitatif']->$val2)){echo number_format($all_kuantitatif['kuantitatif']->$val2,0,",",".");} ?>" readonly />
+                              <input type="text" class="form-control" value="<?php if(isset($all_kuantitatif['kuantitatif']->$val2)){
+                                if($all_kuantitatif['kuantitatif']->measurment=="Index" || $all_kuantitatif['kuantitatif']->measurment=="%" || $all_kuantitatif['kuantitatif']->measurment=="product/customer" ){
+                                  echo number_format($all_kuantitatif['kuantitatif']->$val2,2,".","");
+                                }
+                                else{
+                                  echo number_format($all_kuantitatif['kuantitatif']->$val2,0,",","");
+                                }
+
+                              } ?>" readonly />
                           </td>
                         <?php } ?>
                         </tr>
@@ -65,7 +73,15 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                         <tr style="width: 100%;">
                           <?php for ($i=0; $i <= $month_number-1 ; $i++) { ?>
                           <td style="vertical-align: middle; width: 8%;">
-                            <input type="text" class="form-control numberOnly" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i])){echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');} ?>" />
+                            <input type="text" class="form-control numberOnly" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i]))
+                            {
+                              if($all_kuantitatif['kuantitatif']->measurment=="Index" || $all_kuantitatif['kuantitatif']->measurment=="%" || $all_kuantitatif['kuantitatif']->measurment=="product/customer" ){
+                                echo number_format($all_kuantitatif['update']->$arr_month[$i],2,'.','');
+                              }
+                              else{
+                                echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');
+                              }
+                            } ?>" />
                           </td>
                         <?php } ?>
 
@@ -93,7 +109,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
              // Allow: Ctrl+A, Command+A
-            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
              // Allow: home, end, left, right, down, up
             (e.keyCode >= 35 && e.keyCode <= 40)) {
                  // let it happen, don't do anything
