@@ -78,21 +78,65 @@
           </div>
         </div>
 
+        <div class="row">
+          <h4 class="text-center">Show Initiatives</h4>
+          <table class="table text-center" border="1px solid black">
+            <tr>
+              <?php foreach ($initiatives_detail as $key => $value) { ?>
+              <td class="showInitiative detail-milestone" data-id="<?php echo $key;?>"><?php echo $value['init_code']; ?></td>
+              <?php } ?>
+            </tr>
+          </table>
+        </div>
+        <br>
+
+        <!-- data area inititatives start -->
         <div class="component_part">
           <div class="row">
-            <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Milestone Initiatives</h3>
-            <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-            <div class="col-md-12 table-content">
-              <div class="col-md-6">
-                <!-- <div id="mtdGauge"></div> -->
+            <?php foreach ($initiatives_detail as $key => $value) { ?>
+            <div class="col-md-12 table-content initiative-detail" id="print-<?php echo $key; ?>">
+              
+              <!-- data area inititatives-kuantitatif start -->
+              <div class="col-md-7">
+                <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
+                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+                <div class="col-md-6">
+                  <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
+                </div>
+                <div class="col-md-6">
+                  <div class="ytd-gauge-init-<?php echo $value['id'];?>"></div>
+                </div>
+                <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>">Details</button>
               </div>
-              <div class="col-md-6">
-                <!-- <div id="ytdGauge"></div> -->
+              <!-- data area inititatives-kuantitatif ends -->
+              
+              <!-- data area milestone start -->
+              <div class="col-md-5">
+                <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
+                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+                <div class="col-md-6 text-center">
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="0" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
+                </div>
+                <div class="col-md-6 text-center">
+                  <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
+                  <br>
+                  <span>FL : <?php echo $value['milestone_ytd']; ?>%</span>
+                  <br>
+                  <button onclick="take('print-<?php echo $key; ?>')" class="btn btn-info-new">Print</button>
+                </div>
               </div>
+              <!-- data area milestone start -->
+
             </div>
+            <?php } ?>
           </div>
         </div>
-        <!-- data area top 21 bod ends -->
+        <!-- data area initiatives ends -->
         <?php } ?>
 
       <?php if (!$is_admin){ ?>
@@ -153,9 +197,9 @@
       </div><div style="clear:both;"></div>
       <!-- activities area ends -->
 
-      <!-- modal area starts -->
+      <!-- dialog area starts -->
       <div id="modalDiv" title="Detail Initiative"></div>
-      <!-- modal area ends -->
+      <!-- dialog area ends -->
 
 </div>
 
@@ -168,6 +212,7 @@
 
 <script>
     $( document ).ready( function() {
+      $(".initiative-detail").hide();
       $( '#modalDiv' ).dialog( { 'autoOpen': false } );
     });
 
@@ -406,5 +451,13 @@
           //     $('.tab-rajal:not(.active)').html('');
           // }
       });
+    });
+
+    $(".showInitiative").on("click", function(e){
+      $(".initiative-detail").hide();
+
+      var id = $(this).data('id');
+
+      $("#print-"+id).show();
     });
 </script>

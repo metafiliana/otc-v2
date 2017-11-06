@@ -1015,7 +1015,12 @@ class Summary extends CI_Controller {
         }
 
         $user = $this->session->userdata('user');
-        $user_id = $user['id'];
+
+        if ($user['role'] == 2){
+            $user_id = false;
+        }else{
+            $user_id = $user['id'];
+        }
         // getStatus
         // $initiative_id, 
         // $status = false, 
