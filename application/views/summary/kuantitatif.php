@@ -61,8 +61,8 @@
                   <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
               </div>
               <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
-              <div class="col-sm-10 form-group row">
-                  <div>
+              <div class="col-sm-6 form-group row">
+                  <div class="col-sm">
                     <label class="control-label col-sm-1">User</label>
                     <div class="col-sm-3">
                       <?php
@@ -70,9 +70,9 @@
                       ?>
                     </div>
                   </div>
-                  <div>
+                  <div class="col-sm">
                     <label class="control-label col-sm-1">Month</label>
-                    <div class="col-sm-3" style="margin-left:12px;">
+                    <div class="col-sm-4" style="margin-left:12px;">
                       <?php
                           echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
                       ?>

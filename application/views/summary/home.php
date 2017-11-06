@@ -1,4 +1,7 @@
 <style>
+    .detail-milestone {
+      cursor: pointer;
+    }
     .pmo_header{
         margin-right:40px;
     }
@@ -74,6 +77,21 @@
             </div>
           </div>
         </div>
+
+        <div class="component_part">
+          <div class="row">
+            <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Milestone Initiatives</h3>
+            <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+            <div class="col-md-12 table-content">
+              <div class="col-md-6">
+                <!-- <div id="mtdGauge"></div> -->
+              </div>
+              <div class="col-md-6">
+                <!-- <div id="ytdGauge"></div> -->
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- data area top 21 bod ends -->
         <?php } ?>
 
@@ -103,12 +121,12 @@
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
                 <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
                 <div class="col-md-6 text-center">
-                  <p>Complete: <?php echo $value['completed']; ?></p>
-                  <p>On Track: <?php echo $value['on_track']; ?></p>
-                  <p>Future Start: <?php echo $value['future_start']; ?></p>
-                  <p style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
-                  <p style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
-                  <p style="color: red">Delay: <?php echo $value['delay']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="0" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
                 </div>
                 <div class="col-md-6 text-center">
                   <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
@@ -134,14 +152,25 @@
         </div>
       </div><div style="clear:both;"></div>
       <!-- activities area ends -->
+
+      <!-- modal area starts -->
+      <div id="modalDiv" title="Detail Initiative"></div>
+      <!-- modal area ends -->
+
 </div>
 
 <!-- <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script> -->
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
 <script type="text/javascript" src="http://cdn3.devexpress.com/jslib/15.2.5/js/dx.chartjs.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
+    $( document ).ready( function() {
+      $( '#modalDiv' ).dialog( { 'autoOpen': false } );
+    });
+
     $("#mtdGauge").dxCircularGauge({
       rangeContainer: { 
         offset: 10,
@@ -335,4 +364,47 @@
            }
       });
     }
+
+    $(".detail-milestone").on("click", function(e){
+      console.log($(this).data('id'));
+      var id = $(this).data('id');
+      var status = $(this).data('status');
+      var flagged = $(this).data('flagged');
+
+      $.ajax({
+          type: 'GET',
+          url: '/summary/getDetailInitiative',
+          data: 'initiative_id='+id+'&status='+status+'&flagged='+flagged,
+          // beforeSend: function(){
+          //     $('.tab-rajal').html('');
+          //     $('.load-tab').css("display","block");
+          //     $('#rekam_medis').html('');
+          // },
+          success: function(data) {
+              $('#modalDiv').empty();
+
+              var template = '<table border="1px solid black"><tr><td>initiatives</td><td>Start</td><td>End</td>';
+
+              $.each(data.data, function( index, value ) {
+                template += '<tr>';
+                template += '<td>'+ value['title'] + '</td>';
+                template += '<td>'+ value['start'] + '</td>';
+                template += '<td>'+ value['end'] + '</td>';
+                template += '</tr>';
+              });
+
+              template += '</table>';
+
+              $("#modalDiv").html(template);
+
+              $("#modalDiv").dialog('open');
+              // console.log(data);
+              // alert(data.status);
+          },
+          // complete: function () {
+          //     $('img').remove('.original');
+          //     $('.tab-rajal:not(.active)').html('');
+          // }
+      });
+    });
 </script>
