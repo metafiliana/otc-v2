@@ -20,6 +20,7 @@
         <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/export-amchart/export.css" rel="stylesheet"/>
+        <link href="<?php echo base_url();?>assets/css/jquery-ui.css" rel="stylesheet" />
 
         <!--DATA TABLES-->
         <link href="<?php echo base_url();?>assets/js/DataTables-1.10.9/css/jquery.dataTables.css" rel="stylesheet"/>
@@ -50,6 +51,7 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/ajax-bootstrap-select.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/grafik.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
 
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tokeninput.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
