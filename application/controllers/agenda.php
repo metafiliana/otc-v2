@@ -48,7 +48,7 @@ class Agenda extends CI_Controller {
 
   		$datereq['month'] = $month; $datereq['year']=$year;
 
-      $last_agenda =$this->magenda->get_last_agenda(5);
+      $last_agenda = $this->magenda->get_last_agenda(5);
 
       $data['user']=$user;
       //notification
