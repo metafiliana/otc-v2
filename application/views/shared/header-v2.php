@@ -161,14 +161,14 @@
 			</div>
 		</div>
 		<div class="col-md-7 center_text" style="right: 40px">
-			
+
 			<div class="col-md-12" style="padding-left: 0px;">
 			<nav>
 					<ul>
 						<li class="menu"><a href="<?php echo base_url()?>" class="btn btns btn-default glyphicon glyphicon-home" style="font-size:14px;"></a></li>
 						<li class="menu"><a href="<?php echo base_url()?>program/list_programs/">Update Progress</a></li>
 						<li class="menu"><a href="<?php echo base_url()?>program/initiative_card/">Initiatives</a></li>
-						
+
 						<li class="menu"><a href="<?php echo base_url()?>general/files">Sharing Files</a></li>
 						<li class="menu"><a href="<?php echo base_url()?>agenda">Agenda</a></li>
 					</ul>
@@ -222,6 +222,7 @@
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>general/form_input_file">Upload Data</a></li>
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>user/">User Management</a></li>
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>logact">Log Activity</a></li>
+						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>general/master">Master</a></li>
 						<li class="divider"></li>
 					<?php }?>
 					<li role="presentation" style="padding:5px 0 5px;">
