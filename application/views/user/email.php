@@ -188,7 +188,7 @@
 										<td width="400" align="center" style="padding-bottom:5px;">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
-													<p>Mohon ubah password untuk user <strong><?php echo $u_recover ?></strong>. Silahkan klik button di bawah ini untuk melakukan approval </p><br>
+													<p>Mohon ubah password untuk username <strong><?php echo $u_recover ?></strong>. Silahkan klik button di bawah ini untuk melakukan approval </p><br>
 													<a href="<?php echo base_url();?>user/recover_password/<?php echo $key ?>" class="link2"><button class="button-secondary">Confirm</button></a>
 												</div>
 											</div>

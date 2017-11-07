@@ -365,15 +365,15 @@ class User extends CI_Controller {
                         'protocol' => 'smtp',
                         'smtp_host' => 'smtp.gmail.com',
                         'smtp_port' => 587,
-                        'smtp_user' => 'sundfor0@gmail.com',
-                        'smtp_pass' => 'legalizer14',
+                        'smtp_user' => 'otc.request@gmail.com',
+                        'smtp_pass' => 'mandiriotc',
                         'smtp_crypto' => 'tls',
                         'mailtype' => 'html'
                         //'charset' => 'iso-8859-1'
                     ];
                     // Set your email information
                     $from = [
-                        'email' => 'sundfor0@gmail.com',
+                        'email' => 'otc.request@gmail.com',
                         'name' => 'OTC Mandiri'
                     ];
 
@@ -461,17 +461,17 @@ class User extends CI_Controller {
 
                 $emailConfig = [
                     'protocol' => 'smtp',
-                    'smtp_host' => 'smtp-mail.outlook.com',
+                    'smtp_host' => 'smtp.gmail.com',
                     'smtp_port' => 587,
-                    'smtp_user' => 'otc.mandiri@outlook.com',
-                    'smtp_pass' => 'QWEasd123',
+                    'smtp_user' => 'otc.request@gmail.com',
+                    'smtp_pass' => 'mandiriotc',
                     'smtp_crypto' => 'tls',
                     'mailtype' => 'html'
                     //'charset' => 'iso-8859-1'
                 ];
                 // Set your email information
                 $from = [
-                    'email' => 'otc.mandiri@outlook.com',
+                    'email' => 'otc.request@gmail.com',
                     'name' => 'OTC Mandiri'
                 ];
 
@@ -501,9 +501,9 @@ class User extends CI_Controller {
     }
 
     public function edit_profile(){
-        $username = $this->session->userdata('user');
-        $user = $username['username'];
-        $initid = $username['initiative'];
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
         $foto = $this->muser->get_data_user($user)->foto;
         $lastlogin = $this->muser->get_data_user($user)->last_login;
         $privateemail = $this->muser->get_data_user($user)->private_email;
@@ -516,6 +516,17 @@ class User extends CI_Controller {
             'private_email' => $privateemail,
             'work_email' => $workemail
         );
+
+        //notification
+        if($users['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($users['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($users['id'],'');
+        }
+        else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
+
         $data['title'] = "Edit Profile";
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);

@@ -408,8 +408,9 @@ class Program extends CI_Controller {
     public function oi($oit){
      $this->result = $oit;
     }
+    
     public function initiative_card(){
-       $users = $this->session->userdata('user');
+      $users = $this->session->userdata('user');
       $user = $users['username'];
       $initid = $users['initiative'];
       $foto = $this->muser->get_data_user($user)->foto;
@@ -462,6 +463,15 @@ class Program extends CI_Controller {
 
       $prog['controller'] = $this;
 
+      //notification
+      if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+      }
+      else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+      }
 
       $prog['list_initiative'] = $this->load->view('initiative_card/component/_list_of_initiative_new',$prog,TRUE);
 
@@ -471,6 +481,7 @@ class Program extends CI_Controller {
       $data['content'] = $this->load->view('initiative_card/list_initiative',$prog,TRUE);
       $this->load->view('front',$data);
     }
+
     public function get_bulan(){
       $month = date('F');
       $month = date('m',strtotime($month));
