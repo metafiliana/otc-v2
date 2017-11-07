@@ -56,13 +56,13 @@
       <div class="component_part_summary" style="margin-top:10px;">
         <!-- search area -->
         <div class="row">
-            <div class="col-md-4" style="margin-right:-50px;">
+            <div class="col-md-3" style="margin-right:-50px;">
                 <button class="btn btn-info-new btn-sm" disabled="disabled">Kuantitatif</button>
                 <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-default btn-sm btn-info-new">Milestone</button></a>
-                <a href="<?php echo base_url()?>summary/home/"><button class="btn btn-default btn-sm btn-info-new">Home</button></a>
+                <!-- <a href="<?php //echo base_url()?>summary/home/"><button class="btn btn-default btn-sm btn-info-new">Home</button></a> -->
                 <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
               <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
               <div class="col-sm-10 form-group row">
                   <div>
