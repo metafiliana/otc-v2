@@ -514,6 +514,47 @@ class Program extends CI_Controller {
 
       return $return;
     }
+    /*public function get_tot_pertipe($id, $type){
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+        'username' => $user,
+        'foto' => $foto,
+        'initid' => $initid,
+        'last_login' => $lastlogin,
+        'private_email' => $privateemail,
+        'work_email' => $workemail
+      );
+
+      $data['title'] = "List All Initiative";
+
+      $user = $users;
+      $prog['user'] = $user;
+      $data['user'] = $user;
+      $init_code= explode(";",$user['initiative']);
+      $month = date('F');
+      $month = date('m',strtotime($month));
+       $month = date('F',strtotime('1-'.$month.'-2017'));
+      $last = true;
+      $bln = $this->mprogram->get_latest_month($month,$init_code);
+      While ($this->mprogram->get_latest_month($month,$init_code)->bulan == 0){
+        $init_code= explode(";",$user['initiative']);
+          $month = date('m',strtotime($month)) - 1;
+          $month = date('F',strtotime('1-'.$month.'-2017'));
+        // $bln = $this->mprogram->get_latest_month($month);
+         
+      }
+      var_dump($init_code);
+      $prog['month_view']  = $month;
+      $return = $this->mkuantitatif->get_total_per_type($id,$prog['month_view'], $type);
+
+      return $return;
+    }*/
     public function get_count_leading($id, $type){
       $return = $this->mkuantitatif->get_leading_leading_count($id, $type);
 
