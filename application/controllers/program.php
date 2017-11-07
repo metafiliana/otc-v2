@@ -440,6 +440,17 @@ class Program extends CI_Controller {
 
       $prog['cluster'] = $this->mprogram->get_m_cluster();
       if($user['role']=='1'){
+        $id= $this->result;
+        $init_code= explode(";",$user['initiative']);
+        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+      }
+      elseif($user['role']=='3'){
+        $id= $this->result;
+        $init_code= explode(";",$user['initiative']);
+        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+      }
+      elseif($user['role']=='4'){
+        $id= $this->result;
         $init_code= explode(";",$user['initiative']);
         $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
       }
@@ -460,9 +471,34 @@ class Program extends CI_Controller {
       $data['content'] = $this->load->view('initiative_card/list_initiative',$prog,TRUE);
       $this->load->view('front',$data);
     }
-
+    public function get_bulan(){
+      $month = date('F');
+      $month = date('m',strtotime($month));
+       $month = date('F',strtotime('1-'.$month.'-2017'));
+      $last = true;
+      $bln = $this->mprogram->get_latest_month($month);
+      While ($this->mprogram->get_latest_month($month)->bulan == 0){
+          $month = date('m',strtotime($month)) - 1;
+          $month = date('F',strtotime('1-'.$month.'-2017'));
+        // $bln = $this->mprogram->get_latest_month($month);
+         
+      }
+     return $month;
+    }
     public function get_tot_pertipe($id, $type){
-      $prog['month_view']="July";
+      $month = date('F');
+      $month = date('m',strtotime($month));
+       $month = date('F',strtotime('1-'.$month.'-2017'));
+      $last = true;
+      $bln = $this->mprogram->get_latest_month($month);
+      While ($this->mprogram->get_latest_month($month)->bulan == 0){
+          $month = date('m',strtotime($month)) - 1;
+          $month = date('F',strtotime('1-'.$month.'-2017'));
+        // $bln = $this->mprogram->get_latest_month($month);
+         
+      }
+      $prog['month_view']  = $month;
+      /*$prog['month_view']="November";*/
       $return = $this->mkuantitatif->get_total_per_type($id,$prog['month_view'], $type);
 
       return $return;
@@ -531,6 +567,15 @@ class Program extends CI_Controller {
         $init_code= explode(";",$user['initiative']);
         $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
       }
+      elseif($user['role']=='3'){
+        $init_code= explode(";",$user['initiative']);
+        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+      }
+      elseif($user['role']=='4'){
+        $init_code= explode(";",$user['initiative']);
+        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+      }
+
       else{
         $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }

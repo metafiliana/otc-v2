@@ -743,6 +743,11 @@ class Mprogram extends CI_Model {
         $query = $this->db->get('m_action');
         return count($query->result());
     }
+    function get_latest_month($month){
+        $this->db->select('sum('.$month.') as bulan');
+        $query = $this->db->get('kuantitatif_update');
+        return $query->row();
+    }
 
     //end amir
 }

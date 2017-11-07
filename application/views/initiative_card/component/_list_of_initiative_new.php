@@ -57,7 +57,7 @@
 
     </div>
     <div class="col-sm-6" style="margin-bottom: 20px;">
-      <h5><strong>Realisasi per <?php echo date('F Y', mktime(0, 0, 0, date('m'), 1, date('Y')));?> (YTD)</strong></h5><br>
+      <h5><strong>Realisasi per <?php echo $controller->get_bulan(); ?> <?php echo date('Y')?> (YTD)</strong></h5><br>
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
@@ -119,7 +119,7 @@
       </table><br>
     </div>
     <div class="col-sm-6" style="margin-bottom: 20px;">
-      <h5><strong>Realisasi per <?php echo date('F Y', mktime(0, 0, 0, date('m'), 1, date('Y')));?> (FL)</strong></h5><br>
+      <h5><strong>Realisasi per <?php echo $controller->get_bulan(); ?> <?php echo date('Y')?> (FL)</strong></h5><br>
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
