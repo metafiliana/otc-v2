@@ -32,9 +32,34 @@ class General extends CI_Controller {
      //otc v2
      public function master()
      {
-        $data['title'] = 'Master Page';
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
 
-        $user = $this->session->userdata('user');
+		    $data['title'] = 'Master Page';
+
+        $user = $users;
+        $data['user']=$user;
+        if($user['role']!='2'){
+            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        }
+        else{
+            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+            $data['notif']= $this->mremark->get_notification_by_admin('');
+        }
 
         //master cluster
         $data['cluster'] = $this->minitiative->get_master('','m_cluster');
@@ -45,7 +70,7 @@ class General extends CI_Controller {
         //master kuantitatif_legend
         $data['kuan_legend'] = $this->minitiative->get_kuantitatif_legend();
 
-        $data['header'] = $this->load->view('shared/header-v2','',TRUE);
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
         $data['content'] = $this->load->view('general/master',$data,TRUE);
 
@@ -176,7 +201,7 @@ class General extends CI_Controller {
             'private_email' => $privateemail,
             'work_email' => $workemail
         );
-      
+
     	$data['title'] = 'Files Control Tower';
 
     	$user = $this->session->userdata('user');
@@ -200,7 +225,7 @@ class General extends CI_Controller {
           $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
           $data['notif']= $this->mremark->get_notification_by_admin('');
         }
-      
+
         $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment('init_code','asc','m_initiative');
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);

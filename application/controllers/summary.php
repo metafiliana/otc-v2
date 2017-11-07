@@ -269,20 +269,34 @@ class Summary extends CI_Controller {
 
     public function listMilestone()
     {
-        $data['title'] = "List All Program";
-        $prog['page']="all";
-        $user = $this->session->userdata('user');
-        $prog['user'] = $user;
-        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-        $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
-        }
-        else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
-        }
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+      );
+
+      $data['title'] = "List Summary Milestone";
+
+      $user = $users;
+      $data['user']=$user;
+      if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+      }
+      else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+      }
         // views start
         $views = array();
         // views end
@@ -376,20 +390,34 @@ class Summary extends CI_Controller {
 
     public function listKuantitatif()
     {
-        $data['title'] = "List All Program";
-        $prog['page']="all";
-        $user = $this->session->userdata('user');
-        $prog['user'] = $user;
-        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-        $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
-        }
-        else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
-        }
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+      );
+
+      $data['title'] = "List Summary Kuantitatif";
+
+      $user = $users;
+      $data['user']=$user;
+      if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+      }
+      else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+      }
         // views start
         $views = array();
         // views end
@@ -770,20 +798,34 @@ class Summary extends CI_Controller {
 
     public function home()
     {
-        $data['title'] = "Home";
-        $prog['page']="all";
-        $user = $this->session->userdata('user');
-        $prog['user'] = $user;
-        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-        $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
-        }
-        else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
-        }
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+      );
+
+      $data['title'] = "Summary Home";
+
+      $user = $users;
+      $data['user']=$user;
+      if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+      }
+      else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+      }
 
         // views start
         $views = array();

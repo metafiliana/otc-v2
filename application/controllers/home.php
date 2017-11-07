@@ -35,7 +35,7 @@ class Home extends CI_Controller {
             'work_email' => $workemail
         );
 
-		$data['title'] = "Home";
+		    $data['title'] = "Home";
 
         $user = $users;
         $data['user']=$user;

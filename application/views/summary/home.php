@@ -178,7 +178,7 @@
           <div class="row">
             <?php foreach ($initiatives_detail as $key => $value) { ?>
             <div class="col-md-12 table-content initiative-detail" id="print-<?php echo $key; ?>">
-              
+
               <!-- data area inititatives-kuantitatif start -->
               <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
@@ -192,7 +192,7 @@
                 <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>" style="display: none;">Details</button>
               </div>
               <!-- data area inititatives-kuantitatif ends -->
-              
+
               <!-- data area milestone start -->
               <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
@@ -244,7 +244,7 @@
     });
 
     $("#mtdGauge").dxCircularGauge({
-      rangeContainer: { 
+      rangeContainer: {
         offset: 10,
         ranges: [
           { startValue: 0, endValue: 95, color: 'red' },
@@ -278,7 +278,7 @@
           customizeText: function (arg) {
             return arg.valueText + '% MTD';
           }
-        }  
+        }
       },
       value: <?php echo $top_bod['mtd']; ?>,
       subvalues: [<?php echo $top_bod['mtd']; ?>],
@@ -291,7 +291,7 @@
     });
 
     $("#ytdGauge").dxCircularGauge({
-      rangeContainer: { 
+      rangeContainer: {
         offset: 10,
         ranges: [
           { startValue: 0, endValue: 95, color: 'red' },
@@ -325,7 +325,7 @@
           customizeText: function (arg) {
             return arg.valueText + '% FL';
           }
-        }  
+        }
       },
       value: <?php echo $top_bod['ytd']; ?>,
       subvalues: [<?php echo $top_bod['ytd']; ?>],
@@ -343,7 +343,7 @@
       var ytd = $(this).data("ytd");
 
       $(".mtd-gauge-init-"+id).dxCircularGauge({
-        rangeContainer: { 
+        rangeContainer: {
           offset: 10,
           ranges: [
             { startValue: 0, endValue: 95, color: 'red' },
@@ -373,7 +373,7 @@
             customizeText: function (arg) {
               return arg.valueText + '% MTD';
             }
-          }  
+          }
         },
         value: mtd,
         subvalues: [mtd],
@@ -386,7 +386,7 @@
       });
 
       $(".ytd-gauge-init-"+id).dxCircularGauge({
-        rangeContainer: { 
+        rangeContainer: {
           offset: 10,
           ranges: [
             { startValue: 0, endValue: 95, color: 'red' },
@@ -416,7 +416,7 @@
             customizeText: function (arg) {
               return arg.valueText + '% FL';
             }
-          }  
+          }
         },
         value: ytd,
         subvalues: [ytd],
@@ -475,7 +475,7 @@
 
       $.ajax({
           type: 'GET',
-          url: '/summary/getDetailInitiative',
+          url: '<?php echo base_url()."summary/getDetailInitiative"; ?>',
           data: 'initiative_id='+id+'&status='+status+'&flagged='+flagged,
           // beforeSend: function(){
           //     $('.tab-rajal').html('');
@@ -519,4 +519,22 @@
 
       $("#print-"+id).show();
     });
+
+    function show_detail(id){
+  		$.ajax({
+  			type: "GET",
+  			url: config.base+"agenda/get_detail",
+  			data: {id: id},
+  			dataType: 'json',
+  			cache: false,
+  			success: function(resp){
+  				if(resp.status==1){
+  					bootbox.dialog({
+  						title: resp.title,
+  						message: resp.message
+  					});
+  				}else{}
+  			}
+  		});
+  	}
 </script>
