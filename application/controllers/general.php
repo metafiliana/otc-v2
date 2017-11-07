@@ -161,6 +161,22 @@ class General extends CI_Controller {
     }
 
     public function files(){
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
+      
     	$data['title'] = 'Files Control Tower';
 
     	$user = $this->session->userdata('user');
