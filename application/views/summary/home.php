@@ -51,7 +51,68 @@
       border-color:unset;
     }
 </style>
+<!-- Trigger the modal with a button -->
+<button id="modalTrigger" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="display: none;"></button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detail Initiatives</h4>
+      </div>
+      <div class="modal-body" id="modalDiv"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="panel-body">
+      <div class="component_part_summary" style="margin-top:10px;">
+        <div class="row">
+            <!-- search area -->
+            <div class="col-md-4" style="margin-right:-50px;">
+              <a href="<?php echo base_url()?>summary/listKuantitatif/"><button class="btn btn-info-new btn-sm btn-default">Kuantitatif</button></a>
+              <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-info-new btn-sm btn-default">Milestone</button></a>
+              <button class="btn btn-sm btn-info-new" disabled="disabled">Home</button>
+              <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
+            </div>
+            <div class="col-md-5">
+              <?php echo form_open('summary/home', 'id="formSearch"'); ?>
+              <div class="col-sm-10 form-group row">
+                  <div>
+                    <label class="control-label col-sm-1">Month</label>
+                    <div class="col-sm-3" style="margin-left:12px;">
+                      <?php
+                          echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
+                      ?>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <?php
+                        echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
+                    ?>
+                  </div>
+              </div>
+              <?php echo form_close(); ?>
+            </div>
+            <div class="col-md-3" style="margin-left:50px;">
+              <div class="right_text">
+                  <h3 style="color:#91aef9;">Home</h3>
+              </div>
+              <div>
+                <h5 class="text-right">Updated: <?php echo $summary_info->date; ?>, <?php echo $summary_info->modified; ?> times modified.</h5>
+              </div>
+                <!-- <button type="button" class="btn btn-danger">Print</button> -->
+            </div><div style="clear:both;"></div>
+        </div>
+      </div><div style="clear:both;"></div>
 
       <!-- header area start -->
       <div class="component_part" style="margin-top:10px;">
@@ -61,59 +122,81 @@
       </div><div style="clear:both;"></div>
       <!-- header area ends -->
 
-      <?php if ($is_admin){ ?>
         <!-- data area top 21 bod start -->
-        <div class="component_part">
-          <div class="row">
-            <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
-            <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-            <div class="col-md-12 table-content">
-              <div class="col-md-6">
+        <div class="col-md-4" id="printTopBod">
+          <div class="component_part" style="margin:10px;">
+            <div class="row">
+              <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
+              <h5 class="text-center">( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
+              <div class="col-md-12">
                 <div id="mtdGauge"></div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div id="ytdGauge"></div>
               </div>
+              <button onclick="take('printTopBod')" class="btn btn-info-new">Print</button>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <h4 class="text-center">Show Initiatives</h4>
-          <table class="table text-center" border="1px solid black">
-            <tr>
-              <?php foreach ($initiatives_detail as $key => $value) { ?>
-              <td class="showInitiative detail-milestone" data-id="<?php echo $key;?>"><?php echo $value['init_code']; ?></td>
-              <?php } ?>
-            </tr>
-          </table>
+        <!-- activities area start -->
+        <div class="col-md-4">
+          <div class="component_part" style="margin:10px;">
+           <h3 class="text-center">Next Activities</h3>
+           <div><h4 style="float:right; margin-bottom:10px;">Last Agenda</h4></div><div style="clear:both"></div>
+           <?php foreach ($last_agenda as $la) { ?>
+           <div>
+            <a onclick="show_detail(<?php echo $la->id?>)">
+            <div>
+             <div style="margin-bottom:0px; font-size:16px">
+              <?php echo substr($la->title, 0,60); if(strlen($la->title)>60){echo "...";}?>
+             </div>
+             <div style="font-size:12px" class="helper-text"><?php echo date('j M y', strtotime($la->start))?></div>
+            </div>
+            </a>
+          </div>
+          <hr>
+          <?php } ?>
+          </div>
         </div>
-        <br>
+        <!-- activities area ends -->
+
+        <div class="col-md-4">
+          <div class="component_part" style="margin:10px;">
+           <h3 class="text-center">Show Initiatives</h3>
+            <div class="btn-group">
+              <?php foreach ($initiatives_detail as $key => $value) { ?>
+              <span class="btn btn-default showInitiative detail-milestone" data-id="<?php echo $key;?>"><?php echo $value['init_code']; ?></span>
+              <?php } ?>
+            </div>
+          </div>
+        </div>
 
         <!-- data area inititatives start -->
+        <div class="col-md-8">
         <div class="component_part">
           <div class="row">
             <?php foreach ($initiatives_detail as $key => $value) { ?>
             <div class="col-md-12 table-content initiative-detail" id="print-<?php echo $key; ?>">
               
               <!-- data area inititatives-kuantitatif start -->
-              <div class="col-md-7">
+              <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
-                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+                <h5 class="text-center">( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
                 <div class="col-md-6">
                   <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
                 </div>
                 <div class="col-md-6">
                   <div class="ytd-gauge-init-<?php echo $value['id'];?>"></div>
                 </div>
-                <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>">Details</button>
+                <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>" style="display: none;">Details</button>
               </div>
               <!-- data area inititatives-kuantitatif ends -->
               
               <!-- data area milestone start -->
-              <div class="col-md-5">
+              <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
-                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
+                <h5 class="text-center">( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
                 <div class="col-md-6 text-center">
                   <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
                   <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
@@ -136,69 +219,11 @@
             <?php } ?>
           </div>
         </div>
-        <!-- data area initiatives ends -->
-        <?php } ?>
-
-      <?php if (!$is_admin){ ?>
-        <!-- data area inititatives start -->
-        <?php foreach ($initiatives_detail as $key => $value) { ?>
-        <div class="component_part">
-          <div class="row">
-            <div class="col-md-12 table-content" id="print-<?php echo $key; ?>">
-              
-              <!-- data area inititatives-kuantitatif start -->
-              <div class="col-md-7">
-                <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
-                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-                <div class="col-md-6">
-                  <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
-                </div>
-                <div class="col-md-6">
-                  <div class="ytd-gauge-init-<?php echo $value['id'];?>"></div>
-                </div>
-                <button class="detail-initiatives text-center" data-id="<?php echo $value['id'];?>" data-mtd="<?php echo $value['kuantitatif_mtd'];?>" data-ytd="<?php echo $value['kuantitatif_ytd'];?>">Details</button>
-              </div>
-              <!-- data area inititatives-kuantitatif ends -->
-              
-              <!-- data area milestone start -->
-              <div class="col-md-5">
-                <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
-                <h5 class="text-center">( as of <?php echo date('F Y'); ?>)</h5>
-                <div class="col-md-6 text-center">
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="0" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
-                </div>
-                <div class="col-md-6 text-center">
-                  <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
-                  <br>
-                  <span>FL : <?php echo $value['milestone_ytd']; ?>%</span>
-                  <br>
-                  <button onclick="take('print-<?php echo $key; ?>')" class="btn btn-info-new">Print</button>
-                </div>
-              </div>
-              <!-- data area milestone start -->
-
-            </div>
-          </div>
         </div>
-        <?php } ?>
         <!-- data area initiatives ends -->
-      <?php } ?>
-
-      <!-- activities area start -->
-      <div class="component_part" style="margin-top:10px;">
-        <div class="row">
-          <h2 class="text-center">Next Activities</h2>
-        </div>
-      </div><div style="clear:both;"></div>
-      <!-- activities area ends -->
 
       <!-- dialog area starts -->
-      <div id="modalDiv" title="Detail Initiative"></div>
+      <!-- <div id="modalDiv" title="Detail Initiative"></div> -->
       <!-- dialog area ends -->
 
 </div>
@@ -213,7 +238,9 @@
 <script>
     $( document ).ready( function() {
       $(".initiative-detail").hide();
-      $( '#modalDiv' ).dialog( { 'autoOpen': false } );
+      // $( '#modalDiv' ).dialog( { 'autoOpen': false } );
+      $( ".detail-initiatives" ).click().delay( 800 );
+      // $( "#modalTrigger" ).click().delay( 800 );
     });
 
     $("#mtdGauge").dxCircularGauge({
@@ -232,11 +259,10 @@
           // format: 'currency'
         }
       },
-      // title: {
-      //   text: 'Realisasi Pencapaian Top 21 BOD Level Initiatives',
-      //   subtitle: '( as of <?php echo date('F Y'); ?>)',
-      //   position: 'top-center'
-      // },
+      title: {
+        text: '<?php echo $top_bod['mtd']; ?> % (MTD)',
+        position: 'bottom-center',
+      },
       tooltip: {
         enabled: true,
         // format: 'currency',
@@ -245,7 +271,7 @@
         }
       },
       subvalueIndicator: {
-        type: 'textCloud',
+        type: 'triangleMarker',
         // format: 'thousands',
         text: {
           // format: 'currency',
@@ -255,7 +281,13 @@
         }  
       },
       value: <?php echo $top_bod['mtd']; ?>,
-      subvalues: [<?php echo $top_bod['mtd']; ?>]
+      subvalues: [<?php echo $top_bod['mtd']; ?>],
+      valueIndicator: {
+          color: 'black',
+          width: 6,
+          spindleSize: 20,
+          spindleGapSize: 15
+      },
     });
 
     $("#ytdGauge").dxCircularGauge({
@@ -274,11 +306,10 @@
           // format: 'currency'
         }
       },
-      // title: {
-      //   text: 'Realisasi Pencapaian Top 21 BOD Level Initiatives',
-      //   subtitle: '( as of <?php echo date('F Y'); ?>)',
-      //   position: 'top-center'
-      // },
+      title: {
+        text: '<?php echo $top_bod['ytd']; ?> % (FL)',
+        position: 'bottom-center'
+      },
       tooltip: {
         enabled: true,
         // format: 'currency',
@@ -287,7 +318,7 @@
         }
       },
       subvalueIndicator: {
-        type: 'textCloud',
+        type: 'triangleMarker',
         // format: 'hundreds',
         text: {
           // format: 'currency',
@@ -297,7 +328,13 @@
         }  
       },
       value: <?php echo $top_bod['ytd']; ?>,
-      subvalues: [<?php echo $top_bod['ytd']; ?>]
+      subvalues: [<?php echo $top_bod['ytd']; ?>],
+      valueIndicator: {
+          color: 'black',
+          width: 6,
+          spindleSize: 20,
+          spindleGapSize: 15
+      },
     });
 
     $(".detail-initiatives").on("click", function(data){
@@ -320,6 +357,10 @@
           label: {
           }
         },
+        title: {
+          text: mtd+' % (MTD)',
+          position: 'bottom-center'
+        },
         tooltip: {
           enabled: true,
           customizeText: function (arg) {
@@ -327,7 +368,7 @@
           }
         },
         subvalueIndicator: {
-          type: 'textCloud',
+          type: 'triangleMarker',
           text: {
             customizeText: function (arg) {
               return arg.valueText + '% MTD';
@@ -335,7 +376,13 @@
           }  
         },
         value: mtd,
-        subvalues: [mtd]
+        subvalues: [mtd],
+        valueIndicator: {
+            color: 'black',
+            width: 6,
+            spindleSize: 20,
+            spindleGapSize: 15
+        },
       });
 
       $(".ytd-gauge-init-"+id).dxCircularGauge({
@@ -353,6 +400,10 @@
           label: {
           }
         },
+        title: {
+          text: ytd+' % (FL)',
+          position: 'bottom-center'
+        },
         tooltip: {
           enabled: true,
           customizeText: function (arg) {
@@ -360,7 +411,7 @@
           }
         },
         subvalueIndicator: {
-          type: 'textCloud',
+          type: 'triangleMarker',
           text: {
             customizeText: function (arg) {
               return arg.valueText + '% FL';
@@ -368,7 +419,13 @@
           }  
         },
         value: ytd,
-        subvalues: [ytd]
+        subvalues: [ytd],
+        valueIndicator: {
+            color: 'black',
+            width: 6,
+            spindleSize: 20,
+            spindleGapSize: 15
+        },
       });
     });
 
@@ -428,10 +485,11 @@
           success: function(data) {
               $('#modalDiv').empty();
 
-              var template = '<table border="1px solid black"><tr><td>initiatives</td><td>Start</td><td>End</td>';
+              var template = '<table class="table"><tr><td>No.</td><td>Initiatives</td><td>Start</td><td>End</td>';
 
               $.each(data.data, function( index, value ) {
                 template += '<tr>';
+                template += '<td>'+ (index + 1) + '</td>';
                 template += '<td>'+ value['title'] + '</td>';
                 template += '<td>'+ value['start'] + '</td>';
                 template += '<td>'+ value['end'] + '</td>';
@@ -442,7 +500,8 @@
 
               $("#modalDiv").html(template);
 
-              $("#modalDiv").dialog('open');
+              // $("#modalDiv").dialog('open');
+              $( "#modalTrigger" ).click();
               // console.log(data);
               // alert(data.status);
           },

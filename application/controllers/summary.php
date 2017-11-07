@@ -14,6 +14,7 @@ class Summary extends CI_Controller {
         $this->load->model('mfiles_upload');
         $this->load->model('mkuantitatif');
         $this->load->model('msummary');
+        $this->load->model('magenda');
         $this->load->model('mt_action');
         $this->load->model('minfo');
         $this->load->library('excel');
@@ -344,18 +345,6 @@ class Summary extends CI_Controller {
         $data['content'] = $this->load->view('summary/milestone',$views,TRUE);
 
         $this->load->view('front',$data);
-    }
-
-    public function searchSummary()
-    {
-        $user = $this->input->post('user');
-        $bulan = $this->input->post('bulan');
-
-        $return['message'] = 'success';
-        $return['data'] = $bulan;
-
-        header('Content-Type: application/json');
-        echo json_encode($return);
     }
 
     public function getStatus(
@@ -799,8 +788,17 @@ class Summary extends CI_Controller {
         // views start
         $views = array();
         $views['user'] = $user;
+        $data['last_agenda'] = $this->magenda->get_last_agenda(5);
+        $data['bulan_search'] = null;
+        $bulan_search = false;
         // views end
 
+        //search starts
+        if (isset($_POST['bulan'])){
+            $data['bulan_search'] = $_POST['bulan'];
+            $bulan_search = $_POST['bulan'];
+        }
+        //search ends
 
         //process start
         $data['top_bod'] = $this->getTopBod();
@@ -808,13 +806,14 @@ class Summary extends CI_Controller {
         $is_admin = false;
         if ($user['role'] == 2){
             $is_admin = true;
-            $data['initiatives_detail'] = $this->getInitiativesDetail();
+            $data['initiatives_detail'] = $this->getInitiativesDetail(false, $bulan_search);
         }else{
-            $data['initiatives_detail'] = $this->getInitiativesDetail($user['id']);
+            $data['initiatives_detail'] = $this->getInitiativesDetail($user['id'], $bulan_search);
         }
 
         $data['controller'] = $this;
         $data['is_admin'] = $is_admin;
+        $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -869,7 +868,7 @@ class Summary extends CI_Controller {
         return $return;
     }
 
-    public function getInitiativesDetail($user = false)
+    public function getInitiativesDetail($user = false, $month = false)
     {
         $data_summary_kuantitatif = $this->getDataTableKuantitatif($user, true);
 
@@ -885,16 +884,16 @@ class Summary extends CI_Controller {
                 $data_initiative_detail_raw = array();
                 if (!empty($value->init_code)){
                     // kuantitatif details
-                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1);
-                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2);
+                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1, $month);
+                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2, $month);
 
                     // milestone details
-                    $issues = $this->getStatus($value->id, 3, false, false);
-                    $completed = $this->getStatus($value->id, 1, false, false);
-                    $on_track = $this->getStatus($value->id, 2, false, false);
-                    $future_start = $this->getStatus($value->id, 0, false, false);
-                    $overdue = $this->getStatus($value->id, 3, false, 2);
-                    $delay = $this->getStatus($value->id, 3, false, 1);
+                    $issues = $this->getStatus($value->id, 3, false, false, $month);
+                    $completed = $this->getStatus($value->id, 1, false, false, $month);
+                    $on_track = $this->getStatus($value->id, 2, false, false, $month);
+                    $future_start = $this->getStatus($value->id, 0, false, false, $month);
+                    $overdue = $this->getStatus($value->id, 3, false, 2, $month);
+                    $delay = $this->getStatus($value->id, 3, false, 1, $month);
                     $flagged = $issues - ($overdue + $delay);
                     $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                     $milestone_ytd = $this->getYtdMilestone($value->id);
@@ -925,16 +924,16 @@ class Summary extends CI_Controller {
             foreach ($data_summary_kuantitatif['type_2'] as $key => $value) {
                 $data_initiative_detail_raw = array();
                 if (!empty($value->init_code)){
-                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1);
-                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, false);
+                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1, $month);
+                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, $month);
 
                     // milestone details
-                    $issues = $this->getStatus($value->id, 3, false, false);
-                    $completed = $this->getStatus($value->id, 1, false, false);
-                    $on_track = $this->getStatus($value->id, 2, false, false);
-                    $future_start = $this->getStatus($value->id, 0, false, false);
-                    $overdue = $this->getStatus($value->id, 3, false, 2);
-                    $delay = $this->getStatus($value->id, 3, false, 1);
+                    $issues = $this->getStatus($value->id, 3, false, false, $month);
+                    $completed = $this->getStatus($value->id, 1, false, false, $month);
+                    $on_track = $this->getStatus($value->id, 2, false, false, $month);
+                    $future_start = $this->getStatus($value->id, 0, false, false, $month);
+                    $overdue = $this->getStatus($value->id, 3, false, 2, $month);
+                    $delay = $this->getStatus($value->id, 3, false, 1, $month);
                     $flagged = $issues - ($overdue + $delay);
                     $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                     $milestone_ytd = $this->getYtdMilestone($value->id);
@@ -969,12 +968,12 @@ class Summary extends CI_Controller {
                     $final_yearly_score = $this->countKuantitatif($value->id, 1);
 
                     // milestone details
-                    $issues = $this->getStatus($value->id, 3, false, false);
-                    $completed = $this->getStatus($value->id, 1, false, false);
-                    $on_track = $this->getStatus($value->id, 2, false, false);
-                    $future_start = $this->getStatus($value->id, 0, false, false);
-                    $overdue = $this->getStatus($value->id, 3, false, 2);
-                    $delay = $this->getStatus($value->id, 3, false, 1);
+                    $issues = $this->getStatus($value->id, 3, false, false, $month);
+                    $completed = $this->getStatus($value->id, 1, false, false, $month);
+                    $on_track = $this->getStatus($value->id, 2, false, false, $month);
+                    $future_start = $this->getStatus($value->id, 0, false, false, $month);
+                    $overdue = $this->getStatus($value->id, 3, false, 2, $month);
+                    $delay = $this->getStatus($value->id, 3, false, 1, $month);
                     $flagged = $issues - ($overdue + $delay);
                     $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                     $milestone_ytd = $this->getYtdMilestone($value->id);

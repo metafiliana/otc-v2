@@ -53,14 +53,13 @@
   <div class="component_part_summary" style="margin-top:10px;">
     <div class="row">
         <!-- search area -->
-        <div class="col-md-2" style="margin-right:-50px;">
+        <div class="col-md-4" style="margin-right:-50px;">
           <a href="<?php echo base_url()?>summary/listKuantitatif/"><button class="btn btn-info-new btn-sm btn-default">Kuantitatif</button></a>
           <button class="btn btn-sm btn-info-new" disabled="disabled">Milestone</button>
+          <a href="<?php echo base_url()?>summary/home/"><button class="btn btn-default btn-sm btn-info-new">Home</button></a>
+          <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
         </div>
-        <div class="col-md-7">
-          <div class="col-sm-2">
-              <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
-          </div>
+        <div class="col-md-5">
           <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
           <div class="col-sm-10 form-group row">
               <div>
@@ -136,7 +135,7 @@
                                 echo "<tr>";
                                     echo "<td>".$i."</td>";
                                     echo "<td>".$value->init_code."</td>";
-                                    echo "<td>".$value->title."</td>";
+                                    echo "<td class='text-left'>".$value->title."</td>";
                                     echo "<td>".$completed."</td>"; // completed
                                     echo "<td>".$controller->getStatus($value->id, 0, false, false, $bulan_search)."</td>"; // future start
                                     echo "<td>".$controller->getStatus($value->id, 2, false, false, $bulan_search)."</td>"; // on track
@@ -165,7 +164,7 @@
                                 echo "<tr>";
                                     echo "<td>".$i."</td>";
                                     echo "<td>".$value->init_code."</td>";
-                                    echo "<td>".$value->name."</td>";
+                                    echo "<td class='text-left'>".$value->name."</td>";
                                     echo "<td>".$completed."</td>"; // completed
                                     echo "<td>".$controller->getStatus($value->initiative, 0, false, false, $bulan_search, $value->id)."</td>"; // future start
                                     echo "<td>".$controller->getStatus($value->initiative, 2, false, false, $bulan_search, $value->id)."</td>"; // on track

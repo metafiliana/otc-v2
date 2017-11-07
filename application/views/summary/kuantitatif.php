@@ -56,14 +56,13 @@
       <div class="component_part_summary" style="margin-top:10px;">
         <!-- search area -->
         <div class="row">
-            <div class="col-md-2" style="margin-right:-50px;">
+            <div class="col-md-4" style="margin-right:-50px;">
                 <button class="btn btn-info-new btn-sm" disabled="disabled">Kuantitatif</button>
                 <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-default btn-sm btn-info-new">Milestone</button></a>
+                <a href="<?php echo base_url()?>summary/home/"><button class="btn btn-default btn-sm btn-info-new">Home</button></a>
+                <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
             </div>
-            <div class="col-md-7">
-              <div class="col-sm-2">
-                  <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
-              </div>
+            <div class="col-md-5">
               <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
               <div class="col-sm-10 form-group row">
                   <div>
@@ -104,11 +103,12 @@
       <div class="component_part_summary text-center">
           <div class="row">
           <!-- data area -->
-          <?php if (!empty($init_table)){ ?>
+          <?php if (!empty($init_table)){ $nomor = 0; ?>
           <div class="col-md-12 table-content">
-              <table id="example" class="display nowrap">
+              <table class="display nowrap tableDatatables">
                   <thead>
                       <tr>
+                          <th>No.</th>
                           <th><?php echo getUserRole($table_title); ?></th>
                           <th>Milestone Bulan</th>
                           <th>Leading (YTD)</th>
@@ -121,16 +121,17 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                          <td colspan="11" class=""><strong>Final score menggunakan indikator lagging</strong></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
-                          <td style="display: none;"></td>
+                      <tr class="sorting_disabled">
+                          <th style="display: none;"><?php echo $nomor; $nomor++; ?></th>
+                          <th colspan="12" class=""><strong>Final score menggunakan indikator lagging</strong></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
+                          <th style="display: none;"></th>
                       </tr>
                       <?php
                             $i = 1;
@@ -153,7 +154,8 @@
                                 $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
 
                                 echo "<tr>";
-                                    echo "<td>".$value->init_code." ".$value->title."</td>";
+                                    echo "<td>".$nomor."</td>";
+                                    echo "<td class='text-left'>".$value->init_code." ".$value->title."</td>";
                                     echo "<td>".$milestone_monthly." %</td>"; // mtd milestone
                                     echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)." %</td>";
                                     echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)." %</td>";
@@ -165,11 +167,31 @@
                                 echo "</tr>";
 
                                 $i++;
+                                $nomor++;
                             }
                       ?>
+                  </tbody>
+              </table>
 
+              <table class="display nowrap tableDatatables">
+                  <thead>
                       <tr>
-                          <td colspan="11" class=""><strong>Final score menggunakan indikator leading</strong></td>
+                          <th>No.</th>
+                          <th><?php echo getUserRole($table_title); ?></th>
+                          <th>Milestone Bulan</th>
+                          <th>Leading (YTD)</th>
+                          <th>Lagging (YTD)</th>
+                          <th>Final Monthly</th>
+                          <th>Milestone</th>
+                          <th>Leading (FL)</th>
+                          <th>Lagging (FL)</th>
+                          <th>Final Year End</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr class="sorting_disabled">
+                          <th style="display: none;"><?php echo $nomor; $nomor++; ?></th>
+                          <td colspan="12" class=""><strong>Final score menggunakan indikator leading</strong></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
@@ -194,7 +216,8 @@
                               $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
 
                               echo "<tr>";
-                                  echo "<td>".$value->init_code." ".$value->title."</td>";
+                                  echo "<td>".$nomor."</td>";
+                                  echo "<td class='text-left'>".$value->init_code." ".$value->title."</td>";
                                   echo "<td>".$controller->countKuantitatif($value->id, 1)." %</td>"; // mtd milestone
                                   echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)." %</td>";
                                   echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)." %</td>";
@@ -206,11 +229,31 @@
                               echo "</tr>";
 
                               $i++;
+                              $nomor++;
                           }
                       ?>
+                  </tbody>
+              </table>
 
+              <table class="display nowrap tableDatatables">
+                  <thead>
                       <tr>
-                          <td colspan="11" class=""><strong>Final score menggunakan indikator milestones</strong></td>
+                          <th>No.</th>
+                          <th><?php echo getUserRole($table_title); ?></th>
+                          <th>Milestone Bulan</th>
+                          <th>Leading (YTD)</th>
+                          <th>Lagging (YTD)</th>
+                          <th>Final Monthly</th>
+                          <th>Milestone</th>
+                          <th>Leading (FL)</th>
+                          <th>Lagging (FL)</th>
+                          <th>Final Year End</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr class="sorting_disabled">
+                          <th style="display: none;"><?php echo $nomor; $nomor++; ?></th>
+                          <td colspan="12"><strong>Final score menggunakan indikator milestones</strong></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
                           <td style="display: none;"></td>
@@ -234,7 +277,8 @@
                               $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
 
                               echo "<tr>";
-                                  echo "<td>".$value->init_code." ".$value->title."</td>";
+                                  echo "<td>".$nomor."</td>";
+                                  echo "<td class='text-left'>".$value->init_code." ".$value->title."</td>";
                                   echo "<td>".$controller->countKuantitatif($value->id, 1)." %</td>"; // mtd milestone
                                   echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)."</td>";
                                   echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)."</td>";
@@ -246,14 +290,16 @@
                               echo "</tr>";
 
                               $j++;
+                              $nomor++;
                           }
 
                           $total_milestone_monthly = number_format($total_milestone_monthly / $i);
                           $total_monthly = number_format($total_monthly / $i);
                           $total_milestone_yearly = number_format($total_milestone_yearly / ($i + $j));
                           $total_yearly = number_format($total_yearly / ($i + $j));
-                          echo '<tr>';
-                              echo '<td class=""><strong>Overall ' . date('F Y') . ' (Actual vs Target)</strong></td>';
+                          echo '<tfoot>';
+                              echo "<td></td>";
+                              echo '<td><strong>Overall ' . date('F Y') . ' (Actual vs Target)</strong></td>';
                               echo '<td>' . $total_milestone_monthly . ' %</td>';
                               echo '<td></td>';
                               echo '<td></td>';
@@ -262,7 +308,7 @@
                               echo '<td></td>';
                               echo '<td></td>';
                               echo '<td><div class=circle style="background:'.warna($total_yearly).'"></div>' . $total_yearly . ' %</td>';
-                          echo '</tr>';
+                          echo '</tfoot>';
                       ?>
                   </tbody>
               </table>
@@ -277,9 +323,9 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#example').DataTable( {
+        $('.tableDatatables').DataTable( {
             paging: false,
-            ordering: false,
+            ordering: true,
             searching: false,
             scrollX: true,
             dom: 'Bfrtip',
@@ -302,44 +348,6 @@
                   }
                 }
               }
-            // buttons: {
-            //     buttons: [{
-            //       extend: 'pdf',
-            //       text: '<i class="fa fa-file-pdf-o"></i> Print',
-            //       title: 'export-kuantitatif',
-            //       orientation: 'landscape',
-            //       exportOptions: {
-            //         columns: ':not(.no-print)'
-            //       },
-            //       footer: true
-            //     }],
-            //     dom: {
-            //       container: {
-            //         className: 'dt-buttons'
-            //       },
-            //       button: {
-            //         className: 'btn btn-default'
-            //       }
-            //     }
-            //   }
-            // "ajax": '../ajax/data/arrays.txt'
         } );
-
-        // $('#formSearch').submit(function(e){
-        //     e.preventDefault();
-        //     var url = $(this).attr("action"); // the script where you handle the form input.
-
-        //     $.ajax({
-        //            type: "POST",
-        //            url: url,
-        //            data: $("#formSearch").serialize(), // serializes the form's elements.
-        //            success: function(data)
-        //            {
-        //                 if (data.message == 'success') {
-        //                     alert(data.data); // show response from the php script.
-        //                 }
-        //            }
-        //         });
-        // });
     } );
 </script>
