@@ -161,19 +161,46 @@ class General extends CI_Controller {
     }
 
     public function files(){
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
+      
     	$data['title'] = 'Files Control Tower';
 
     	$user = $this->session->userdata('user');
 
         $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        // if($user['role']!='admin'){
+        //     $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+        //     $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+        // }
+        // else{
+        //     $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+        //     $data['notif']= $this->mremark->get_notification_by_admin('');
+        // }
+
+        //notification
+        if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
         }
+      
         $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment('init_code','asc','m_initiative');
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
@@ -292,9 +319,9 @@ class General extends CI_Controller {
         if($user['role']==2){
           $data['title'] = "Form Input File";
           $data['user']=$user;
-          if($user['role']!='admin'){
-              $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-              $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+          if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
           }
           else{
               $data['notif_count']= count($this->mremark->get_notification_by_admin(''));

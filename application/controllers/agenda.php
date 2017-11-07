@@ -21,9 +21,25 @@ class Agenda extends CI_Controller {
      * Method for page (public)
      */
     public function index(){
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+          'username' => $user,
+          'foto' => $foto,
+          'initid' => $initid,
+          'last_login' => $lastlogin,
+          'private_email' => $privateemail,
+          'work_email' => $workemail
+      );
+
   		$data['title'] = "Agenda";
 
-  		$user = $this->session->userdata('user');
+  		$user = $users;
   		$pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
 
   		if($this->uri->segment(3) && $this->uri->segment(4)){$month = $this->uri->segment(3); $year = $this->uri->segment(4);}
@@ -35,7 +51,8 @@ class Agenda extends CI_Controller {
       $last_agenda = $this->magenda->get_last_agenda(5);
 
       $data['user']=$user;
-      if($user['role']!='admin'){
+      //notification
+      if($user['role']!='2'){
           $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
           $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
       }

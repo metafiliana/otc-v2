@@ -408,8 +408,9 @@ class Program extends CI_Controller {
     public function oi($oit){
      $this->result = $oit;
     }
+    
     public function initiative_card(){
-       $users = $this->session->userdata('user');
+      $users = $this->session->userdata('user');
       $user = $users['username'];
       $initid = $users['initiative'];
       $foto = $this->muser->get_data_user($user)->foto;
@@ -462,6 +463,15 @@ class Program extends CI_Controller {
 
       $prog['controller'] = $this;
 
+      //notification
+      if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+      }
+      else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+      }
 
       $prog['list_initiative'] = $this->load->view('initiative_card/component/_list_of_initiative_new',$prog,TRUE);
 
@@ -471,6 +481,7 @@ class Program extends CI_Controller {
       $data['content'] = $this->load->view('initiative_card/list_initiative',$prog,TRUE);
       $this->load->view('front',$data);
     }
+
     public function get_bulan(){
       $month = date('F');
       $month = date('m',strtotime($month));
@@ -503,6 +514,47 @@ class Program extends CI_Controller {
 
       return $return;
     }
+    /*public function get_tot_pertipe($id, $type){
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+        'username' => $user,
+        'foto' => $foto,
+        'initid' => $initid,
+        'last_login' => $lastlogin,
+        'private_email' => $privateemail,
+        'work_email' => $workemail
+      );
+
+      $data['title'] = "List All Initiative";
+
+      $user = $users;
+      $prog['user'] = $user;
+      $data['user'] = $user;
+      $init_code= explode(";",$user['initiative']);
+      $month = date('F');
+      $month = date('m',strtotime($month));
+       $month = date('F',strtotime('1-'.$month.'-2017'));
+      $last = true;
+      $bln = $this->mprogram->get_latest_month($month,$init_code);
+      While ($this->mprogram->get_latest_month($month,$init_code)->bulan == 0){
+        $init_code= explode(";",$user['initiative']);
+          $month = date('m',strtotime($month)) - 1;
+          $month = date('F',strtotime('1-'.$month.'-2017'));
+        // $bln = $this->mprogram->get_latest_month($month);
+         
+      }
+      var_dump($init_code);
+      $prog['month_view']  = $month;
+      $return = $this->mkuantitatif->get_total_per_type($id,$prog['month_view'], $type);
+
+      return $return;
+    }*/
     public function get_count_leading($id, $type){
       $return = $this->mkuantitatif->get_leading_leading_count($id, $type);
 
