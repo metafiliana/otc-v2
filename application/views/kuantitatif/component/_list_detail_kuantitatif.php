@@ -55,11 +55,11 @@ $user = $this->session->userdata('user');
 		<?php if($check==0){ ?>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
 				<div class=circle style='background:<?= warna(($tot_leading['month']*100)/$count_leading)?>'></div>
-				<?= number_format(($tot_leading['month']*100)/$count_leading,2,",","."); ?> %
+				<?= number_format(maxscore(($tot_leading['month']*100)/$count_leading,'Leading'),2,",","."); ?> %
 			</td>
 			<td rowspan="<?= $count_leading ?>" style="vertical-align: middle;">
 				<div class=circle style='background:<?= warna(($tot_leading['year']*100)/$count_leading)?>'></div>
-				<?= number_format(($tot_leading['year']*100)/$count_leading,2,",","."); ?> %
+				<?= number_format(maxscore(($tot_leading['year']*100)/$count_leading,'Leading'),2,",","."); ?> %
 			</td>
 		<?php } ?>
 		<?php if($user['role']=='2'){?>
@@ -98,11 +98,11 @@ $user = $this->session->userdata('user');
 			<?php if($check==0){ ?>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
 					<div class=circle style='background:<?= warna(($tot_lagging['month']*100)/$count_lagging)?>'></div>
-					<?= number_format(($tot_lagging['month']*100)/$count_lagging,2,",","."); ?> %
+					<?= number_format(maxscore(($tot_lagging['month']*100)/$count_lagging,'Lagging'),2,",","."); ?> %
 				</td>
 				<td rowspan="<?= $count_lagging ?>" style="vertical-align: middle;">
 					<div class=circle style='background:<?= warna(($tot_lagging['year']*100)/$count_lagging)?>'></div>
-					<?= number_format(($tot_lagging['year']*100)/$count_lagging,2,",","."); ?> %
+					<?= number_format(maxscore(($tot_lagging['year']*100)/$count_lagging,'Lagging'),2,",","."); ?> %
 				</td>
 			<?php } ?>
 			<?php if($user['role']=='2'){?>

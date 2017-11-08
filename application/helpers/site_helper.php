@@ -187,6 +187,7 @@
 
         return $html;
     }
+
     function warna($score = 0)
     {
         $score = (int)$score;
@@ -203,13 +204,36 @@
         return $warna;
     }
 
+    function maxscore($score = 0, $type)
+    {
+        $score = (int)$score;
+        if($type=='Leading'){
+          if ($score > 100){
+              $score = 100;
+          }
+          else {
+            $score = $score;
+          }
+        }
+        else{
+          if ($score > 130){
+              $score = 130;
+          }
+          else {
+            $score = $score;
+          }
+        }
+
+        return $score;
+    }
+
     function getListUser($initiative = false)
     {
         $list = array(
-            0 => '- All -', 
-            1 => 'CO-PMO', 
+            0 => '- All -',
+            1 => 'CO-PMO',
             3 => 'PMO',
-            4 => 'Direktur Sponsor', 
+            4 => 'Direktur Sponsor',
         );
 
         if ($initiative){
@@ -224,9 +248,9 @@
         $return = 'Initiative';
 
         $list = array(
-            1 => 'CO-PMO', 
+            1 => 'CO-PMO',
             3 => 'PMO',
-            4 => 'Direktur Sponsor', 
+            4 => 'Direktur Sponsor',
         );
 
         foreach ($list as $key => $value) {

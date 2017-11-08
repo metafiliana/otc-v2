@@ -11,7 +11,7 @@
   <div class="row" style="margin-top:5px;">
     <div class="col-md-10">
       <button class="btn btn-info-new btn-sm" disabled="disabled">Update Activity</button>
-      <a href="<?php echo base_url()?>kuantitatif/list_kuantitatif/"><button class="btn btn-default btn-sm btn-info-new">Update Kpi</button></a>
+      <a href="<?php echo base_url()?>kuantitatif/list_kuantitatif/"><button class="btn btn-default btn-sm btn-info-new">Update KPI</button></a>
     </div>
     <div class="col-md-2 right_text">
       <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>

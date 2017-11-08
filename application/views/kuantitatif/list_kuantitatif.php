@@ -32,7 +32,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
         <a href="<?php echo base_url()?>program/list_programs/">
           <button class="btn btn-default btn-sm btn-info-new">Update Activity</button>
         </a>
-          <button class="btn btn-info-new btn-sm" disabled="disabled">Update Kpi</button>
+          <button class="btn btn-info-new btn-sm" disabled="disabled">Update KPI</button>
 					<label class="control-label col-sm" style="margin:0 10px 0 10px;">Month</label>
 					<select class="input-sm form-control-this" name="month" id="month">
 					<?php foreach ($arr_month as $arr) { ?>

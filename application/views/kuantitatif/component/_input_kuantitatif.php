@@ -35,13 +35,13 @@
             <div class="form-group" style="margin-bottom:30px;">
                 <label class="col-sm-2 control-label">Target</label>
                 <div class="col-sm-9">
-                <input type="number" class="form-control" id="target" name="target" placeholder="Target" value="<?php if (isset($kuantitatif->target)){ echo number_format($kuantitatif->target,0,",",""); }?>">
+                <input type="text" class="form-control numberOnly" id="target" name="target" placeholder="Target" value="<?php if (isset($kuantitatif->target)){ echo number_format($kuantitatif->target,2,".",""); }?>">
                 </div>
             </div>
             <div class="form-group" style="margin-bottom:30px;">
                 <label class="col-sm-2 control-label">Baseline</label>
                 <div class="col-sm-9">
-                <input type="number" class="form-control" id="baseline" name="baseline" placeholder="Baseline" value="<?php if (isset($kuantitatif->baseline)){ echo number_format($kuantitatif->baseline,0,",",""); }?>">
+                <input type="text" class="form-control numberOnly" id="baseline" name="baseline" placeholder="Baseline" value="<?php if (isset($kuantitatif->baseline)){ echo number_format($kuantitatif->baseline,2,".",""); }?>">
                 </div>
             </div>
                 <table class="table">
@@ -60,7 +60,7 @@
                         <?php foreach ($arr_month as $val2) { ?>
                           <td style="vertical-align: middle; width: 8%;">
                               <label><?= $val2 ?></label>
-                              <input type="number" class="form-control" name="target_<?= $val2 ?>" value="<?php if(isset($kuantitatif->$val2)){echo number_format($kuantitatif->$val2,0,",","");} ?>"/>
+                              <input type="text" class="form-control numberOnly" name="target_<?= $val2 ?>" value="<?php if(isset($kuantitatif->$val2)){echo number_format($kuantitatif->$val2,2,".","");} ?>"/>
                           </td>
                         <?php } ?>
                         </tr>
@@ -80,3 +80,23 @@
 
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(".numberOnly").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+});
+</script>
