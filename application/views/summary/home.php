@@ -237,6 +237,15 @@
 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
 <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/globalize.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.1.4.min.js"></script>
+<!-- <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script> -->
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/dx.chartjs.js"></script>
+<link rel="stylesheet" href="<?php echo base_url();?>assets/css/jquery-ui.css">
+<script src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+
 <script>
     $( document ).ready( function() {
       $(".initiative-detail").hide();
