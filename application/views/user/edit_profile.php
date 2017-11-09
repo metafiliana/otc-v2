@@ -63,21 +63,27 @@
             <label class="col-lg-1 control-label">Private Email</label>
             <div class="col-lg-1"></div>
             <div class="col-lg-9">
-              <input name="private_email" class="form-control" type="text" value="<?php echo $private_email;?>" disabled>
+              <h4 style="margin-top: 14px;"><?php echo $private_email?></h4>
+              <hr>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-1 control-label">Work Email</label>
             <div class="col-lg-1"></div>
             <div class="col-lg-9">
-              <input name="work_email" class="form-control" type="text" value="<?php echo $work_email;?>" disabled>
+              <h4 style="margin-top: 14px;"><?php echo $work_email?></h4>
+              <hr>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-1 control-label">Initiative</label>
             <div class="col-lg-1"></div>
             <div class="col-lg-9">
-              <input name="work_email" class="form-control" type="text" value="<?php echo $initid;?>" disabled>
+              <?php     foreach($titlecode as $tc) { ?>
+              <h4><?php echo $tc->init_code ?>   <?php echo $tc->title ?></h4>
+              <hr><br>
+<?php  } ?>
+              
             </div>
           </div>
         </form>

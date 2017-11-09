@@ -56,10 +56,12 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                               <label><?= $val2 ?></label>
                               <input type="text" class="form-control" value="<?php if(isset($all_kuantitatif['kuantitatif']->$val2)){
                                 if($all_kuantitatif['kuantitatif']->measurment=="Index" || $all_kuantitatif['kuantitatif']->measurment=="%" || $all_kuantitatif['kuantitatif']->measurment=="product/customer" ){
-                                  echo number_format($all_kuantitatif['kuantitatif']->$val2,2,".","");
+                                  // echo number_format($all_kuantitatif['kuantitatif']->$val2,2,".","");
+                                  echo round((float)$all_kuantitatif['kuantitatif']->$val2 ,2);
                                 }
                                 else{
-                                  echo number_format($all_kuantitatif['kuantitatif']->$val2,0,",","");
+                                  // echo number_format($all_kuantitatif['kuantitatif']->$val2,0,",","");
+                                  echo round((float)$all_kuantitatif['kuantitatif']->$val2 ,2);
                                 }
 
                               } ?>" readonly />
@@ -76,10 +78,12 @@ $arr_month=['January','February','March','April','May','June','July','August','S
                             <input type="text" class="form-control numberOnly" id="<?= $arr_month[$i]; ?>" name="<?= $arr_month[$i]; ?>" value="<?php if(isset($all_kuantitatif['update']->$arr_month[$i]))
                             {
                               if($all_kuantitatif['kuantitatif']->measurment=="Index" || $all_kuantitatif['kuantitatif']->measurment=="%" || $all_kuantitatif['kuantitatif']->measurment=="product/customer" ){
-                                echo number_format($all_kuantitatif['update']->$arr_month[$i],2,'.','');
+                                // echo number_format($all_kuantitatif['update']->$arr_month[$i],2,'.','');
+                                echo round((float)$all_kuantitatif['update']->$arr_month[$i] ,2);
                               }
                               else{
-                                echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');
+                                // echo number_format($all_kuantitatif['update']->$arr_month[$i],0,',','');
+                                echo round((float)$all_kuantitatif['update']->$arr_month[$i] ,2);
                               }
                             } ?>" />
                           </td>

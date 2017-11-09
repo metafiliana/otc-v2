@@ -57,10 +57,16 @@
           <a href="<?php echo base_url()?>summary/listKuantitatif/"><button class="btn btn-info-new btn-sm btn-default">Kuantitatif</button></a>
           <button class="btn btn-sm btn-info-new" disabled="disabled">Milestone</button>
           <!-- <a href="<?php //echo base_url()?>summary/home/"><button class="btn btn-default btn-sm btn-info-new">Home</button></a> -->
+          <?php 
+          if ($is_admin){
+          ?>
           <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
+          <?php 
+              }
+          ?>
         </div>
         <div class="col-md-6">
-          <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
+          <?php echo form_open('summary/listMilestone', 'id="formSearch"'); ?>
           <div class="col-sm-10 form-group row">
               <div>
                 <label class="control-label col-sm-1">User</label>
@@ -91,7 +97,7 @@
               <h3 style="color:#91aef9;">Summary Milestone</h3>
           </div>
           <div>
-            <h5 class="text-right">Updated: <?php echo $summary_info->date; ?>, <?php echo $summary_info->modified; ?> times modified.</h5>
+            <h5 class="text-right">Last Updated: <?php echo $summary_info->date; ?></h5>
           </div>
             <!-- <button type="button" class="btn btn-danger">Print</button> -->
         </div><div style="clear:both;"></div>
@@ -104,7 +110,7 @@
             <table id="example" class="display nowrap">
                 <thead>
                     <tr>
-                        <th>No.</th>
+                        <th style="display: none;">No.</th>
                         <th>Initiative Code</th>
                         <th><?php echo getUserRole($table_title); ?></th>
                         <th>Complete</th>
@@ -133,7 +139,7 @@
                                 $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                                 $ytd = $controller->getYtdMilestone($value->id);
                                 echo "<tr>";
-                                    echo "<td>".$i."</td>";
+                                    echo "<td style='display: none;'>".$i."</td>";
                                     echo "<td>".$value->init_code."</td>";
                                     echo "<td class='text-left'>".$value->title."</td>";
                                     echo "<td>".$completed."</td>"; // completed
@@ -162,7 +168,7 @@
                                 $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                                 $ytd = $controller->getYtdMilestone($value->initiative, $value->id);
                                 echo "<tr>";
-                                    echo "<td>".$i."</td>";
+                                    echo "<td style='display: none;'>".$i."</td>";
                                     echo "<td>".$value->init_code."</td>";
                                     echo "<td class='text-left'>".$value->name."</td>";
                                     echo "<td>".$completed."</td>"; // completed

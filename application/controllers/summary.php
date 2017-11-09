@@ -301,6 +301,12 @@ class Summary extends CI_Controller {
         $views = array();
         // views end
 
+        $is_admin = false;
+        if ($user['role'] == 2){
+            $is_admin = true;
+        }
+        $data['is_admin'] = $is_admin;
+
         //process start
         $data['init_table'] = $this->mt_action->getAllInitiative();
         $data['controller'] = $this;
@@ -422,7 +428,11 @@ class Summary extends CI_Controller {
         $views = array();
         // views end
 
-        // print_r($this->getDataTableKuantitatif(3));die;
+        $is_admin = false;
+        if ($user['role'] == 2){
+            $is_admin = true;
+        }
+        $data['is_admin'] = $is_admin;
 
         //process start
         $data['init_table'] = $this->getDataTableKuantitatif();
@@ -944,6 +954,7 @@ class Summary extends CI_Controller {
                         // kuantitatif
                     $data_initiative_detail_raw['id'] = $i;
                     $data_initiative_detail_raw['init_code'] = $value->init_code;
+                    $data_initiative_detail_raw['title'] = $value->title;
                     $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
                     $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
                         // milestone
@@ -984,6 +995,7 @@ class Summary extends CI_Controller {
                         // kuantitatif
                     $data_initiative_detail_raw['id'] = $i;
                     $data_initiative_detail_raw['init_code'] = $value->init_code;
+                    $data_initiative_detail_raw['title'] = $value->title;
                     $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
                     $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
                         // milestone
@@ -1024,6 +1036,7 @@ class Summary extends CI_Controller {
                         // kuantitatif
                     $data_initiative_detail_raw['id'] = $i;
                     $data_initiative_detail_raw['init_code'] = $value->init_code;
+                    $data_initiative_detail_raw['title'] = $value->title;
                     $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
                     $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
                         // milestone
