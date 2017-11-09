@@ -189,11 +189,15 @@ class Program extends CI_Controller {
 
     //otc v2
     public function input_action(){
-        $data['kuan_id'] = $this->input->get('kuan_id');
+        $data['init_id'] = $this->input->get('init_id');
+        $data['action_id'] = $this->input->get('action_id');
 
-        if($data['kuan_id']){
-          $data['title'] = "Update Realisasi";
+        if($data['action_id']){
+          $data['title'] = "Update Action";
           $data['action'] = $this->mprogram->get_action_by_init_code('',$data['action_id'])[0];
+        }
+        else{
+          $data['title'] = "Add Action";
         }
 
         $json['html'] = $this->load->view('program/component/_form_action',$data,TRUE);
@@ -408,7 +412,7 @@ class Program extends CI_Controller {
     public function oi($oit){
      $this->result = $oit;
     }
-    
+
     public function initiative_card(){
       $users = $this->session->userdata('user');
       $user = $users['username'];
@@ -492,7 +496,7 @@ class Program extends CI_Controller {
           $month = date('m',strtotime($month)) - 1;
           $month = date('F',strtotime('1-'.$month.'-2017'));
         // $bln = $this->mprogram->get_latest_month($month);
-         
+
       }
      return $month;
     }
@@ -506,7 +510,7 @@ class Program extends CI_Controller {
           $month = date('m',strtotime($month)) - 1;
           $month = date('F',strtotime('1-'.$month.'-2017'));
         // $bln = $this->mprogram->get_latest_month($month);
-         
+
       }
       $prog['month_view']  = $month;
       /*$prog['month_view']="November";*/
@@ -547,7 +551,7 @@ class Program extends CI_Controller {
           $month = date('m',strtotime($month)) - 1;
           $month = date('F',strtotime('1-'.$month.'-2017'));
         // $bln = $this->mprogram->get_latest_month($month);
-         
+
       }
       var_dump($init_code);
       $prog['month_view']  = $month;
@@ -568,7 +572,7 @@ class Program extends CI_Controller {
      public function get_CoPMO_name($init_code, $role){
 
       $return = $this->mprogram->get_CoPMO($init_code, $role);
-      
+
 
       return $return;
     }
@@ -638,7 +642,7 @@ class Program extends CI_Controller {
       $this->output->set_content_type('application/json')
                      ->set_output(json_encode($view_list));
     }
-    
-    
+
+
     //end amir
 }

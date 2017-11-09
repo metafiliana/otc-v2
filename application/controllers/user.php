@@ -237,6 +237,23 @@ class User extends CI_Controller {
                      ->set_output(json_encode($json));
     }
 
+    public function reset_photo(){
+        $id = $this->input->post('id');
+        $upload_path = "assets/img/upload/";
+        $getfoto = $this->muser->get_user_by_id($id)->foto;
+        $path = $upload_path.$getfoto;
+        if (file_exists($path)) {
+            unlink($path);
+            $this->muser->delete_photo_by_id($id);
+            $json['status'] = 1;
+        }else{
+            $json['status'] = 0;
+        }
+
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($json));
+    }
+
 	public function form_password()
     {
         $users = $this->session->userdata('user');

@@ -394,6 +394,14 @@ class Muser extends CI_Model {
         return $this->db->update('user',$data);
     }
 
+    public function delete_photo_by_id($id){
+        $data = array(
+            'foto' => null
+        );
+        $this->db->where('id',$id);
+        return $this->db->update('user',$data);
+    }
+
     // OTHER FUNCTION
     function config_email(){
     	$config['protocol'] = 'smtp';

@@ -7,7 +7,7 @@
 			<div class="component_part" style="margin-top:20px;">
 					<div style="padding:12px">
 						<div>
-							<a href="#" onclick="toggle_visibility('tochange_date');" ><h3 style="float:right"><?php echo date("F", mktime(0,0,0, $datereq['month'], 1, $datereq['year']))." ".$datereq['year']?></h3></a>
+							<h3 style="float:right"><?php echo date("F", mktime(0,0,0, $datereq['month'], 1, $datereq['year']))." ".$datereq['year']?></h3>
 						</div>
 						<?php if($user['role']=='2'){?>
 						<div style="margin-top:20px;">
@@ -15,21 +15,23 @@
 						</div>
 						<?php } ?>
 						<div style="clear:both"></div>
-						<div style="display:none" id="tochange_date">
+						<div>
 							<hr><h4>Change Date</h4>
 							<form method="post" action="<?php echo base_url()?>agenda/change_month">
 								<div class="row">
-									<div class="col-sm-1">
+									<div class="col-sm-2">
 										<select name="month">
 											<?php for($m=1;$m<=12;$m++){?>
 											<option value="<?php echo $m?>" <?php if($m == $datereq['month']){echo "selected";}?>><?php echo date("F", mktime(0,0,0, $m, 1, $datereq['year']))?></option>
 											<?php }?>
 										</select>
+										<select name="year">
+											<?php for($y=2015;$y<=2020;$y++){?>
+											<option value="<?php echo $y?>" <?php if($y == date('Y')){echo "selected";}?>><?php echo $y ?></option>
+											<?php }?>
+										</select>
 									</div>
-									<div class="col-sm-1">
-											<input type="text" class="form-control input" style="height:24px;" placeholder="year" name="year" value="<?php echo $datereq['year']?>">
-									</div>
-									<div class="col-sm-1">
+									<div class="col-sm-1" style="margin-left:-70px;">
 										<button class="btn btn-sm btn-primary btn-block center_text" style="height:24px; padding:3px 10px 10px 10px" type="submit">Submit</button>
 									</div>
 								</div>

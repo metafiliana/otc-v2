@@ -29,6 +29,7 @@
 						<a href="<?php echo base_url()?>user/input_user/<?php echo $usr->id?>" class="btn btn-warning  btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
 						<button class="btn btn-danger btn-xs" onclick="delete_user(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-trash"></span></button>
 						<button class="btn btn-primary btn-xs" onclick="reset_user(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-refresh"></span></button>
+						<button class="btn btn-primary btn-xs" onclick="reset_photo(<?php echo $usr->id?>)"><span class="glyphicon glyphicon-camera"></span></button>
 					</td>
 				</tr>
 
@@ -69,6 +70,24 @@
 					success: function (resp) {
 						if(resp.status == 1){
 							alert('User berhasil memakai password default');
+						}
+					}
+				});
+			}
+		});
+	}
+
+	function reset_photo(id, event){
+		bootbox.confirm("Apa anda yakin menghapus photo ke formal?", function(confirmed) {
+			if(confirmed===true){
+				$.ajax({
+					url: config.base+"user/reset_photo",
+					data: {id: id},
+					dataType: 'json',
+					type: "POST",
+					success: function (resp) {
+						if(resp.status == 1){
+							alert('User berhasil memakai photo formal');
 						}
 					}
 				});
