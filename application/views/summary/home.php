@@ -164,11 +164,13 @@
         <div class="col-md-4">
           <div class="component_part" style="margin:10px;">
            <h3 class="text-center">Show Initiatives</h3>
-            <div class="btn-group">
+            <!-- <div class="btn-group"> -->
+              <select class="form-control" id="showInitiativeOption">
               <?php foreach ($initiatives_detail as $key => $value) { ?>
-              <span class="btn btn-default showInitiative detail-milestone" data-id="<?php echo $key;?>"><?php echo $value['init_code']; ?></span>
+                <option value="<?php echo $key;?>" class="form-control showInitiative" data-id="<?php echo $key;?>"><?php echo $value['init_code']; ?></option>
               <?php } ?>
-            </div>
+              </select>
+            <!-- </div> -->
           </div>
         </div>
 
@@ -198,12 +200,12 @@
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
                 <h5 class="text-center">( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
                 <div class="col-md-6 text-center">
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="0" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-month="<?php echo $bulan_search; ?>" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-month="<?php echo $bulan_search; ?>" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="0" data-month="<?php echo $bulan_search; ?>" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-month="<?php echo $bulan_search; ?>" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-month="<?php echo $bulan_search; ?>" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-month="<?php echo $bulan_search; ?>" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
                 </div>
                 <div class="col-md-6 text-center">
                   <span>MTD : <?php echo $value['milestone_mtd']; ?>%</span>
@@ -229,11 +231,11 @@
 </div>
 
 <!-- <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script> -->
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
-<script type="text/javascript" src="http://cdn3.devexpress.com/jslib/15.2.5/js/dx.chartjs.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script> -->
+<!-- <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script> -->
+<!-- <script type="text/javascript" src="http://cdn3.devexpress.com/jslib/15.2.5/js/dx.chartjs.js"></script> -->
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
 <script>
     $( document ).ready( function() {
@@ -512,10 +514,19 @@
       });
     });
 
-    $(".showInitiative").on("click", function(e){
+    // $(".showInitiative").on("click", function(e){
+    //   $(".initiative-detail").hide();
+
+    //   var id = $(this).data('id');
+
+    //   $("#print-"+id).show();
+    // });
+
+    $("#showInitiativeOption").on("change", function(e){
       $(".initiative-detail").hide();
 
-      var id = $(this).data('id');
+      var optionSelected = $("option:selected", this);
+      var id = this.value;
 
       $("#print-"+id).show();
     });

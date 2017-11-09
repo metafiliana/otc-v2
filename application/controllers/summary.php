@@ -1079,7 +1079,7 @@ class Summary extends CI_Controller {
         // $future_start = $this->getStatus($value->id, 0, false, false, false, $user_id, true);
         // $on_track =     $this->getStatus($value->id, 2, false, false, false, $user_id, true);
 
-        $data = $this->getStatus($initiative_id, $status, false, false, $flagged, $user_id, true);
+        $data = $this->getStatus($initiative_id, $status, false, $flagged, false, $user_id, true);
 
         $dataResponse = array("status" => "success", "data" => $data);
         header('Content-Type: application/json');

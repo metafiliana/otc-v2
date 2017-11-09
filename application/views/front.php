@@ -82,6 +82,9 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/StackBlur.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/canvg.js"></script>
 
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/dx.chartjs.js"></script>
+
     </head>
 
     <body>
