@@ -447,17 +447,17 @@ class Program extends CI_Controller {
       if($user['role']=='1'){
         $id= $this->result;
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }
       elseif($user['role']=='3'){
         $id= $this->result;
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }
       elseif($user['role']=='4'){
         $id= $this->result;
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }
       else{
         $id= $this->result;
@@ -621,15 +621,15 @@ class Program extends CI_Controller {
       $prog['cluster'] = $this->mprogram->get_m_cluster();
       if($user['role']=='1'){
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }
       elseif($user['role']=='3'){
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }
       elseif($user['role']=='4'){
         $init_code= explode(";",$user['initiative']);
-        $prog['initiative'] = $this->mprogram->get_initiative($init_code,$id);
+        $prog['initiative'] = $this->mprogram->get_initiative('',$id);
       }
 
       else{

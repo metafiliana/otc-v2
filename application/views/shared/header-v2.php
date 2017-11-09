@@ -180,6 +180,7 @@
 					<div class="black_color" style="font-size:12px;"><?php long_text_all($user['name'],15);?></div>
 					<div class="black_color" style="font-size:10px;"><?= user_role($user['role']);?></div>
 				</div>
+				<?php if($user['role']=='2'){?>
 				<div class="col-md-3 pull-right" style="top: 0px;height: 100%;">
 					<div class="btn-group">
 					<div class="dropdown dropdown-notifications sw-open btn2 btns btn-default" style="height: 34px;">
@@ -205,6 +206,7 @@
 					</div>
 				</div>
 			</div>
+			<?php }?>
 				<div style="clear:both"></div>
 				<div class="col-md-4 dropdown pull-right">
 					<button style="margin:-40px 10px 0 0; float:right;" class="btn btn-link btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

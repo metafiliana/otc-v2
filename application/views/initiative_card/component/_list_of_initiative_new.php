@@ -114,7 +114,7 @@
             echo $final_m;
           }
           ?>%</h2></td>
-          <td><div id="circle" style="background: <?php echo warna($final_m);?>;"></div></td>
+          <td><div id="circle" style="background: <?php echo warna($final_m);?>; border: 3px solid <?php echo warnaborder($final_m);?>; "></div></td>
         </tr>
       </table><br>
     </div>
@@ -175,7 +175,7 @@
             echo $final_y;
           }
           ?>%</h2></td>
-          <td><div id="circle" style="background: <?php echo warna($final_y);?>"></div></td>
+          <td><div id="circle" style="background: <?php echo warna($final_y);?>; border: 3px solid <?php echo warnaborder($final_y);?>;"></div></td>
         </tr>
       </table><br>
     </div>                          
