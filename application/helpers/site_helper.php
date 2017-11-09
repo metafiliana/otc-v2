@@ -203,6 +203,21 @@
         }
         return $warna;
     }
+    function warnaborder($score = 0)
+    {
+        $score = (int)$score;
+        if ($score >= 100){
+            $warna = '#084a09';
+        }
+
+        else if ($score <= 95){
+            $warna = '#6f0606';
+        }
+        else {
+          $warna = '#9ca108';
+        }
+        return $warna;
+    }
 
     function maxscore($score = 0, $type)
     {
