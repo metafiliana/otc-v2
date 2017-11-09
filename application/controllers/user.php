@@ -520,7 +520,8 @@ class User extends CI_Controller {
     public function edit_profile(){
         $users = $this->session->userdata('user');
         $user = $users['username'];
-        $initid = $users['initiative'];
+        $initid = explode(";",$users['initiative']);
+        $titlecode = $this->minitiative->get_initiative_title_by_id($initid);
         $foto = $this->muser->get_data_user($user)->foto;
         $lastlogin = $this->muser->get_data_user($user)->last_login;
         $privateemail = $this->muser->get_data_user($user)->private_email;
@@ -531,7 +532,8 @@ class User extends CI_Controller {
             'initid' => $initid,
             'last_login' => $lastlogin,
             'private_email' => $privateemail,
-            'work_email' => $workemail
+            'work_email' => $workemail,
+            'titlecode' => $titlecode
         );
 
         //notification
