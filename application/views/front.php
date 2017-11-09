@@ -12,8 +12,8 @@
         <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap-notifications.min.css" rel="stylesheet">
-        <!-- <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-        <!-- <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
+        <!-- <link href="<?php //echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+        <!-- <link href="<?php //echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
         <link href="<?php echo base_url();?>assets/css/jquery-confirm.min.css" rel="stylesheet"/>
         <link href="<?php echo base_url();?>assets/css/ajax-bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
@@ -82,7 +82,7 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/StackBlur.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/canvg.js"></script>
 
-        <!-- <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.1.4.min.js"></script> -->
+        <!-- <script type="text/javascript" src="<?php //echo base_url();?>assets/js/jquery-2.1.4.min.js"></script> -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/dx.chartjs.js"></script>
 
     </head>
