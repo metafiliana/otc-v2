@@ -111,7 +111,7 @@
                 <thead>
                     <tr>
                         <th style="display: none;">No.</th>
-                        <th>Initiative Code</th>
+                        <th>No.</th>
                         <th><?php echo getUserRole($table_title); ?></th>
                         <th>Complete</th>
                         <th>Future Start</th>
@@ -122,7 +122,7 @@
                         <th>Flagged</th>
                         <th>Total Action</th>
                         <th>Completion Rate (YTD)</th>
-                        <th>Completion Rate (FL)</th>
+                        <th>Completion Rate (FY)</th>
                         <!-- <th></th> -->
                     </tr>
                 </thead>
