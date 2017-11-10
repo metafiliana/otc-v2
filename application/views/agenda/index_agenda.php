@@ -31,7 +31,7 @@
 											<?php }?>
 										</select>
 									</div>
-									<div class="col-sm-1" style="margin-left:-70px;">
+									<div class="col-sm-1" style="margin-left:-50px;">
 										<button class="btn btn-sm btn-primary btn-block center_text" style="height:24px; padding:3px 10px 10px 10px" type="submit">Submit</button>
 									</div>
 								</div>

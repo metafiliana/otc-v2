@@ -25,7 +25,7 @@
         <div style="clear:both"></div>
     </div>
     <hr>
-		<?php if($user['id'] == $file->user_id||$user['role']=='2'){?>
+		<?php if($user['id'] == $agenda->maker_id||$user['role']=='2'){?>
     <div style="margin-top:20px; text-align:center">
         <a onclick="show_form('','','',<?php echo $agenda->id?>)" class="btn btn-warning  btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
         <a onclick="delete_agenda(<?php echo $agenda->id?>)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></a>
