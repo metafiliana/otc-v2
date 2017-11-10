@@ -78,10 +78,10 @@ $(document).ready(function(){
 				<label class="col-sm-3 control-label">Role</label>
 				<div class="col-sm-9">
 					<select id="" class="form-control" name="role">
-						<option value='Co-PMO' <?php if($info){if($info->role=="1"){echo "selected";}}?>>Co-PMO</option>
-						<option value='admin' <?php if($info){if($info->role=="2"){echo "selected";}}?>>Admin</option>
-						<option value='PMO Head' <?php if($info){if($info->role=="3"){echo "selected";}}?>>PMO Head</option>
-						<option value='Direktur Sponsor' <?php if($info){if($info->role=="4"){echo "selected";}}?>>Direktur Sponsor</option>
+						<option value='1' <?php if($info){if($info->role=="1"){echo "selected";}}?>>Co-PMO</option>
+						<option value='2' <?php if($info){if($info->role=="2"){echo "selected";}}?>>Admin</option>
+						<option value='3' <?php if($info){if($info->role=="3"){echo "selected";}}?>>PMO Head</option>
+						<option value='4' <?php if($info){if($info->role=="4"){echo "selected";}}?>>Direktur Sponsor</option>
 					</select>
 				</div>
 			</div>
