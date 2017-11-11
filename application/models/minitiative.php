@@ -834,4 +834,13 @@ class Minitiative extends CI_Model {
         return $data;
     }
 
+    function getNewInitiativesAll($distinct = false)
+    {
+        if ($distinct)
+            $this->db->distinct();
+        $result = $this->db->get('m_initiative');
+
+        return $result->result_array();
+    }
+
 }

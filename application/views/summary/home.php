@@ -172,8 +172,8 @@
            <h3 class="text-center">Show Initiatives</h3>
             <!-- <div class="btn-group"> -->
               <select class="form-control" id="showInitiativeOption">
-              <?php foreach ($initiatives_detail as $key => $value) { ?>
-                <option value="<?php echo $key;?>" class="form-control showInitiative" data-id="<?php echo $key;?>"><?php echo "(".$value['init_code'] . ") " . $value['title']; ?></option>
+              <?php foreach ($list_initiatives as $key => $value) { ?>
+                <option value="<?php echo $value['init_code'];?>" class="form-control showInitiative" data-id="<?php echo $key;?>"><?php echo "(".$value['init_code'] . ") " . $value['title']; ?></option>
               <?php } ?>
               </select>
             <!-- </div> -->
@@ -185,7 +185,7 @@
         <div class="component_part">
           <div class="row">
             <?php foreach ($initiatives_detail as $key => $value) { ?>
-            <div class="col-md-12 table-content initiative-detail" id="print-<?php echo $key; ?>">
+            <div class="col-md-12 table-content initiative-detail" id="print-<?php echo $value['init_code']; ?>">
 
               <!-- data area inititatives-kuantitatif start -->
               <div class="col-md-12">

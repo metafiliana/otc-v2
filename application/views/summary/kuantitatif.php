@@ -546,6 +546,9 @@
             ordering: true,
             searching: false,
             scrollX: true,
+            "scrollY": "500px",
+            "scrollCollapse": true,
+            fixedHeader: true,
             // dom: 'Bfrtip',
             // buttons: {
             //     buttons: [{

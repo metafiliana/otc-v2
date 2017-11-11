@@ -80,7 +80,7 @@
                 <label class="control-label col-sm-1">Month</label>
                 <div class="col-sm-3" style="margin-left:12px;">
                   <?php
-                      echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
+                      echo form_dropdown('bulan', getMonth(false), $bulan_search ? convertMonth($bulan_search, false) : date('m'), 'class = "form-control"');
                   ?>
                 </div>
               </div>
@@ -203,6 +203,9 @@
             ordering: true,
             searching: false,
             scrollX: true,
+            "scrollY": "500px",
+            "scrollCollapse": true,
+            fixedHeader: true,
             dom: 'Bfrtip',
             buttons: {
                 buttons: [{

@@ -853,7 +853,7 @@ class Summary extends CI_Controller {
         //search ends
 
         //process start
-        $data['top_bod'] = $this->getTopBod();
+        $data['top_bod'] = $this->getTopBod($bulan_search);
 
         $is_admin = false;
         if ($user['role'] == 2){
@@ -866,6 +866,7 @@ class Summary extends CI_Controller {
         $data['controller'] = $this;
         $data['is_admin'] = $is_admin;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
+        $data['list_initiatives'] = $this->minitiative->getNewInitiativesAll();
         //process end
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
@@ -876,7 +877,7 @@ class Summary extends CI_Controller {
         $this->load->view('front',$data);
     }
 
-    public function getTopBod()
+    public function getTopBod($month = false)
     {
         $data_summary_kuantitatif = $this->getDataTableKuantitatif();
 
@@ -885,8 +886,8 @@ class Summary extends CI_Controller {
         $i = 1;
         $j = 1;
         foreach ($data_summary_kuantitatif['type_1'] as $key => $value) {
-            $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1);
-            $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2);
+            $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1, $month);
+            $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2, $month);
             $total_monthly = $total_monthly + (int)$final_monthly_score;
             $total_yearly = $total_yearly + (int)$final_yearly_score;
 
@@ -894,8 +895,8 @@ class Summary extends CI_Controller {
         }
 
         foreach ($data_summary_kuantitatif['type_2'] as $key => $value) {
-            $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1);
-            $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, false);
+            $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1, $month);
+            $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, $month);
             $total_monthly = $total_monthly + (int)$final_monthly_score;
             $total_yearly = $total_yearly + (int)$final_yearly_score;
 

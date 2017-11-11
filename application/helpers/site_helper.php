@@ -278,4 +278,42 @@
         return $return;
     }
 
+    function convertMonth($month, $is_string = false)
+    {
+        $data = array(
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember',
+        );
+        
+        if (!$is_string){
+            foreach ($data as $key => $value) {
+                if ($key == $month){
+                    $month = $value;
+
+                    break;
+                }
+            }
+        }else{
+            foreach ($data as $key => $value) {
+                if ($value == $month){
+                    $month = $key;
+
+                    break;
+                }
+            }
+        }
+
+        return $month;
+    }
+
 ?>
