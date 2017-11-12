@@ -207,12 +207,12 @@
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
                 <h5 class="text-center">( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
                 <div class="col-md-6 text-center">
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="1" data-month="<?php echo $bulan_search; ?>" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="2" data-month="<?php echo $bulan_search; ?>" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="0" data-month="<?php echo $bulan_search; ?>" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-month="<?php echo $bulan_search; ?>" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-month="<?php echo $bulan_search; ?>" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['id']; ?>" data-status="3" data-month="<?php echo $bulan_search; ?>" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="1" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false">Complete: <?php echo $value['completed']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="2" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false">On Track: <?php echo $value['on_track']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="0" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false">Future Start: <?php echo $value['future_start']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="2" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="1" style="color: red">Delay: <?php echo $value['delay']; ?></p>
                 </div>
                 <div class="col-md-6 text-center">
                   <span>YTD : <?php echo $value['milestone_mtd']; ?>%</span>
@@ -493,11 +493,12 @@
       var id = $(this).data('id');
       var status = $(this).data('status');
       var flagged = $(this).data('flagged');
+      var month = $(this).data('month');
 
       $.ajax({
           type: 'GET',
           url: '<?php echo base_url()."summary/getDetailInitiative"; ?>',
-          data: 'initiative_id='+id+'&status='+status+'&flagged='+flagged,
+          data: 'initiative_id='+id+'&status='+status+'&flagged='+flagged+'&month='+month,
           // beforeSend: function(){
           //     $('.tab-rajal').html('');
           //     $('.load-tab').css("display","block");

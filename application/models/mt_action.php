@@ -84,13 +84,13 @@ class Mt_action extends CI_Model {
 
     function getStatusSummaryMilestone($initiative_id, $status = false, $month = false, $user = false, $all = false)
     {
-    	$where = 't.initiative_id = '.$initiative_id;
+        $where = 't.initiative_id = '.$initiative_id;
         if ($status !== false){
             $where .= ' AND t.status = '.$status;
         }
         if ($month){
             $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-    		$where .= ' AND `end` <= "'.$date.'"';
+            $where .= ' AND `end` <= "'.$date.'"';
         }
         if ($user){
             $where .= ' AND user_id = '.$user;
