@@ -858,7 +858,7 @@ class Summary extends CI_Controller {
         $views['user'] = $user;
         $data['last_agenda'] = $this->magenda->get_last_agenda(5);
         $data['bulan_search'] = null;
-        $data['bulan_search_status'] = null;
+        $data['bulan_search_status'] = !empty($data['bulan_search_status']) ? $data['bulan_search_status'] : date('m');
         $bulan_search = $bulan_search_status = false;
         // views end
 
@@ -877,6 +877,10 @@ class Summary extends CI_Controller {
             }
         }
         //search ends
+
+        if (!$bulan_search){
+            $bulan_search = date('F');
+        }
 
         //process start
         $data['top_bod'] = $this->getTopBod($bulan_search);
