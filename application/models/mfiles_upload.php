@@ -505,6 +505,22 @@ class Mfiles_upload extends CI_Model {
         return $query->result();
     }
 
+    function get_distinct_col_segment_with_file($col,$order,$db){
+        $this->db->select("$col,title");
+        //$this->db->distinct();
+        $this->db->order_by('id',$order);
+        $query = $this->db->get($db);
+        $progs = $query->result();
+        $arr = array(); $i=0;
+        foreach($progs as $prog){
+        	$arr[$i]['prog'] = $prog;
+        	$arr[$i]['file'] = $this->get_all_files_upload_modul_how($prog->init_code,'');
+        	$i++;
+        }
+        return $arr;
+    }
+
+
     function get_distinct_col_where($col,$order,$db,$arr_where){
         if($arr_where){$this->db->where($arr_where);}
         return $this->get_distinct_col($col,$order,$db);

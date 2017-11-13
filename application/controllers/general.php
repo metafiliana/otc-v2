@@ -226,7 +226,8 @@ class General extends CI_Controller {
           $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
-        $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment('init_code','asc','m_initiative');
+        $prog['init_code']=$this->mfiles_upload->get_distinct_col_segment_with_file('init_code','asc','m_initiative');
+        $prog['ctf']=$this->mfiles_upload->get_all_files_upload_modul_how('ctf','');
 
         $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
