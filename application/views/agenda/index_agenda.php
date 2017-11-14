@@ -3,7 +3,7 @@
 	$day = date("N", mktime(0,0,0, $datereq['month'], 1, $datereq['year'])); $firstday = true;
 ?>
 <div class="row">
-	<div class="col-md" style="padding:10px;">
+	<div class="col-md" style="padding:25px;">
 			<div class="component_part" style="margin-top:20px;">
 					<div style="padding:12px">
 						<div>
@@ -16,31 +16,37 @@
 						<?php } ?>
 						<div style="clear:both"></div>
 						<div>
-							<hr><h4>Change Date</h4>
+							<hr><h4 style="margin-bottom: 20px; margin-top: 15px; padding-left: 20px;">Change Date</h4>
 							<form method="post" action="<?php echo base_url()?>agenda/change_month">
 								<div class="row">
-									<div class="col-sm-2">
-										<select name="month">
+									<div class="col-sm-6" style="margin-left: 15px;">
+										<div class="col-sm-2">
+										<select class="form-control" name="month">
 											<?php for($m=1;$m<=12;$m++){?>
 											<option value="<?php echo $m?>" <?php if($m == $datereq['month']){echo "selected";}?>><?php echo date("F", mktime(0,0,0, $m, 1, $datereq['year']))?></option>
 											<?php }?>
 										</select>
-										<select name="year">
+										</div>
+										
+										<div class="col-sm-2">
+										<select class="form-control" name="year">
 											<?php for($y=2015;$y<=2020;$y++){?>
 											<option value="<?php echo $y?>" <?php if($y == date('Y')){echo "selected";}?>><?php echo $y ?></option>
 											<?php }?>
 										</select>
-									</div>
-									<div class="col-sm-1" style="margin-left:-50px;">
-										<button class="btn btn-sm btn-primary btn-block center_text" style="height:24px; padding:3px 10px 10px 10px" type="submit">Submit</button>
+										</div>
+
+										<div class="col-sm-2">
+											<button class="btn btn-sm btn-primary btn-block center_text" style="padding-bottom: 7px; padding-top: 7px;" type="submit">Submit</button>
+										</div>
 									</div>
 								</div>
 							</form>
 						</div>
 					</div>
 					<div>
-						<div id="agendatable" style="width:100%;">
-							<div>
+						<div id="agendatable" style="width:100%; margin-left: 15px;">
+							<div style="padding: 15px;">
 								<div>
 									<div class="as headeras">Senin</div>
 									<div class="as headeras">Selasa</div>

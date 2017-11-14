@@ -1,7 +1,18 @@
 <div>
-	<div><span class="glyphicon glyphicon-home"></span> : <?php echo $agenda->location?></div>
-	<div><span class="glyphicon glyphicon-calendar"></span> : <?php echo date("d M Y", strtotime($agenda->start));?></div>
-	<div><span class="glyphicon glyphicon-time"></span> : <?php echo date("h:i", strtotime($agenda->start));?></div>
+    <table class="table">
+        <tr>
+            <td style="border: none;"><span class="glyphicon glyphicon-home"></span></td>
+            <td style="border: none;"><?php echo $agenda->location?></td>
+        </tr>
+        <tr>
+            <td style="border: none;"><span class="glyphicon glyphicon-calendar"></span></td>
+            <td style="border: none;"><?php echo date("d M Y", strtotime($agenda->start));?></td>
+        </tr>
+        <tr>
+            <td style="border: none;"><span class="glyphicon glyphicon-time"></span></td>
+            <td style="border: none;"><?php echo date("h:i", strtotime($agenda->start));?></td>
+        </tr>
+    </table>
 	<div style="margin-top:20px"><?php echo $agenda->description?></div>
     <hr>
     <?php $user = $this->session->userdata('user');?>

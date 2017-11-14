@@ -21,9 +21,9 @@
 <div id="openModal<?php echo $init->id?>" class="modalDialog">
   <div>
     <a href="#close" title="Close" class="close">X</a>
-    <h4 style="float: left; color: orange;">Initiative <?php echo $init->init_code?></h4><br>
-    <h4 style="float: left;"><?php echo $init->title?></h4><br>
-    <p style="float: left;"><?php echo $init->deskripsi?></p><br><br>
+    <strong><h4 style="float: left; color: orange; padding: 10px;">Initiative <?php echo $init->init_code?></h4></strong><br><br>
+    <h4 style="float: left; padding: 10px;"><?php echo $init->title?></h4><br>
+    <p style="float: left; padding: 10px;"><?php echo $init->deskripsi?></p><br><br>
     <div class="col-sm-12" style="margin-bottom: 20px;">
       <div class="col-sm-6">
         <table>
@@ -119,7 +119,7 @@
       </table><br>
     </div>
     <div class="col-sm-6" style="margin-bottom: 20px;">
-      <h5><strong>Realisasi per <?php echo $controller->get_bulan(); ?> <?php echo date('Y')?> (FL)</strong></h5><br>
+      <h5><strong>Realisasi per <?php echo $controller->get_bulan(); ?> <?php echo date('Y')?> (FY)</strong></h5><br>
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
