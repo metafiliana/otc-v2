@@ -112,7 +112,7 @@ $init = explode(';', $user['initiative']);
 				<div style="padding-top:10px;">
           <div class="helper_text row">
             <div class="col-sm-10">
-              CTF Tower
+              Admin
             </div>
             <div class="col-sm-2 right_text" style="margin-top:-10px;">
               <?php if($user['role']=="2"){?>

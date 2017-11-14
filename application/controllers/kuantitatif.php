@@ -127,8 +127,19 @@ class Kuantitatif extends CI_Controller {
 
         //View list of initiative
         if($user['role']=='1'){
-        $init_code= explode(";",$user['initiative']);
-        $prog['programs'] = $this->mprogram->get_m_initiative($init_code);
+        $init_code = explode(";",$user['initiative']);
+        $time=strtotime(date("Y-m-d"));
+        if($this->input->post('month')){
+          $prog['month_view'] = $this->input->post('month');
+        }
+        else{
+          $prog['month_view']=date("F",$time);
+        }
+
+        $prog['programs'] = $this->mprogram->get_m_initiative_tot($init_code,$prog['month_view']);
+        $prog['year_view']=date("Y",$time);
+        $prog['month_number']=date("n",$time);
+
         }
         else{
         $prog['programs'] = $this->mprogram->get_m_initiative('');

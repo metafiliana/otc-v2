@@ -28,24 +28,46 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 </style>
   <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
     <div class="row" style="margin:5px 0 5px -5px;">
-      <div class="col-md-10">
-        <a href="<?php echo base_url()?>program/list_programs/">
-          <button class="btn btn-default btn-sm btn-info-new">Update Activity</button>
-        </a>
-          <button class="btn btn-info-new btn-sm" disabled="disabled">Update KPI</button>
-					<label class="control-label col-sm" style="margin:0 10px 0 10px;">Month</label>
-					<select class="input-sm form-control-this" name="month" id="month">
-					<?php foreach ($arr_month as $arr) { ?>
-						<option value="<?= $arr ?>" <?php if($arr == date('F')){echo "selected";} ?>><?= $arr ?></option>
+      <div class="col-md-10 row">
+				<div class="col-sm-3">
+					<a href="<?php echo base_url()?>program/list_programs/">
+	          <button class="btn btn-default btn-sm btn-info-new">Update Activity</button>
+	        </a>
+	          <button class="btn btn-info-new btn-sm" disabled="disabled">Update KPI</button>
+				</div>
+					<?php if($user['role']=='1'){?>
+						<div class="col-sm-6 row">
+						<form id="formSearch" action="<?php echo base_url()."kuantitatif/list_kuantitatif/";?>" method="post" role="form" accept-charset="utf-8">
+								<div class="col-sm-5" style="margin-left:-70px;">
+									<label class="control-label col-sm" style="margin:0 10px 0 10px;">Month</label>
+									<select class="input-sm form-control-this" name="month" id="month">
+									<?php foreach ($arr_month as $arr) { ?>
+										<option value="<?= $arr ?>" <?php if($arr == $month_view){echo "selected";} ?>><?= $arr ?></option>
+									<?php } ?>
+				 					</select>
+								</div>
+								<div class="col-sm-2" style="margin-left:-30px;">
+									<button class="form-control btn btn-info-new-submit" type="submit">Find</button>
+								</div>
+						</form>
+					</div>
+					<?php } else{?>
+						<div class="col-sm-3" style="margin-left:-70px;">
+							<label class="control-label col-sm" style="margin:0 10px 0 10px;">Month</label>
+							<select class="input-sm form-control-this" name="month" id="month">
+							<?php foreach ($arr_month as $arr) { ?>
+								<option value="<?= $arr ?>" <?php if($arr == date('F')){echo "selected";} ?>><?= $arr ?></option>
+							<?php } ?>
+		 					</select>
+						</div>
 					<?php } ?>
- 					</select>
       </div>
         <div class="col-md-2 right_text">
           <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>
         </div>
     </div>
-    <div style="">
-      <div class="component_part" id="list_of_program">
+    <div class="component_part">
+      <div class="" id="list_of_program">
         <?php echo $list_program?>
       </div><div style="clear:both"></div><br>
     </div>

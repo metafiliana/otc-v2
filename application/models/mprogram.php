@@ -17,6 +17,7 @@ class Mprogram extends CI_Model {
         $this->load->database();
         $this->load->model('minitiative');
         $this->load->model('mworkblock');
+        $this->load->model('mkuantitatif');
     }
 
     //INSERT or CREATE FUNCTION
@@ -112,6 +113,30 @@ class Mprogram extends CI_Model {
         }
         $query = $this->db->get('m_initiative');
         return $query->result();
+    }
+
+    function get_m_initiative_tot($init_code,$month){
+        $this->db->select('id, title, init_code');
+        if($init_code){
+          $this->db->where_in('init_code', $init_code);
+        }
+        $query = $this->db->get('m_initiative');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+        	$arr[$i]['prog'] = $prog;
+          $id=$prog->id;
+          $arr[$i]['leading'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Leading');
+          $arr[$i]['lagging'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Lagging');
+
+          $arr[$i]['tot_leading'] = $this->mkuantitatif->get_total_per_type($id,$month,'Leading');
+          $arr[$i]['tot_lagging'] = $this->mkuantitatif->get_total_per_type($id,$month,'Lagging');
+
+          $arr[$i]['count_leading'] = $this->mkuantitatif->get_leading_leading_count($id,'Leading');
+          $arr[$i]['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($id,'Lagging');
+        	$i++;
+        }
+        return $arr;
     }
 
     function get_segment_programs($segment,$init_id,$dir_spon,$pmo_head){
@@ -221,7 +246,7 @@ class Mprogram extends CI_Model {
           $this->db->where('id', $id_action);
         }
         $this->db->select('*');
-        $this->db->order_by('id','asc'); 
+        $this->db->order_by('id','asc');
         $query = $this->db->get('m_action');
         $progs = $query->result();
         return $progs;
@@ -693,7 +718,7 @@ class Mprogram extends CI_Model {
     //amir--
      function get_m_cluster(){
         $this->db->select('id, title');
-        
+
         $query = $this->db->get('m_cluster');
         return $query->result();
     }
@@ -728,7 +753,7 @@ class Mprogram extends CI_Model {
             return $value['name'];
            }
         }
-          
+
     }
     function count_action_complete($id,$status){
         $this->db->where('initiative_id',$id);
