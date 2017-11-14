@@ -81,11 +81,11 @@
               <a href="<?php echo base_url()?>summary/listKuantitatif/"><button class="btn btn-info-new btn-sm btn-default">Kuantitatif</button></a>
               <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-info-new btn-sm btn-default">Milestone</button></a>
               <!-- <button class="btn btn-sm btn-info-new" disabled="disabled">Home</button> -->
-              <?php 
+              <?php
                 if ($is_admin){
               ?>
               <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
-              <?php 
+              <?php
                 }
               ?>
             </div>
@@ -219,7 +219,7 @@
                   <br>
                   <span>FY : <?php echo $value['milestone_ytd']; ?>%</span>
                   <br>
-                  <button onclick="take('print-<?php echo $key; ?>')" class="btn btn-info-new btnPrintHide">Print</button>
+                  <button onclick="take('print-<?php echo $value['init_code']; ?>')" class="btn btn-info-new btnPrintHide">Print</button>
                 </div>
               </div>
               <!-- data area milestone start -->
