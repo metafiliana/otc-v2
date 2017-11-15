@@ -390,21 +390,22 @@ class Summary extends CI_Controller {
             $bulan = false,
             $user = false,
             // $overdue = false,
-            $all = false
+            $all = false,
+            $admin = false
         )
     {
         $return = 0;
         $future = false;
 
         if ($future){
-            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user, $all);
+            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
         }elseif ($flagged){
             // $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
-            $return = $this->mt_action->getStatusIssueMilestone($initiative_id, $bulan, $user, $flagged, $all);
+            $return = $this->mt_action->getStatusIssueMilestone($initiative_id, $bulan, $user, $flagged, $all, $admin);
         // }elseif ($overdue){
         //     $return = $this->mt_action->getStatusOverdueMilestone($initiative_id, $bulan, $user);
         }else{
-            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user, $all);
+            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
         }
 
         return $return;
@@ -888,9 +889,9 @@ class Summary extends CI_Controller {
         $is_admin = false;
         if ($user['role'] == 2){
             $is_admin = true;
-            $data['initiatives_detail'] = $this->getInitiativesDetail(false, $bulan_search);
+            $data['initiatives_detail'] = $this->getInitiativesDetail(false, $bulan_search, $is_admin);
         }else{
-            $data['initiatives_detail'] = $this->getInitiativesDetail($user['id'], $bulan_search);
+            $data['initiatives_detail'] = $this->getInitiativesDetail($user['id'], $bulan_search, $is_admin);
         }
 
         $data['controller'] = $this;
@@ -951,7 +952,7 @@ class Summary extends CI_Controller {
         return $return;
     }
 
-    public function getInitiativesDetail($user = false, $month = false)
+    public function getInitiativesDetail($user = false, $month = false, $admin = false)
     {
         $month_status = false;
         if ($month){
@@ -982,13 +983,14 @@ class Summary extends CI_Controller {
                     $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2, $month);
 
                     // milestone details
-                    $issues = $this->getStatus($value->id, 3, false, false, $month_status);
-                    $completed = $this->getStatus($value->id, 1, false, false, $month_status);
-                    $on_track = $this->getStatus($value->id, 2, false, false, $month_status);
-                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status);
-                    $overdue = $this->getStatus($value->id, 3, false, 2, $month_status);
-                    $delay = $this->getStatus($value->id, 3, false, 1, $month_status);
-                    $flagged = abs($issues - ($overdue + $delay));
+                    $issues = $this->getStatus($value->id, 3, false, false, $month_status, false, false, $admin);
+                    $completed = $this->getStatus($value->id, 1, false, false, $month_status, false, false, $admin);
+                    $on_track = $this->getStatus($value->id, 2, false, false, $month_status, false, false, $admin);
+                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status, false, false, $admin);
+                    $overdue = $this->getStatus($value->id, 3, false, 2, $month_status, false, false, $admin);
+                    $delay = $this->getStatus($value->id, 3, false, 1, $month_status, false, false, $admin);
+                    // $flagged = abs($issues - ($overdue + $delay));
+                    $flagged = $issues;
                     $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                     $milestone_ytd = $this->getYtdMilestone($value->id);
 
@@ -1024,12 +1026,12 @@ class Summary extends CI_Controller {
                     $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, $month);
 
                     // milestone details
-                    $issues = $this->getStatus($value->id, 3, false, false, $month_status);
-                    $completed = $this->getStatus($value->id, 1, false, false, $month_status);
-                    $on_track = $this->getStatus($value->id, 2, false, false, $month_status);
-                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status);
-                    $overdue = $this->getStatus($value->id, 3, false, 2, $month_status);
-                    $delay = $this->getStatus($value->id, 3, false, 1, $month_status);
+                    $issues = $this->getStatus($value->id, 3, false, false, $month_status, false, false, $admin);
+                    $completed = $this->getStatus($value->id, 1, false, false, $month_status, false, false, $admin);
+                    $on_track = $this->getStatus($value->id, 2, false, false, $month_status, false, false, $admin);
+                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status, false, false, $admin);
+                    $overdue = $this->getStatus($value->id, 3, false, 2, $month_status, false, false, $admin);
+                    $delay = $this->getStatus($value->id, 3, false, 1, $month_status, false, false, $admin);
                     $flagged = $issues - ($overdue + $delay);
                     $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                     $milestone_ytd = $this->getYtdMilestone($value->id);
@@ -1066,12 +1068,12 @@ class Summary extends CI_Controller {
                     $final_yearly_score = $this->countKuantitatif($value->id, 1);
 
                     // milestone details
-                    $issues = $this->getStatus($value->id, 3, false, false, $month_status);
-                    $completed = $this->getStatus($value->id, 1, false, false, $month_status);
-                    $on_track = $this->getStatus($value->id, 2, false, false, $month_status);
-                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status);
-                    $overdue = $this->getStatus($value->id, 3, false, 2, $month_status);
-                    $delay = $this->getStatus($value->id, 3, false, 1, $month_status);
+                    $issues = $this->getStatus($value->id, 3, false, false, $month_status, false, false, $admin);
+                    $completed = $this->getStatus($value->id, 1, false, false, $month_status, false, false, $admin);
+                    $on_track = $this->getStatus($value->id, 2, false, false, $month_status, false, false, $admin);
+                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status, false, false, $admin);
+                    $overdue = $this->getStatus($value->id, 3, false, 2, $month_status, false, false, $admin);
+                    $delay = $this->getStatus($value->id, 3, false, 1, $month_status, false, false, $admin);
                     $flagged = $issues - ($overdue + $delay);
                     $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                     $milestone_ytd = $this->getYtdMilestone($value->id);
@@ -1116,9 +1118,11 @@ class Summary extends CI_Controller {
         }
 
         $user = $this->session->userdata('user');
+        $is_admin = false;
 
         if ($user['role'] == 2){
             $user_id = false;
+            $is_admin = true;
         }else{
             $user_id = $user['id'];
         }
@@ -1138,7 +1142,7 @@ class Summary extends CI_Controller {
         // $future_start = $this->getStatus($value->id, 0, false, false, false, $user_id, true);
         // $on_track =     $this->getStatus($value->id, 2, false, false, false, $user_id, true);
 
-        $data = $this->getStatus($initiative_id, $status, false, $flagged, $month, $user_id, true);
+        $data = $this->getStatus($initiative_id, $status, false, $flagged, $month, $user_id, true, $is_admin);
 
         $dataResponse = array("status" => "success", "data" => $data);
         header('Content-Type: application/json');
