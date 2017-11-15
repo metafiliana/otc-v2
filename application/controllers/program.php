@@ -302,12 +302,19 @@ class Program extends CI_Controller {
         $program['title'] = $this->input->post('title');
         $program['status'] = $this->input->post('status');
         $program['initiative_id'] = $this->input->post('initiative_id');
-        if($this->input->post('start')){$start = DateTime::createFromFormat('m/d/Y', $this->input->post('start'));
-      		$program['start_date'] = $start->format('Y-m-d');
+        $program['notes'] = $this->input->post('notes');
+        if($this->input->post('start')){
+          $date = date_create($this->input->post('start'));
+          //echo $this->input->post('start');
+          //$start = DateTime::createFromFormat('m/d/Y', $this->input->post('start'));
+      		$program['start_date'] = date_format($date,"Y-m-d");
       	}
 
-      	if($this->input->post('end')){$end = DateTime::createFromFormat('m/d/Y', $this->input->post('end'));
-      		$program['end_date'] = $end->format('Y-m-d');
+      	if($this->input->post('end')){
+          $date = date_create($this->input->post('end'));
+          //echo $this->input->post('end');
+          //$end = DateTime::createFromFormat('m/d/Y', $this->input->post('end'));
+      		$program['end_date'] = date_format($date,"Y-m-d");//$end->format('Y-m-d');
       	}
 
         if($id){

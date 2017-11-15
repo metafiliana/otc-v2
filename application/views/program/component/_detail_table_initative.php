@@ -9,6 +9,7 @@ $user = $this->session->userdata('user');
 			<th>Status</th>
 			<th>Starting Date</th>
 			<th>Completed Date</th>
+			<th>Notes</th>
 			<?php if($user['role']=='1'){?>
 				<th style="vertical-align:middle"></th>
 			<?php } ?>
@@ -33,6 +34,9 @@ $user = $this->session->userdata('user');
 			<td class="center_text">
 				<?php echo date("j M y", strtotime($prog->end_date));?>
 			</td>
+			<td class="center_text">
+				<?= $prog->notes ?>
+			</td>
 			<?php if($user['role']=='1'){?><td style="width:50px">
 				<a class="btn btn-link btn-link-edit" onclick="input_action(<?php echo $prog->initiative_id?>,<?php echo $prog->id?>);"><span class="glyphicon glyphicon-pencil"></span></a>
 				<a class="btn btn-link btn-link-delete" onclick="delete_action(<?php echo $prog->id?>)"><span class="glyphicon glyphicon-trash"></span></a>
@@ -49,7 +53,10 @@ $(document).ready(function () {
 					paging: false,
 					buttons: [
 							'excelHtml5',
-							'pdfHtml5',
+							{
+                extend: 'pdfHtml5',
+                orientation: 'landscape'
+            	}
 					]
 			} );
 });

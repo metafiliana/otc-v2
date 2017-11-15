@@ -36,17 +36,23 @@
                     <div class="form-group">
                   		<label for="" class="col-sm-2 control-label">Start Date</label>
                   		<div class="col-sm-4">
-                  			<input type="date" class="form-control" id="start" name="start" placeholder="mm/dd/YYYY" value="<?php if(isset($action->start_date)){echo date("m/d/Y", strtotime($action->start_date));}?>">
+                  			<input type="date" class="form-control" id="start" name="start" placeholder="mm/dd/YYYY" value="<?php if(isset($action->start_date)){echo $action->start_date;}?>">
                   			<small style="color:grey">format: mm/dd/YYYY</small>
                   		</div>
                   	</div>
                   	<div class="form-group">
                   		<label for="" class="col-sm-2 control-label">End Date</label>
                   		<div class="col-sm-4">
-                  			<input type="date" class="form-control" id="end" name="end" placeholder="mm/dd/YYYY" value="<?php if(isset($action->end_date)){echo date("m/d/Y", strtotime($action->end_date));}?>">
+                  			<input type="date" class="form-control" id="end" name="end" placeholder="mm/dd/YYYY" value="<?php if(isset($action->end_date)){echo $action->end_date;}?>">
                   			<small style="color:grey">format: mm/dd/YYYY</small>
                   		</div>
                   	</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Notes Status</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" id="notes" name="notes" placeholder="Notes" value="<?php if (isset($action->notes)){ echo $action->notes ; }?>">
+                        </div>
+                    </div>
                     <hr>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
                   </div>
@@ -58,13 +64,13 @@
 	</div>
 </div>
 <script>
-$('#start').datepicker({
-autoclose: true,
-todayHighlight: true
-});
-
-$('#end').datepicker({
-autoclose: true,
-todayHighlight: true
-});
+// $('#start').datepicker({
+// autoclose: true,
+// todayHighlight: true
+// });
+//
+// $('#end').datepicker({
+// autoclose: true,
+// todayHighlight: true
+// });
 </script>
