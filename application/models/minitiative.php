@@ -843,4 +843,12 @@ class Minitiative extends CI_Model {
         return $result->result_array();
     }
 
+    function getNewInitiativesAllUser($init_id)
+    {
+        $sql = 'select * from m_initiative WHERE id IN ('.$init_id.')';
+        $result = $this->db->query($sql);
+
+        return ($result) ? $result->result_array() : array();
+    }
+
 }
