@@ -48,7 +48,7 @@
 	background-color: #f7ab74;
 }
 
-/*.circle.text-left{margin-left:0;}
+.circle.text-left{margin-left:0;}
 .circle{
 	display: inline-block;
 	width: 7px;
@@ -67,7 +67,7 @@
 .circle-inprog{background-color:#2BD621;}
 .circle-delay{background-color:#E73F3F;}
 .circle-atrisk{background-color:#EBF34C;}
-.circle-completed{background-color:#A8D8F0;}*/
+.circle-completed{background-color:#A8D8F0;}
 
 
 @font-face {
@@ -340,7 +340,6 @@ hr{
     -webkit-border-radius: 50%;
     border-radius: 50px;
     margin-left: 15px;
-    border: 1px solid rgb(0,0,0);
 }
 
 /********** Button Section ************/

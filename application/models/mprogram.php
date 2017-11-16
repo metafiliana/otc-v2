@@ -768,11 +768,19 @@ class Mprogram extends CI_Model {
         $query = $this->db->get('m_action');
         return count($query->result());
     }
-   function get_latest_month($month){
-        $this->db->select('(kuantitatif_update.'.$month.') as bulan');
+   function get_latest_month($month,$idinit){
+        $this->db->select('sum(kuantitatif_update.'.$month.') as bulan');
         $this->db->join('kuantitatif','kuantitatif.id = kuantitatif_update.id');
+        $this->db->where('kuantitatif.init_id',$idinit);
         $query = $this->db->get('kuantitatif_update');
         return $query->row();
+    }
+    //new amir
+    function detail_pop_up($id){
+        $this->db->select('*');
+        $this->db->where('id',$id);
+        $query = $this->db->get('m_initiative');
+        return $query->result();
     }
 
     //end amir
