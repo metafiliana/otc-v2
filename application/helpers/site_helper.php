@@ -221,7 +221,7 @@
 
     function maxscore($score = 0, $type)
     {
-        $score = (int)$score;
+        $score = (float)$score;
         if($type=='Leading'){
           if ($score > 100){
               $score = 100;
@@ -294,7 +294,7 @@
             11 => 'November',
             12 => 'December',
         );
-        
+
         if (!$is_string){
             foreach ($data as $key => $value) {
                 if ($key == $month){
