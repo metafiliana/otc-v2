@@ -130,7 +130,7 @@ $init = explode(';', $user['initiative']);
                   <span><img style="height:18px; margin-right:3px;" src="<?=get_ext_icon($files->ext)?>"></span>
                   <span title="<?=$files->title?>"><?php long_text_real($file->title, 20)?><img style="height:18px; margin-left:7px;" src="<?=get_icon_url('download.png')?>"></span>
               </a>
-              <?php if($user['id'] == $file->user_id||$user['role']=='admin'){?>
+              <?php if($user['id'] == $files->user_id||$user['role']=='admin'){?>
               <a class="pull-right" onclick="delete_file(<?php echo $files->id?>)">
                       <span class="glyphicon glyphicon-trash" style="color:#c9302c"></span>
               </a><div style="clear:both"></div>
