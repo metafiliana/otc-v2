@@ -493,13 +493,13 @@ class Program extends CI_Controller {
       $this->load->view('front',$data);
     }
 
-    public function get_bulan(){
+    public function get_bulan($id){
       $month = date('F');
       $month = date('m',strtotime($month));
        $month = date('F',strtotime('1-'.$month.'-2017'));
       $last = true;
-      $bln = $this->mprogram->get_latest_month($month);
-      While ($this->mprogram->get_latest_month($month)->bulan == 0){
+      $bln = $this->mprogram->get_latest_month($month,$id);
+      While ($this->mprogram->get_latest_month($month,$id)->bulan == 0){
           $month = date('m',strtotime($month)) - 1;
           $month = date('F',strtotime('1-'.$month.'-2017'));
         // $bln = $this->mprogram->get_latest_month($month);
@@ -512,8 +512,8 @@ class Program extends CI_Controller {
       $month = date('m',strtotime($month));
        $month = date('F',strtotime('1-'.$month.'-2017'));
       $last = true;
-      $bln = $this->mprogram->get_latest_month($month);
-      While ($this->mprogram->get_latest_month($month)->bulan == 0){
+      $bln = $this->mprogram->get_latest_month($month,$id);
+      While ($this->mprogram->get_latest_month($month,$id)->bulan == 0){
           $month = date('m',strtotime($month)) - 1;
           $month = date('F',strtotime('1-'.$month.'-2017'));
         // $bln = $this->mprogram->get_latest_month($month);
@@ -649,6 +649,46 @@ class Program extends CI_Controller {
       $this->output->set_content_type('application/json')
                      ->set_output(json_encode($view_list));
     }
+    //new
+    public function input_init_id(){
+      $id = $_POST['id'];
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+        'username' => $user,
+        'foto' => $foto,
+        'initid' => $initid,
+        'last_login' => $lastlogin,
+        'private_email' => $privateemail,
+        'work_email' => $workemail
+      );
+
+      $data['title'] = "List All Initiative";
+
+      $user = $users;
+      $prog['user'] = $user;
+      $data['user'] = $user;
+
+
+      $time=strtotime(date("Y-m-d"));
+      $prog['month_view']="July";
+      $prog['year_view']=date("Y",$time);
+      $prog['month_number']=date("n",$time);
+
+      $prog['controller'] = $this;
+      $prog['detail'] = $this->mprogram->detail_pop_up($id);
+      $view_list['pop_up'] = $this->load->view('initiative_card/component/pop_up',$prog,TRUE);
+      $view_list['id'] = $id;
+      $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($view_list));
+    }
+    
+    //end new
 
 
     //end amir
