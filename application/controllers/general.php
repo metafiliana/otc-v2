@@ -266,7 +266,7 @@ class General extends CI_Controller {
             'upload_path' => $upload_path,
             'allowed_types' => "*",
             'overwrite' => TRUE,
-            'max_size' => "2048000000",
+            'max_size' => "20480",
         );
         $this->load->library('upload', $config);
 

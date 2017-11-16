@@ -152,9 +152,8 @@
         <!-- activities area start -->
         <div class="col-md-4">
           <div class="component_part">
-           <h3 class="text-center">Next Activities</h3>
-           <div><h4 style="float:right; margin-bottom:10px;">Last Agenda</h4></div><div style="clear:both"></div>
-           <?php foreach ($last_agenda as $la) { ?>
+           <h3 class="text-center">Next Agenda</h3>
+           <?php if($last_agenda) { foreach ($last_agenda as $la) { ?>
            <div>
             <a onclick="show_detail(<?php echo $la->id?>)">
             <div>
@@ -166,6 +165,8 @@
             </a>
           </div>
           <hr>
+          <?php } } else { ?>
+            <h4 class="center_text" style="margin-top: 10px;">No Agenda</h4>
           <?php } ?>
           </div>
         </div>
