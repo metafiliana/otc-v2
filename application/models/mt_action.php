@@ -91,7 +91,7 @@ class Mt_action extends CI_Model {
         }
 
         if ($month){
-            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-31';
             $where .= ' AND `end` <= "'.$date.'"';
         }
 
@@ -99,9 +99,9 @@ class Mt_action extends CI_Model {
             $where .= ' AND t.user_id = '.$user;
         }
 
-        if ($admin){
+        // if ($admin){
             $where .= ' AND mu.role = 1';
-        }
+        // }
 
         // main query
         if ($all){
@@ -122,21 +122,22 @@ class Mt_action extends CI_Model {
         if ($status !== false){
             $where .= ' AND t.`status` = '.$status;
         }
-        if ($month){
-            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-            $where .= ' AND t.`end` <= "'.$date.'"';
-        }
-        if ($user){
-            $where .= ' AND t.user_id = '.$user;
-        }
+        // if ($month){
+        //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+        //     $where .= ' AND t.`end` <= "'.$date.'"';
+        // }
+        // if ($user){
+        //     $where .= ' AND t.user_id = '.$user;
+        // }
+            $where .= ' AND mu.role = 1';
 
         //main query
         if ($all){
-            $sql = 'select ma.title, start, end from t_action t LEFT JOIN m_action ma ON ma.id = action_id WHERE '.$where;
+            $sql = 'select ma.title, start, end from t_action t LEFT JOIN user mu ON mu.id = t.user_id LEFT JOIN m_action ma ON ma.id = action_id WHERE '.$where;
             $query = $this->db->query($sql);
             return $query->result_array();
         }else{
-            $sql = 'select count(id) as jumlah from t_action t WHERE '.$where;
+            $sql = 'select count(t.id) as jumlah from t_action t LEFT JOIN user mu ON mu.id = t.user_id WHERE '.$where;
             $query = $this->db->query($sql)->row();
             return ($query->jumlah > 0) ? $query->jumlah : 0;
         }
@@ -194,18 +195,32 @@ class Mt_action extends CI_Model {
 
         if ($type == 1){ // not started
             // between start and end date
-            $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            // $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
 
             if ($month){
                 $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-                $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+                // $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+                $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
             }
         }elseif ($type == 2){ // overdue
             // after end date
-            $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
 
             if ($month){
                 $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+                // $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+                $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
+            }
+        }elseif ($type == 3){ // flagged
+            // after end date
+            // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            $where = 't.`updated_date` < t.`start` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+
+            if ($month){
+                $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+                // $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
                 $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
             }
         }
@@ -218,9 +233,9 @@ class Mt_action extends CI_Model {
 
         $where_admin = '';
         // query admin
-        if ($admin){
+        // if ($admin){
             $where_admin = ' AND mu.role = 1';
-        }
+        // }
 
         // main query
         if ($all){

@@ -132,9 +132,11 @@
                             $i = 1;
                             foreach ($init_table as $key => $value) {
                                 $completed = $controller->getStatus($value->id, 1, false, false, $bulan_search);
-                                $issues = $controller->getStatus($value->id, 3, false, false, $bulan_search);
+                                // $issues = $controller->getStatus($value->id, 3, false, false, $bulan_search);
                                 $overdue = $controller->getStatus($value->id, 3, false, 2, $bulan_search);
-                                $not_started = $controller->getStatus($value->id, 3, false, 1, $bulan_search);
+                                $not_started = $controller->getStatus($value->id, 0, false, 1, $bulan_search);
+                                $flagged = $controller->getStatus($value->id, 0, false, 3, $bulan_search);
+                                $issues = $overdue + $not_started + $flagged;
                                 $total = $controller->getStatus($value->id, false, false, false, $bulan_search);
                                 $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
                                 $ytd = $controller->getYtdMilestone($value->id);
@@ -143,12 +145,12 @@
                                     echo "<td>".$value->init_code."</td>";
                                     echo "<td class='text-left'>".$value->title."</td>";
                                     echo "<td>".$completed."</td>"; // completed
-                                    echo "<td>".$controller->getStatus($value->id, 0, false, false, $bulan_search)."</td>"; // future start
+                                    echo "<td>".$controller->getStatus($value->id, 0, true, false, $bulan_search)."</td>"; // future start
                                     echo "<td>".$controller->getStatus($value->id, 2, false, false, $bulan_search)."</td>"; // on track
                                     echo "<td>".$issues."</td>"; // issues
                                     echo "<td>".$not_started."</td>"; // not started
                                     echo "<td>".$overdue."</td>"; // overdue
-                                    $flagged = $issues - ($overdue + $not_started);
+                                    // $flagged = $issues - ($overdue + $not_started);
                                     echo "<td>".$flagged."</td>"; // flagged
                                     echo "<td>".$total."</td>"; //total
                                     echo "<td>".number_format($mtd)." %</td>"; // MTD

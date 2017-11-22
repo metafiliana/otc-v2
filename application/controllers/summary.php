@@ -395,7 +395,7 @@ class Summary extends CI_Controller {
         )
     {
         $return = 0;
-        $future = false;
+        // $future = false;
 
         if ($future){
             $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
@@ -598,7 +598,7 @@ class Summary extends CI_Controller {
             }else{
                 $total = (($total) > $cap_lagging) ? $cap_lagging : $total;
             }
-            $return = number_format($total * 100);
+            $return = number_format($total * 100, 2);
         }
 
 
@@ -953,8 +953,8 @@ class Summary extends CI_Controller {
             $j++;
         }
 
-        $total_monthly = number_format($total_monthly / $i);
-        $total_yearly = number_format($total_yearly / ($i + $j));
+        $total_monthly = number_format($total_monthly / $i, 2);
+        $total_yearly = number_format($total_yearly / ($i + $j), 2);
 
         $return['mtd'] = $total_monthly;
         $return['ytd'] = $total_yearly;
@@ -996,7 +996,7 @@ class Summary extends CI_Controller {
                     $issues = $this->getStatus($value->id, 3, false, false, $month_status, $user, false, $admin);
                     $completed = $this->getStatus($value->id, 1, false, false, $month_status, $user, false, $admin);
                     $on_track = $this->getStatus($value->id, 2, false, false, $month_status, $user, false, $admin);
-                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status, $user, false, $admin);
+                    $future_start = $this->getStatus($value->id, 0, true, false, $month_status, $user, false, $admin);
                     $overdue = $this->getStatus($value->id, 3, false, 2, $month_status, $user, false, $admin);
                     $delay = $this->getStatus($value->id, 3, false, 1, $month_status, $user, false, $admin);
                     // $flagged = abs($issues - ($overdue + $delay));
@@ -1039,7 +1039,7 @@ class Summary extends CI_Controller {
                     $issues = $this->getStatus($value->id, 3, false, false, $month_status, $user, false, $admin);
                     $completed = $this->getStatus($value->id, 1, false, false, $month_status, $user, false, $admin);
                     $on_track = $this->getStatus($value->id, 2, false, false, $month_status, $user, false, $admin);
-                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status, $user, false, $admin);
+                    $future_start = $this->getStatus($value->id, 0, true, false, $month_status, $user, false, $admin);
                     $overdue = $this->getStatus($value->id, 3, false, 2, $month_status, $user, false, $admin);
                     $delay = $this->getStatus($value->id, 3, false, 1, $month_status, $user, false, $admin);
                     $flagged = $issues - ($overdue + $delay);
@@ -1081,7 +1081,7 @@ class Summary extends CI_Controller {
                     $issues = $this->getStatus($value->id, 3, false, false, $month_status, $user, false, $admin);
                     $completed = $this->getStatus($value->id, 1, false, false, $month_status, $user, false, $admin);
                     $on_track = $this->getStatus($value->id, 2, false, false, $month_status, $user, false, $admin);
-                    $future_start = $this->getStatus($value->id, 0, false, false, $month_status, $user, false, $admin);
+                    $future_start = $this->getStatus($value->id, 0, true, false, $month_status, $user, false, $admin);
                     $overdue = $this->getStatus($value->id, 3, false, 2, $month_status, $user, false, $admin);
                     $delay = $this->getStatus($value->id, 3, false, 1, $month_status, $user, false, $admin);
                     $flagged = $issues - ($overdue + $delay);
@@ -1121,10 +1121,15 @@ class Summary extends CI_Controller {
         $status = $_GET['status'];
         $flagged = $_GET['flagged'];
         $month = !empty($_GET['month']) ? $_GET['month'] : null;
+        $future = !empty($_GET['future']) ? $_GET['future'] : false;
         // $flagged = ($_GET['flagged'] != false) ? $_GET['flagged'] : false;
 
         if ($flagged === 'false'){
             $flagged = false;
+        }
+
+        if ($future === 'false'){
+            $future = false;
         }
 
         $user = $this->session->userdata('user');
@@ -1149,10 +1154,10 @@ class Summary extends CI_Controller {
         // $issues =       $this->getStatus($value->id, 3, false, false, false, $user_id, true);
         // $overdue =      $this->getStatus($value->id, 3, false, 2, false, $user_id, true);
         // $not_started =  $this->getStatus($value->id, 3, false, 1, false, $user_id, true);
-        // $future_start = $this->getStatus($value->id, 0, false, false, false, $user_id, true);
+        // $future_start = $this->getStatus($value->id, 0, true, false, $month_status, $user, false, $admin);
         // $on_track =     $this->getStatus($value->id, 2, false, false, false, $user_id, true);
 
-        $data = $this->getStatus($initiative_id, $status, false, $flagged, $month, $user_id, true, $is_admin);
+        $data = $this->getStatus($initiative_id, $status, $future, $flagged, $month, $user_id, true, $is_admin);
 
         $dataResponse = array("status" => "success", "data" => $data);
         header('Content-Type: application/json');
