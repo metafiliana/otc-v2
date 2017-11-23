@@ -84,7 +84,7 @@
               <?php
                 if ($is_admin){
               ?>
-              <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
+              <a href="<?php echo base_url()?>summary/generateSummary/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
               <?php
                 }
               ?>
@@ -513,7 +513,7 @@
       var flagged = $(this).data('flagged');
       var month = $(this).data('month');
       var future = $(this).data('future');
-console.log(future);
+
       $.ajax({
           type: 'GET',
           url: '<?php echo base_url()."summary/getDetailInitiative"; ?>',

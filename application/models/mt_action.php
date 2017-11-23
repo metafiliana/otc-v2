@@ -90,10 +90,10 @@ class Mt_action extends CI_Model {
             $where .= ' AND t.status = '.$status;
         }
 
-        if ($month){
-            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-31';
-            $where .= ' AND `end` <= "'.$date.'"';
-        }
+        // if ($month){
+        //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-31';
+        //     $where .= ' AND `end` <= "'.$date.'"';
+        // }
 
         if ($user){
             $where .= ' AND t.user_id = '.$user;
@@ -157,10 +157,10 @@ class Mt_action extends CI_Model {
         // query month
         $where_month = '';
         $where_user = '';
-        if ($month){
-            $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-            $where_month = ' AND `end` <= "'.$date.'"';
-        }
+        // if ($month){
+        //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+        //     $where_month = ' AND `end` <= "'.$date.'"';
+        // }
 
         if ($user){
             $where_user = ' AND user_id = '.$user;
@@ -198,31 +198,31 @@ class Mt_action extends CI_Model {
             // $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
             $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
 
-            if ($month){
-                $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-                // $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-                $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
-            }
+            // if ($month){
+            //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+            //     // $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            //     $where = 't.`updated_date` between t.`start` AND "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
+            // }
         }elseif ($type == 2){ // overdue
             // after end date
             // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
             $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
 
-            if ($month){
-                $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-                // $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-                $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
-            }
+            // if ($month){
+            //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+            //     // $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            //     $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
+            // }
         }elseif ($type == 3){ // flagged
             // after end date
             // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
             $where = 't.`updated_date` < t.`start` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
 
-            if ($month){
-                $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
-                // $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-                $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-            }
+            // if ($month){
+            //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+            //     // $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            //     $where = 't.`end` <= "'.$date.'" AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            // }
         }
 
         $where_user = '';

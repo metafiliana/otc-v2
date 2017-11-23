@@ -485,6 +485,8 @@ class Initiative extends CI_Controller {
     //generate data transaksi
     public function generateTransaksi()
     {
+    	$bulan = $_GET['bulan'];
+    	$updated_date = date('Y').'-'.date('m', strtotime($bulan)).'-28';
     	$data_insert = array();
 
     	// truncate table
@@ -515,7 +517,7 @@ class Initiative extends CI_Controller {
     							}
     							$insert['status'] = $status;
 
-    							$insert['updated_date'] = date('Y-m-d');
+    							$insert['updated_date'] = $updated_date;
     							$insert['start'] = $value2['start_date'];
     							$insert['end'] = $value2['end_date'];
 
@@ -530,7 +532,7 @@ class Initiative extends CI_Controller {
     	// update info last update summary
     	$this->minfo->updateLastUpdatedSummary();
 
-    	redirect($_SERVER['HTTP_REFERER']);
+    	// redirect($_SERVER['HTTP_REFERER']);
     }
     
 }

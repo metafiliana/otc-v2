@@ -60,7 +60,7 @@
           <?php 
           if ($is_admin){
           ?>
-          <a href="<?php echo base_url()?>initiative/generateTransaksi/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
+          <a href="<?php echo base_url()?>summary/generateSummary/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
           <?php 
               }
           ?>
