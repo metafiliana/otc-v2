@@ -215,9 +215,9 @@
                   <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="1" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="false">Complete: <?php echo $value['completed']; ?></p>
                   <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="2" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="false">On Track: <?php echo $value['on_track']; ?></p>
                   <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="0" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="true">Future Start: <?php echo $value['future_start']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="1" data-future="false" style="color: red">Not Started: <?php echo $value['delay']; ?></p>
                   <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="2" data-future="false" style="color: red">Overdue: <?php echo $value['overdue']; ?></p>
-                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="1" data-future="false" style="color: red">Delay: <?php echo $value['delay']; ?></p>
+                  <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="3" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="false" style="color: red">Flagged: <?php echo $value['flagged']; ?></p>
                 </div>
                 <div class="col-md-6 text-center">
                   <table class="table" style="width: 80%;">

@@ -39,6 +39,32 @@ class Mt_action extends CI_Model {
         return $result->result();
     }
 
+    function getAllAction($initiative_id, $month = false)
+    {
+        $date_raw = date('Y-m-t');
+
+        if ($month){
+            if (is_int($month)){
+                $dateObj   = DateTime::createFromFormat('!m', $month);
+                $month = $dateObj->format('F'); // March
+                $month = date('F', strtotime($month));
+            }
+            $date_raw = date('Y-m-t', strtotime($month));
+        }
+        $date = strtotime($date_raw.' -1 months');
+        $where_date = date('Y-m-t', $date);
+
+        $this->db->select('id');
+        $this->db->where('initiative_id', $initiative_id);
+        $this->db->where('end <=', $where_date);
+        $this->db->group_by('action_id');
+        $query = $this->db->get('t_action')->result_array();
+
+        $result = count($query);
+
+        return ($result > 0) ? $result : 1;
+    }
+
     // keperluan generate t_action
     public function getUserInit()
     {
@@ -97,11 +123,13 @@ class Mt_action extends CI_Model {
 
         if ($user){
             $where .= ' AND t.user_id = '.$user;
+        }else{
+            $where .= ' AND mu.role = 1';
         }
 
-        // if ($admin){
-            $where .= ' AND mu.role = 1';
-        // }
+        if ($status == 2){
+            $where .= ' AND t.updated_date BETWEEN t.start AND t.end';
+        }
 
         // main query
         if ($all){
@@ -126,10 +154,11 @@ class Mt_action extends CI_Model {
         //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
         //     $where .= ' AND t.`end` <= "'.$date.'"';
         // }
-        // if ($user){
-        //     $where .= ' AND t.user_id = '.$user;
-        // }
+        if ($user){
+            $where .= ' AND t.user_id = '.$user;
+        }else{
             $where .= ' AND mu.role = 1';
+        }
 
         //main query
         if ($all){
@@ -216,7 +245,7 @@ class Mt_action extends CI_Model {
         }elseif ($type == 3){ // flagged
             // after end date
             // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-            $where = 't.`updated_date` < t.`start` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
+            $where = 't.`updated_date` BETWEEN t.`start` AND t.end AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
 
             // if ($month){
             //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
@@ -226,16 +255,13 @@ class Mt_action extends CI_Model {
         }
 
         $where_user = '';
+        $where_admin = '';
         // query user
         if ($user){
             $where_user = ' AND t.user_id = '.$user;
-        }
-
-        $where_admin = '';
-        // query admin
-        // if ($admin){
+        }else{
             $where_admin = ' AND mu.role = 1';
-        // }
+        }
 
         // main query
         if ($all){

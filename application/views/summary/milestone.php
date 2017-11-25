@@ -138,7 +138,8 @@
                                 $flagged = $controller->getStatus($value->id, 0, false, 3, $bulan_search);
                                 $issues = $overdue + $not_started + $flagged;
                                 $total = $controller->getStatus($value->id, false, false, false, $bulan_search);
-                                $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                                // $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                                $mtd = $controller->getMtdMilestone($overdue, $completed, $value->id, $bulan_search);
                                 $ytd = $controller->getYtdMilestone($value->id);
                                 echo "<tr>";
                                     echo "<td style='display: none;'>".$i."</td>";
@@ -163,11 +164,14 @@
                             $i = 1;
                             foreach ($init_table as $key => $value) {
                                 $completed = $controller->getStatus($value->initiative, 1, false, false, $bulan_search, $value->id);
-                                $issues = $controller->getStatus($value->initiative, 3, false, false, $bulan_search, $value->id);
+                                // $issues = $controller->getStatus($value->initiative, 3, false, false, $bulan_search, $value->id);
                                 $overdue = $controller->getStatus($value->initiative, 3, false, 2, $bulan_search, $value->id);
                                 $not_started = $controller->getStatus($value->initiative, 3, false, 1, $bulan_search, $value->id);
+                                $flagged = $controller->getStatus($value->initiative, 0, false, 3, $bulan_search);
+                                $issues = $overdue + $not_started + $flagged;
                                 $total = $controller->getStatus($value->initiative, false, false, false, $bulan_search, $value->id);
-                                $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                                // $mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                                $mtd = $controller->getMtdMilestone($overdue, $completed, $value->initiative, $bulan_search);
                                 $ytd = $controller->getYtdMilestone($value->initiative, $value->id);
                                 echo "<tr>";
                                     echo "<td style='display: none;'>".$i."</td>";
@@ -177,10 +181,10 @@
                                     echo "<td>".$controller->getStatus($value->initiative, 0, false, false, $bulan_search, $value->id)."</td>"; // future start
                                     echo "<td>".$controller->getStatus($value->initiative, 2, false, false, $bulan_search, $value->id)."</td>"; // on track
                                     echo "<td>".$issues."</td>"; // issues
-                                    $not_started = $overdue > 0 ? 0 : $not_started;
+                                    // $not_started = $overdue > 0 ? 0 : $not_started;
                                     echo "<td>".$not_started."</td>"; // not started
                                     echo "<td>".$overdue."</td>"; // overdue
-                                    $flagged = $issues - ($overdue + $not_started) < 0 ? 0 : $issues - ($overdue + $not_started);
+                                    // $flagged = $issues - ($overdue + $not_started) < 0 ? 0 : $issues - ($overdue + $not_started);
                                     echo "<td>".$flagged."</td>"; // flagged
                                     echo "<td>".$total."</td>"; //total
                                     echo "<td>".number_format($mtd)." %</td>"; // MTD
