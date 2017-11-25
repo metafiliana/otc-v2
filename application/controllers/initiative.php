@@ -486,7 +486,7 @@ class Initiative extends CI_Controller {
     public function generateTransaksi()
     {
     	$bulan = $_GET['bulan'];
-    	$updated_date = date('Y').'-'.date('m', strtotime($bulan)).'-28';
+		$updated_date = date('Y').'-'.date('m-t', strtotime($bulan));
     	$data_insert = array();
 
     	// truncate table
