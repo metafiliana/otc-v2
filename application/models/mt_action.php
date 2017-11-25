@@ -120,6 +120,18 @@ class Mt_action extends CI_Model {
         //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-31';
         //     $where .= ' AND `end` <= "'.$date.'"';
         // }
+        // if ($month){
+        //     if (is_int($month)){
+        //         $dateObj   = DateTime::createFromFormat('!m', $month);
+        //         $month = $dateObj->format('F'); // March
+        //         $month = date('F', strtotime($month));
+        //     }
+        //     $date_raw = date('Y-m-t', strtotime($month));
+        //     $date = strtotime($date_raw.' -1 months');
+        //     $where_date = date('Y-m-t', $date);
+        //     var_dump($date_raw);die;
+        //     $where .= ' AND `end` <= "'.$where_date.'"';
+        // }
 
         if ($user){
             $where .= ' AND t.user_id = '.$user;
@@ -148,7 +160,8 @@ class Mt_action extends CI_Model {
     {
         $where = 't.`updated_date` < t.`start` AND t.`initiative_id` = '.$initiative_id;
         if ($status !== false){
-            $where .= ' AND t.`status` = '.$status;
+            // $where .= ' AND t.`status` = '.$status;
+            $where .= ' AND t.`status` IN (0,2,3)';
         }
         // if ($month){
         //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
@@ -225,7 +238,7 @@ class Mt_action extends CI_Model {
         if ($type == 1){ // not started
             // between start and end date
             // $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-            $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
+            $where = 't.`updated_date` between t.`start` AND t.`end` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0)';
 
             // if ($month){
             //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
@@ -235,7 +248,7 @@ class Mt_action extends CI_Model {
         }elseif ($type == 2){ // overdue
             // after end date
             // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-            $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,3)';
+            $where = 't.`end` <= t.`updated_date` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,2,3)';
 
             // if ($month){
             //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';

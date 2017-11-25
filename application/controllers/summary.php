@@ -1222,8 +1222,9 @@ class Summary extends CI_Controller {
 
     public function getMtdMilestone($overdue, $complete, $initiative_id, $month = false)
     {
+        $complete = ($complete > 0) ? $complete : 1;
         $total_action = $this->mt_action->getAllAction($initiative_id, $month);
-        $mtd = $complete / ($total_action + $overdue) * 100;
+        $mtd = $complete / ($complete + $overdue) * 100;
 
         return ($mtd <= 100) ? $mtd : 100;
     }
