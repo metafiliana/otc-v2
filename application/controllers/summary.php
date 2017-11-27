@@ -567,15 +567,21 @@ class Summary extends CI_Controller {
         $return = 0;
         $cap_leading = 1;
         $cap_lagging = 1.3;
+        $legend = $this->mkuantitatif->get_id_different_sum_kuantitatif();
 
         if ($datas){
             if ($get === 2){ //yearly
+
                 foreach ($datas as $key => $value) {
                     $target = ($value['target']) ? $value['target'] : 1;
                     $done = ($value[$month]) ? $value[$month] : 0;
-
                     if ($done > 0){
-                        $hasil = $done / $target;
+                        if (in_array($value['id'], $legend, true)){
+                            $hasil = 1 - ($done/$target);
+                        }else{
+                            $hasil = $done / $target;
+                        }
+
                         $total = $total + ($hasil * $pembobotan);
                     }
                 }
@@ -587,7 +593,11 @@ class Summary extends CI_Controller {
                     $done = ($value[$month]) ? $value[$month] : 0;
 
                     if ($done > 0){
-                        $hasil = $done / $target;
+                        if (in_array($value['id'], $legend, true)){
+                            $hasil = 1 - ($done/$target);
+                        }else{
+                            $hasil = $done / $target;
+                        }
                         $total = $total + ($hasil * $pembobotan);
                     }
                 }
@@ -634,7 +644,6 @@ class Summary extends CI_Controller {
 
         // insert array dummy for batas compare
         array_push($get_kuantitatif, ['id' => 'xxx', 'type' => 'xxx', 'init_id' => 'xxx']);
-
         $data['type_1'] = array();
         $data['type_2'] = array();
         $data['type_3'] = array();
@@ -655,7 +664,8 @@ class Summary extends CI_Controller {
                 $init_id = $value['init_id'];
                 $leading = false;
                 $lagging = false;
-            }else{
+            }
+            // else{
                 if ($value['type'] == 'Leading'){
                     $leading = true;
                     continue;
@@ -663,7 +673,7 @@ class Summary extends CI_Controller {
                     $lagging = true;
                     continue;
                 }
-            }
+            // }
         }
 
         $get_table_inititative = $this->mt_action->getDataInKuantitatif($data);
@@ -927,34 +937,35 @@ class Summary extends CI_Controller {
         $i = 1;
         $j = 1;
         foreach ($data_summary_kuantitatif['type_1'] as $key => $value) {
-            $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1, $month);
-            $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2, $month);
-            $total_monthly = $total_monthly + (int)$final_monthly_score;
-            $total_yearly = $total_yearly + (int)$final_yearly_score;
+            $final_monthly_score = $this->getKuantitatifSummary($value->init_code, 'Lagging', 1, $month);
+            $final_yearly_score = $this->getKuantitatifSummary($value->init_code, 'Lagging', 2, $month);
+            $total_monthly += (float)$final_monthly_score;
+            $total_yearly += (float)$final_yearly_score;
 
             $i++;
         }
 
         foreach ($data_summary_kuantitatif['type_2'] as $key => $value) {
-            $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1, $month);
-            $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, $month);
-            $total_monthly = $total_monthly + (int)$final_monthly_score;
-            $total_yearly = $total_yearly + (int)$final_yearly_score;
+            $final_monthly_score = $this->getKuantitatifSummary($value->init_code, 'Leading', 1, $month);
+            $final_yearly_score = $this->getKuantitatifSummary($value->init_code, 'Leading', 2, $month);
+            $total_monthly += $final_monthly_score;
+            $total_yearly += $final_yearly_score;
 
             $i++;
         }
 
-        foreach ($data_summary_kuantitatif['type_3'] as $key => $value) {
-            $final_monthly_score = $this->countKuantitatif($value->id, 1);
-            $final_yearly_score = $this->countKuantitatif($value->id, 1);
-            $total_monthly = $total_monthly + (int)$final_monthly_score;
-            $total_yearly = $total_yearly + (int)$final_yearly_score;
+        // foreach ($data_summary_kuantitatif['type_3'] as $key => $value) {
+        //     $final_monthly_score = $this->countKuantitatif($value->id, 1);
+        //     $final_yearly_score = $this->countKuantitatif($value->id, 1);
+        //     $total_monthly = $total_monthly + (int)$final_monthly_score;
+        //     $total_yearly = $total_yearly + (int)$final_yearly_score;
 
-            $j++;
-        }
+        //     $j++;
+        // }
 
         $total_monthly = number_format($total_monthly / $i, 2);
-        $total_yearly = number_format($total_yearly / ($i + $j), 2);
+        $total_yearly = number_format($total_yearly / $i, 2);
+        // $total_yearly = number_format($total_yearly / ($i + $j), 2);
 
         $return['mtd'] = $total_monthly;
         $return['ytd'] = $total_yearly;
@@ -1227,6 +1238,45 @@ class Summary extends CI_Controller {
         $mtd = $complete / ($complete + $overdue) * 100;
 
         return ($mtd <= 100) ? $mtd : 100;
+    }
+
+    public function getKuantitatifSummary($init_code, $type, $period, $month = false)
+    {
+        $month = ($month) ? $month : date('F');
+        $get = $this->mprogram->get_m_initiative_tot($init_code, $month);
+
+        $total = 0;
+        $count = 1;
+        if ($type == 'Lagging'){
+            foreach ($get as $key => $value) {
+                $count = $value['count_lagging'];
+
+                if ($period == 1){ //monthly
+                    $total = $value['tot_lagging']['month'];
+                }else{
+                    $total = $value['tot_lagging']['year'];
+                }
+            }
+        }else{
+            foreach ($get as $key => $value) {
+                $count = $value['count_leading'];
+
+                if ($period == 1){ //monthly
+                    $total = $value['tot_leading']['month'];
+                }else{
+                    $total = $value['tot_leading']['year'];
+                }
+            }
+        }
+
+        $count = ($count > 0) ? $count : 1;
+
+        $percentage = ($total * 100) / $count;
+        $percentage = maxscore($percentage, $type);
+
+        $return = number_format($percentage, 2, ",", ".");
+
+        return $return;
     }
 
 }

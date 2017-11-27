@@ -299,14 +299,15 @@ class Mt_action extends CI_Model {
         if ($completed > 0){
             // get data mtd find overdue
             if ($mtd){
-                $sql = 'select count(id) as jumlah from t_action WHERE ';
-                $where = '`updated_date` > `end` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND `status` IN (0, 2)';
-                if ($user){
-                    $where .= ' AND user_id IN '.$user;
-                }
-                $query = $this->db->query($sql.$where)->row();
+                // $sql = 'select count(id) as jumlah from t_action WHERE ';
+                // $where = '`updated_date` > `end` AND `updated_date` < `start` AND `initiative_id` = '.$initiative_id.' AND `status` IN (0, 2)';
+                // if ($user){
+                //     $where .= ' AND user_id IN '.$user;
+                // }
+                // $query = $this->db->query($sql.$where)->row();
 
-                $overdue = ($query->jumlah > 0) ? $query->jumlah : 0;
+                $overdue = $this->getStatusIssueMilestone($initiative_id, false, $user, 2);
+                $overdue = ($overdue > 0) ? $overdue : 0;
                 $divider = $completed + $overdue;
                 $total = $completed / $divider;
             }

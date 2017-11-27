@@ -50,8 +50,11 @@
     .btn-danger{
       border-color:unset;
     }
-</style>
 
+    .js div#preloader { position: fixed; left: 0; top: 0; z-index: 999; width: 100%; height: 100%; overflow: visible; opacity: 0.5; background: #333 url("<?php echo base_url();?>assets/img/general/loading.gif") no-repeat center center; }
+</style>
+<div class="js">
+<div id="preloader" style="display: none;"></div>
 <div class="panel-body">
       <div class="component_part_summary" style="margin-top:10px; margin-right: 5px; margin-left: 5px;">
         <div class="row">
@@ -108,7 +111,7 @@
       </div>
       <!-- header area ends -->
 </div>
-
+</div>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/globalize.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/dx.chartjs.js"></script>
@@ -128,16 +131,17 @@
               url: '<?php echo base_url()."initiative/generateTransaksi"; ?>',
               data: 'bulan='+bulan,
               beforeSend: function(){
-                $(this).text("Loading ...");
-                $(this).prop("disabled", true);
+                $(this).val("Loading ...");
+                $("#preloader").show();
               },
               success: function(data) {
                   alert("Data summary berhasil di generate!");
                   window.location.href = '<?php echo base_url()."summary/home"; ?>';
               },
               complete: function(){
-                $(this).text("Generate");
+                $(this).val("Generate");
                 $(this).prop("disabled", false);
+                $("#preloader").hide();
               }
           });
         }

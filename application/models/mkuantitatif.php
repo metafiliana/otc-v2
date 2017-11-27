@@ -486,12 +486,20 @@ class Mkuantitatif extends CI_Model {
 
     function getSummaryKuantitatif($array_in = false)
     {
-        $this->db->select('id, type, init_id');
-        if ($array_in){
-            $this->db->where_in('init_id', $array_in);
-        }
-        $query = $this->db->get('kuantitatif');
-        $result = $query->result_array();
+        $where = '';
+        if ($array_in)
+            $where = ' WHERE init_id IN ('.$array_in.')';
+        $sql = '
+            SELECT id, 
+            CASE WHEN (target = 0) THEN
+            "-"
+            ELSE
+            type
+            END as type, 
+            init_id 
+            from kuantitatif '.$where.' ORDER BY init_id';
+
+        $result = $this->db->query($sql)->result_array();
 
         return $result;
     }

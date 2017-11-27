@@ -197,8 +197,15 @@
                             $total_milestone_monthly = 0;
                             $total_milestone_yearly = 0;
                             foreach ($init_table['type_1'] as $key => $value) {
-                                $final_monthly_score = $controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user);
-                                $final_yearly_score = $controller->getLeadingLagging($value->init_code, 'Lagging', 2);
+                                // monthly
+                                $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+                                $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
+                                $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+
+                                // yearly
+                                $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
+                                $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
+                                $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
 
                                 $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                                 $milestone_yearly = $controller->countKuantitatif($value->id, 2);
@@ -214,12 +221,12 @@
                                     echo "<td class='text-left'>".$value->init_code."</td>";
                                     echo "<td class='text-left'>".$value->title."</td>";
                                     echo "<td>".$milestone_monthly." %</td>"; // mtd milestone
-                                    echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)." %</td>";
-                                    echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)." %</td>";
+                                    echo "<td class = 'leading-month-".$key."'>".$final_monthly_score_leading." %</td>";
+                                    echo "<td class = 'lagging-month-".$key."'>".$final_monthly_score_lagging." %</td>";
                                     echo "<td class = 'lagging-month-".$key."'><div class=circle style='background:".warna($final_monthly_score)."'></div>".$final_monthly_score." %</td>";
                                     echo "<td>".$milestone_yearly." %</td>"; // ytd milestone
-                                    echo "<td class = 'leading-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 2)." %</td>";
-                                    echo "<td class = 'lagging-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 2)." %</td>";
+                                    echo "<td class = 'leading-year-".$key."'>".$final_yearly_score_leading." %</td>";
+                                    echo "<td class = 'lagging-year-".$key."'>".$final_yearly_score_lagging." %</td>";
                                     echo "<td class = 'lagging-year-".$key."'><div class=circle style='background:".warna($final_yearly_score)."'></div>".$final_yearly_score." %</td>";
                                 echo "</tr>";
 
@@ -244,8 +251,15 @@
                     </tr>
                     <?php
                         foreach ($init_table['type_2'] as $key => $value) {
-                            $final_monthly_score = $controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user);
-                            $final_yearly_score = $controller->getLeadingLagging($value->init_code, 'Leading', 2, false, $user);
+                            // monthly
+                            $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
+                            $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
+                            $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+
+                            // yearly
+                            $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
+                            $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
+                            $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
 
                             $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                             $milestone_yearly = $controller->countKuantitatif($value->id, 2);
@@ -261,12 +275,12 @@
                                 echo "<td class='text-left'>".$value->init_code."</td>";
                                 echo "<td class='text-left'>".$value->title."</td>";
                                 echo "<td>".$controller->countKuantitatif($value->id, 1)." %</td>"; // mtd milestone
-                                echo "<td class = 'leading-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 1, $bulan_search, $user)." %</td>";
-                                echo "<td class = 'lagging-month-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 1, $bulan_search, $user)." %</td>";
+                                echo "<td class = 'leading-month-".$key."'>".$final_monthly_score_leading." %</td>";
+                                echo "<td class = 'lagging-month-".$key."'>".$final_monthly_score_lagging." %</td>";
                                 echo "<td class = 'leading-month-".$key."'><div class=circle style='background:".warna($final_monthly_score)."'></div>".$final_monthly_score." %</td>";
                                 echo "<td>".$controller->countKuantitatif($value->id, 2)." %</td>"; // ytd milestone
-                                echo "<td class = 'leading-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Leading', 2, false, $user)." %</td>";
-                                echo "<td class = 'lagging-year-".$key."'>".$controller->getLeadingLagging($value->init_code, 'Lagging', 2, false, $user)." %</td>";
+                                echo "<td class = 'leading-year-".$key."'>".$final_yearly_score_leading." %</td>";
+                                echo "<td class = 'lagging-year-".$key."'>".$final_yearly_score_lagging." %</td>";
                                 echo "<td class = 'leading-year-".$key."'><div class=circle style='background:".warna($final_yearly_score)."'></div>".$final_yearly_score." %</td>";
                             echo "</tr>";
 
@@ -295,8 +309,8 @@
                             $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                             $milestone_yearly = $controller->countKuantitatif($value->id, 2);
 
-                            $total_monthly = $total_monthly + (int)$final_monthly_score;
-                            $total_yearly = $total_yearly + (int)$final_yearly_score;
+                            // $total_monthly = $total_monthly + (int)$final_monthly_score;
+                            // $total_yearly = $total_yearly + (int)$final_yearly_score;
                             $total_milestone_monthly = $total_milestone_monthly + (int)$milestone_monthly;
                             $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
 
@@ -320,8 +334,10 @@
 
                         $total_milestone_monthly = number_format($total_milestone_monthly / $i);
                         $total_monthly = number_format($total_monthly / $i);
+
                         $total_milestone_yearly = number_format($total_milestone_yearly / ($i + $j));
-                        $total_yearly = number_format($total_yearly / ($i + $j));
+                        // $total_yearly = number_format($total_yearly / ($i + $j));
+                        $total_yearly = number_format($total_yearly / $i);
                         echo '<tr>';
                           echo "<td style='display: none;'></td>";
                           echo "<td></td>";
@@ -487,8 +503,8 @@
                             $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                             $milestone_yearly = $controller->countKuantitatif($value->id, 2);
 
-                            $total_monthly = $total_monthly + (int)$final_monthly_score;
-                            $total_yearly = $total_yearly + (int)$final_yearly_score;
+                            // $total_monthly = $total_monthly + (int)$final_monthly_score;
+                            // $total_yearly = $total_yearly + (int)$final_yearly_score;
                             $total_milestone_monthly = $total_milestone_monthly + (int)$milestone_monthly;
                             $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
 
@@ -512,8 +528,10 @@
 
                         $total_milestone_monthly = number_format($total_milestone_monthly / $i);
                         $total_monthly = number_format($total_monthly / $i);
+
                         $total_milestone_yearly = number_format($total_milestone_yearly / ($i + $j));
-                        $total_yearly = number_format($total_yearly / ($i + $j));
+                        // $total_yearly = number_format($total_yearly / ($i + $j));
+                        $total_yearly = number_format($total_yearly / $i);
                         echo '<tr>';
                           echo "<td style='display: none;'></td>";
                           echo "<td></td>";
