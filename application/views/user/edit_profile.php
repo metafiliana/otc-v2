@@ -4,7 +4,7 @@
 <div class="container" style="margin-top: 50px; background-color: white; padding: 20px; width: 60%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin-bottom: 100px;">
     
     <h1 style="text-align: center; margin: 0 auto !important;">Profile</h1>
-    <p style="margin-left: 75%;"><b style="padding-right: 10px;">Last Login</b><?php $datelogin = $last_login; echo date("d/F/Y H:i:s", strtotime($datelogin));?></p>
+    <p style="margin-left: 70%;"><b style="padding-right: 10px;">Last Login</b><?php $datelogin = $last_login; echo date("d/F/Y H:i:s", strtotime($datelogin));?></p>
     <!-- <div class="alert alert-info alert-dismissable">
           <a class="panel-close close" data-dismiss="alert">×</a> 
           <i class="fa fa-coffee"></i>

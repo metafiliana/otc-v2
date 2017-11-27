@@ -9,7 +9,7 @@ div.bhoechie-tab-container{
   -moz-border-radius: 4px;
   border:1px solid #ddd;
   margin-top: 20px;
-  margin-left: 50px;
+  width: 100%;
   -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
   -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
@@ -146,7 +146,9 @@ table.init-table td{
   padding: 10px;
   }
 </style>
-        <div class="col-lg-11 col-md-12 col-sm-12 col-xs-9 bhoechie-tab-container" style="height: auto;">
+
+  <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
+    <div class="col-lg-11 col-md-12 col-sm-12 col-xs-9 bhoechie-tab-container" style="height: auto;">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
               <div class="list-group">
         <?php
@@ -172,6 +174,8 @@ table.init-table td{
                 
             </div>
         </div>
+  </div>
+        
 <script type="text/javascript">
   $(document).ready(function() {
     $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {

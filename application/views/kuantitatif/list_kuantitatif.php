@@ -28,7 +28,8 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 </style>
   <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
     <div class="row" style="margin:5px 0 5px -5px;">
-      <div class="col-md-10 row">
+
+      <div class="col-md-12 row">
 				<div class="col-sm-3">
 					<a href="<?php echo base_url()?>program/list_programs/">
 	          <button class="btn btn-default btn-sm btn-info-new">Update Activity</button>
@@ -61,10 +62,13 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 		 					</select>
 						</div>
 					<?php } ?>
-      </div>
-        <div class="col-md-2 right_text">
+
+        <div class="col-md-2 right_text" style="float: right;">
           <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>
         </div>
+
+      </div>
+
     </div>
     <div class="component_part">
       <div class="" id="list_of_program">

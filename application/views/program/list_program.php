@@ -9,14 +9,18 @@
 </style>
 <div style="padding:5px 10px 5px 0; margin: 10px 30px 10px 40px;">
   <div class="row" style="margin-top:5px;">
+
+    <div class="col-md-12 row">
     <div class="col-md-10">
       <button class="btn btn-info-new btn-sm" disabled="disabled">Update Activity</button>
       <a href="<?php echo base_url()?>kuantitatif/list_kuantitatif/"><button class="btn btn-default btn-sm btn-info-new">Update KPI</button></a>
     </div>
-    <div class="col-md-2 right_text">
+    <div class="col-md-2 right_text" style="float: right;">
       <a onclick="take('list_of_program')" class="btn btn-info-new btn-sm left_text" style="margin-bottom:10px;"><span class="glyphicon glyphicon-print"></span> Print</a>
     </div>
+    </div>
   </div>
+  
     <div style="clear:both"></div>
     <div class="component_part" id="list_of_program">
       <?php echo $list_program?>

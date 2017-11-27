@@ -77,7 +77,7 @@ function get_file(init_code){
     background: #fff;
     padding: 0.5em;
     margin: 0 0 1em;
-    width: 24.3%;
+    width: 24%;
     margin: 5px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
