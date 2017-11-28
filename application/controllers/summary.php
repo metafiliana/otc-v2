@@ -934,7 +934,7 @@ class Summary extends CI_Controller {
 
         $total_monthly = 0;
         $total_yearly = 0;
-        $i = 1;
+        $i = 0;
         $j = 1;
         foreach ($data_summary_kuantitatif['type_1'] as $key => $value) {
             $final_monthly_score = $this->getKuantitatifSummary($value->init_code, 'Lagging', 1, $month);
@@ -963,8 +963,8 @@ class Summary extends CI_Controller {
         //     $j++;
         // }
 
-        $total_monthly = number_format($total_monthly / $i, 2);
-        $total_yearly = number_format($total_yearly / $i, 2);
+        $total_monthly = round($total_monthly / $i);
+        $total_yearly = round($total_yearly / $i);
         // $total_yearly = number_format($total_yearly / ($i + $j), 2);
 
         $return['mtd'] = $total_monthly;
@@ -1274,9 +1274,23 @@ class Summary extends CI_Controller {
         $percentage = ($total * 100) / $count;
         $percentage = maxscore($percentage, $type);
 
-        $return = number_format($percentage, 2, ",", ".");
+        // $return = number_format($percentage, 2, ",", ".");
+        $return = round($percentage);
 
         return $return;
+    }
+
+    public function getTotalMilestone($month = false, $type = false)
+    {
+        // $type = 1 = monthly
+        // $type = 2 = yearly
+
+        $month = ($month) ? $month : date('F');
+        $type = ($type) ? $type : 1;
+        $data = $this->mt_action->getTotalSummaryMilestone($month, $type);
+        $count = round($data['total'] * 100);
+
+        return $count;
     }
 
 }

@@ -373,6 +373,71 @@ class Mt_action extends CI_Model {
         return $return_data;
     }
 
+    public function getTotalSummaryMilestone($month, $type, $user = false, $all = false, $admin = false)
+    {
+        $where = '';
+        $where_user = '';
+        $where_admin = '';
+
+        if ($user){
+            $where .= ' AND t.user_id = '.$user;
+            $where_user = ' AND t.user_id = '.$user;
+        }else{
+            $where .= ' AND mu.role = 1';
+            $where_admin = ' AND mu.role = 1';
+        }
+
+        // if ($status == 2){
+        //     $where .= ' AND t.updated_date BETWEEN t.start AND t.end';
+        // }
+
+        // main query
+        $return = array();
+
+        $sql = 'SELECT COUNT(id) as jumlah FROM m_action';
+        $query = $this->db->query($sql)->row();
+        $return['total_action'] = $query->jumlah;
+        $total_action = $query->jumlah;
+
+        if ($all){
+            $sql = 'select ma.title, start, end from t_action t LEFT JOIN user mu ON mu.id = t.user_id LEFT JOIN m_action ma ON ma.id = action_id WHERE t.status = 1'.$where;
+            $query = $this->db->query($sql);
+            $return['completed'] = $query->result_array();
+
+
+            $where = 't.`end` <= t.`updated_date` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,2,3)';
+            $sql = 'select ma.title, start, end from t_action t LEFT JOIN user mu ON mu.id = t.user_id LEFT JOIN m_action ma ON ma.id = action_id WHERE ';
+            $query = $this->db->query($sql.$where.$where_user.$where_admin);
+            $return['overdue'] = $query->result_array();
+            $return['total_action'] = 0;
+            $return['total'] = 0;
+        }else{
+            $sql = 'select count(t.id) as jumlah from t_action t LEFT JOIN user mu ON mu.id = t.user_id WHERE t.status = 1'.$where;
+            $query = $this->db->query($sql)->row();
+            $completed = ($query && $query->jumlah > 0) ? $query->jumlah : 1;
+
+            $where = 't.`end` <= t.`updated_date` AND t.`status` IN (0,2,3)';
+            $sql = 'select count(t.id) as jumlah from t_action t LEFT JOIN user mu ON mu.id = t.user_id WHERE ';
+            $query = $this->db->query($sql.$where.$where_user.$where_admin)->row();
+            $overdue = ($query && $query->jumlah > 0) ? $query->jumlah : 0;
+
+            $return['completed'] = $completed;
+            $return['overdue'] = $overdue;
+
+            $total = $completed / ($completed + $overdue);
+            $return['total'] = $total;
+        }
+
+        if ($type == 2){
+            $pembagi = ($total_action > 0) ? $total_action : 1;
+
+            $total = $completed / ($pembagi);
+            $return['total'] = $total;
+        }
+
+        return $return;
+    }
+
 }
 
 ?>

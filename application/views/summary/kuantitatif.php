@@ -190,7 +190,7 @@
                           <th style="display: none;"></th>
                       </tr>
                       <?php
-                            $i = 1;
+                            $i = 0;
                             $j = 1;
                             $total_monthly = 0;
                             $total_yearly = 0;
@@ -304,16 +304,18 @@
                     <?php
                         foreach ($init_table['type_3'] as $key => $value) {
                             $final_monthly_score = $controller->countKuantitatif($value->id, 1);
-                            $final_yearly_score = $controller->countKuantitatif($value->id, 1);
+                            $final_yearly_score = $controller->countKuantitatif($value->id, 2);
 
                             $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                             $milestone_yearly = $controller->countKuantitatif($value->id, 2);
 
                             // $total_monthly = $total_monthly + (int)$final_monthly_score;
                             // $total_yearly = $total_yearly + (int)$final_yearly_score;
-                            $total_milestone_monthly = $total_milestone_monthly + (int)$milestone_monthly;
-                            $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
+                            // $total_milestone_monthly = $total_milestone_monthly + (int)$milestone_monthly;
+                            // $total_milestone_yearly = $total_milestone_yearly + (int)$milestone_yearly;
 
+                            $total_milestone_monthly = $controller->getTotalMilestone($bulan_search, 1);
+                            $total_milestone_yearly = $controller->getTotalMilestone($bulan_search, 2);
                             echo "<tr>";
                                 echo "<td style='display: none;'>".$nomor."</td>";
                                 echo "<td class='text-left'>".$value->init_code."</td>";
@@ -332,16 +334,15 @@
                             $nomor++;
                         }
 
-                        $total_milestone_monthly = number_format($total_milestone_monthly / $i);
-                        $total_monthly = number_format($total_monthly / $i);
+                        // $total_milestone_monthly = round($total_milestone_monthly / ($i + $j));
+                        $total_monthly = round($total_monthly / $i);
 
-                        $total_milestone_yearly = number_format($total_milestone_yearly / ($i + $j));
-                        // $total_yearly = number_format($total_yearly / ($i + $j));
-                        $total_yearly = number_format($total_yearly / $i);
+                        // $total_milestone_yearly = round($total_milestone_yearly / ($i + $j));
+                        $total_yearly = round($total_yearly / $i);
                         echo '<tr>';
                           echo "<td style='display: none;'></td>";
                           echo "<td></td>";
-                          echo '<td><strong>Overall ' . date('F Y') . ' (Actual vs Target)</strong></td>';
+                          echo '<td><strong>Overall ' . date('F Y', strtotime($bulan_search)) . ' (Actual vs Target)</strong></td>';
                           echo '<td>' . $total_milestone_monthly . ' %</td>';
                           echo '<td></td>';
                           echo '<td></td>';
