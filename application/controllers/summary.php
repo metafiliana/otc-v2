@@ -963,9 +963,10 @@ class Summary extends CI_Controller {
         //     $j++;
         // }
 
-        $total_monthly = round($total_monthly / $i);
-        $total_yearly = round($total_yearly / $i);
-        // $total_yearly = number_format($total_yearly / ($i + $j), 2);
+        // $total_monthly = round($total_monthly / $i);
+        // $total_yearly = round($total_yearly / $i);
+        $total_monthly = number_format($total_monthly / $i, 2);
+        $total_yearly = number_format($total_yearly / $i, 2);
 
         $return['mtd'] = $total_monthly;
         $return['ytd'] = $total_yearly;
@@ -1274,8 +1275,8 @@ class Summary extends CI_Controller {
         $percentage = ($total * 100) / $count;
         $percentage = maxscore($percentage, $type);
 
-        // $return = number_format($percentage, 2, ",", ".");
-        $return = round($percentage);
+        $return = number_format($percentage, 2, ",", ".");
+        // $return = round($percentage);
 
         return $return;
     }
