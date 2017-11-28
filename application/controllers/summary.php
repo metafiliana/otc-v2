@@ -1000,8 +1000,8 @@ class Summary extends CI_Controller {
                 $data_initiative_detail_raw = array();
                 if (!empty($value->init_code)){
                     // kuantitatif details
-                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 1, $month);
-                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Lagging', 2, $month);
+                    $final_monthly_score = $this->getKuantitatifSummary($value->init_code, 'Lagging', 1, $month);
+                    $final_yearly_score = $this->getKuantitatifSummary($value->init_code, 'Lagging', 2, $month);
 
                     // milestone details
                     // $issues = $this->getStatus($value->id, 3, false, false, $month_status, $user, false, $admin);
@@ -1045,8 +1045,8 @@ class Summary extends CI_Controller {
             foreach ($data_summary_kuantitatif['type_2'] as $key => $value) {
                 $data_initiative_detail_raw = array();
                 if (!empty($value->init_code)){
-                    $final_monthly_score = $this->getLeadingLagging($value->init_code, 'Leading', 1, $month);
-                    $final_yearly_score = $this->getLeadingLagging($value->init_code, 'Leading', 2, $month);
+                    $final_monthly_score = $this->getKuantitatifSummary($value->init_code, 'Leading', 1, $month);
+                    $final_yearly_score = $this->getKuantitatifSummary($value->init_code, 'Leading', 2, $month);
 
                     // milestone details
                     // $issues = $this->getStatus($value->id, 3, false, false, $month_status, $user, false, $admin);
@@ -1089,7 +1089,7 @@ class Summary extends CI_Controller {
                 $data_initiative_detail_raw = array();
                 if (!empty($value->init_code)){
                     $final_monthly_score = $this->countKuantitatif($value->id, 1);
-                    $final_yearly_score = $this->countKuantitatif($value->id, 1);
+                    $final_yearly_score = $this->countKuantitatif($value->id, 2);
 
                     // milestone details
                     // $issues = $this->getStatus($value->id, 3, false, false, $month_status, $user, false, $admin);
