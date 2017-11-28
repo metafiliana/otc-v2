@@ -1275,7 +1275,7 @@ class Summary extends CI_Controller {
         $percentage = ($total * 100) / $count;
         $percentage = maxscore($percentage, $type);
 
-        $return = number_format($percentage, 2, ",", ".");
+        $return = number_format($percentage, 2);
         // $return = round($percentage);
 
         return $return;
