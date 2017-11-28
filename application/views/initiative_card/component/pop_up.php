@@ -56,7 +56,7 @@
                echo 0;
             }
             else{
-              echo number_format(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'),2,",",".");
+              echo (number_format(maxscore(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'),'Leading'),2,",","."));
             }
               ?>%</td>
 
@@ -67,7 +67,7 @@
             echo 0;
           }
           else{
-            echo number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",",".");
+            echo number_format(maxscore(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'),'Lagging'),2,",",".");
           }
           ?>%</td>
         </tr>
@@ -81,17 +81,17 @@
                 echo $final_m;
               }
               else{
-                $final_m=round(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id));
+                $final_m= number_format(maxscore((($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id)),'Leading'),2,",",".");
                 echo $final_m;
               }
             }
             else{
-              $final_m=round(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'));
+              $final_m= number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading')),'Leading'),2,",",".");
               echo $final_m;
             }
           }
           else{
-            $final_m = round(($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging'));
+            $final_m = number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging')),'Lagging'),2,",",".");
             echo $final_m;
           }
           ?>%</h2></td>
@@ -118,7 +118,7 @@
             echo 0;
           }
           else{
-            echo number_format(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'),2,",",".");
+            echo (number_format(maxscore(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'),'Leading'),2,",","."));
           }
           ?>%</td>
         </tr>
@@ -128,7 +128,7 @@
             echo 0;
           }
           else{
-            echo number_format(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'),2,",",".");
+            echo (number_format(maxscore(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'),'Lagging'),2,",","."));
           }
           ?>%</td>
         </tr>
@@ -142,17 +142,17 @@
                 echo $final_y;
               }
               else{
-                $final_y= round(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id));
+                $final_y= number_format(maxscore((($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id)),'Leading'),2,",",".");
                 echo $final_y;
               }
             }
             else{
-              $final_y= round(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'));
+              $final_y= number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading')),'Leading'),2,",",".");
               echo $final_y;
             }
           }
           else{
-            $final_y= round(($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging'));
+            $final_y= number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/$controller->get_count_leading($init->id, 'Lagging')),'Lagging'),2,",",".");
             echo $final_y;
           }
           ?>%</h2></td>
