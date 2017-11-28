@@ -405,7 +405,7 @@ class Mt_action extends CI_Model {
             $return['completed'] = $query->result_array();
 
 
-            $where = 't.`end` <= t.`updated_date` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,2,3)';
+            $where = 't.`end` <= t.`updated_date AND t.`status` IN (0,2,3)';
             $sql = 'select ma.title, start, end from t_action t LEFT JOIN user mu ON mu.id = t.user_id LEFT JOIN m_action ma ON ma.id = action_id WHERE ';
             $query = $this->db->query($sql.$where.$where_user.$where_admin);
             $return['overdue'] = $query->result_array();
