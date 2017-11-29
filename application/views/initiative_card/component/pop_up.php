@@ -74,24 +74,52 @@
         <tr>
           <td>Final Score&nbsp;&nbsp;:</td>
           <td><h2>&nbsp;
-          <?php if ($controller->get_count_leading($init->id, 'Lagging')==0){
-            if ($controller->get_count_leading($init->id, 'Leading')==0){
-              if($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)==0){
-                $final_m = 0;
+          <?php
+          $p_lagging = $controller->get_count_leading($init->id, 'Lagging');
+          $p_leading = $controller->get_count_leading($init->id, 'Leading');
+          $p_milestone =($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id));
+          //cek lagging
+          if($p_lagging == 0){
+            $lagging = 0;
+          }
+          else{
+            $lagging = ($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/($controller->get_count_leading($init->id, 'Lagging'));
+          }
+          //end cek lagging
+          //cek leading
+          if($p_leading == 0){
+            $leading = 0;
+          }
+          else{
+            $leading = ($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading');
+          }
+          //end cek leading
+          //cek milestone
+          if($p_milestone == 0){
+            $milestone = 0;
+          }
+          else{
+            $milestone = ($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id));
+          }
+          //end cek milestone
+          if ($lagging==0){
+            if($leading==0){
+              if($milestone==0){
+                $final_m=0;
                 echo $final_m;
               }
               else{
-                $final_m= number_format(maxscore((($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id)),'Leading'),2,",",".");
+                $final_m = number_format(($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)),2,",",".");
                 echo $final_m;
               }
             }
             else{
-              $final_m= number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading')),'Leading'),2,",",".");
+              $final_m = number_format(maxscore(($controller->get_tot_pertipe($init->id, 'Leading')['month']*100)/$controller->get_count_leading($init->id, 'Leading'),'Leading'),2,",",".");
               echo $final_m;
             }
           }
           else{
-            $final_m = number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging')),'Lagging'),2,",",".");
+            $final_m= number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Lagging')['month']*100)/$controller->get_count_leading($init->id, 'Lagging')),'Lagging'),2,",",".");
             echo $final_m;
           }
           ?>%</h2></td>
@@ -135,19 +163,47 @@
         <tr>
           <td>Final Score&nbsp;&nbsp;:</td>
           <td><h2>&nbsp;
-          <?php if ($controller->get_count_leading($init->id, 'Lagging')==0){
-            if ($controller->get_count_leading($init->id, 'Leading')==0){
-              if($controller->get_count_action($init->id)==0){
+          <?php
+          $p_lagging = $controller->get_count_leading($init->id, 'Lagging');
+          $p_leading = $controller->get_count_leading($init->id, 'Leading');
+          $p_milestone = $controller->get_count_action($init->id);
+          //cek lagging
+          if($p_lagging == 0){
+            $lagging = 0;
+          }
+          else{
+            $lagging = ($controller->get_tot_pertipe($init->id, 'Lagging')['year']*100)/($controller->get_count_leading($init->id, 'Lagging'));
+          }
+          //end cek lagging
+          //cek leading
+          if($p_leading == 0){
+            $leading = 0;
+          }
+          else{
+            $leading = ($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading');
+          }
+          //end cek leading
+          //cek milestone
+          if($p_milestone == 0){
+            $milestone = 0;
+          }
+          else{
+            $milestone = ($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id);
+          }
+          //end cek milestone
+          if ($lagging==0){
+            if($leading==0){
+              if($milestone==0){
                 $final_y=0;
                 echo $final_y;
               }
               else{
-                $final_y= number_format(maxscore((($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id)),'Leading'),2,",",".");
+                $final_y = number_format(($controller->get_count_action_complete($init->id)*100)/$controller->get_count_action($init->id),2,",",".");
                 echo $final_y;
               }
             }
             else{
-              $final_y= number_format(maxscore((($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading')),'Leading'),2,",",".");
+              $final_y = number_format(maxscore(($controller->get_tot_pertipe($init->id, 'Leading')['year']*100)/$controller->get_count_leading($init->id, 'Leading'),'Leading'),2,",",".");
               echo $final_y;
             }
           }
