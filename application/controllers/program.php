@@ -501,7 +501,7 @@ class Program extends CI_Controller {
       $bln = $this->mprogram->get_latest_month($month,$id);
       While ($this->mprogram->get_latest_month($month,$id)->bulan == 0){
           $month = date('m',strtotime($month)) - 1;
-          if($month == 1){
+          if($month == 2){
             $month = 'January';
             break;
           }
@@ -519,7 +519,7 @@ class Program extends CI_Controller {
       $bln = $this->mprogram->get_latest_month($month,$id);
       While ($this->mprogram->get_latest_month($month,$id)->bulan == 0){
           $month = date('m',strtotime($month)) - 1;
-          if($month == 1){
+          if($month == 2){
             $month = 'January';
             break;
           }
