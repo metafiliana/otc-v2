@@ -18,6 +18,7 @@ class Mprogram extends CI_Model {
         $this->load->model('minitiative');
         $this->load->model('mworkblock');
         $this->load->model('mkuantitatif');
+        $this->load->model('mt_action');
     }
 
     //INSERT or CREATE FUNCTION
@@ -775,6 +776,14 @@ class Mprogram extends CI_Model {
         $query = $this->db->get('kuantitatif_update');
         return $query->row();
     }
+    function bulan_t_action($id){
+        $this->db->select('max(updated_date)as bulan');
+        $this->db->where('initiative_id',$id);
+        $query = $this->db->get('t_action');
+        return $query->row();
+
+    }
+
     //new amir
     function detail_pop_up($id){
         $this->db->select('*');

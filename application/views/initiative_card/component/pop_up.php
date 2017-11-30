@@ -42,11 +42,16 @@
       <table>
         <tr>
           <td>Milestone&nbsp;&nbsp;</td>
-          <td>: <?php if ($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)==0){
+          <td>: <?php 
+          $user === null;
+          $completed = $controller->getStatus($init->id, 1, false, false, $controller->get_bulan($init->id));
+          $overdue = $controller->getStatus($init->id, 3, false, 2, $controller->get_bulan($init->id));
+          $mtd = $controller->getMtdMilestone($overdue, $completed, $init->id, $controller->get_bulan($init->id));
+          if ($completed+$overdue ==0){
             echo 0;
           }
           else{
-            echo number_format(($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)),2,",",".");
+            echo number_format(($completed/($completed+$overdue)*100),2,",",".");
           }
           ?>%</td>
         </tr>
@@ -75,6 +80,11 @@
           <td>Final Score&nbsp;&nbsp;:</td>
           <td><h2>&nbsp;
           <?php
+          $user === null;
+          $completed = $controller->getStatus($init->id, 1, false, false, $controller->get_bulan($init->id));
+          $overdue = $controller->getStatus($init->id, 3, false, 2, $controller->get_bulan($init->id));
+          $mtd = $controller->getMtdMilestone($overdue, $completed, $init->id, $controller->get_bulan($init->id));
+
           $p_lagging = $controller->get_count_leading($init->id, 'Lagging');
           $p_leading = $controller->get_count_leading($init->id, 'Leading');
           $p_milestone =($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id));
@@ -99,7 +109,7 @@
             $milestone = 0;
           }
           else{
-            $milestone = ($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id));
+            $milestone = $completed+$overdue ;
           }
           //end cek milestone
           if ($lagging==0){
@@ -109,7 +119,7 @@
                 echo $final_m;
               }
               else{
-                $final_m = number_format(($controller->get_count_action_complete($init->id)*100)/($controller->get_count_action_complete($init->id)+$controller->get_count_action_overdue($init->id)),2,",",".");
+                $final_m = number_format(($completed/($completed+$overdue)*100),2,",",".");
                 echo $final_m;
               }
             }

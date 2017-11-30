@@ -7,6 +7,7 @@ class Program extends CI_Controller {
         parent::__construct();
         $this->load->model('minitiative');
         $this->load->model('mprogram');
+        $this->load->model('mt_action');
         $this->load->model('mworkblock');
         $this->load->model('mremark');
         $this->load->model('mmilestone');
@@ -494,22 +495,12 @@ class Program extends CI_Controller {
     }
 
     public function get_bulan($id){
-      $month = date('F');
-      $month = date('m',strtotime($month));
-       $month = date('F',strtotime('1-'.$month.'-2017'));
-      $last = true;
-      $bln = $this->mprogram->get_latest_month($month,$id);
-      While ($this->mprogram->get_latest_month($month,$id)->bulan == 0){
-          $month = date('m',strtotime($month)) - 1;
-          if($month == 2){
-            $month = 'January';
-            break;
-          }
-          $month = date('F',strtotime('1-'.$month.'-2017'));
-        // $bln = $this->mprogram->get_latest_month($month);
+      $month= $this->mprogram->bulan_t_action($id)->bulan;
+      $month= date('F',strtotime($month));
+      return $month;
 
-      }
-     return $month;
+      
+     
     }
     public function get_tot_pertipe($id, $type){
       $month = date('F');
@@ -695,7 +686,42 @@ class Program extends CI_Controller {
       $this->output->set_content_type('application/json')
                      ->set_output(json_encode($view_list));
     }
-    
+    public function getStatus(
+            $initiative_id,
+            $status = false,
+            $future = false,
+            $flagged = false,
+            $bulan = false,
+            $user = false,
+            // $overdue = false,
+            $all = false,
+            $admin = false
+        )
+    {
+        $return = 0;
+        // $future = false;
+
+        if ($future){
+            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
+        }elseif ($flagged){
+            // $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
+            $return = $this->mt_action->getStatusIssueMilestone($initiative_id, $bulan, $user, $flagged, $all, $admin);
+        // }elseif ($overdue){
+        //     $return = $this->mt_action->getStatusOverdueMilestone($initiative_id, $bulan, $user);
+        }else{
+            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
+        }
+
+        return $return;
+    }
+     public function getMtdMilestone($overdue, $complete, $initiative_id, $month = false)
+    {
+        $complete = ($complete > 0) ? $complete : 1;
+        $total_action = $this->mt_action->getAllAction($initiative_id, $month);
+        $mtd = $complete / ($complete + $overdue) * 100;
+
+        return ($mtd <= 100) ? $mtd : 100;
+    }
     //end new
 
 
