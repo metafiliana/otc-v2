@@ -50,6 +50,7 @@ class Kuantitatif extends CI_Controller {
         $this->output->set_content_type('application/json')
                      ->set_output(json_encode($json));
     }
+
     public function index()
     {
         $users = $this->session->userdata('user');
@@ -99,6 +100,48 @@ class Kuantitatif extends CI_Controller {
         $data['content'] = $this->load->view('kuantitatif/list_kuantitatif',$prog,TRUE);
 
         $this->load->view('front',$data);
+    }
+
+    public function all_kuantitatif(){
+      $users = $this->session->userdata('user');
+      $user = $users['username'];
+      $initid = $users['initiative'];
+      $foto = $this->muser->get_data_user($user)->foto;
+      $lastlogin = $this->muser->get_data_user($user)->last_login;
+      $privateemail = $this->muser->get_data_user($user)->private_email;
+      $workemail = $this->muser->get_data_user($user)->work_email;
+      $data = array(
+        'username' => $user,
+        'foto' => $foto,
+        'initid' => $initid,
+        'last_login' => $lastlogin,
+        'private_email' => $privateemail,
+        'work_email' => $workemail
+      );
+
+      $data['title'] = "List All Kuantitatif";
+
+  		$user = $users;
+  		$prog['user'] = $user;
+      $data['user'] = $user;
+
+      $prog['all_kuantitatif'] = $this->mkuantitatif->get_kuanitatif_and_update();
+
+      //notification
+      if($user['role']!='2'){
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+      }
+      else{
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
+      }
+
+  		$data['footer'] = $this->load->view('shared/footer','',TRUE);
+  		$data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
+  		$data['content'] = $this->load->view('kuantitatif/index_all_kuantitatif',$prog,TRUE);
+
+  		$this->load->view('front',$data);
     }
 
     public function list_kuantitatif()
