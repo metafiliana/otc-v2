@@ -608,9 +608,10 @@ class Summary extends CI_Controller {
             }else{
                 $total = (($total) > $cap_lagging) ? $cap_lagging : $total;
             }
-            $return = number_format($total * 100, 2);
+            $return = $total * 100;
         }
 
+        $return = number_format($return, 2);
 
         return $return;
     }
