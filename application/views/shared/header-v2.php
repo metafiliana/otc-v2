@@ -225,6 +225,7 @@
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>user/">User Management</a></li>
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>logact">Log Activity</a></li>
 						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>general/master">Master</a></li>
+						<li role="presentation" style="padding:5px 0 5px;"><a charset="black_color" href="<?php echo base_url()?>kuantitatif/all_kuantitatif">Export Kuantitatif</a></li>
 						<li class="divider"></li>
 					<?php }?>
 					<li role="presentation" style="padding:5px 0 5px;">

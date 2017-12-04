@@ -2,8 +2,7 @@
 $user = $this->session->userdata('user');
 $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
 ?>
-<div class="panel panel-default" style="margin-top: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-<div class="panel-body">
+<div class="component_part" style="margin:20px;">
 <table class="table display" id="table_ids">
 	<thead class="black_color old_grey_color_bg">
 		<tr>
@@ -30,15 +29,14 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 				<?php echo $ak->metric?>
 			</td>
 			<?php foreach ($arr_month as $arr) { ?>
-			<th><?php echo $ak->$arr?></th>
-			<th><?php echo $ak->u_?></th>
+			<th><?php echo number_format($ak->$arr,2,",","."); ?></th>
+			<th><?php $u_month = 'u_'.$arr; echo number_format($ak->$u_month,2,",","."); ?></th>
 			<?php } ?>
 		</tr>
 		<?php $i++;}?>
 	</tbody>
 </table>
-</div>
-</div>
+</div><div style="clear:both"></div>
 <hr />
 <script>
 $(document).ready(function () {
