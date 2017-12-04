@@ -8,7 +8,10 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 		<tr>
 			<th>No</th>
 			<th>Init Code</th>
+			<th>Type</th>
 			<th>Metric</th>
+			<th>Target</th>
+			<th>Baseline</th>
 			<?php foreach ($arr_month as $arr) { ?>
 			<th>Target <?= $arr ?></th>
 			<th>Realisasi <?= $arr ?></th>
@@ -26,7 +29,16 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 				<?php echo $ak->init_code?>
 			</td>
 			<td>
+				<?php echo $ak->type?>
+			</td>
+			<td>
 				<?php echo $ak->metric?>
+			</td>
+			<td>
+				<?php echo number_format($ak->target,2,",",".");?>
+			</td>
+			<td>
+				<?php echo number_format($ak->baseline,2,",",".");?>
 			</td>
 			<?php foreach ($arr_month as $arr) { ?>
 			<th><?php echo number_format($ak->$arr,2,",","."); ?></th>
@@ -43,6 +55,7 @@ $(document).ready(function () {
 	$('#table_ids').DataTable( {
 					dom: 'Bfrtip',
 					paging: false,
+					scrollX: true,
 					buttons: [
 							'excelHtml5',
 							{
