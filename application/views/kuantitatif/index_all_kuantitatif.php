@@ -10,6 +10,10 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 			<th>No</th>
 			<th>Init Code</th>
 			<th>Metric</th>
+			<?php foreach ($arr_month as $arr) { ?>
+			<th>Target <?= $arr ?></th>
+			<th>Realisasi <?= $arr ?></th>
+			<?php } ?>
 		</tr>
 	</thead>
 	<tbody>
@@ -25,6 +29,10 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 			<td>
 				<?php echo $ak->metric?>
 			</td>
+			<?php foreach ($arr_month as $arr) { ?>
+			<th><?php echo $ak->$arr?></th>
+			<th><?php echo $ak->u_?></th>
+			<?php } ?>
 		</tr>
 		<?php $i++;}?>
 	</tbody>
