@@ -93,7 +93,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active){
 
 .modalDialog > div {
   width: 800px;
-  height: 85%;
+  height: 95%;
   position: relative;
   margin: 100px auto;
   padding: 5px 20px 13px 20px;

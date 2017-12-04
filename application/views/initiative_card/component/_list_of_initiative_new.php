@@ -18,7 +18,7 @@
 <?php
   foreach($initiative as $init){
 ?>
-<div id="openModal<?php echo $init->id?>" class="modalDialog">
+<div id="openModal<?php echo $init->id?>" class="modalDialog" style="overflow-y: scroll;">
   
 </div>
 <?php }?>
