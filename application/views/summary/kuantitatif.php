@@ -399,7 +399,7 @@
                           <th style="display: none;"></th>
                       </tr>
                       <?php
-                            $i = 1;
+                            $i = 0;
                             $j = 1;
                             $total_monthly = 0;
                             $total_yearly = 0;
