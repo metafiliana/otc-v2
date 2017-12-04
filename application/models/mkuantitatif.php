@@ -63,6 +63,18 @@ class Mkuantitatif extends CI_Model {
     //GET FUNCTION
 
     //otc v2
+    function get_kuanitatif_and_update(){
+        $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December'];
+        foreach ($arr_month as $arr) {
+          $this->db->select('kuantitatif.'.$arr.'');
+          $this->db->select('kuantitatif_update.'.$arr.' as u_'.$arr.'');
+        }
+        $this->db->select('kuantitatif.init_code,kuantitatif.type,kuantitatif.metric,kuantitatif.measurment,kuantitatif.measurment,kuantitatif.target,kuantitatif.target_year,kuantitatif.baseline,kuantitatif.baseline_year');
+        $this->db->join('kuantitatif_update','kuantitatif.id = kuantitatif_update.id');
+        $query = $this->db->get('kuantitatifs');
+        return $query->result();
+    }
+
     function get_leading_lagging($id,$month,$type){
         $query = $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc')->get('kuantitatif');
         $arr = array(); $i=0;
@@ -442,6 +454,8 @@ class Mkuantitatif extends CI_Model {
         return $result;
     }
 
+
+
     // OTHER FUNCTION
     // -- afil --
     function getKuantitatifByInitCode($init_code)
@@ -490,13 +504,13 @@ class Mkuantitatif extends CI_Model {
         if ($array_in)
             $where = ' WHERE init_id IN ('.$array_in.')';
         $sql = '
-            SELECT id, 
+            SELECT id,
             CASE WHEN (target = 0) THEN
             "-"
             ELSE
             type
-            END as type, 
-            init_id 
+            END as type,
+            init_id
             from kuantitatif '.$where.' ORDER BY init_id';
 
         $result = $this->db->query($sql)->result_array();

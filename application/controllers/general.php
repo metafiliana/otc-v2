@@ -26,7 +26,7 @@ class General extends CI_Controller {
      */
      public function index()
      {
-
+       
      }
 
      //otc v2
