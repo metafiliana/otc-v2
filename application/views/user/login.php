@@ -40,8 +40,8 @@ $(document).ready(function(){
 <div style="height:100%;">
 	<div class="col-md-8 login-form container" style="position: relative; margin-top: 5%;">
 		<div class="center_text title">
-			<h3 style="color: rgb(228,108,10); font-weight: bold;">PMO CORPLAN</h3>
-			<h4 style="color: white;">TOP BOD LEVEL INITIATIVES</h4>
+			<h2 style="color: rgb(228,108,10); font-weight: bold;">C O D E</h2>
+			<h4 style="color: white;">Commitment Optimist Discipline Excellence</h4>
 		</div>
 		<form class="form-signin" action="<?php echo base_url();?>user/userEnter" method="post" role="form">
 			<p class="desc_login_form" style="padding-top: 10px;">Username</p>
@@ -55,8 +55,8 @@ $(document).ready(function(){
 		</div>
 		<?php if($params){?>
 		<div class="login_alert">
-			<div id="login_failed" class="alert alert-danger fade in center_text" style="margin-right: 15px; margin-left: 15px;">  
-				<a class="close" data-dismiss="alert">×</a>  
+			<div id="login_failed" class="alert alert-danger fade in center_text" style="margin-right: 15px; margin-left: 15px;">
+				<a class="close" data-dismiss="alert">×</a>
 				<strong style="text-align: center;">Login Failed ! Username and Password do not match.</strong>
 			</div>
 		</div>
