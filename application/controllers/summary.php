@@ -640,6 +640,8 @@ class Summary extends CI_Controller {
                     }
                 }
             }
+
+            $data_initiative_user = implode(',', $data_initiative_user);
             $get_kuantitatif = $this->mkuantitatif->getSummaryKuantitatif($data_initiative_user);
         }
 
