@@ -518,4 +518,18 @@ class Mkuantitatif extends CI_Model {
 
         return $result;
     }
+
+    function getSummaryKuantitatifInit($array_in = false)
+    {
+        $where = '';
+        if ($array_in)
+            $where = ' WHERE init_id IN ('.$array_in.')';
+        $sql = '
+            SELECT init_id
+            from kuantitatif '.$where.' ORDER BY init_id';
+
+        $result = $this->db->query($sql)->result_array();
+
+        return $result;
+    }
 }

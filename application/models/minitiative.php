@@ -299,6 +299,14 @@ class Minitiative extends CI_Model {
         }
     }
 
+    function get_initiative_by_id_new($id){
+        $this->db->select('*');
+        $this->db->where('id',$id);
+        $result = $this->db->get('m_initiative');
+        
+        return $result->row(0);
+    }
+
     //otc v2
     function get_detail_initiative($id){
 	      $this->db->select('*');

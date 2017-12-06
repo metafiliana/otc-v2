@@ -1019,6 +1019,38 @@ class Summary extends CI_Controller {
 
         $data_summary_kuantitatif = $this->getDataTableKuantitatif($user, true);
 
+        $data_user = $this->muser->getInitiativeArrayById($user);
+        $initiative_explode = explode(';', $data_user->initiative);
+        
+        $data_initiative_user = array();
+        $data_initiative_user_array = array();
+        if (is_array($initiative_explode)){
+            foreach ($initiative_explode as $key1 => $value1) {
+                $data_initiative_user_raw = array();
+                $data_initiative_user_code = $this->minitiative->getInitiativeByCode($value1);
+                if (!empty($data_initiative_user_code)){
+                    $data_initiative_user_raw['init_code'] = $data_initiative_user_code->init_code;
+                    $data_initiative_user_raw['title'] = $data_initiative_user_code->title;
+
+                    $data_initiative_user[$data_initiative_user_code->init_code] = $data_initiative_user_raw;
+                    array_push($data_initiative_user_array, $data_initiative_user_code->id);
+                }
+            }
+        }
+        $initiative_implode = implode(',', $data_initiative_user_array);
+        $data_user_exist_raw = $this->mkuantitatif->getSummaryKuantitatifInit($initiative_implode);
+        $data_user_exist = array();
+        foreach ($data_user_exist_raw as $key => $value) {
+            array_push($data_user_exist, $value['init_id']);
+        }
+
+        $initiative_sisa = array();
+        foreach ($data_initiative_user_array as $key => $value) {
+            if (!in_array($value, $data_user_exist)){
+                array_push($initiative_sisa, $value);
+            }
+        }
+
         // array data initiatives detail
         $data_initiative_detail = array();
 
@@ -1157,6 +1189,52 @@ class Summary extends CI_Controller {
                 }
             }
         }
+
+        if (!empty($initiative_sisa)){
+            foreach ($initiative_sisa as $key => $value) {
+                $data_initiative_detail_raw = array();
+                // if (!empty($value->init_code)){
+                    $detail_initiatives = $this->minitiative->get_initiative_by_id_new($value);
+                    // $final_monthly_score = $this->countKuantitatif($value, 1);
+                    // $final_yearly_score = $this->countKuantitatif($value, 2);
+
+                    // milestone details
+                    // $issues = $this->getStatus($value, 3, false, false, $month_status, $user, false, $admin);
+                    $completed = $this->getStatus($value, 1, false, false, $month_status, $user, false, $admin);
+                    $on_track = $this->getStatus($value, 2, false, false, $month_status, $user, false, $admin);
+                    $future_start = $this->getStatus($value, 0, true, false, $month_status, $user, false, $admin);
+                    $overdue = $this->getStatus($value, 3, false, 2, $month_status, $user, false, $admin);
+                    $delay = $this->getStatus($value, 3, false, 1, $month_status, $user, false, $admin);
+                    $flagged = $this->getStatus($value, 0, false, 3, $month_status, $user, false, $admin);
+                    // $milestone_mtd = ($completed + $overdue > 0) ? (($completed / ($completed + $overdue)) * 100) : 0;
+                    $milestone_mtd = $this->getMtdMilestone($overdue, $completed, $value, $month_status);
+                    $milestone_ytd = $this->getYtdMilestone($value);
+
+                    // raw data bind
+                        // kuantitatif
+                    $data_initiative_detail_raw['id'] = $i;
+                    $data_initiative_detail_raw['init_code'] = $detail_initiatives->init_code;
+                    $data_initiative_detail_raw['init_id'] = $value;
+                    $data_initiative_detail_raw['title'] = $detail_initiatives->title;
+                    $data_initiative_detail_raw['kuantitatif_mtd'] = 0;
+                    $data_initiative_detail_raw['kuantitatif_ytd'] = 0;
+                        // milestone
+                    $data_initiative_detail_raw['completed'] = $completed;
+                    $data_initiative_detail_raw['on_track'] = $on_track;
+                    $data_initiative_detail_raw['future_start'] = $future_start;
+                    $data_initiative_detail_raw['flagged'] = $flagged;
+                    $data_initiative_detail_raw['overdue'] = $overdue;
+                    $data_initiative_detail_raw['delay'] = $delay;
+                    $data_initiative_detail_raw['milestone_mtd'] = number_format($milestone_mtd);
+                    $data_initiative_detail_raw['milestone_ytd'] = number_format($milestone_ytd);
+
+                    array_push($data_initiative_detail, $data_initiative_detail_raw); // insert details to main array
+                    $i++;
+                // }
+            }
+        }
+
+        // var_dump($data_initiative_detail);die;
 
         return $data_initiative_detail;
     }
