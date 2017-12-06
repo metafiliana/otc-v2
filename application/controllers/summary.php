@@ -454,7 +454,7 @@ class Summary extends CI_Controller {
         //process start
         $data['init_table'] = $this->getDataTableKuantitatif();
         $data['controller'] = $this;
-        $data['bulan_search'] = null;
+        $data['bulan_search'] = date('F');
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
