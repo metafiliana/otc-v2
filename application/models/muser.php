@@ -590,4 +590,17 @@ class Muser extends CI_Model {
         return $data;
     }
 
+    public function getInitiativeArrayById($id = false)
+    {
+        $data = array();
+        if ($id){
+            $this->db->select('initiative');
+            $this->db->where('id', $id);
+            
+            $data = $this->db->get('user')->row(0);
+        }
+
+        return $data;
+    }
+
 }

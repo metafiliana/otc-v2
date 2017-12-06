@@ -907,6 +907,21 @@ class Summary extends CI_Controller {
         }else{
             $data['initiatives_detail'] = $this->getInitiativesDetail($user['id'], $bulan_search, $is_admin);
 
+            $data_user = $this->muser->getInitiativeArrayById($user['id']);
+            $initiative_explode = explode(';', $data_user->initiative);
+            $data_initiative_user = array();
+            if (is_array($initiative_explode)){
+                foreach ($initiative_explode as $key1 => $value1) {
+                    $data_initiative_user_raw = array();
+                    $data_initiative_user_code = $this->minitiative->getInitiativeByCode($value1);
+                    if (!empty($data_initiative_user_code)){
+                        $data_initiative_user_raw['init_code'] = $data_initiative_user_code->init_code;
+                        $data_initiative_user_raw['title'] = $data_initiative_user_code->title;
+
+                        $data_initiative_user[$data_initiative_user_code->init_code] = $data_initiative_user_raw;
+                    }
+                }
+            }
             $list_initiatives_user = array();
             foreach ($data['initiatives_detail'] as $key => $value) {
                 $array_init_id = array();
@@ -914,6 +929,12 @@ class Summary extends CI_Controller {
                 $array_init_id['title'] = $value['title'];
 
                 array_push($list_initiatives_user, $array_init_id);
+            }
+
+            foreach ($list_initiatives_user as $key => $value) {
+                if (!in_array($value['init_code'], $initiative_explode)){
+                    array_push($list_initiatives_user, $data_initiative_user[$value['init_code']]);
+                }
             }
             $data['list_initiatives'] = $list_initiatives_user;
         }

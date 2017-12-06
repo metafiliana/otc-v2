@@ -244,6 +244,59 @@
 
             </div>
             <?php } ?>
+            <div class="col-md-12 table-content initiative-detail-default" style="display: none;">
+
+              <!-- data area inititatives-kuantitatif start -->
+              <div class="col-md-12" style="margin-bottom: 20px;">
+                <h3 class="text-center">Realisasi Pencapaian Initiatives <span class="init_code-default"></span></h3>
+                <h4 class="text-center" style="padding-top: 5px;"><span class="title-default"></span></h4>
+                <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
+                <div class="col-md-6">
+                  <div class="mtd-gauge-init-default"></div>
+                </div>
+                <div class="col-md-6">
+                  <div class="ytd-gauge-init-default"></div>
+                </div>
+                <button class="detail-initiatives text-center" data-id="default" data-mtd="0" data-ytd="0" style="display: none;">Details</button>
+              </div>
+              <!-- data area inititatives-kuantitatif ends -->
+
+              <!-- data area milestone start -->
+              <div class="col-md-12">
+                <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <span class="init_code-default"></span></h3>
+                <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5><br>
+                <div class="col-md-6 text-center">
+                  <p>Complete: 0</p>
+                  <p>On Track: 0</p>
+                  <p>Future Start: 0</p>
+                  <p style="color: red">Not Started: 0</p>
+                  <p style="color: red">Overdue: 0</p>
+                  <p style="color: red">Flagged: 0</p>
+                </div>
+                <div class="col-md-6 text-center">
+                  <table class="table" style="width: 80%;">
+                    <tr style="border: none;">
+                      <th colspan="2" style="border: none;"><b><h3>Milestone</h3></b></th>
+                    </tr>
+                    <tr>
+                      <td style="border: none;">
+                        YTD
+                      </td>
+                      <td style="border: none;"><b><h4>0%</h4></b></td>
+                    </tr>
+                    <tr>
+                      <td style="border: none;">
+                        FY
+                      </td>
+                      <td style="border: none;"><b><h4>0%</h4></b></td>
+                    </tr>
+                  </table>
+                </div>
+                <p class="text-center" style="color: red">Data kosong, karena data dengan initiative dan user tersebut belum tersedia</p>
+              </div>
+              <!-- data area milestone start -->
+
+            </div>
           </div>
         </div>
         </div>
@@ -563,11 +616,20 @@
 
     $("#showInitiativeOption").on("change", function(e){
       $(".initiative-detail").hide();
+      $(".initiative-detail-default").hide();
 
       var optionSelected = $("option:selected", this);
+      console.log(optionSelected);
       var id = this.value;
 
-      $("#print-"+id).show();
+      if (document.getElementById("#print-"+id)){
+        $("#print-"+id).show();
+      }else{
+        $(".initiative-detail-default").show();
+        $(".init_code-default").html(id);
+        $(".title-default").html();
+      }
+
     });
 
     function show_detail(id){
@@ -587,4 +649,91 @@
   			}
   		});
   	}
+
+    //default
+    $(".mtd-gauge-init-default").dxCircularGauge({
+        rangeContainer: {
+          offset: 10,
+          ranges: [
+            { startValue: 0, endValue: 95, color: 'red' },
+            { startValue: 95, endValue: 100, color: 'yellow' },
+            { startValue: 100, endValue: 200, color: '#2DD700' }
+          ]
+        },
+        scale: {
+          startValue: 0,  endValue: 200,
+          majorTick: { tickInterval: 50 },
+          label: {
+          }
+        },
+        title: {
+          text: '0 % (YTD)',
+          position: 'bottom-center'
+        },
+        tooltip: {
+          enabled: true,
+          customizeText: function (arg) {
+            return 'Current ' + arg.valueText;
+          }
+        },
+        subvalueIndicator: {
+          type: 'triangleMarker',
+          text: {
+            customizeText: function (arg) {
+              return arg.valueText + '% YTD';
+            }
+          }
+        },
+        value: 0,
+        subvalues: [0],
+        valueIndicator: {
+            color: 'black',
+            width: 6,
+            spindleSize: 20,
+            spindleGapSize: 15
+        },
+      });
+
+      $(".ytd-gauge-init-default").dxCircularGauge({
+        rangeContainer: {
+          offset: 10,
+          ranges: [
+            { startValue: 0, endValue: 95, color: 'red' },
+            { startValue: 95, endValue: 100, color: 'yellow' },
+            { startValue: 100, endValue: 200, color: '#2DD700' }
+          ]
+        },
+        scale: {
+          startValue: 0,  endValue: 200,
+          majorTick: { tickInterval: 50 },
+          label: {
+          }
+        },
+        title: {
+          text: '0 % (FY)',
+          position: 'bottom-center'
+        },
+        tooltip: {
+          enabled: true,
+          customizeText: function (arg) {
+            return 'Current ' + arg.valueText;
+          }
+        },
+        subvalueIndicator: {
+          type: 'triangleMarker',
+          text: {
+            customizeText: function (arg) {
+              return arg.valueText + '% FY';
+            }
+          }
+        },
+        value: 0,
+        subvalues: [0],
+        valueIndicator: {
+            color: 'black',
+            width: 6,
+            spindleSize: 20,
+            spindleGapSize: 15
+        },
+      });
 </script>
