@@ -60,6 +60,18 @@ $(document).ready(function(){
 					<input type="text" class="form-control" name="username" id="username" placeholder="Username" value="<?php if($info){echo $info->username;}?>">
 				</div>
 			</div>
+			<div class="form-group">
+			 <label class="col-sm-3 control-label">Private Email</label>
+			 <div class="col-sm-9">
+				 <input type="text" class="form-control" name="p_email" id="p_email" placeholder="Private Email" value="<?php if($info){echo $info->private_email;}?>">
+			 </div>
+		 </div>
+		 <div class="form-group">
+			<label class="col-sm-3 control-label">Work Email</label>
+			<div class="col-sm-9">
+				<input type="text" class="form-control" name="w_email" id="w_email" placeholder="Work Email" value="<?php if($info){echo $info->work_email;}?>">
+			</div>
+		</div>
 			<?php if(!$info){?>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Password</label>

@@ -193,6 +193,8 @@ class User extends CI_Controller {
         }
         $user['name'] = $this->input->post('name');
         $user['role'] = $this->input->post('role');
+        $user['private_email'] = $this->input->post('p_email');
+        $user['work_email'] = $this->input->post('w_email');
         //$user['jabatan'] = $this->input->post('jabatan');
         //$user['unitkerja'] = $this->input->post('unitkerja');
         $user['initiative'] = $this->input->post('initiative');
