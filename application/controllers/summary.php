@@ -922,18 +922,24 @@ class Summary extends CI_Controller {
                     }
                 }
             }
+
             $list_initiatives_user = array();
+            $list_initiatives_user_array = array();
             foreach ($data['initiatives_detail'] as $key => $value) {
                 $array_init_id = array();
                 $array_init_id['init_code'] = $value['init_code'];
                 $array_init_id['title'] = $value['title'];
 
                 array_push($list_initiatives_user, $array_init_id);
+                array_push($list_initiatives_user_array, $value['init_code']);
             }
 
-            foreach ($list_initiatives_user as $key => $value) {
-                if (!in_array($value['init_code'], $initiative_explode)){
-                    array_push($list_initiatives_user, $data_initiative_user[$value['init_code']]);
+            $list_initiatives_user_all = array_merge($initiative_explode, $list_initiatives_user_array);
+            $list_initiatives_user_all = array_unique($list_initiatives_user_all);
+
+            foreach ($list_initiatives_user_all as $key => $value) {
+                if (!in_array($value, $list_initiatives_user_array)){
+                    array_push($list_initiatives_user, $data_initiative_user[$value]);
                 }
             }
             $data['list_initiatives'] = $list_initiatives_user;

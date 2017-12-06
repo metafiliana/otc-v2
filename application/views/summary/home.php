@@ -619,10 +619,10 @@
       $(".initiative-detail-default").hide();
 
       var optionSelected = $("option:selected", this);
-      console.log(optionSelected);
+      // console.log(optionSelected);
       var id = this.value;
 
-      if (document.getElementById("#print-"+id)){
+      if ($("#print-"+id).length){
         $("#print-"+id).show();
       }else{
         $(".initiative-detail-default").show();
