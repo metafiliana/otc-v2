@@ -16,9 +16,9 @@ class Magenda extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
-    
+
     //INSERT or CREATE FUNCTION
-    
+
     function insert_agenda($program){
         if($this->db->insert('agenda', $program)){
             return $this->db->insert_id();
@@ -31,9 +31,9 @@ class Magenda extends CI_Model {
         $this->db->where('id',$id);
         return $this->db->update('agenda', $program);
     }
-    
+
     //GET FUNCTION
-    
+
     function get_all_agenda_month($month, $year){
     	$sumdate = date("t", mktime(0,0,0, $month, 1, $year));
     	$arragenda = array();
@@ -43,14 +43,14 @@ class Magenda extends CI_Model {
     	}
     	return $arragenda;
     }
-    
+
     function get_agenda_by_date($date){
     	$this->db->select('*');
     	$this->db->where('DATE(start)',$date);
     	$result = $this->db->get('agenda');
     	return $result->result();
     }
-    
+
     function get_agenda_by_id($id){
     	$this->db->select('*');
     	$this->db->where('id',$id);
@@ -64,10 +64,11 @@ class Magenda extends CI_Model {
         if($limit){
             $this->db->limit($limit);
         }
+        $this->db->where('start >=',date('Y-m-d'));
         $result = $this->db->get('agenda');
         return $result->result();
     }
-    
+
     function get_all_programs(){
     	//$this->db->where('role', 3);
     	$this->db->order_by('code', 'asc');
@@ -79,7 +80,7 @@ class Magenda extends CI_Model {
         	$code = explode('.',$prog->code);
         	$arr[$i]['code'] = ($code[0]*100)+$code[1];
         	$arr[$i]['date'] = $this->get_initiative_minmax_date($prog->id);
-        	
+
         	$initiatives = $this->get_all_program_initiatives($prog->id);
         	$status = "";
         	foreach($initiatives as $int){
@@ -101,7 +102,7 @@ class Magenda extends CI_Model {
         }
         return $arr;
     }
-    
+
     function get_all_programs_with_segment($segment){
     	$this->db->order_by('code', 'asc');
     	if($segment != 'all'){
@@ -110,7 +111,7 @@ class Magenda extends CI_Model {
     	$query = $this->db->get('program');
     	return $query->result();
     }
-    
+
     function get_all_initiatives($user_initiative, $segment){
     	//$this->db->where('role', 3);
     	$this->db->select('initiative.*, program.title as program, program.code as progcode');
@@ -120,7 +121,7 @@ class Magenda extends CI_Model {
     		$this->db->where_in('initiative.code', $user_initiative);
     	}
     	if($segment != 'all'){
-    		$this->db->where('program.segment', $segment);	
+    		$this->db->where('program.segment', $segment);
     	}
     	$query = $this->db->get('initiative');
         $res = $query->result();
@@ -137,7 +138,7 @@ class Magenda extends CI_Model {
         }
         return $arr;
     }
-    
+
     function get_all_just_initiatives(){
     	//$this->db->where('role', 3);
     	$this->db->select('initiative.*, program.title as program');
@@ -147,7 +148,7 @@ class Magenda extends CI_Model {
         $res = $query->result();
         return $res;
     }
-    
+
     function get_all_program_initiatives($id){
     	$this->db->where('program_id', $id);
     	$this->db->select('initiative.*');
@@ -155,7 +156,7 @@ class Magenda extends CI_Model {
         $res = $query->result();
         return $res;
     }
-    
+
     function get_initiative_by_id($id){
     	$this->db->select('initiative.*, program.title as program, program.code as program_code, program.segment as segment');
         $this->db->join('program', 'program.id = initiative.program_id');
@@ -167,7 +168,7 @@ class Magenda extends CI_Model {
             return false;
         }
     }
-    
+
     function get_initiative_status($id){
     	$this->db->where('initiative_id', $id);
     	//$this->db->order_by('status', 'asc');
@@ -193,14 +194,14 @@ class Magenda extends CI_Model {
         $arr['wb']=$result;
         return $arr;
     }
-    
+
     function get_initiative_pic($code){
     	$this->db->like('initiative',$code);
     	$this->db->order_by('jabatan', 'desc');
     	$query = $this->db->get('user');
         return $query->result();
     }
-    
+
     function get_workblock_status($id){
     	$this->db->where('workblock_id', $id);
     	$this->db->order_by('status', 'asc');
@@ -221,20 +222,20 @@ class Magenda extends CI_Model {
         }
         return $status;
     }
-    
+
     function get_initiative_minmax_date($id){
     	$this->db->select('MAX(end) max_end, MIN(start) min_start');
     	$this->db->where('program_id', $id);
     	$query = $this->db->get('initiative');
         return $query->row(0);
     }
-    
+
     //UPDATE FUNCTION
     function update_initiative($program,$id){
         $this->db->where('id',$id);
         return $this->db->update('initiative', $program);
     }
-    
+
     function check_initiative_status(){
     	$datenow = date("Y-m-d");
     	$initiatives = $this->get_all_initiatives("",'all');
@@ -248,8 +249,8 @@ class Magenda extends CI_Model {
     		}
     	}
     }
-    
-    
+
+
     //DELETE FUNCTION
     function delete_agenda($id){
     	$this->db->where('id',$id);
@@ -261,7 +262,7 @@ class Magenda extends CI_Model {
     		return true;
     	}
     }
-    
+
     function delete_program(){
     	$id = $this->input->post('id');
     	$this->db->where('id',$id);
@@ -273,7 +274,7 @@ class Magenda extends CI_Model {
     		return false;
     	}
     }
-    
+
     function delete_initiative(){
     	$id = $this->input->post('id');
     	$this->db->where('id',$id);
@@ -291,7 +292,7 @@ class Magenda extends CI_Model {
     		return false;
     	}
     }
-    
+
     function delete_milestone_workblock($id){
     	$this->db->where('workblock_id',$id);
     	$this->db->delete('milestone');
@@ -302,12 +303,12 @@ class Magenda extends CI_Model {
     		return true;
     	}
     }
-    
+
     function get_all_workblock_initiative($id){
     	$this->db->where('initiative_id', $id);
     	$query = $this->db->get('workblock');
         return $query->result();
     }
-    
+
     // OTHER FUNCTION
 }

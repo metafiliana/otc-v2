@@ -4,7 +4,7 @@
         <title><?php echo ucwords($title)."";?></title>
         <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <link href="<?php echo base_url();?>assets/css/datepicker.css" rel="stylesheet"/>
         <link href="<?php echo base_url();?>assets/css/token-input.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sb-admin-2.css" rel="stylesheet" />
@@ -12,14 +12,15 @@
         <link href="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo base_url();?>assets/css/bootstrap-notifications.min.css" rel="stylesheet">
-        <!-- <link href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-        <!-- <link href="<?php echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
+        <!-- <link href="<?php //echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+        <!-- <link href="<?php //echo base_url();?>assets/css/shared.css" rel="stylesheet" /> -->
         <link href="<?php echo base_url();?>assets/css/jquery-confirm.min.css" rel="stylesheet"/>
         <link href="<?php echo base_url();?>assets/css/ajax-bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/bootstrap-select.min.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/sharednew.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet" />
         <link href="<?php echo base_url();?>assets/export-amchart/export.css" rel="stylesheet"/>
+        <link href="<?php echo base_url();?>assets/css/jquery-ui.css" rel="stylesheet" />
 
         <!--DATA TABLES-->
         <link href="<?php echo base_url();?>assets/js/DataTables-1.10.9/css/jquery.dataTables.css" rel="stylesheet"/>
@@ -30,15 +31,14 @@
 				 base: "<?php echo base_url(); ?>"
 			 };
 		 </script>
-    
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.9.1.min.js"></script>
+
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-1.12.4.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.validate.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.form.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-confirm.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/application.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/bootstrap/dist/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap.file-input.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/ChartNew.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootstrap-datepicker.js"></script>
@@ -51,10 +51,11 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/ajax-bootstrap-select.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/grafik.js"></script>
-        
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui.js"></script>
+
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.tokeninput.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-        
+
         <!--DATA TABLES-->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/jquery.dataTables.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/DataTables-1.10.9/js/dataTables.buttons.js"></script>
@@ -67,7 +68,7 @@
         <!-- Highchart -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/highcharts.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/highchart/modules/exporting.js"></script>
-        
+
         <!-- AmCharts -->
         <script src="<?php echo base_url();?>assets/js/amcharts/amcharts.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>assets/js/amcharts/pie.js" type="text/javascript"></script>
@@ -76,13 +77,16 @@
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/amcharts/gauge.js"></script>
 
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/html2canvas.js"></script>
-        
+
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/rgbcolor.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/StackBlur.js"></script>
         <script type="text/javascript" src="<?php echo base_url();?>assets/js/canvg.js"></script>
 
+        <!-- <script type="text/javascript" src="<?php //echo base_url();?>assets/js/jquery-2.1.4.min.js"></script> -->
+        <script type="text/javascript" src="<?php echo base_url();?>assets/js/dx.chartjs.js"></script>
+
     </head>
-    
+
     <body>
         <div id="modal_finder"></div>
         <nav class="navbar navbar-default" style="border:0px; margin-bottom:0px;">
@@ -93,6 +97,6 @@
         	<?php echo $footer; ?>
     	</div>
         <div style="clear:both"></div>
-        
+
     </body>
 </html>

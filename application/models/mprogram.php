@@ -17,17 +17,56 @@ class Mprogram extends CI_Model {
         $this->load->database();
         $this->load->model('minitiative');
         $this->load->model('mworkblock');
+        $this->load->model('mkuantitatif');
+        $this->load->model('mt_action');
     }
-    
+
     //INSERT or CREATE FUNCTION
-    
-    
     function insert_program($program){
         return $this->db->insert('program', $program);
     }
-    
-    //GET FUNCTION
 
+    function insert_action($program){
+        return $this->db->insert('m_action', $program);
+    }
+
+    //UPDATE FUNCTION
+    function update_program($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('program', $program);
+    }
+
+    function update_action($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('m_action', $program);
+    }
+
+    //DELETE FUNCTION
+    function delete_program(){
+    	$id = $this->input->post('id');
+    	$this->db->where('id',$id);
+    	$this->db->delete('program');
+    	if($this->db->affected_rows()>0){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    }
+
+    function delete_action(){
+    	$id = $this->input->post('id');
+    	$this->db->where('id',$id);
+    	$this->db->delete('m_action');
+    	if($this->db->affected_rows()>0){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
+    }
+
+    //GET FUNCTION
     function get_all_program($distinct = false, $segment = false)
     {
         if ($distinct)
@@ -39,7 +78,7 @@ class Mprogram extends CI_Model {
 
         return $result->result();
     }
-    
+
     function get_program_by_id($id){
         $this->db->where('id',$id);
         $result = $this->db->get('program');
@@ -49,7 +88,7 @@ class Mprogram extends CI_Model {
             return false;
         }
     }
-    
+
     function get_program_by_code($code){
         $this->db->where('code',$code);
         $result = $this->db->get('program');
@@ -67,7 +106,40 @@ class Mprogram extends CI_Model {
         $query = $this->db->get('program');
         return $query->result();
     }
-    
+
+    function get_m_initiative($init_code){
+        $this->db->select('id, title, init_code');
+        if($init_code){
+          $this->db->where_in('init_code', $init_code);
+        }
+        $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+
+    function get_m_initiative_tot($init_code,$month){
+        $this->db->select('id, title, init_code');
+        if($init_code){
+          $this->db->where_in('init_code', $init_code);
+        }
+        $query = $this->db->get('m_initiative');
+        $arr = array(); $i=0;
+        $progs = $query->result();
+        foreach($progs as $prog){
+        	$arr[$i]['prog'] = $prog;
+          $id=$prog->id;
+          $arr[$i]['leading'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Leading');
+          $arr[$i]['lagging'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Lagging');
+
+          $arr[$i]['tot_leading'] = $this->mkuantitatif->get_total_per_type($id,$month,'Leading');
+          $arr[$i]['tot_lagging'] = $this->mkuantitatif->get_total_per_type($id,$month,'Lagging');
+
+          $arr[$i]['count_leading'] = $this->mkuantitatif->get_leading_leading_count($id,'Leading');
+          $arr[$i]['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($id,'Lagging');
+        	$i++;
+        }
+        return $arr;
+    }
+
     function get_segment_programs($segment,$init_id,$dir_spon,$pmo_head){
     	if($segment){
         $this->db->where('category', $segment);
@@ -111,12 +183,14 @@ class Mprogram extends CI_Model {
             $arr[$i]['wb_completed'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code)['complete'];
             //count($this->get_total_wb_by_init_code($prog->init_code));
             //$arr[$i]['wb_all_status'] = $this->minitiative->get_init_workblocks_status_init_code($prog->init_code);
-            
+
             //$arr[$i]['kuantitatif']=$this->get_kuantitatif_by_init_code($prog->init_code);
         	$i++;
         }
         return $arr;
     }
+
+    //otc v1
 
     function get_segment_program_new(){
         $this->db->where_in('category',return_all_category());
@@ -153,7 +227,7 @@ class Mprogram extends CI_Model {
             $arr[$i]['init'] = $this->minitiative->get_initiative_by_id($init_id);
             $arr[$i]['init_status'] = $this->minitiative->get_status_only_by_prog_id($arr[$i]['init'],$prog->id);
             //$arr[$i]['init_status'] = $this->minitiative->get_initiative_status($init_id,$arr[$i]['init']->end)['status'];
-            $arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code);
+            //$arr[$i]['total'] = $this->mprogram->get_kuantitatif_by_init_code($prog->init_code); no realiasi
             $arr[$i]['wb_status'] = $this->minitiative->get_init_workblocks_status_new($prog->id);
 
             $arr[$i]['status'] = $this->get_program_status($prog->id);
@@ -163,7 +237,22 @@ class Mprogram extends CI_Model {
         }
         return $arr;
     }
-    
+
+    //otc v2
+    function get_action_by_init_code($id,$id_action){
+        if($id){
+          $this->db->where('initiative_id', $id);
+        }
+        if($id_action){
+          $this->db->where('id', $id_action);
+        }
+        $this->db->select('*');
+        $this->db->order_by('id','asc');
+        $query = $this->db->get('m_action');
+        $progs = $query->result();
+        return $progs;
+    }
+
     function get_all_programs_with_segment($segment){
     	$this->db->order_by('code', 'asc');
     	if($segment != 'all'){
@@ -172,7 +261,7 @@ class Mprogram extends CI_Model {
     	$query = $this->db->get('program');
     	return $query->result();
     }
-    
+
     function get_program_status($program_id){
     	$allstat = return_arr_status();
     	$arr_status = array();
@@ -192,7 +281,7 @@ class Mprogram extends CI_Model {
     	}
     	return $arr_status;
     }
-    
+
     function get_total_wb_by_program($program_id){
         $this->db->where('program_id', $program_id);
         $this->db->select('initiative.*, program.segment');
@@ -267,26 +356,7 @@ class Mprogram extends CI_Model {
         $query = $this->db->get('kuantitatif');
         return $query;
     }
-    //UPDATE FUNCTION
-    
-    function update_program($program,$id){
-        $this->db->where('id',$id);
-        return $this->db->update('program', $program);
-    }
-    
-    //DELETE FUNCTION
-    function delete_program(){
-    	$id = $this->input->post('id');
-    	$this->db->where('id',$id);
-    	$this->db->delete('program');
-    	if($this->db->affected_rows()>0){
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
-    }
-    
+
     // OTHER FUNCTION
 
     // afil
@@ -306,12 +376,12 @@ class Mprogram extends CI_Model {
 
         $j = 0; // counter array $data
         $k = 0; // counter completed
-        for ($i=0; $i < $length; $i++) { 
+        for ($i=0; $i < $length; $i++) {
             if ($i == 0){
                 $nama = $item[$i]['nama'];
                 $ci = $item[$i]['init_code'];
                 $initiative .= $ci.';';
-                $k = 0; 
+                $k = 0;
             }else{
                 if ($item[$i]['nama'] != "$nama"){
                         if ($item[$i]['init_code'] != $ci){
@@ -355,7 +425,7 @@ class Mprogram extends CI_Model {
                 $total_completed_raw = 0;
                 $total_completed = 0;
                 $percent_parsial = 0;
-                if (!empty($result1)){       
+                if (!empty($result1)){
                     foreach ($result1 as $key1 => $value1) {
                         $total_initiative++;
 
@@ -387,7 +457,7 @@ class Mprogram extends CI_Model {
                 //     $data[$key]['total_kuantitatif'] = $jumlah_kuantitatif / count($list_kuantitatif);
                 // }
                     // var_dump(($hitung_kuantitatif));die;
-                
+
                 if (!empty($hitung_kuantitatif)){
                     $counter = 0;
                     $jumlah_kuantitatif = 0;
@@ -407,7 +477,7 @@ class Mprogram extends CI_Model {
                 }
             }
         }
-        
+
         // delete null data
         // array_splice($data, array_search('null', $data), 1);
 
@@ -437,11 +507,11 @@ class Mprogram extends CI_Model {
 
         $j = 0; // counter array $data
         $k = 0; // counter completed
-        for ($i=0; $i < $length; $i++) { 
+        for ($i=0; $i < $length; $i++) {
             if ($i == 0){
                 $nama = $item[$i]['nama'];
                 $ci = $item[$i]['init_code'];
-                $k = 0; 
+                $k = 0;
             }else{
                 if ($item[$i]['nama'] != "$nama"){
                         if ($item[$i]['init_code'] != $ci){
@@ -483,7 +553,7 @@ class Mprogram extends CI_Model {
                 $total_completed_raw = 0;
                 $total_completed = 0;
                 $percent_parsial = 0;
-                if (!empty($result1)){       
+                if (!empty($result1)){
                     foreach ($result1 as $key1 => $value1) {
                         // $total_completed = $total_completed + $value1['status_c'];
                         $total_initiative++;
@@ -514,7 +584,7 @@ class Mprogram extends CI_Model {
                 $list_kuantitatif = array_filter($list_kuantitatif_raw, create_function('$value', 'return $value !== "";'));
 
                 $hitung_kuantitatif = $this->mkuantitatif->get_total_kuantatif($arr_initcode);
-                
+
                 if (!empty($hitung_kuantitatif)){
                     $counter = 0;
                     $jumlah_kuantitatif = 0;
@@ -530,7 +600,7 @@ class Mprogram extends CI_Model {
                 }
             }
         }
-        
+
         // delete null data
         array_splice($data, array_search('null', $data), 1);
 
@@ -646,4 +716,81 @@ class Mprogram extends CI_Model {
 
         return $result;
     }
+    //amir--
+     function get_m_cluster(){
+        $this->db->select('id, title');
+
+        $query = $this->db->get('m_cluster');
+        return $query->result();
+    }
+    function get_initiative($init_code,$id){
+        $this->db->select('cluster_id, init_code, title, id, deskripsi');
+        $this->db->where('cluster_id',$id);
+        if($init_code){
+         $this->db->where_in('init_code',$init_code);
+        }
+        $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+    function count_action($id){
+        $this->db->where('initiative_id', $id);
+        $query = $this->db->get('m_action');
+        return count($query->result());
+    }
+    function get_CoPMO($init_code,$role){
+        $this->db->select('name, initiative, role');
+        $this->db->where('role != 2');
+        // $this->db->where('initiative',$init_code);
+        $query = $this->db->get('user')->result();
+        $data = array();
+        foreach ($query as $key => $value) {
+            $data_raw['name'] = $value->name;
+            $data_raw['role'] = $value->role;
+            $data_raw['initiative'] = explode(";", $value->initiative);
+            array_push($data, $data_raw);
+        }
+        foreach ($data as $key => $value) {
+           if($value['role'] == $role && in_array($init_code, $value['initiative'])){
+            return $value['name'];
+           }
+        }
+
+    }
+    function count_action_complete($id,$status){
+        $this->db->where('initiative_id',$id);
+        $this->db->where('status', $status);
+        $query = $this->db->get('m_action');
+        return count($query->result());
+    }
+    function count_action_overdue($id,$status,$tanggal){
+        $this->db->where('initiative_id',$id);
+        $this->db->where('status !=', $status);
+        $this->db->where('start_date <=', $tanggal);
+        $query = $this->db->get('m_action');
+        return count($query->result());
+    }
+   function get_latest_month($month,$idinit){
+        $this->db->select('sum(kuantitatif_update.'.$month.') as bulan');
+        $this->db->join('kuantitatif','kuantitatif.id = kuantitatif_update.id');
+        $this->db->where('kuantitatif.init_id',$idinit);
+        $query = $this->db->get('kuantitatif_update');
+        return $query->row();
+    }
+    function bulan_t_action($id){
+        $this->db->select('max(updated_date)as bulan');
+        $this->db->where('initiative_id',$id);
+        $query = $this->db->get('t_action');
+        return $query->row();
+
+    }
+
+    //new amir
+    function detail_pop_up($id){
+        $this->db->select('*');
+        $this->db->where('id',$id);
+        $query = $this->db->get('m_initiative');
+        return $query->result();
+    }
+
+    //end amir
 }

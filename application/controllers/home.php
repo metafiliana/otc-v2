@@ -2,7 +2,7 @@
 
 
 class Home extends CI_Controller {
-    
+
     public function __construct() {
         parent::__construct();
         $this->load->model('mmilestone');
@@ -19,12 +19,27 @@ class Home extends CI_Controller {
      */
     public function index()
     {
+        $users = $this->session->userdata('user');
+        $user = $users['username'];
+        $initid = $users['initiative'];
+        $foto = $this->muser->get_data_user($user)->foto;
+        $lastlogin = $this->muser->get_data_user($user)->last_login;
+        $privateemail = $this->muser->get_data_user($user)->private_email;
+        $workemail = $this->muser->get_data_user($user)->work_email;
+        $data = array(
+            'username' => $user,
+            'foto' => $foto,
+            'initid' => $initid,
+            'last_login' => $lastlogin,
+            'private_email' => $privateemail,
+            'work_email' => $workemail
+        );
 
-		$data['title'] = "Home";
+		    $data['title'] = "Home";
 
-        $user = $this->session->userdata('user');
+        $user = $users;
         $data['user']=$user;
-        if($user['role']!='admin'){
+        if($user['role']!='2'){
             $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
             $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
@@ -32,17 +47,17 @@ class Home extends CI_Controller {
             $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
             $data['notif']= $this->mremark->get_notification_by_admin('');
         }
-        
-        $data['notif_hari'] = $this->muser->insert_notification_by_date_7();
-        $data['notif_hari'] = $this->muser->insert_notification_by_date_2();
-        $this->blast_email();
 
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);	
+        //$data['notif_hari'] = $this->muser->insert_notification_by_date_7();
+        //$data['notif_hari'] = $this->muser->insert_notification_by_date_2();
+        //$this->blast_email();
+
+        $data['header'] = $this->load->view('shared/header-v2',$data,TRUE);
 		$data['footer'] = $this->load->view('shared/footer','',TRUE);
-		$data['content'] = $this->load->view('home/home',$data,TRUE);
+		$data['content'] = $this->load->view('home/undermt',$data,TRUE);
 
 		$this->load->view('front',$data);
-        
+
     }
 
     public function blast_email(){
@@ -51,7 +66,7 @@ class Home extends CI_Controller {
             if(!$this->muser->check_date($data['check_date'])){
                 $user=$this->muser->get_user_by_role('Co-PMO');
                 foreach ($user as $users) {
-                $email = explode(';',$users->private_email); 
+                $email = explode(';',$users->private_email);
                 $this->send_email($users->name,$email,$users->initiative);
                 }
                 $this->mfiles_upload->insert_db($data,'email_date');
@@ -65,7 +80,7 @@ class Home extends CI_Controller {
             'protocol' => 'smtp',
             'smtp_host' => 'smtp-mail.outlook.com',
             'smtp_port' => 587,
-            'smtp_user' => 'otc.mandiri@outlook.com',
+            'smtp_user' => 'otc.mandiri@outlook.com',//OTCmandiri1
             'smtp_pass' => 'QWEasd123',
             'smtp_crypto' => 'tls'
             //'mailtype' => 'html',
@@ -76,7 +91,7 @@ class Home extends CI_Controller {
             'email' => 'otc.mandiri@outlook.com',
             'name' => 'OTC Mandiri'
         ];
-      
+
         $to = $email;
         //array('tezza.riyanto@bankmandiri.co.id');
         $subject = 'Permohonan update progress pada sistem OTC';

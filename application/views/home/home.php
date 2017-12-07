@@ -17,7 +17,7 @@
         <blockquote>
           <p style="margin-left:5px">'Selected Initiatives.'</p>
         </blockquote>
-      </figcaption><?php if($user['role']=='admin'){ ?><a href="<?php echo base_url()?>program/list_programs/"></a><?php } else{ ?><a href="<?php echo base_url()?>program/my_inisiatif"></a><?php } ?>
+      </figcaption><a href="<?php echo base_url()?>program/list_programs/"></a>
     </figure>
     </div>
     <div class="col-md-4">
@@ -27,7 +27,7 @@
         <blockquote>
           <p style="margin-left:5px">'Selected Kuantitative.'</p>
         </blockquote>
-      </figcaption><?php if($user['role']=='admin'){ ?><a href="<?php echo base_url()?>kuantitatif"></a><?php } else{ ?><a href="<?php echo base_url()?>kuantitatif/my_kuantitatif"></a><?php } ?>
+      </figcaption><?php if($user['role']=='2'){ ?><a href="<?php echo base_url()?>kuantitatif"></a><?php } else{ ?><a href="<?php echo base_url()?>kuantitatif/my_kuantitatif"></a><?php } ?>
     </figure>
     </div>
 </div>

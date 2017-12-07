@@ -4,8 +4,8 @@
 		<?php foreach($logs as $log){ $datelog = strtotime($log->date); ?>
 			<div style="border-bottom:1px solid #eee; padding:5px 0 5px 5px;">
 				<div style="float:left; width:90%">
-					<!--<div style="font-size:11px; color:grey;"><?php echo $log->prog_code." ".$log->prog_tit?></div>
-					<div style="font-size:11px; color:grey;"><?php echo $log->init_code." ".$log->init_tit?></div>-->
+					<!--<div style="font-size:11px; color:grey;"><?php //echo $log->prog_code." ".$log->prog_tit?></div>
+					<div style="font-size:11px; color:grey;"><?php //echo $log->init_code." ".$log->init_tit?></div>-->
 					<p><?php echo $log->content?></p>
 				</div>
 				<div style="color:#bbb; float:left; width:10%;">

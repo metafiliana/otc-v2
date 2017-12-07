@@ -117,7 +117,7 @@
                 $('#filter-value-table-program').empty();
                 $('#filter-value-table-initiative').empty();
                 $('#filter-value-table-workblock').empty();
-                
+
                 $('#filter-value-table-primary').show();
 
                 <?php foreach ($pmo_head_list as $key => $value): ?>
@@ -320,74 +320,74 @@
     });
 
     var table = $('#filter-value-table-primary');
-    
+
     $('#kualitatifPercent, #kuantitatifPercent')
         .wrapInner('<span title="sort this column"/>')
         .each(function(){
-            
+
             var th = $(this),
                 thIndex = th.index(),
                 inverse = false;
-            
+
             th.click(function(){
-                
+
                 table.find('td').filter(function(){
-                    
+
                     return $(this).index() === thIndex;
-                    
+
                 }).sortElements(function(a, b){
-                    
+
                     return parseFloat($.text([a])) > parseFloat($.text([b])) ?
                         inverse ? -1 : 1
                         : inverse ? 1 : -1;
-                    
+
                 }, function(){
-                    
+
                     // parentNode is the element we want to move
-                    return this.parentNode; 
-                    
+                    return this.parentNode;
+
                 });
-                
+
                 inverse = !inverse;
-                    
+
             });
         });
 
-function take(div) {
-// First render all SVGs to canvases
-var svgElements= $("#"+div).find('svg');
+      function take(div) {
+      // First render all SVGs to canvases
+      var svgElements= $("#"+div).find('svg');
 
-//replace all svgs with a temp canvas
-svgElements.each(function () {
- var canvas, xml;
+      //replace all svgs with a temp canvas
+      svgElements.each(function () {
+       var canvas, xml;
 
- canvas = document.createElement("canvas");
- canvas.className = "screenShotTempCanvas";
- //convert SVG into a XML string
- xml = (new XMLSerializer()).serializeToString(this);
+       canvas = document.createElement("canvas");
+       canvas.className = "screenShotTempCanvas";
+       //convert SVG into a XML string
+       xml = (new XMLSerializer()).serializeToString(this);
 
- // Removing the name space as IE throws an error
- xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
+       // Removing the name space as IE throws an error
+       xml = xml.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
 
- //draw the SVG onto a canvas
- canvg(canvas, xml);
- $(canvas).insertAfter(this);
- //hide the SVG element
- this.className = "tempHide";
- $(this).hide();
-});
+       //draw the SVG onto a canvas
+       canvg(canvas, xml);
+       $(canvas).insertAfter(this);
+       //hide the SVG element
+       this.className = "tempHide";
+       $(this).hide();
+      });
 
-html2canvas($("#"+div), {
-     allowTaint: true,
-     onrendered: function (canvas) {
-         var myImage = canvas.toDataURL("image/pdf");
-         var tWindow = window.open(""); 
-         $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
-             tWindow.focus();
-             tWindow.print();
-         });
-     }
-});
-//location.reload();
-}     
+      html2canvas($("#"+div), {
+           allowTaint: true,
+           onrendered: function (canvas) {
+               var myImage = canvas.toDataURL("image/pdf");
+               var tWindow = window.open("");
+               $(tWindow.document.body).html("<img id='Image' src=" + myImage + " style='width:100%;'></img>").ready(function () {
+                   tWindow.focus();
+                   tWindow.print();
+               });
+           }
+      });
+      //location.reload();
+      }     
 </script>
