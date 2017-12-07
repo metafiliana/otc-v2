@@ -1006,6 +1006,8 @@ class Summary extends CI_Controller {
 
     public function getInitiativesDetail($user = false, $month = false, $admin = false)
     {
+        $info_summary = $this->minfo->getInfoLastUpdatedSummary();
+
         $month_status = false;
         if ($month){
             foreach ($this->data_bulan as $key => $value) {
@@ -1019,8 +1021,22 @@ class Summary extends CI_Controller {
 
         $data_summary_kuantitatif = $this->getDataTableKuantitatif($user, true);
 
-        $data_user = $this->muser->getInitiativeArrayById($user);
-        $initiative_explode = explode(';', $data_user->initiative);
+        $initiative_explode = '';
+        if ($admin){
+            $data_user_admin = $this->minitiative->getAllInitCode();
+            $data_user = array();
+            if (is_array($data_user_admin)){
+                foreach ($data_user_admin as $key => $value) {
+                    array_push($data_user, $value['init_code']);
+                }
+
+                $initiative_explode = $data_user;
+            }
+        }else{
+            $data_user = $this->muser->getInitiativeArrayById($user);
+            if ($data_user)
+                $initiative_explode = explode(';', $data_user->initiative);
+        }
         
         $data_initiative_user = array();
         $data_initiative_user_array = array();
@@ -1166,6 +1182,16 @@ class Summary extends CI_Controller {
                     $milestone_mtd = $this->getMtdMilestone($overdue, $completed, $value->id, $month_status);
                     $milestone_ytd = $this->getYtdMilestone($value->id);
 
+                    //cek bulan generate summary
+                    $compare_month_filter = (int)$month_status;
+                    $compare_month_update = (int)date('m', strtotime($info_summary->date));
+                    if ($compare_month_filter > $compare_month_update){
+                        $final_monthly_score = 0;
+                        $final_yearly_score = 0;
+                        $milestone_mtd = 0;
+                        $milestone_ytd = 0;
+                    }
+
                     // raw data bind
                         // kuantitatif
                     $data_initiative_detail_raw['id'] = $i;
@@ -1210,14 +1236,22 @@ class Summary extends CI_Controller {
                     $milestone_mtd = $this->getMtdMilestone($overdue, $completed, $value, $month_status);
                     $milestone_ytd = $this->getYtdMilestone($value);
 
+                    //cek bulan generate summary
+                    $compare_month_filter = (int)$month_status;
+                    $compare_month_update = (int)date('m', strtotime($info_summary->date));
+                    if ($compare_month_filter > $compare_month_update){
+                        $milestone_mtd = 0;
+                        $milestone_ytd = 0;
+                    }
+
                     // raw data bind
                         // kuantitatif
                     $data_initiative_detail_raw['id'] = $i;
                     $data_initiative_detail_raw['init_code'] = $detail_initiatives->init_code;
                     $data_initiative_detail_raw['init_id'] = $value;
                     $data_initiative_detail_raw['title'] = $detail_initiatives->title;
-                    $data_initiative_detail_raw['kuantitatif_mtd'] = 0;
-                    $data_initiative_detail_raw['kuantitatif_ytd'] = 0;
+                    $data_initiative_detail_raw['kuantitatif_mtd'] = number_format(0, 2);
+                    $data_initiative_detail_raw['kuantitatif_ytd'] = number_format(0, 2);
                         // milestone
                     $data_initiative_detail_raw['completed'] = $completed;
                     $data_initiative_detail_raw['on_track'] = $on_track;
@@ -1342,9 +1376,13 @@ class Summary extends CI_Controller {
 
     public function getMtdMilestone($overdue, $complete, $initiative_id, $month = false)
     {
-        $complete = ($complete > 0) ? $complete : 1;
+        $complete = ($complete > 0) ? $complete : 0;
         $total_action = $this->mt_action->getAllAction($initiative_id, $month);
-        $mtd = $complete / ($complete + $overdue) * 100;
+
+        $pembagi = $complete + $overdue;
+        $pembagi = ($pembagi > 0) ? $pembagi : 1;
+
+        $mtd = $complete / ($pembagi) * 100;
 
         return ($mtd <= 100) ? $mtd : 100;
     }

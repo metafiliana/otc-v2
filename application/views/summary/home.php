@@ -207,6 +207,12 @@
               </div>
               <!-- data area inititatives-kuantitatif ends -->
 
+              <!-- alert area start -->
+              <?php if ($value['kuantitatif_ytd'] == 0 && $value['kuantitatif_mtd'] == 0) { ?>
+              <p class="text-center" style="color: red">Data kosong, karena data dengan initiative, user, dan bulan update summary belum tersedia</p>
+              <?php } ?>
+              <!-- alert area ends -->
+
               <!-- data area milestone start -->
               <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
@@ -330,6 +336,11 @@
       $( ".detail-initiatives" ).click().delay( 800 );
       // $( "#modalTrigger" ).click().delay( 800 );
       $( ".initiative-detail" ).first().show().delay( 800 );
+
+      // bootbox.dialog({
+      //   title: 'Welcome to Mandiri PMO Corplan!',
+      //   message: 'resp.message'
+      // });
     });
 
     $("#mtdGauge").dxCircularGauge({

@@ -859,4 +859,12 @@ class Minitiative extends CI_Model {
         return ($result) ? $result->result_array() : array();
     }
 
+    function getAllInitCode()
+    {
+        $this->db->select('init_code');
+        $result = $this->db->get('m_initiative');
+
+        return $result->result_array();
+    }
+
 }
