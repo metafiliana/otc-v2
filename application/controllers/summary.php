@@ -454,7 +454,7 @@ class Summary extends CI_Controller {
         //process start
         $data['init_table'] = $this->getDataTableKuantitatif();
         $data['controller'] = $this;
-        $data['bulan_search'] = null;
+        $data['bulan_search'] = date('F');
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
@@ -1172,8 +1172,8 @@ class Summary extends CI_Controller {
                     $data_initiative_detail_raw['init_code'] = $value->init_code;
                     $data_initiative_detail_raw['init_id'] = $value->id;
                     $data_initiative_detail_raw['title'] = $value->title;
-                    $data_initiative_detail_raw['kuantitatif_mtd'] = $final_monthly_score;
-                    $data_initiative_detail_raw['kuantitatif_ytd'] = $final_yearly_score;
+                    $data_initiative_detail_raw['kuantitatif_mtd'] = number_format($final_monthly_score, 2);
+                    $data_initiative_detail_raw['kuantitatif_ytd'] = number_format($final_yearly_score, 2);
                         // milestone
                     $data_initiative_detail_raw['completed'] = $completed;
                     $data_initiative_detail_raw['on_track'] = $on_track;
