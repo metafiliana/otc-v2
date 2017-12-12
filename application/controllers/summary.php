@@ -314,6 +314,8 @@ class Summary extends CI_Controller {
       }
         // views start
         $views = array();
+        $info_last_summary = $this->minfo->getInfoLastUpdatedSummary();
+        $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
         // views end
 
         $is_admin = false;
@@ -325,7 +327,7 @@ class Summary extends CI_Controller {
         //process start
         $data['init_table'] = $this->mt_action->getAllInitiative();
         $data['controller'] = $this;
-        $data['bulan_search'] = null;
+        $data['bulan_search'] = date('F', strtotime($get_month));
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
@@ -443,6 +445,8 @@ class Summary extends CI_Controller {
       }
         // views start
         $views = array();
+        $info_last_summary = $this->minfo->getInfoLastUpdatedSummary();
+        $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
         // views end
 
         $is_admin = false;
@@ -454,7 +458,7 @@ class Summary extends CI_Controller {
         //process start
         $data['init_table'] = $this->getDataTableKuantitatif();
         $data['controller'] = $this;
-        $data['bulan_search'] = date('F');
+        $data['bulan_search'] = date('F', strtotime($get_month));
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
@@ -867,12 +871,15 @@ class Summary extends CI_Controller {
           $data['notif']= $this->mremark->get_notification_by_admin('');
       }
 
+        $info_last_summary = $this->minfo->getInfoLastUpdatedSummary();
+        $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+
         // views start
         $views = array();
         $views['user'] = $user;
         $data['last_agenda'] = $this->magenda->get_last_agenda(5);
-        $data['bulan_search'] = null;
-        $data['bulan_search_status'] = !empty($data['bulan_search_status']) ? $data['bulan_search_status'] : date('m');
+        $data['bulan_search'] = date('F', strtotime($get_month));
+        $data['bulan_search_status'] = !empty($data['bulan_search_status']) ? $data['bulan_search_status'] : date('m', strtotime($get_month));
         $bulan_search = $bulan_search_status = false;
         // views end
 
@@ -893,7 +900,7 @@ class Summary extends CI_Controller {
         //search ends
 
         if (!$bulan_search){
-            $bulan_search = date('F');
+            $bulan_search = date('F', strtotime($get_month));
         }
 
         //process start
