@@ -315,7 +315,8 @@ class Summary extends CI_Controller {
         // views start
         $views = array();
         $info_last_summary = $this->minfo->getInfoLastUpdatedSummary();
-        $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+        // $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+        $get_month = $this->mkuantitatif->getLastMonthUpdated();
         // views end
 
         $is_admin = false;
@@ -446,7 +447,8 @@ class Summary extends CI_Controller {
         // views start
         $views = array();
         $info_last_summary = $this->minfo->getInfoLastUpdatedSummary();
-        $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+        // $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+        $get_month = $this->mkuantitatif->getLastMonthUpdated();
         // views end
 
         $is_admin = false;
@@ -842,6 +844,7 @@ class Summary extends CI_Controller {
 
     public function home()
     {
+        $this->mkuantitatif->getLastMonthUpdated();
       $users = $this->session->userdata('user');
       $user = $users['username'];
       $initid = $users['initiative'];
@@ -872,7 +875,8 @@ class Summary extends CI_Controller {
       }
 
         $info_last_summary = $this->minfo->getInfoLastUpdatedSummary();
-        $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+        // $get_month = (!empty($info_last_summary->date)) ? $info_last_summary->date : date('Y-m-d');
+        $get_month = $this->mkuantitatif->getLastMonthUpdated();
 
         // views start
         $views = array();

@@ -532,4 +532,21 @@ class Mkuantitatif extends CI_Model {
 
         return $result;
     }
+
+    function getLastMonthUpdated()
+    {
+        $bulan = getMonth(true);
+        $return = date('Y-m-d');
+
+        foreach ($bulan as $key => $value) {
+            $this->db->where($key.' > 0');
+            $query = $this->db->get('kuantitatif_update')->result_array();
+
+            if (count($query) > 50){
+                $return = date('Y-m-t', strtotime($key));
+            }
+        }
+        
+        return $return;
+    }
 }
