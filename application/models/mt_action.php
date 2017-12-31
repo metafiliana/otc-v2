@@ -248,7 +248,7 @@ class Mt_action extends CI_Model {
         }elseif ($type == 2){ // overdue
             // after end date
             // $where = 't.`end` <= NOW() AND t.`initiative_id` = '.$initiative_id.' AND t.`status` = 3';
-            $where = 't.`end` <= t.`updated_date` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,2,3)';
+            $where = '(t.`end` + INTERVAL 1 DAY) <= t.`updated_date` AND t.`initiative_id` = '.$initiative_id.' AND t.`status` IN (0,2,3)';
 
             // if ($month){
             //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
