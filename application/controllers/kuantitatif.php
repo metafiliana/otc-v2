@@ -32,8 +32,15 @@ class Kuantitatif extends CI_Controller {
         $data['month_view'] = $this->input->get('month');
         $time=strtotime(date("Y-m-d"));
         //$data['month_view']=date("F",$time);
-        $data['year_view']=date("Y",$time);
-        $data['month_number']=date("n",$time);
+        if(date("n",$time)==1){
+          $data['year_view']=date('Y', strtotime('-1 year'));
+          $data['month_number']=12;
+        }
+        else{
+          $data['year_view']=date("Y",$time);
+          $data['month_number']=date("n",$time);
+        }
+
 
         $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
         $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
@@ -175,13 +182,24 @@ class Kuantitatif extends CI_Controller {
         if($this->input->post('month')){
           $prog['month_view'] = $this->input->post('month');
         }
+        else if(date("n",$time)==1){
+          $prog['month_view']="December";
+        }
         else{
           $prog['month_view']=date("F",$time);
         }
 
         $prog['programs'] = $this->mprogram->get_m_initiative_tot($init_code,$prog['month_view']);
-        $prog['year_view']=date("Y",$time);
-        $prog['month_number']=date("n",$time);
+        if(date("n",$time)==1){
+          $prog['year_view']=date('Y', strtotime('-1 year'));
+          $prog['month_number']=12;
+        }
+        else{
+          $prog['year_view']=date("Y",$time);
+          $prog['month_number']=date("n",$time);
+        }
+        //$prog['year_view']=date("Y",$time);
+        //$prog['month_number']=date("n",$time);
 
         }
         else{
