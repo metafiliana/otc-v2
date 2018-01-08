@@ -1328,6 +1328,11 @@ class Summary extends CI_Controller {
 
         $data = $this->getStatus($initiative_id, $status, $future, $flagged, $month, $user_id, true, $is_admin);
 
+        foreach ($data as $key => $value) {
+            $data[$key]['start'] = date('d/M/Y', strtotime($value['start']));
+            $data[$key]['end'] = date('d/M/Y', strtotime($value['end']));
+        }
+
         $dataResponse = array("status" => "success", "data" => $data);
         header('Content-Type: application/json');
         echo json_encode($dataResponse);

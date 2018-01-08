@@ -137,7 +137,19 @@
           <div class="component_part">
             <div class="row" id="printTopBod">
               <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
-              <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5><br>
+              <h5 class="text-center"><br>( as of 
+                <?php 
+                  $bulan_now = ($bulan_search !== null) ? date('n', strtotime($bulan_search)) : date('n');
+                  if ($bulan_now == 1){
+                    $date = ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y');
+                    $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                    $newdate = date ( 'F Y' , $newdate );
+                    echo $newdate;
+                  }else{
+                    echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); 
+                  }
+                ?>
+              )</h5><br>
               <div class="col-md-12">
                 <div id="mtdGauge"></div>
               </div>
@@ -196,7 +208,19 @@
               <div class="col-md-12" style="margin-bottom: 20px;">
                 <h3 class="text-center">Realisasi Pencapaian Initiatives <?php echo $value['init_code']; ?></h3>
                 <h4 class="text-center" style="padding-top: 5px;"><?php echo $value['title']; ?></h4>
-                <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
+                <h5 class="text-center"><br>( as of 
+                <?php 
+                  $bulan_now = ($bulan_search !== null) ? date('n', strtotime($bulan_search)) : date('n');
+                  if ($bulan_now == 1){
+                    $date = ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y');
+                    $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                    $newdate = date ( 'F Y' , $newdate );
+                    echo $newdate;
+                  }else{
+                    echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); 
+                  }
+                ?>
+                )</h5>
                 <div class="col-md-6">
                   <div class="mtd-gauge-init-<?php echo $value['id'];?>"></div>
                 </div>
@@ -216,7 +240,19 @@
               <!-- data area milestone start -->
               <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
-                <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5><br>
+                <h5 class="text-center"><br>( as of 
+                <?php 
+                  $bulan_now = ($bulan_search !== null) ? date('n', strtotime($bulan_search)) : date('n');
+                  if ($bulan_now == 1){
+                    $date = ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y');
+                    $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                    $newdate = date ( 'F Y' , $newdate );
+                    echo $newdate;
+                  }else{
+                    echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); 
+                  }
+                ?>
+                )</h5><br>
                 <div class="col-md-6 text-center">
                   <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="1" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="false">Complete: <?php echo $value['completed']; ?></p>
                   <p class="detail-milestone" data-id="<?php echo $value['init_id']; ?>" data-status="2" data-month="<?php echo $bulan_search_status; ?>" data-flagged="false" data-future="false">On Track: <?php echo $value['on_track']; ?></p>
@@ -256,7 +292,19 @@
               <div class="col-md-12" style="margin-bottom: 20px;">
                 <h3 class="text-center">Realisasi Pencapaian Initiatives <span class="init_code-default"></span></h3>
                 <h4 class="text-center" style="padding-top: 5px;"><span class="title-default"></span></h4>
-                <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5>
+                <h5 class="text-center"><br>( as of 
+                <?php 
+                  $bulan_now = ($bulan_search !== null) ? date('n', strtotime($bulan_search)) : date('n');
+                  if ($bulan_now == 1){
+                    $date = ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y');
+                    $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                    $newdate = date ( 'F Y' , $newdate );
+                    echo $newdate;
+                  }else{
+                    echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); 
+                  }
+                ?>
+                )</h5>
                 <div class="col-md-6">
                   <div class="mtd-gauge-init-default"></div>
                 </div>
@@ -270,7 +318,19 @@
               <!-- data area milestone start -->
               <div class="col-md-12">
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <span class="init_code-default"></span></h3>
-                <h5 class="text-center"><br>( as of <?php echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); ?>)</h5><br>
+                <h5 class="text-center"><br>( as of 
+                <?php 
+                  $bulan_now = ($bulan_search !== null) ? date('n', strtotime($bulan_search)) : date('n');
+                  if ($bulan_now == 1){
+                    $date = ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y');
+                    $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                    $newdate = date ( 'F Y' , $newdate );
+                    echo $newdate;
+                  }else{
+                    echo ($bulan_search !== null) ? date('F Y', strtotime($bulan_search)) : date('F Y'); 
+                  }
+                ?>
+                )</h5><br>
                 <div class="col-md-6 text-center">
                   <p>Complete: 0</p>
                   <p>On Track: 0</p>
