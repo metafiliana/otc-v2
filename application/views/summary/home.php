@@ -140,7 +140,15 @@
               <h5 class="text-center"><br>( as of 
                 <?php 
                   if ($bulan_search !== null){
-                    echo date('F Y', strtotime($bulan_search));
+                    $bulan_now = date('n');
+                    if ($bulan_now == 1){
+                      $date = date('F Y', strtotime($bulan_search));
+                      $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                      $newdate = date ( 'F Y' , $newdate );
+                      echo $newdate;
+                    }else{
+                      echo date('F Y', strtotime($bulan_search));
+                    }
                   }else{
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
@@ -215,7 +223,15 @@
                 <h5 class="text-center"><br>( as of 
                 <?php 
                   if ($bulan_search !== null){
-                    echo date('F Y', strtotime($bulan_search));
+                    $bulan_now = date('n');
+                    if ($bulan_now == 1){
+                      $date = date('F Y', strtotime($bulan_search));
+                      $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                      $newdate = date ( 'F Y' , $newdate );
+                      echo $newdate;
+                    }else{
+                      echo date('F Y', strtotime($bulan_search));
+                    }
                   }else{
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
@@ -251,7 +267,15 @@
                 <h5 class="text-center"><br>( as of 
                 <?php 
                   if ($bulan_search !== null){
-                    echo date('F Y', strtotime($bulan_search));
+                    $bulan_now = date('n');
+                    if ($bulan_now == 1){
+                      $date = date('F Y', strtotime($bulan_search));
+                      $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                      $newdate = date ( 'F Y' , $newdate );
+                      echo $newdate;
+                    }else{
+                      echo date('F Y', strtotime($bulan_search));
+                    }
                   }else{
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
@@ -307,7 +331,15 @@
                 <h5 class="text-center"><br>( as of 
                 <?php 
                   if ($bulan_search !== null){
-                    echo date('F Y', strtotime($bulan_search));
+                    $bulan_now = date('n');
+                    if ($bulan_now == 1){
+                      $date = date('F Y', strtotime($bulan_search));
+                      $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                      $newdate = date ( 'F Y' , $newdate );
+                      echo $newdate;
+                    }else{
+                      echo date('F Y', strtotime($bulan_search));
+                    }
                   }else{
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
@@ -337,7 +369,15 @@
                 <h5 class="text-center"><br>( as of 
                 <?php 
                   if ($bulan_search !== null){
-                    echo date('F Y', strtotime($bulan_search));
+                    $bulan_now = date('n');
+                    if ($bulan_now == 1){
+                      $date = date('F Y', strtotime($bulan_search));
+                      $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
+                      $newdate = date ( 'F Y' , $newdate );
+                      echo $newdate;
+                    }else{
+                      echo date('F Y', strtotime($bulan_search));
+                    }
                   }else{
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
