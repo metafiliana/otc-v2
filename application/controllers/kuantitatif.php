@@ -174,11 +174,13 @@ class Kuantitatif extends CI_Controller {
         $user = $users;
         $prog['user'] = $user;
         $data['user'] = $user;
+        $time=strtotime(date("Y-m-d"));
 
         //View list of initiative
         if($user['role']=='1'){
         $init_code = explode(";",$user['initiative']);
-        $time=strtotime(date("Y-m-d"));
+
+        //get month
         if($this->input->post('month')){
           $prog['month_view'] = $this->input->post('month');
         }
@@ -190,6 +192,8 @@ class Kuantitatif extends CI_Controller {
         }
 
         $prog['programs'] = $this->mprogram->get_m_initiative_tot($init_code,$prog['month_view']);
+
+        //view month
         if(date("n",$time)==1){
           $prog['year_view']=date('Y', strtotime('-1 year'));
           $prog['month_number']=12;
@@ -203,8 +207,15 @@ class Kuantitatif extends CI_Controller {
 
         }
         else{
+        if(date("n",$time)==1){
+          $prog['month_view']="December";
+        }
+        else{
+          $prog['month_view']=date("F",$time);
+        }
         $prog['programs'] = $this->mprogram->get_m_initiative('');
         }
+
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif_v2',$prog,TRUE);
 
 

@@ -57,7 +57,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 							<label class="control-label col-sm" style="margin:0 10px 0 10px;">Month</label>
 							<select class="input-sm form-control-this" name="month" id="month">
 							<?php foreach ($arr_month as $arr) { ?>
-								<option value="<?= $arr ?>" <?php if($arr == date('F')){echo "selected";} ?>><?= $arr ?></option>
+								<option value="<?= $arr ?>" <?php if($arr == $month_view){echo "selected";} ?>><?= $arr ?></option>
 							<?php } ?>
 		 					</select>
 						</div>
