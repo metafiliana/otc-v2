@@ -309,6 +309,7 @@ class Program extends CI_Controller {
           //echo $this->input->post('start');
           //$start = DateTime::createFromFormat('m/d/Y', $this->input->post('start'));
       		$program['start_date'] = date_format($date,"Y-m-d");
+          $start = date_format($date,"d-F-Y");
       	}
 
       	if($this->input->post('end')){
@@ -316,19 +317,20 @@ class Program extends CI_Controller {
           //echo $this->input->post('end');
           //$end = DateTime::createFromFormat('m/d/Y', $this->input->post('end'));
       		$program['end_date'] = date_format($date,"Y-m-d");//$end->format('Y-m-d');
+          $end = date_format($date,"d-F-Y");
       	}
 
         if($id){
+          $stat="memperbarui";
           $this->mprogram->update_action($program,$id);
         }
         else{
-          $initiative=$this->minitiative->get_detail_initiative($program['initiative_id']);
-          //print($initiative->init_code);
-          $content = "<p>".$user['name']." </b> menambahkan: ".$program['title']." pada <b><br>".$initiative->init_code.". ".$initiative->title."<br> Start: ".$start->format('d-F-Y')."<br> End: ".$end->format('d-F-Y')."</b></p>";
-          insert_notification($this,$content,0,0);
+          $stat="menambahkan";
           $this->mprogram->insert_action($program);
         }
-
+        $initiative=$this->minitiative->get_detail_initiative($program['initiative_id']);
+        $content = "<p>".$user['name']." </b> ".$stat.": ".$program['title']." pada <b><br>".$initiative->init_code.". ".$initiative->title."<br> Start: ".$start."<br> End: ".$end."</b></p>";
+        insert_notification($this,$content,0,0);
         redirect('program/list_programs');
     }
 
@@ -499,8 +501,8 @@ class Program extends CI_Controller {
       $month= date('F',strtotime($month));
       return $month;
 
-      
-     
+
+
     }
     public function get_tot_pertipe($id, $type){
       $month = date('F');
