@@ -60,6 +60,12 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 								<option value="<?= $arr ?>" <?php if($arr == $month_view){echo "selected";} ?>><?= $arr ?></option>
 							<?php } ?>
 		 					</select>
+							<label class="control-label col-sm" style="margin:0 10px 0 10px;">Year</label>
+							<select class="input-sm form-control-this" name="year" id="year">
+								<?php foreach ($filter_year as $fil) { ?>
+									<option value="<?= $fil ?>" <?php if($fil == $year_now){echo "selected";} ?>><?= $fil ?></option>
+								<?php } ?>
+							</select>
 						</div>
 					<?php } ?>
 

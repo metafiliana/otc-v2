@@ -255,6 +255,16 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
+    function check_data_kuantitatif_update($year){
+        $this->db->where('year',$year);
+        $result = $this->db->get('kuantitatif_update');
+        if($result->result()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     function get_all_kuantitatif_update($id,$year){
         $this->db->where('id_kuan',$id);
         $this->db->where('year',$year);
@@ -364,12 +374,11 @@ class Mkuantitatif extends CI_Model {
         return $this->db->select('*')->order_by('id',"desc")->limit(1)->get('kuantitatif');
     }
 
-    function get_target_year_kuantitatif(){
+    function get_year_kuantitatif_update(){
         $this->db->distinct();
-        $this->db->select('target_year');
-        $this->db->order_by('target_year','desc');
-        $query = $this->db->get('kuantitatif');
-        return $query->result()[0];
+        $this->db->select('year');
+        $query = $this->db->get('kuantitatif_update');
+        return $query->result()[0]->year;
     }
 
     function get_all_programs_with_segment($segment){
@@ -547,7 +556,7 @@ class Mkuantitatif extends CI_Model {
                 $return = date('Y-m-t', strtotime($key));
             }
         }
-        
+
         return $return;
     }
 }

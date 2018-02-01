@@ -30,26 +30,34 @@ class Kuantitatif extends CI_Controller {
         //print_r($test);
         $data['id'] = $this->input->get('id');
         $data['month_view'] = $this->input->get('month');
+        $data['year_view'] = $this->input->get('year');
         $time=strtotime(date("Y-m-d"));
+        $data['month_number']=12;
         //$data['month_view']=date("F",$time);
-        if(date("n",$time)==1){
-          $data['year_view']=date('Y', strtotime('-1 year'));
-          $data['month_number']=12;
+        // if(date("n",$time)==1){
+        //   $data['year_view']=date('Y', strtotime('-1 year'));
+        //   $data['month_number']=12;
+        // }
+        // else{
+        //   $data['year_view']=date("Y",$time);
+        //   $data['month_number']=date("n",$time);
+        // }
+
+        $check_kuan_update = $this->mkuantitatif->check_data_kuantitatif_update($data['year_view']);
+        if($check_kuan_update){
+          $data['check'] = $check_kuan_update;
+          $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
+          $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
+
+          $data['tot_leading'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Leading');
+          $data['tot_lagging'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Lagging');
+
+          $data['count_leading'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Leading');
+          $data['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Lagging');
         }
         else{
-          $data['year_view']=date("Y",$time);
-          $data['month_number']=date("n",$time);
+          $data['check'] = $check_kuan_update;
         }
-
-
-        $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
-        $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
-
-        $data['tot_leading'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Leading');
-        $data['tot_lagging'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Lagging');
-
-        $data['count_leading'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Leading');
-        $data['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Lagging');
 
         $json['html'] = $this->load->view('kuantitatif/component/_list_detail_kuantitatif',$data,TRUE);
         $json['status'] = 1;
@@ -60,53 +68,7 @@ class Kuantitatif extends CI_Controller {
 
     public function index()
     {
-        $users = $this->session->userdata('user');
-        $user = $users['username'];
-        $initid = $users['initiative'];
-        $foto = $this->muser->get_data_user($user)->foto;
-        $lastlogin = $this->muser->get_data_user($user)->last_login;
-        $privateemail = $this->muser->get_data_user($user)->private_email;
-        $workemail = $this->muser->get_data_user($user)->work_email;
-        $data = array(
-          'username' => $user,
-          'foto' => $foto,
-          'initid' => $initid,
-          'last_login' => $lastlogin,
-          'private_email' => $privateemail,
-          'work_email' => $workemail
-        );
-
-        $data['title'] = "All Kuantitatif";
-
-        $prog['page']="all";
-
-        $user = $users;
-        $prog['user'] = $user;
-        $pending_aprv = $this->mmilestone->get_pending_aprv($user['id'],$user['role']);
-
-        $prog['programs'] = $this->mkuantitatif->get_kuantitatif_with_update('');
-        $prog['total'] = $this->mkuantitatif->get_total_kuantatif('');
-        $prog['init_code']=$this->mkuantitatif->get_init_code_on_kuantitatif();
-        $prog['target_year']=$this->mkuantitatif->get_target_year_kuantitatif()->target_year;
-
-        $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif',$prog,TRUE);
-
-        $data['user']=$user;
-        if($user['role']!='admin'){
-            $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-            $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
-        }
-        else{
-            $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-            $data['notif']= $this->mremark->get_notification_by_admin('');
-        }
-        //$this->mkuantitatif->get_kuantitatif_update_with_detail('1');
-
-        $data['footer'] = $this->load->view('shared/footer','',TRUE);
-        $data['header'] = $this->load->view('shared/header-new',$data,TRUE);
-        $data['content'] = $this->load->view('kuantitatif/list_kuantitatif',$prog,TRUE);
-
-        $this->load->view('front',$data);
+        redirect('kuantitatif/list_kuantitatif');
     }
 
     public function all_kuantitatif(){
@@ -192,18 +154,15 @@ class Kuantitatif extends CI_Controller {
         }
 
         $prog['programs'] = $this->mprogram->get_m_initiative_tot($init_code,$prog['month_view']);
+        $prog['year_view'] = $this->mkuantitatif->get_year_kuantitatif_update();
 
         //view month
         if(date("n",$time)==1){
-          $prog['year_view']=date('Y', strtotime('-1 year'));
           $prog['month_number']=12;
         }
         else{
-          $prog['year_view']=date("Y",$time);
           $prog['month_number']=date("n",$time);
         }
-        //$prog['year_view']=date("Y",$time);
-        //$prog['month_number']=date("n",$time);
 
         }
         else{
@@ -214,6 +173,8 @@ class Kuantitatif extends CI_Controller {
           $prog['month_view']=date("F",$time);
         }
         $prog['programs'] = $this->mprogram->get_m_initiative('');
+        $prog['filter_year'] = [date('Y', strtotime('-1 year')),date("Y",$time)];
+        $prog['year_now'] = date("Y",$time);
         }
 
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif_v2',$prog,TRUE);

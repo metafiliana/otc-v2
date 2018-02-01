@@ -145,7 +145,7 @@ function show_detail(id){
     	$.ajax({
 			type: "GET",
 			url: config.base+"kuantitatif/test",
-			data: {id:id, month:$("#month").val()},
+			data: {id:id, month:$("#month").val(), year:$("#year").val()},
 			dataType: 'json',
 			cache: false,
 			success: function(resp){

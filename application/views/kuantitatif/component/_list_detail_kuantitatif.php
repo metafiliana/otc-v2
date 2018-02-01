@@ -3,6 +3,7 @@ $user = $this->session->userdata('user');
 ?>
 <div class="panel panel-default" style="margin-top: 5px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
 <div class="panel-body">
+<?php if($check){ ?>
 <table class="table table-hover table-responsive">
 	<thead class="black_color">
 		<tr>
@@ -116,5 +117,8 @@ $user = $this->session->userdata('user');
 
 	</tbody>
 </table>
+<?php } else { ?>
+	<h3 class="center_text">No Data</h3>
+<?php } ?>
 </div>
 </div>
