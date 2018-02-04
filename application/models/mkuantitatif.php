@@ -256,9 +256,10 @@ class Mkuantitatif extends CI_Model {
     }
 
     function check_data_kuantitatif_update($year){
+        $this->db->select('year');
         $this->db->where('year',$year);
         $result = $this->db->get('kuantitatif_update');
-        if($result->result()){
+        if(count($result->result())>0){
             return true;
         }else{
             return false;
