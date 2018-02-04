@@ -116,7 +116,7 @@ class Mprogram extends CI_Model {
         return $query->result();
     }
 
-    function get_m_initiative_tot($init_code,$month){
+    function get_m_initiative_tot($init_code,$month, $year = null){
         $this->db->select('id, title, init_code');
         if($init_code){
           $this->db->where_in('init_code', $init_code);
@@ -127,14 +127,14 @@ class Mprogram extends CI_Model {
         foreach($progs as $prog){
         	$arr[$i]['prog'] = $prog;
           $id=$prog->id;
-          $arr[$i]['leading'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Leading');
-          $arr[$i]['lagging'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Lagging');
+          $arr[$i]['leading'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Leading', $year);
+          $arr[$i]['lagging'] = $this->mkuantitatif->get_leading_lagging($id,$month,'Lagging', $year);
 
-          $arr[$i]['tot_leading'] = $this->mkuantitatif->get_total_per_type($id,$month,'Leading');
-          $arr[$i]['tot_lagging'] = $this->mkuantitatif->get_total_per_type($id,$month,'Lagging');
+          $arr[$i]['tot_leading'] = $this->mkuantitatif->get_total_per_type($id,$month,'Leading', $year);
+          $arr[$i]['tot_lagging'] = $this->mkuantitatif->get_total_per_type($id,$month,'Lagging', $year);
 
-          $arr[$i]['count_leading'] = $this->mkuantitatif->get_leading_leading_count($id,'Leading');
-          $arr[$i]['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($id,'Lagging');
+          $arr[$i]['count_leading'] = $this->mkuantitatif->get_leading_leading_count($id,'Leading', $year);
+          $arr[$i]['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($id,'Lagging', $year);
         	$i++;
         }
         return $arr;
