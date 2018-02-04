@@ -76,15 +76,42 @@ class Mkuantitatif extends CI_Model {
         return $query->result();
     }
 
-    function get_leading_lagging($id,$month,$type){
-        $query = $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc')->get('kuantitatif');
+    function get_leading_lagging($id,$month,$type, $year = null){
+        $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc');
+        
+        // year filter
+        if ($year){
+            $this->db->where('target_year', $year);
+        }
+
+        $query = $this->db->get('kuantitatif');
+
         $arr = array(); $i=0;
         $progs = $query->result();
         $legend = $this->get_id_different_sum_kuantitatif();
         foreach($progs as $prog){
-        	  $arr[$i]['prog'] = $prog;
-            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
-            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
+            $arr[$i]['prog'] = $prog;
+            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month, $year);
+            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month, $year);
+
+            // prevent data kosong
+            if (empty($arr[$i]['update'])){
+                $arr[$i]['month_kiner'] = 0;
+                $arr[$i]['year_kiner'] = 0;
+                
+                $i++;
+                continue;
+            }
+            
+            // prevent data kosong
+            if (empty($arr[$i]['target'])) {
+                $arr[$i]['month_kiner'] = 0;
+                $arr[$i]['year_kiner'] = 0;
+
+                $i++;
+                continue;
+            }
+
             if(in_array($prog->id,$legend,TRUE)){
               if ($arr[$i]['update']->$month==0 || $arr[$i]['target']->$month==0 || $prog->target==0) {
                 $arr[$i]['month_kiner'] = 0;
@@ -109,16 +136,43 @@ class Mkuantitatif extends CI_Model {
         //return $query;
     }
 
-    function get_total_per_type($id,$month,$type){
-        $query = $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc')->get('kuantitatif');
+    function get_total_per_type($id,$month,$type, $year = null){
+        $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc');
+
+        // year filter
+        if ($year) {
+            $this->db->where('target_year', $year);
+        }
+
+        $query = $this->db->get('kuantitatif');
+
         $arr = array(); $i=0;
         $progs = $query->result();
         $tot['month']=""; $tot['year']="";
         $legend = $this->get_id_different_sum_kuantitatif();
         foreach($progs as $prog){
         	  $arr[$i]['prog'] = $prog;
-            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month);
-            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month);
+            $arr[$i]['update'] = $this->get_update_by_id($prog->id,$month, $year);
+            $arr[$i]['target'] = $this->get_month_target_by_id($prog->id,$month, $year);
+
+            // prevent data kosong
+            if (empty($arr[$i]['update'])) {
+                $tot['month'] += 0;
+                $tot['year'] += 0;
+                
+                $i++;
+                continue;
+            }
+            
+            // prevent data kosong
+            if (empty($arr[$i]['target'])) {
+                $tot['month'] += 0;
+                $tot['year'] += 0;
+
+                $i++;
+                continue;
+            }
+
             if(in_array($prog->id,$legend,TRUE)){
               if ($arr[$i]['update']->$month==0 || $arr[$i]['target']->$month==0 || $prog->target==0) {
                 $tot['month'] += 0;
@@ -143,10 +197,16 @@ class Mkuantitatif extends CI_Model {
         //return $query;
     }
 
-    function get_leading_leading_count($id,$type){
+    function get_leading_leading_count($id,$type, $year = null){
         $this->db->select('init_id');
         $this->db->where('init_id',$id);
         $this->db->where('type',$type);
+
+        // year filter
+        if ($year) {
+            $this->db->where('target_year', $year);
+        }
+
         $query = $this->db->get('kuantitatif');
         return count($query->result());
     }
@@ -213,10 +273,16 @@ class Mkuantitatif extends CI_Model {
         return $result->result();
     }
 
-    function get_update_by_id($id,$month){
+    function get_update_by_id($id,$month, $year = null){
         if($month){
           $this->db->select($month);
         }
+
+        // filter year
+        if ($year){
+            $this->db->where('year', $year);
+        }
+
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif_update');
         if($result->num_rows==1){
@@ -226,8 +292,14 @@ class Mkuantitatif extends CI_Model {
         }
     }
 
-    function get_month_target_by_id($id,$month){
+    function get_month_target_by_id($id,$month, $year = null){
         $this->db->select($month);
+
+        // filter year
+        if ($year) {
+            $this->db->where('target_year', $year);
+        }
+
         $this->db->where('id',$id);
         $result = $this->db->get('kuantitatif');
         if($result->num_rows==1){
@@ -508,11 +580,21 @@ class Mkuantitatif extends CI_Model {
         return $result;
     }
 
-    function getSummaryKuantitatif($array_in = false)
+    function getSummaryKuantitatif($array_in = false, $year = null)
     {
         $where = '';
         if ($array_in)
             $where = ' WHERE init_id IN ('.$array_in.')';
+
+        // filter year
+        if ($year){
+            if (strlen($where) > 1){
+                $where .= ' AND target_year = '. $year;
+            }else{
+                $where .= ' WHERE target_year = '. $year;
+            }
+        }
+
         $sql = '
             SELECT id,
             CASE WHEN (target = 0) THEN

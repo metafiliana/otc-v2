@@ -168,6 +168,21 @@
         return $data;
     }
 
+    // helper range tahun
+    // $back integer batas jumlah tahun kebelakang
+    // $front integer batas jumlah tahun kedepan
+    function getRangeTahun ($back = false, $front = false) {
+        $tahun = array();
+        if (!$back)
+            $back = 20;
+        if (!$front)
+            $front = 0;
+        for ($i = date('Y') - $back; $i <= date('Y') + $front; $i++) {
+            $tahun[$i] = $i;
+        }
+        return $tahun;
+    }
+
     function indikatorWarna($score = 0)
     {
         $score = (int)$score;

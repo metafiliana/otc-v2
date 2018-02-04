@@ -100,6 +100,14 @@
                       ?>
                     </div>
                   </div>
+                  <div>
+                    <label class="control-label col-sm-1">Year</label>
+                    <div class="col-sm-3" style="margin-left:12px;">
+                      <?php
+                      echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
+                      ?>
+                    </div>
+                  </div>
                   <div class="col-sm-2">
                     <?php
                         echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');

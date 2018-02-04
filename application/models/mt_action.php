@@ -39,9 +39,12 @@ class Mt_action extends CI_Model {
         return $result->result();
     }
 
-    function getAllAction($initiative_id, $month = false)
+    function getAllAction($initiative_id, $month = false, $year = null)
     {
-        $date_raw = date('Y-m-t');
+        if (empty($year)){
+            $year = date('Y');
+        }
+        $date_raw = $year .'-'. date('m-t');
 
         if ($month){
             if (is_int($month)){
@@ -49,7 +52,7 @@ class Mt_action extends CI_Model {
                 $month = $dateObj->format('F'); // March
                 $month = date('F', strtotime($month));
             }
-            $date_raw = date('Y-m-t', strtotime($month));
+            $date_raw = $year .'-'. date('m-t', strtotime($month));
         }
         $date = strtotime($date_raw.' -1 months');
         $where_date = date('Y-m-t', $date);
