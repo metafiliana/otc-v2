@@ -78,7 +78,7 @@ class Mkuantitatif extends CI_Model {
 
     function get_leading_lagging($id,$month,$type, $year = null){
         $this->db->where('init_id',$id)->where('type',$type)->order_by('id', 'asc');
-        
+
         // year filter
         if ($year){
             $this->db->where('target_year', $year);
@@ -98,11 +98,11 @@ class Mkuantitatif extends CI_Model {
             if (empty($arr[$i]['update'])){
                 $arr[$i]['month_kiner'] = 0;
                 $arr[$i]['year_kiner'] = 0;
-                
+
                 $i++;
                 continue;
             }
-            
+
             // prevent data kosong
             if (empty($arr[$i]['target'])) {
                 $arr[$i]['month_kiner'] = 0;
@@ -159,11 +159,11 @@ class Mkuantitatif extends CI_Model {
             if (empty($arr[$i]['update'])) {
                 $tot['month'] += 0;
                 $tot['year'] += 0;
-                
+
                 $i++;
                 continue;
             }
-            
+
             // prevent data kosong
             if (empty($arr[$i]['target'])) {
                 $tot['month'] += 0;
@@ -450,12 +450,13 @@ class Mkuantitatif extends CI_Model {
     function get_year_kuantitatif_update(){
         $this->db->distinct();
         $this->db->select('year');
+        $this->db->order_by('year','asc');
         $query = $this->db->get('kuantitatif_update');
         return $query->result()[0]->year;
     }
 
     function get_all_programs_with_segment($segment){
-    	$this->db->order_by('code', 'asc');
+    	$this->db->order_by('code','asc');
     	if($segment != 'all'){
     		$this->db->where('segment', $segment);
     	}

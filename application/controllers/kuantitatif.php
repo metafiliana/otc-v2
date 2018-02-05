@@ -174,7 +174,7 @@ class Kuantitatif extends CI_Controller {
         }
         $prog['programs'] = $this->mprogram->get_m_initiative('');
         $prog['filter_year'] = [date('Y', strtotime('-1 year')),date("Y",$time)];
-        $prog['year_now'] = date("Y",$time);
+        $prog['year_now'] = $this->mkuantitatif->get_year_kuantitatif_update();
         }
 
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif_v2',$prog,TRUE);
