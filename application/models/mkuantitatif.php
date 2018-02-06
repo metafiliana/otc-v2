@@ -450,7 +450,7 @@ class Mkuantitatif extends CI_Model {
     function get_year_kuantitatif_update(){
         $this->db->distinct();
         $this->db->select('year');
-        $this->db->order_by('year','asc');
+        $this->db->order_by('year','desc');
         $query = $this->db->get('kuantitatif_update');
         return $query->result()[0]->year;
     }

@@ -46,14 +46,14 @@ class Kuantitatif extends CI_Controller {
         $check_kuan_update = $this->mkuantitatif->check_data_kuantitatif_update($data['year_view']);
         if($check_kuan_update){
           $data['check'] = $check_kuan_update;
-          $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading');
-          $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging');
+          $data['leading'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Leading',$data['year_view']);
+          $data['lagging'] = $this->mkuantitatif->get_leading_lagging($data['id'],$data['month_view'],'Lagging',$data['year_view']);
 
-          $data['tot_leading'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Leading');
-          $data['tot_lagging'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Lagging');
+          $data['tot_leading'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Leading',$data['year_view']);
+          $data['tot_lagging'] = $this->mkuantitatif->get_total_per_type($data['id'],$data['month_view'],'Lagging',$data['year_view']);
 
-          $data['count_leading'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Leading');
-          $data['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Lagging');
+          $data['count_leading'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Leading',$data['year_view']);
+          $data['count_lagging'] = $this->mkuantitatif->get_leading_leading_count($data['id'],'Lagging',$data['year_view']);
         }
         else{
           $data['check'] = $check_kuan_update;
