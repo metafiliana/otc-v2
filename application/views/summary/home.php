@@ -104,6 +104,7 @@
                     <label class="control-label col-sm-1">Year</label>
                     <div class="col-sm-3" style="margin-left:12px;">
                       <?php
+                      // var_dump($year_search);die;
                       echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
                       ?>
                     </div>
@@ -147,15 +148,15 @@
               <h3 class="text-center">Realisasi Pencapaian Top 21 BOD Level Initiatives</h3>
               <h5 class="text-center"><br>( as of 
                 <?php 
-                  if ($bulan_search !== null){
+                  if ($bulantahun_search !== null){
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
-                      $date = date('F Y', strtotime($bulan_search));
+                      $date = date('F Y', strtotime($bulantahun_search));
                       $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
                       $newdate = date ( 'F Y' , $newdate );
                       echo $newdate;
                     }else{
-                      echo date('F Y', strtotime($bulan_search));
+                      echo date('F Y', strtotime($bulantahun_search));
                     }
                   }else{
                     $bulan_now = date('n');
@@ -230,15 +231,15 @@
                 <h4 class="text-center" style="padding-top: 5px;"><?php echo $value['title']; ?></h4>
                 <h5 class="text-center"><br>( as of 
                 <?php 
-                  if ($bulan_search !== null){
+                  if ($bulantahun_search !== null){
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
-                      $date = date('F Y', strtotime($bulan_search));
+                      $date = date('F Y', strtotime($bulantahun_search));
                       $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
                       $newdate = date ( 'F Y' , $newdate );
                       echo $newdate;
                     }else{
-                      echo date('F Y', strtotime($bulan_search));
+                      echo date('F Y', strtotime($bulantahun_search));
                     }
                   }else{
                     $bulan_now = date('n');
@@ -274,15 +275,15 @@
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <?php echo $value['init_code']; ?></h3>
                 <h5 class="text-center"><br>( as of 
                 <?php 
-                  if ($bulan_search !== null){
+                  if ($bulantahun_search !== null){
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
-                      $date = date('F Y', strtotime($bulan_search));
+                      $date = date('F Y', strtotime($bulantahun_search));
                       $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
                       $newdate = date ( 'F Y' , $newdate );
                       echo $newdate;
                     }else{
-                      echo date('F Y', strtotime($bulan_search));
+                      echo date('F Y', strtotime($bulantahun_search));
                     }
                   }else{
                     $bulan_now = date('n');
@@ -338,15 +339,15 @@
                 <h4 class="text-center" style="padding-top: 5px;"><span class="title-default"></span></h4>
                 <h5 class="text-center"><br>( as of 
                 <?php 
-                  if ($bulan_search !== null){
+                  if ($bulantahun_search !== null){
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
-                      $date = date('F Y', strtotime($bulan_search));
+                      $date = date('F Y', strtotime($bulantahun_search));
                       $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
                       $newdate = date ( 'F Y' , $newdate );
                       echo $newdate;
                     }else{
-                      echo date('F Y', strtotime($bulan_search));
+                      echo date('F Y', strtotime($bulantahun_search));
                     }
                   }else{
                     $bulan_now = date('n');
@@ -376,15 +377,15 @@
                 <h3 class="text-center">Realisasi Pencapaian Milestone Initiatives <span class="init_code-default"></span></h3>
                 <h5 class="text-center"><br>( as of 
                 <?php 
-                  if ($bulan_search !== null){
+                  if ($bulantahun_search !== null){
                     $bulan_now = date('n');
                     if ($bulan_now == 1){
-                      $date = date('F Y', strtotime($bulan_search));
+                      $date = date('F Y', strtotime($bulantahun_search));
                       $newdate = strtotime ( '-1 year' , strtotime ( $date ) ) ;
                       $newdate = date ( 'F Y' , $newdate );
                       echo $newdate;
                     }else{
-                      echo date('F Y', strtotime($bulan_search));
+                      echo date('F Y', strtotime($bulantahun_search));
                     }
                   }else{
                     $bulan_now = date('n');

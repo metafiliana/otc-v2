@@ -134,6 +134,15 @@
                       ?>
                     </div>
                   </div>
+                  <div>
+                    <label class="control-label col-sm-1">Year</label>
+                    <div class="col-sm-3" style="margin-left:12px;">
+                      <?php
+                      // var_dump($year_search);die;
+                        echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
+                        ?>
+                    </div>
+                  </div>
                   <div class="col-sm-2">
                     <?php
                         echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
@@ -198,14 +207,14 @@
                             $total_milestone_yearly = 0;
                             foreach ($init_table['type_1'] as $key => $value) {
                                 // monthly
-                                $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
-                                $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
-                                $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+                                $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search, $year_search);
+                                $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search, $year_search);
+                                $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search, $year_search);
 
                                 // yearly
-                                $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
-                                $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
-                                $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
+                                $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search, $year_search);
+                                $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search, $year_search);
+                                $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search, $year_search);
 
                                 $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                                 $milestone_yearly = $controller->countKuantitatif($value->id, 2);
@@ -252,14 +261,14 @@
                     <?php
                         foreach ($init_table['type_2'] as $key => $value) {
                             // monthly
-                            $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
-                            $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
-                            $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+                            $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search, $year_search);
+                            $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search, $year_search);
+                            $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search, $year_search);
 
                             // yearly
-                            $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
-                            $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
-                            $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
+                            $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search, $year_search);
+                            $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search, $year_search);
+                            $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search, $year_search);
 
                             $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                             $milestone_yearly = $controller->countKuantitatif($value->id, 2);
@@ -342,7 +351,7 @@
                         echo '<tr>';
                           echo "<td style='display: none;'></td>";
                           echo "<td></td>";
-                          echo '<td><strong>Overall ' . date('F Y', strtotime($bulan_search)) . ' (Actual vs Target)</strong></td>';
+                          echo '<td><strong>Overall ' . date('F Y', strtotime($bulantahun_search)) . ' (Actual vs Target)</strong></td>';
                           echo '<td>' . $total_milestone_monthly . ' %</td>';
                           echo '<td></td>';
                           echo '<td></td>';
@@ -407,14 +416,14 @@
                             $total_milestone_yearly = 0;
                             foreach ($init_table['type_1'] as $key => $value) {
                                 // monthly
-                                $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
-                                $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
-                                $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+                                $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search, $year_search);
+                                $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search, $year_search);
+                                $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search, $year_search);
 
                                 // yearly
-                                $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
-                                $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
-                                $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
+                                $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search, $year_search);
+                                $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search, $year_search);
+                                $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search, $year_search);
 
                                 $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                                 $milestone_yearly = $controller->countKuantitatif($value->id, 2);
@@ -461,14 +470,14 @@
                     <?php
                         foreach ($init_table['type_2'] as $key => $value) {
                             // monthly
-                            $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
-                            $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search);
-                            $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search);
+                            $final_monthly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search, $year_search);
+                            $final_monthly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 1, $bulan_search, $year_search);
+                            $final_monthly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 1, $bulan_search, $year_search);
 
                             // yearly
-                            $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
-                            $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search);
-                            $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search);
+                            $final_yearly_score = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search, $year_search);
+                            $final_yearly_score_leading = $controller->getKuantitatifSummary($value->init_code, 'Leading', 2, $bulan_search, $year_search);
+                            $final_yearly_score_lagging = $controller->getKuantitatifSummary($value->init_code, 'Lagging', 2, $bulan_search, $year_search);
 
                             $milestone_monthly = $controller->countKuantitatif($value->id, 1);
                             $milestone_yearly = $controller->countKuantitatif($value->id, 2);
@@ -551,7 +560,7 @@
                         echo '<tr>';
                           echo "<td style='display: none;'></td>";
                           echo "<td></td>";
-                          echo '<td><strong>Overall ' . date('F Y', strtotime($bulan_search)) . ' (Actual vs Target)</strong></td>';
+                          echo '<td><strong>Overall ' . date('F Y', strtotime($bulantahun_search)) . ' (Actual vs Target)</strong></td>';
                           echo '<td>' . $total_milestone_monthly . ' %</td>';
                           echo '<td></td>';
                           echo '<td></td>';

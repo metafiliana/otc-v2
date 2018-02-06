@@ -634,10 +634,11 @@ class Mkuantitatif extends CI_Model {
         foreach ($bulan as $key => $value) {
             $this->db->where($key.' > 0');
             $query = $this->db->get('kuantitatif_update')->result_array();
-
+            
             // if (count($query) > 50){
             if (count($query) > 0){
-                $return = date('Y-m-t', strtotime($key));
+                $year = !empty($query) ? $query[0]["year"] : date("Y");
+                $return = $year. '-' .date('m-t', strtotime($key));
             }
         }
 
