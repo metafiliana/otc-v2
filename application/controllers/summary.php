@@ -462,6 +462,8 @@ class Summary extends CI_Controller {
         $data['init_table'] = $this->getDataTableKuantitatif();
         $data['controller'] = $this;
         $data['bulan_search'] = date('F', strtotime($get_month));
+        $data['bulantahun_search'] = date('F Y', strtotime($get_month));
+        $data['year_search'] = date('Y', strtotime($get_month));
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
@@ -473,6 +475,10 @@ class Summary extends CI_Controller {
             if ($_POST['user']){
                 $data['init_table'] = $this->getDataTableKuantitatifUser($_POST['user']);
                 $data['user'] = $_POST['user'];
+            }
+
+            if ($_POST['tahun']) {
+                $data['year_search'] = $_POST['tahun'];
             }
         }
 
@@ -884,6 +890,7 @@ class Summary extends CI_Controller {
         $views['user'] = $user;
         $data['last_agenda'] = $this->magenda->get_last_agenda(5);
         $data['bulan_search'] = date('F', strtotime($get_month));
+        $data['bulantahun_search'] = date('F Y', strtotime($get_month));
         $data['bulan_search_status'] = !empty($data['bulan_search_status']) ? $data['bulan_search_status'] : date('m', strtotime($get_month));
         $data['year_search'] = date('Y', strtotime($get_month));
         $data['year_search_status'] = !empty($data['year_search_status']) ? $data['year_search_status'] : date('Y', strtotime($get_month));
