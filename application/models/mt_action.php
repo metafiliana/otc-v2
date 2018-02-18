@@ -111,7 +111,7 @@ class Mt_action extends CI_Model {
         return $return;
     }
 
-    function getStatusSummaryMilestone($initiative_id, $status = false, $month = false, $user = false, $all = false, $admin = false)
+    function getStatusSummaryMilestone($initiative_id, $status = false, $month = false, $user = false, $all = false, $admin = false, $year = null)
     {
         $where = 't.initiative_id = '.$initiative_id;
 
@@ -146,6 +146,9 @@ class Mt_action extends CI_Model {
             $where .= ' AND t.updated_date BETWEEN t.start AND t.end';
         }
 
+        $year = is_null($year) ? date('Y') : $year;
+        $where .= ' AND YEAR(t.`updated_date`) = ' . $year;
+
         // main query
         if ($all){
             $sql = 'select ma.title, start, end from t_action t LEFT JOIN user mu ON mu.id = t.user_id LEFT JOIN m_action ma ON ma.id = action_id WHERE '.$where;
@@ -159,15 +162,17 @@ class Mt_action extends CI_Model {
 
     }
 
-    function getStatusFutureMilestone($initiative_id, $status = false, $month = false, $user = false, $all = false, $admin = false)
+    function getStatusFutureMilestone($initiative_id, $status = false, $month = false, $user = false, $all = false, $admin = false, $year = null)
     {
         $where = 't.`updated_date` < t.`start` AND t.`initiative_id` = '.$initiative_id;
+        $year = is_null($year) ? date('Y') : $year;
+
         if ($status !== false){
             // $where .= ' AND t.`status` = '.$status;
             $where .= ' AND t.`status` IN (0,2,3)';
         }
         // if ($month){
-        //     $date = date('Y') . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) . '-28';
+        //     $date = $year .'-'. str_pad($month, 2, '0', STR_PAD_LEFT) .'-28';
         //     $where .= ' AND t.`end` <= "'.$date.'"';
         // }
         if ($user){
@@ -175,6 +180,8 @@ class Mt_action extends CI_Model {
         }else{
             $where .= ' AND mu.role = 1';
         }
+
+        $where .= ' AND YEAR(t.`updated_date`) = '. $year;
 
         //main query
         if ($all){
@@ -232,7 +239,7 @@ class Mt_action extends CI_Model {
         return ($total > 0) ? $total : 0;
     }
 
-    function getStatusIssueMilestone($initiative_id, $month = false, $user = false, $type = null, $all = false, $admin = false)
+    function getStatusIssueMilestone($initiative_id, $month = false, $user = false, $type = null, $all = false, $admin = false, $year = null)
     {
         // $type : 
         // 1 = not started
@@ -278,6 +285,9 @@ class Mt_action extends CI_Model {
         }else{
             $where_admin = ' AND mu.role = 1';
         }
+
+        $year = is_null($year) ? date('Y') : $year;
+        $where .= ' AND YEAR(t.`updated_date`) = ' . $year;
 
         // main query
         if ($all){
