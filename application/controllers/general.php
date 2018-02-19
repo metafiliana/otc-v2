@@ -26,7 +26,7 @@ class General extends CI_Controller {
      */
      public function index()
      {
-       
+
      }
 
      //otc v2
@@ -421,103 +421,102 @@ class General extends CI_Controller {
 
             $exel = $this->mfiles_upload->read_excel($file_address);
             $arrres = array(); $s=0;
-            if($file['for']!='user'){
-                $this->mfiles_upload->delete_db_truncate($file['for']);
+            if($file['for']=='action'){
+                $this->mfiles_upload->delete_db_truncate('m_action');
+                $this->mfiles_upload->delete_db_truncate('t_action');
+                for ($row = 2; $row <= $exel['row']; ++$row) {
+                $data = "";
+                for ($col = 0; $col < $exel['col']; ++$col) {
+                $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+                }
+                    $data['title'] = $arrres[$row][0];
+                    $data['initiative_id'] = $arrres[$row][4];
+                    $data['start_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][2]));
+                    $data['end_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][3]));
+                    $data['status'] = $arrres[$row][1];
+
+                    $this->mworkblock->insert_workblock($data);
+                }
             }
-                if($file['for']=='action'){
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    }
-                        $data['title'] = $arrres[$row][0];
-                        $data['initiative_id'] = $arrres[$row][4];
-                        $data['start_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][2]));
-                        $data['end_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][3]));
-                        $data['status'] = $arrres[$row][1];
 
-                        $this->mworkblock->insert_workblock($data);
-                    }
+            if($file['for']=='kuantitatif'){
+                $this->mfiles_upload->delete_db_truncate($file['for']);
+                $this->mfiles_upload->delete_db_truncate('kuantitatif_update');
+                for ($row = 2; $row <= $exel['row']; ++$row) {
+                $data = "";
+                for ($col = 0; $col < $exel['col']; ++$col) {
+                $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
                 }
-
-                if($file['for']=='kuantitatif'){
-                    $this->mfiles_upload->delete_db_truncate($file['for']);
-                    $this->mfiles_upload->delete_db_truncate('kuantitatif_update');
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+                    $data['init_code'] = $arrres[$row][0];
+                    $data['type'] = $arrres[$row][1];
+                    $data['init_id'] = $arrres[$row][2];
+                    $data['metric'] = $arrres[$row][3];
+                    $data['measurment'] = $arrres[$row][4];
+                    $data['target'] = $arrres[$row][6];
+                    $data['target_year'] = $year;
+                    $i=1;
+                    foreach ($arr_month as $val) {
+                      $data[$val]= ($arrres[$row][$i+6]);
+                      $i++;
                     }
-                        $data['init_code'] = $arrres[$row][0];
-                        $data['type'] = $arrres[$row][1];
-                        $data['init_id'] = $arrres[$row][2];
-                        $data['metric'] = $arrres[$row][3];
-                        $data['measurment'] = $arrres[$row][4];
-                        $data['target'] = $arrres[$row][6];
-                        $data['target_year'] = $year;
-                        $i=1;
-                        foreach ($arr_month as $val) {
-                          $data[$val]= ($arrres[$row][$i+6]);
-                          $i++;
-                        }
-                        $data['baseline'] = $arrres[$row][5];
-                        $data['baseline_year'] = $year-1;
-                        $this->mkuantitatif->insert_kuantitatif($data);
+                    $data['baseline'] = $arrres[$row][5];
+                    $data['baseline_year'] = $year-1;
+                    $this->mkuantitatif->insert_kuantitatif($data);
 
-                        $update['year'] = $year;
-                        $j=1;
-                        foreach ($arr_month as $val) {
-                          $update[$val]= $arrres[$row][$j+18];
-                          $j++;
-                        }
-                        $this->mkuantitatif->insert_kuantitatif_update($update);
+                    $update['year'] = $year;
+                    $j=1;
+                    foreach ($arr_month as $val) {
+                      $update[$val]= $arrres[$row][$j+18];
+                      $j++;
                     }
+                    $this->mkuantitatif->insert_kuantitatif_update($update);
                 }
+            }
 
-                // if($file['for']=='kuantitatif_update'){
-                //     $this->mfiles_upload->delete_db_truncate($file['for']);
-                //     for ($row = 2; $row <= $exel['row']; ++$row) {
-                //     $data = "";
-                //     for ($col = 0; $col < $exel['col']; ++$col) {
-                //     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                //     }
-                //         $data['year'] = $year;
-                //         $j=1;
-                //         foreach ($arr_month as $val) {
-                //           $data[$val]= $arrres[$row][$j-1];
-                //           $j++;
-                //         }
-                //         $this->mkuantitatif->insert_kuantitatif_update($data);
-                //     }
-                // }
+            // if($file['for']=='kuantitatif_update'){
+            //     $this->mfiles_upload->delete_db_truncate($file['for']);
+            //     for ($row = 2; $row <= $exel['row']; ++$row) {
+            //     $data = "";
+            //     for ($col = 0; $col < $exel['col']; ++$col) {
+            //     $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
+            //     }
+            //         $data['year'] = $year;
+            //         $j=1;
+            //         foreach ($arr_month as $val) {
+            //           $data[$val]= $arrres[$row][$j-1];
+            //           $j++;
+            //         }
+            //         $this->mkuantitatif->insert_kuantitatif_update($data);
+            //     }
+            // }
 
-                if($file['for']=='user'){
-                    $array = array('id >' => '4');
-                    $this->mfiles_upload->delete_db_where($array,$file['for']);
-                    for ($row = 2; $row <= $exel['row']; ++$row) {
-                    $data = "";
-                    for ($col = 0; $col < $exel['col']; ++$col) {
-                    $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
-                    }
-                        $data['username'] = $arrres[$row][0];
-                        $data['password'] = md5($arrres[$row][1]);
-                        $data['name'] = $arrres[$row][2];
-                        $data['role'] = $this->muser->get_id_m_role($arrres[$row][3])->id;
-                        $data['work_email']= $arrres[$row][4];
-                        $data['private_email']= $arrres[$row][5];
-                        $data['initiative']= $arrres[$row][6];
-
-                        $this->muser->insert_user($data);
-                    }
+            if($file['for']=='user'){
+                $array = array('id >' => '4');
+                $this->mfiles_upload->delete_db_where($array,$file['for']);
+                for ($row = 2; $row <= $exel['row']; ++$row) {
+                $data = "";
+                for ($col = 0; $col < $exel['col']; ++$col) {
+                $arrres[$row][$col] = $exel['wrksheet']->getCellByColumnAndRow($col, $row)->getValue();
                 }
-                $json['msg'] = "<div> Sukses </div> <a href='".base_url()."general/form_input_file/'>Back</a>";
+                    $data['username'] = $arrres[$row][0];
+                    $data['password'] = md5($arrres[$row][1]);
+                    $data['name'] = $arrres[$row][2];
+                    $data['role'] = $this->muser->get_id_m_role($arrres[$row][3])->id;
+                    $data['work_email']= $arrres[$row][4];
+                    $data['private_email']= $arrres[$row][5];
+                    $data['initiative']= $arrres[$row][6];
+
+                    $this->muser->insert_user($data);
+                }
+            }
+            $json['msg'] = "<div> Sukses </div> <a href='".base_url()."general/form_input_file/'>Back</a>";
         }
         else
         {
             $error = array('error' => $this->upload->display_errors());
 
             $json['msg'] = "<div class='alert alert-danger' role='alert'> ".$error['error']."</div>";
-            $json['config'] = $config;
+            $json[' '] = $config;
         }
 
         $this->output->set_content_type('application/json')
