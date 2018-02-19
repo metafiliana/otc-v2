@@ -479,6 +479,13 @@ class Mt_action extends CI_Model {
         return $return;
     }
 
+    function getInfoLastUpdatedAction()
+    {
+        $result = $this->db->select('updated_date')->order_by('id DESC')->get('t_action')->row(0);
+
+        return $result;
+    }
+
 }
 
 ?>
