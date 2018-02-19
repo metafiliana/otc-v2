@@ -115,43 +115,7 @@
                   }
                 ?>
             </div>
-            <div class="col-md-6">
-              <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
-              <div class="col-sm-10 form-group row">
-                  <div>
-                    <label class="control-label col-sm-1">User</label>
-                    <div class="col-sm-3">
-                      <?php
-                          echo form_dropdown('user', getListUser(true), array(), 'class = "form-control"');
-                      ?>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="control-label col-sm-1">Month</label>
-                    <div class="col-sm-3" style="margin-left:12px;">
-                      <?php
-                          echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
-                      ?>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="control-label col-sm-1">Year</label>
-                    <div class="col-sm-3" style="margin-left:12px;">
-                      <?php
-                      // var_dump($year_search);die;
-                        echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
-                        ?>
-                    </div>
-                  </div>
-                  <div class="col-sm-2">
-                    <?php
-                        echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
-                    ?>
-                  </div>
-              </div>
-              <?php echo form_close(); ?>
-            </div>
-            <div class="col-md-3" style="margin-left:50px;">
+            <div class="col-md-2" style="float: right">
               <div class="right_text">
                   <h3 style="color:#91aef9;">Summary Kuantitatif</h3>
               </div>
@@ -160,6 +124,44 @@
               </div>
                 <!-- <button type="button" class="btn btn-danger">Print</button> -->
             </div><div style="clear:both;"></div>
+        </div>
+        <div class="row"><hr></div>
+        <div class="row">
+            <div class="col-md-12">
+              <?php echo form_open('summary/listKuantitatif', 'id="formSearch"'); ?>
+              <div class="col-sm-10 form-group row">
+                  <div>
+                    <label class="control-label col-sm-1">User</label>
+                    <div class="col-sm-3">
+                      <?php
+                        echo form_dropdown('user', getListUser(true), array(), 'class = "form-control"');
+                        ?>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="control-label col-sm-1">Month</label>
+                    <div class="col-sm-3">
+                      <?php
+                        echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
+                        ?>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="control-label col-sm-1">Year</label>
+                    <div class="col-sm-3">
+                      <?php
+                        echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
+                        ?>
+                    </div>
+                  </div>
+              </div>
+            <div class="col-sm-2">
+                <?php
+                echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
+                ?>
+            </div>
+              <?php echo form_close(); ?>
+            </div>
         </div>
       </div><div style="clear:both;"></div>
       <div class="component_part_summary text-center">

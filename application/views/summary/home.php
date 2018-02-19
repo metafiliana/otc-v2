@@ -75,57 +75,59 @@
 
 <div class="panel-body">
       <div class="component_part_summary" style="margin-top:10px; margin-right: 5px; margin-left: 5px;">
+        <!-- search area -->
         <div class="row">
-            <!-- search area -->
             <div class="col-md-3" style="margin-right:-50px;">
-              <a href="<?php echo base_url()?>summary/listKuantitatif/"><button class="btn btn-info-new btn-sm btn-default">Kuantitatif</button></a>
-              <a href="<?php echo base_url()?>summary/listMilestone/"><button class="btn btn-info-new btn-sm btn-default">Milestone</button></a>
+              <a href="<?php echo base_url() ?>summary/listKuantitatif/"><button class="btn btn-info-new btn-sm btn-default">Kuantitatif</button></a>
+              <a href="<?php echo base_url() ?>summary/listMilestone/"><button class="btn btn-info-new btn-sm btn-default">Milestone</button></a>
               <!-- <button class="btn btn-sm btn-info-new" disabled="disabled">Home</button> -->
               <?php
-                if ($is_admin){
-              ?>
-              <a href="<?php echo base_url()?>summary/generateSummary/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
+              if ($is_admin) {
+                ?>
+              <a href="<?php echo base_url() ?>summary/generateSummary/"><button class="btn btn-info-new btn-sm btn-default">Update Summary</button></a>
               <?php
-                }
+              }
               ?>
             </div>
-            <div class="col-md-6">
-              <?php echo form_open('summary/home', 'id="formSearch"'); ?>
-              <div class="col-sm-10 form-group row">
-                  <div>
-                    <label class="control-label col-sm-1">Month</label>
-                    <div class="col-sm-3" style="margin-left:12px;">
-                      <?php
-                          echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
-                      ?>
-                    </div>
-                  </div>
-                  <div>
-                    <label class="control-label col-sm-1">Year</label>
-                    <div class="col-sm-3" style="margin-left:12px;">
-                      <?php
-                      // var_dump($year_search);die;
-                      echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
-                      ?>
-                    </div>
-                  </div>
-                  <div class="col-sm-2">
-                    <?php
-                        echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
-                    ?>
-                  </div>
-              </div>
-              <?php echo form_close(); ?>
-            </div>
-            <div class="col-md-3" style="margin-left:50px;">
-              <div class="right_text">
-                  <h3 style="color:#91aef9;">Home</h3>
-              </div>
-              <div>
+            <div class="col-md-2" style="float: right">
+                <div class="right_text">
+                    <h3 style="color:#91aef9;">Home</h3>
+                </div>
+                <div>
                 <h5 class="text-right">Last Updated: <?php echo $summary_info->date; ?></h5>
-              </div>
+                </div>
                 <!-- <button type="button" class="btn btn-danger">Print</button> -->
             </div><div style="clear:both;"></div>
+        </div>
+        <div class="row"><hr></div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php echo form_open('summary/home', 'id="formSearch"'); ?>
+                <div class="col-sm-10 form-group row">
+                    <div>
+                    <label class="control-label col-sm-1">Month</label>
+                        <div class="col-sm-3">
+                            <?php
+                            echo form_dropdown('bulan', getMonth(true), $bulan_search ? $bulan_search : date('F'), 'class = "form-control"');
+                            ?>
+                        </div>
+                    </div>
+                    <div>
+                    <label class="control-label col-sm-1">Year</label>
+                    <div class="col-sm-3">
+                        <?php
+                        echo form_dropdown('tahun', getRangeTahun(3, 2), $year_search ? $year_search : date('Y'), 'class = "form-control"');
+                        ?>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <?php
+                    echo form_submit('', 'Find', 'class = "form-control btn btn-info-new-submit"');
+                    ?>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
         </div>
       </div><div style="clear:both;"></div>
 

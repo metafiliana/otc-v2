@@ -490,7 +490,7 @@ class Initiative extends CI_Controller {
     	$data_insert = array();
 
     	// truncate table
-    	$this->mt_action->truncateTable();
+    	// $this->mt_action->truncateTable();
 
     	// proses get data -> insert table
     	$data_user = $this->mt_action->getUserInit();

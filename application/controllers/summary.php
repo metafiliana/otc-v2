@@ -329,6 +329,8 @@ class Summary extends CI_Controller {
         $data['init_table'] = $this->mt_action->getAllInitiative();
         $data['controller'] = $this;
         $data['bulan_search'] = date('F', strtotime($get_month));
+        $data['bulantahun_search'] = date('F Y', strtotime($get_month));
+        $data['year_search'] = date('Y', strtotime($get_month));
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
@@ -373,6 +375,10 @@ class Summary extends CI_Controller {
                 $data['init_table'] = $array_table;
                 $data['user'] = $_POST['user'];
             }
+
+            if ($_POST['tahun']) {
+                $data['year_search'] = $_POST['tahun'];
+            }
         }
 
         $data['table_title'] = empty($_POST['user']) ? 0 : $_POST['user'];
@@ -401,15 +407,19 @@ class Summary extends CI_Controller {
         $return = 0;
         // $future = false;
 
+        $year = is_null($year) ? 
+            date('Y', strtotime($this->minfo->getInfoLastUpdatedSummary()->date)) : 
+            $year;
+
         if ($future){
-            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
+            $return = $this->mt_action->getStatusFutureMilestone($initiative_id, $status, $bulan, $user, $all, $admin, $year);
         }elseif ($flagged){
             // $return = $this->mt_action->getStatusFlaggedMilestone($initiative_id, $status, $bulan, $user);
-            $return = $this->mt_action->getStatusIssueMilestone($initiative_id, $bulan, $user, $flagged, $all, $admin);
+            $return = $this->mt_action->getStatusIssueMilestone($initiative_id, $bulan, $user, $flagged, $all, $admin, $year);
         // }elseif ($overdue){
         //     $return = $this->mt_action->getStatusOverdueMilestone($initiative_id, $bulan, $user);
         }else{
-            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user, $all, $admin);
+            $return = $this->mt_action->getStatusSummaryMilestone($initiative_id, $status, $bulan, $user, $all, $admin, $year);
         }
 
         return $return;
@@ -471,14 +481,15 @@ class Summary extends CI_Controller {
             if ($_POST['bulan']){
                 $data['bulan_search'] = $_POST['bulan'];
             }
-
+            
             if ($_POST['user']){
                 $data['init_table'] = $this->getDataTableKuantitatifUser($_POST['user']);
                 $data['user'] = $_POST['user'];
             }
-
+            
             if ($_POST['tahun']) {
                 $data['year_search'] = $_POST['tahun'];
+                $data['bulantahun_search'] = date('F', strtotime($get_month)). ' '. $data['year_search'];
             }
         }
 
@@ -1471,6 +1482,11 @@ class Summary extends CI_Controller {
         $count = round($data['total'] * 100);
 
         return $count;
+    }
+
+    public function testCron()
+    {
+        echo "testing from test \n";
     }
 
 }
