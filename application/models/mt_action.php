@@ -147,7 +147,17 @@ class Mt_action extends CI_Model {
         }
 
         $year = is_null($year) ? date('Y') : $year;
-        $where .= ' AND YEAR(t.`updated_date`) = ' . $year;
+        if ($month) {
+            if (strlen($month) > 2){
+                $timestamp = strtotime($month);
+                $date = getdate($timestamp);
+                $month_pad = str_pad($date['mon'], 2, '0', STR_PAD_LEFT);
+            }else{
+                $month_pad = str_pad($month, 2, '0', STR_PAD_LEFT);
+            }
+            $where .= ' AND MONTH(t.`updated_date`) = "' . $month_pad . '"';
+            $where .= ' AND YEAR(t.`updated_date`) = ' . $year;
+        }
 
         // main query
         if ($all){
@@ -171,17 +181,25 @@ class Mt_action extends CI_Model {
             // $where .= ' AND t.`status` = '.$status;
             $where .= ' AND t.`status` IN (0,2,3)';
         }
-        // if ($month){
-        //     $date = $year .'-'. str_pad($month, 2, '0', STR_PAD_LEFT) .'-28';
-        //     $where .= ' AND t.`end` <= "'.$date.'"';
-        // }
+
+        if ($month){
+            if (strlen($month) > 2) {
+                $timestamp = strtotime($month);
+                $date = getdate($timestamp);
+                $month_pad = str_pad($date['mon'], 2, '0', STR_PAD_LEFT);
+            } else {
+                $month_pad = str_pad($month, 2, '0', STR_PAD_LEFT);
+            }
+            $where .= ' AND MONTH(t.`updated_date`) = "'. $month_pad .'"';
+            $where .= ' AND YEAR(t.`updated_date`) = '. $year;
+        }
+
         if ($user){
             $where .= ' AND t.user_id = '.$user;
         }else{
             $where .= ' AND mu.role = 1';
         }
 
-        $where .= ' AND YEAR(t.`updated_date`) = '. $year;
 
         //main query
         if ($all){
@@ -287,7 +305,17 @@ class Mt_action extends CI_Model {
         }
 
         $year = is_null($year) ? date('Y') : $year;
-        $where .= ' AND YEAR(t.`updated_date`) = ' . $year;
+        if ($month) {
+            if (strlen($month) > 2) {
+                $timestamp = strtotime($month);
+                $date = getdate($timestamp);
+                $month_pad = str_pad($date['mon'], 2, '0', STR_PAD_LEFT);
+            } else {
+                $month_pad = str_pad($month, 2, '0', STR_PAD_LEFT);
+            }
+            $where .= ' AND MONTH(t.`updated_date`) = "' . $month_pad . '"';
+            $where .= ' AND YEAR(t.`updated_date`) = ' . $year;
+        }
 
         // main query
         if ($all){

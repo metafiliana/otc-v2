@@ -329,6 +329,8 @@ class Summary extends CI_Controller {
         $data['init_table'] = $this->mt_action->getAllInitiative();
         $data['controller'] = $this;
         $data['bulan_search'] = date('F', strtotime($get_month));
+        $data['bulantahun_search'] = date('F Y', strtotime($get_month));
+        $data['year_search'] = date('Y', strtotime($get_month));
         $data['user'] = null;
         $data['summary_info'] = $this->minfo->getInfoLastUpdatedSummary();
         //process end
@@ -372,6 +374,10 @@ class Summary extends CI_Controller {
                 }
                 $data['init_table'] = $array_table;
                 $data['user'] = $_POST['user'];
+            }
+
+            if ($_POST['tahun']) {
+                $data['year_search'] = $_POST['tahun'];
             }
         }
 
@@ -475,14 +481,15 @@ class Summary extends CI_Controller {
             if ($_POST['bulan']){
                 $data['bulan_search'] = $_POST['bulan'];
             }
-
+            
             if ($_POST['user']){
                 $data['init_table'] = $this->getDataTableKuantitatifUser($_POST['user']);
                 $data['user'] = $_POST['user'];
             }
-
+            
             if ($_POST['tahun']) {
                 $data['year_search'] = $_POST['tahun'];
+                $data['bulantahun_search'] = date('F', strtotime($get_month)). ' '. $data['year_search'];
             }
         }
 
@@ -1475,6 +1482,11 @@ class Summary extends CI_Controller {
         $count = round($data['total'] * 100);
 
         return $count;
+    }
+
+    public function testCron()
+    {
+        echo "testing from test \n";
     }
 
 }
