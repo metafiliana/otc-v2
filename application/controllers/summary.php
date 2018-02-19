@@ -907,6 +907,12 @@ class Summary extends CI_Controller {
         $data['year_search_status'] = !empty($data['year_search_status']) ? $data['year_search_status'] : date('Y', strtotime($get_month));
         $bulan_search = $bulan_search_status = false;
         $year_search = $year_search_status = null;
+
+        if (!$bulan_search)
+            $bulan_search = $data['bulan_search'];
+
+        if (!$year_search)
+            $year_search = $data['year_search'];
         // views end
 
         //search starts
@@ -929,11 +935,11 @@ class Summary extends CI_Controller {
             $year_search = $_POST['tahun'];
             $data['year_search_status'] = $bulan_search_status;
         }
-        //search ends
 
-        if (!$bulan_search){
-            $bulan_search = date('F', strtotime($get_month));
+        if (isset($_POST['bulan']) && isset($_POST['tahun'])){
+            $data['bulantahun_search'] = $bulan_search .' '. $year_search;
         }
+        //search ends
 
         //process start
         $data['top_bod'] = $this->getTopBod($bulan_search, $year_search);
