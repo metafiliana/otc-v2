@@ -101,8 +101,8 @@ class Minitiative extends CI_Model {
     }
 
     function get_master($id,$db){
-    	$this->db->order_by('id', 'asc');
       if($db=='m_initiative' && $id==''){
+        $this->db->order_by($db.'.p_init asc, id asc');
         $this->db->select('m_cluster.title as mctitle,'.$db.'.*');
         $this->db->join('m_cluster', 'm_cluster.id = '.$db.'.cluster_id');
       }
@@ -112,6 +112,7 @@ class Minitiative extends CI_Model {
       	return $query->row(0);
       }
       else {
+        $this->db->order_by('id', 'asc');
         $query = $this->db->get($db);
       	return $query->result();
       }
@@ -303,8 +304,23 @@ class Minitiative extends CI_Model {
         $this->db->select('*');
         $this->db->where('id',$id);
         $result = $this->db->get('m_initiative');
-        
+
         return $result->row(0);
+    }
+
+    function update_p_init_code(){
+        $this->db->select('init_code,id');
+        $result = $this->db->get('m_initiative')->result();
+        foreach ($result as $key) {
+          $init['p_init']= (preg_replace("/\D/", "",$key->init_code));
+          $this->update_master_init($init,$key->id);
+        }
+        return true;
+    }
+
+    function update_master_init($program,$id){
+        $this->db->where('id',$id);
+        return $this->db->update('m_initiative', $program);
     }
 
     //otc v2
@@ -844,6 +860,7 @@ class Minitiative extends CI_Model {
 
     function getNewInitiativesAll($distinct = false)
     {
+        $this->db->order_by('p_init asc, id asc');
         if ($distinct)
             $this->db->distinct();
         $result = $this->db->get('m_initiative');

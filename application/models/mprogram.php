@@ -112,6 +112,7 @@ class Mprogram extends CI_Model {
         if($init_code){
           $this->db->where_in('init_code', $init_code);
         }
+        $this->db->order_by('p_init asc,id asc');
         $query = $this->db->get('m_initiative');
         return $query->result();
     }
@@ -121,6 +122,7 @@ class Mprogram extends CI_Model {
         if($init_code){
           $this->db->where_in('init_code', $init_code);
         }
+        $this->db->order_by('p_init asc,id asc');
         $query = $this->db->get('m_initiative');
         $arr = array(); $i=0;
         $progs = $query->result();

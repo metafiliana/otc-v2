@@ -26,12 +26,12 @@ class General extends CI_Controller {
      */
      public function index()
      {
-
      }
 
      //otc v2
      public function master()
      {
+        $this->minitiative->update_p_init_code();
         $users = $this->session->userdata('user');
         $user = $users['username'];
         $initid = $users['initiative'];
@@ -113,7 +113,6 @@ class General extends CI_Controller {
      public function change_metric(){
       $init_code = $this->input->get('init_code');
 
-
       if($init_code!=''){
          $json['html'] = $this->mkuantitatif->get_kuantitatif_by_init_code($init_code);
          $json['status'] = 1;
@@ -142,6 +141,7 @@ class General extends CI_Controller {
            $initiative['cluster_id'] = $this->input->post('cluster_id');
            $initiative['deskripsi'] = $this->input->post('deskripsi');
            $initiative['aspirasi'] = $this->input->post('aspirasi');
+           $initiative['p_init'] = (preg_replace("/\D/", "",$initiative['init_code']));
            if($id){
              $this->mkuantitatif->update_db($initiative,$id,'m_initiative');
            }

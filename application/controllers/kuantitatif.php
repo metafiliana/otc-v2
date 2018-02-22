@@ -140,41 +140,40 @@ class Kuantitatif extends CI_Controller {
 
         //View list of initiative
         if($user['role']=='1'){
-        $init_code = explode(";",$user['initiative']);
+            $init_code = explode(";",$user['initiative']);
 
-        //get month
-        if($this->input->post('month')){
-          $prog['month_view'] = $this->input->post('month');
-        }
-        else if(date("n",$time)==1){
-          $prog['month_view']="December";
+            //get month
+            if($this->input->post('month')){
+              $prog['month_view'] = $this->input->post('month');
+            }
+            else if(date("n",$time)==1){
+              $prog['month_view']="December";
+            }
+            else{
+              $prog['month_view']=date("F",$time);
+            }
+
+            $prog['programs'] = $this->mprogram->get_m_initiative_tot($init_code,$prog['month_view']);
+            $prog['year_view'] = $this->mkuantitatif->get_year_kuantitatif_update();
+
+            //view month
+            if(date("n",$time)==1){
+              $prog['month_number']=12;
+            }
+            else{
+              $prog['month_number']=date("n",$time);
+            }
         }
         else{
-          $prog['month_view']=date("F",$time);
-        }
-
-        $prog['programs'] = $this->mprogram->get_m_initiative_tot($init_code,$prog['month_view']);
-        $prog['year_view'] = $this->mkuantitatif->get_year_kuantitatif_update();
-
-        //view month
-        if(date("n",$time)==1){
-          $prog['month_number']=12;
-        }
-        else{
-          $prog['month_number']=date("n",$time);
-        }
-
-        }
-        else{
-        if(date("n",$time)==1){
-          $prog['month_view']="December";
-        }
-        else{
-          $prog['month_view']=date("F",$time);
-        }
-        $prog['programs'] = $this->mprogram->get_m_initiative('');
-        $prog['filter_year'] = [date('Y', strtotime('-1 year')),date("Y",$time)];
-        $prog['year_now'] = $this->mkuantitatif->get_year_kuantitatif_update();
+            if(date("n",$time)==1){
+              $prog['month_view']="December";
+            }
+            else{
+              $prog['month_view']=date("F",$time);
+            }
+            $prog['programs'] = $this->mprogram->get_m_initiative('');
+            $prog['filter_year'] = [date('Y', strtotime('-1 year')),date("Y",$time)];
+            $prog['year_now'] = $this->mkuantitatif->get_year_kuantitatif_update();
         }
 
         $prog['list_program'] = $this->load->view('kuantitatif/component/_list_of_kuantitatif_v2',$prog,TRUE);
@@ -182,12 +181,12 @@ class Kuantitatif extends CI_Controller {
 
         //notification
         if($user['role']!='2'){
-        $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
-        $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
+          $data['notif_count']= count($this->mremark->get_notification_by_user_id($user['id'],''));
+          $data['notif']= $this->mremark->get_notification_by_user_id($user['id'],'');
         }
         else{
-        $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
-        $data['notif']= $this->mremark->get_notification_by_admin('');
+          $data['notif_count']= count($this->mremark->get_notification_by_admin(''));
+          $data['notif']= $this->mremark->get_notification_by_admin('');
         }
 
         $data['footer'] = $this->load->view('shared/footer','',TRUE);
