@@ -434,6 +434,7 @@ class General extends CI_Controller {
                     $data['start_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][2]));
                     $data['end_date'] = date("Y-m-d",$this->mfiles_upload->excelDateToDate($arrres[$row][3]));
                     $data['status'] = $arrres[$row][1];
+                    $data['notes'] = $arrres[$row][5];
 
                     $this->mworkblock->insert_workblock($data);
                 }
