@@ -264,11 +264,11 @@ class Initiative extends CI_Controller {
 	public function mark_as_read(){
 		$user_id = $this->input->get('user_id');
 		$role = $this->input->get('role');
-		if($user_id){
-			$prog['status']='read';
-			$this->mremark->update_notification_by_user_id($prog,$user_id);
-		}
-		if($role=='admin')
+		// if($user_id){
+		// 	$prog['status']='read';
+		// 	$this->mremark->update_notification_by_user_id($prog,$user_id);
+		// }
+		if($role=='2')
 		{
 			$prog['admin_stat']='read';
 			$this->mremark->update_notification_by_admin_stat($prog);
@@ -534,5 +534,5 @@ class Initiative extends CI_Controller {
 
     	// redirect($_SERVER['HTTP_REFERER']);
     }
-    
+
 }
