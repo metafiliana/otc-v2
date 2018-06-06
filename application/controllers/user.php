@@ -142,8 +142,8 @@ class User extends CI_Controller {
 			'name' => $user->name,
 			'is_logged_in' => true,
 			'role' => $user->role,
-			'jabatan' => $user->jabatan,
-			'initiative' => $user->initiative
+			'jabatan' => !empty($user->jabatan) ? $user->jabatan : null,
+			'initiative' => !empty($user->initiative) ? $user->initiative : null
 		);
       $login['last_login']=date("Y-m-d H:i:s");
       $this->muser->update_user($login,$user->id);

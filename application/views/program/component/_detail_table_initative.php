@@ -29,10 +29,10 @@ $user = $this->session->userdata('user');
 				<?php echo $prog->status?>
 			</td>
 			<td class="center_text">
-				<?php echo date("j M y", strtotime($prog->start_date));?>
+				<?php echo date("d M Y", strtotime($prog->start_date));?>
 			</td>
 			<td class="center_text">
-				<?php echo date("j M y", strtotime($prog->end_date));?>
+				<?php echo date("d M Y", strtotime($prog->end_date));?>
 			</td>
 			<td class="center_text">
 				<?= $prog->notes ?>
@@ -48,6 +48,10 @@ $user = $this->session->userdata('user');
 <hr />
 <script>
 $(document).ready(function () {
+	function ExcelDateToJSDate(date) {
+	  return new Date(Math.round((date - 25569)*86400*1000));
+	}
+
 	$('#table_id_<?= $id ?>').DataTable( {
 					dom: 'Bfrtip',
 					paging: false,
