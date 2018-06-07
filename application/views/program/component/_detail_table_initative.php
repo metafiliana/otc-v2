@@ -29,10 +29,10 @@ $user = $this->session->userdata('user');
 				<?php echo $prog->status?>
 			</td>
 			<td class="center_text">
-				<?php echo date("d M Y", strtotime($prog->start_date));?>
+				<?php echo date("Y-m-d", strtotime($prog->start_date));?>
 			</td>
 			<td class="center_text">
-				<?php echo date("d M Y", strtotime($prog->end_date));?>
+				<?php echo date("Y-m-d", strtotime($prog->end_date));?>
 			</td>
 			<td class="center_text">
 				<?= $prog->notes ?>
