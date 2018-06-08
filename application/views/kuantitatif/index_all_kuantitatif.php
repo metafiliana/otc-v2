@@ -4,7 +4,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 ?>
 <div class="component_part" style="margin:20px;">
 <a id="dlink" style="display:none;"></a>
-<button id="btn" class="btn btn-sm btn-collect buttons-excel buttons-html5 btn-success">Export to Excel</button>
+<button id="btn" class="btn btn-sm btn-collect buttons-excel buttons-html5 btn-success" style="margin-bottom:10px;">Export to Excel</button>
 <table class="table display" id="table_ids">
 	<!-- <thead class="black_color old_grey_color_bg"> -->
 		<tr>
