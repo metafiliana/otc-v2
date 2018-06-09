@@ -3,7 +3,7 @@
 ?>
 <div class="row">
 	<div class="col-md-11" style="padding-top: 12px; padding-bottom: 20px; padding-left: 15px;">
-		<a onclick="show_detail('<?php echo $prog->id?>');"><div><b><?php echo $prog->init_code?>. <?php echo $prog->title?></b></div></a>
+		<a onclick="show_detail('<?php echo $prog->id?>', '<?php echo $prog->title?>');"><div><b><?php echo $prog->init_code?>. <?php echo $prog->title?></b></div></a>
 	</div>
 	<div class="col-md-1">
 		<?php if($user['role']=='1'){?>
@@ -17,11 +17,14 @@
 <div style="clear:both"></div>
 <?php }?>
 <script>
-function show_detail(id){
+function show_detail(id, title){
     	$.ajax({
 			type: "GET",
 			url: config.base+"program/detail_minitative",
-			data: {id:id},
+			data: {
+				id: id,
+				title: title
+			},
 			dataType: 'json',
 			cache: false,
 			success: function(resp){

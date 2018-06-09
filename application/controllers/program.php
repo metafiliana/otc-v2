@@ -381,6 +381,7 @@ class Program extends CI_Controller {
     //otc v2
     public function detail_minitative(){
         $data['id'] = $this->input->get('id');
+        $data['title'] = $this->input->get('title', '');
 
         $data['programs'] = $this->mprogram->get_action_by_init_code($data['id'],'');
 
