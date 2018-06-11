@@ -4,9 +4,9 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 ?>
 <div class="component_part" style="margin:20px;">
 <a id="dlink" style="display:none;"></a>
-<button id="btn" class="btn btn-sm btn-collect buttons-excel buttons-html5 btn-success" style="margin-bottom:10px;">Export to Excel</button>
+<!-- <button id="btn" class="btn btn-sm btn-collect buttons-excel buttons-html5 btn-success" style="margin-bottom:10px;">Export to Excel</button> -->
 <table class="table display" id="table_ids">
-	<!-- <thead class="black_color old_grey_color_bg"> -->
+	<thead class="black_color old_grey_color_bg">
 		<tr>
 			<th>No</th>
 			<th>Init Code</th>
@@ -19,7 +19,7 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 			<th>Realisasi <?= $arr ?></th>
 			<?php } ?>
 		</tr>
-	<!-- </thead> -->
+	</thead>
 	<tbody>
 		<?php $i=1;
 		foreach($all_kuantitatif as $ak){?>
@@ -53,20 +53,23 @@ $arr_month=['January','February','March','April','May','June','July','August','S
 </div><div style="clear:both"></div>
 <hr />
 <script>
-// $(document).ready(function () {
-// 	$('#table_ids').DataTable( {
-// 					dom: 'Bfrtip',
-// 					paging: false,
-// 					scrollX: true,
-// 					buttons: [
-// 							'excelHtml5',
-// 							{
-//                 extend: 'pdfHtml5',
-//                 orientation: 'landscape'
-//             	}
-// 					]
-// 			} );
-// });
+$('#table_ids').DataTable( {
+				dom: 'Bfrtip',
+				paging: false,
+				buttons: [
+								{
+										text: '<span style="margin-right:5px;" class="glyphicon glyphicon-file"></span> Export to Excel',
+										className: 'btn btn-sm btn-collect buttons-pdf buttons-html5 btn-success',
+										action: function ( e, dt, node, config ) {
+												download();
+										}
+								},
+					{
+										extend: 'pdfHtml5',
+										orientation: 'landscape'
+								}
+				]
+		} );
 
 var tableToExcel = (function () {
 		var uri = 'data:application/vnd.ms-excel;base64,',
@@ -93,7 +96,6 @@ var tableToExcel = (function () {
 		}
 })();
 function download(){
-		$(document).find('tfoot').remove();
 		var name = 'Export Kuantitatif';
 		tableToExcel('table_ids', 'Sheet 1', name+'.xls')
 
