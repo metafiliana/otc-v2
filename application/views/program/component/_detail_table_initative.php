@@ -30,10 +30,10 @@ $user = $this->session->userdata('user');
 				<?php echo $prog->status?>
 			</td>
 			<td class="center_text">
-				<?php echo date("Y-m-d", strtotime($prog->start_date));?>
+				<?php echo date("d-M-Y", strtotime($prog->start_date));?>
 			</td>
 			<td class="center_text">
-				<?php echo date("Y-m-d", strtotime($prog->end_date));?>
+				<?php echo date("d-M-Y", strtotime($prog->end_date));?>
 			</td>
 			<td class="center_text">
 				<?= $prog->notes ?>
@@ -74,11 +74,11 @@ $user = $this->session->userdata('user');
 			<td class="center_text">
 				<?php echo $prog->status?>
 			</td>
-			<td class="center_text" style="mso-number-format:'Short Date'">
-				<?php echo date("d/m/Y", strtotime($prog->start_date));?>
+			<td class="center_text" style="mso-number-format:'Medium Date'">
+				<?php echo date("d-M-Y", strtotime($prog->start_date));?>
 			</td>
-			<td class="center_text" style="mso-number-format:'Short Date'">
-				<?php echo date("d/m/Y", strtotime($prog->end_date));?>
+			<td class="center_text" style="mso-number-format:'Medium Date'">
+				<?php echo date("d-M-Y", strtotime($prog->end_date));?>
 			</td>
 			<td class="center_text">
 				<?= $prog->notes ?>
