@@ -44,6 +44,15 @@
                 <input type="text" class="form-control numberOnly" id="baseline" name="baseline" placeholder="Baseline" value="<?php if (isset($kuantitatif->baseline)){ echo number_format($kuantitatif->baseline,2,".",""); }?>">
                 </div>
             </div>
+            <div class="form-group" style="margin-bottom:30px;">
+                <label class="col-sm-2 control-label">Year</label>
+                <div class="col-sm-9">
+                  <select class="input-sm form-control-this" name="year" id="year">
+                      <option value="<?= $year_now ?>" <?php if(isset($kuantitatif) && $kuantitatif->target_year == $year_now){echo "selected";} ?>><?= $year_now ?></option>
+                      <option value="<?= $year_before ?>" <?php if(isset($kuantitatif) && $kuantitatif->target_year == $year_before){echo "selected";} ?>><?= $year_before ?></option>
+                  </select>
+                </div>
+            </div>
                 <table class="table">
                   <?php $arr_month=['January','February','March','April','May','June','July','August','September','October','November','December']; if(isset($kuantitatif)){ ?>
                   <thead>

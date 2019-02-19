@@ -252,9 +252,13 @@ class Kuantitatif extends CI_Controller {
 
     //otc v2
     public function input_kuantitatif(){
+        $time = strtotime(date("Y-m-d"));
+        $year = date("Y",$time);
         $data['init_id'] = $this->input->get('init_id');
         $data['init_code'] = $this->input->get('init_code');
         $data['kuan_id'] = $this->input->get('kuan_id');
+        $data['year_now'] = $year;
+        $data['year_before'] = $year-1;
 
         if($data['kuan_id']){
             $data['kuantitatif'] = $this->mkuantitatif->get_kuantitatif_by_id($data['kuan_id']);
@@ -281,8 +285,9 @@ class Kuantitatif extends CI_Controller {
         $program['target'] = $this->input->post('target');
         $program['baseline'] = $this->input->post('baseline');
 
-        $time=strtotime(date("Y-m-d"));
-        $year=date("Y",$time);
+        // $time=strtotime(date("Y-m-d"));
+        // $year=date("Y",$time);
+        $year = $this->input->post('year');
 
         $program['target_year']= $year;
         $update['year']= $year;
@@ -295,6 +300,7 @@ class Kuantitatif extends CI_Controller {
             $program[$vals]= $this->input->post('target_'.$vals);
           }
             $this->mkuantitatif->update_kuantitatif($program,$id);
+            $this->mkuantitatif->update_kuantitatif_update($update,$id);
         }
         else{
             $i=1;
